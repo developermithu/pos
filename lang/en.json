@@ -1,0 +1,23 @@
+{
+    "name" : "Name",
+    "address" : "Address",
+    "phone number" : "Phone number",
+    "bank name" : "Bank name",
+    "bank branch" : "Bank branch",
+
+    "dashboard": "Dashboard",
+
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+
+    "search": "Search",
+
+    "suppliers": "Suppliers",
+    "supplier list": "Supplier List",
+    "add supplier": "Add Supplier",
+    "update supplier": "Update Supplier",
+    "add new supplier": "Add New Supplier",
+    "supplier management": "Supplier Management"
+}

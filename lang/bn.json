@@ -1,0 +1,24 @@
+{
+    "name" : "নাম",
+    "address" : "ঠিকানা",
+    "phone number" : "ফোন নম্বর",
+    "bank name" : "ব্যাংকের নাম",
+    "bank branch" : "ব্যাংকের শাখা",
+
+    "dashboard": "ড্যাশবোর্ড",
+
+    "create": "অ্যাড করুন",
+    "edit": "পরিবর্তন করুন",
+    "delete": "মুছে ফেলুন",
+    "actions": "অ্যাকশন",
+
+    "search": "খুঁজুন",
+
+    
+    "suppliers": "সাপ্লায়ারস",
+    "supplier list": "সাপ্লায়ার লিস্ট",
+    "add supplier": "নতুন সাপ্লায়ার",
+    "update supplier": "সাপ্লায়ার আপডেট করুন",
+    "add new supplier": "নতুন সাপ্লায়ার যুক্ত করুন",
+    "supplier management": "সাপ্লায়ার ব্যবস্থাপনা"
+}

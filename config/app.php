@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'bn',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,28 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'bn',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Supported Languages
+    | Visit https://github.com/lipis/flag-icons for more
+    | flag-icon based on country name such as (us, bd, in, pk) 
+    | for more info https://flagicons.lipis.dev
+    |--------------------------------------------------------------------------
+    */
+
+    'supported_languages' => [
+        'en' => [
+            'name' => 'English',
+            'flag-icon' => 'gb'
+        ],
+
+        'bn' => [
+            'name' => 'Bangla',
+            'flag-icon' => 'bd'
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------

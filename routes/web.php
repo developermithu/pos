@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LanguageSwitchController;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -36,3 +37,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/{supplier}/edit', EditSupplier::class)->name('edit');
     });
 });
+
+Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');

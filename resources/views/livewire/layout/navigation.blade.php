@@ -62,6 +62,28 @@ new class extends Component {
                     <x-heroicon-m-magnifying-glass class="w-6 h-6" />
                 </button>
 
+                {{-- language switcher --}}
+                <x-dropdown align="right" width="">
+                    <x-slot name="trigger">
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
+                            <span
+                                class="fi fi-{{ config('app.supported_languages')[app()->getLocale()]['flag-icon'] }} "></span>
+                            {{ strtoupper(app()->getLocale()) }}
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        @foreach (config('app.supported_languages') as $key => $lang)
+                            <x-dropdown-link href="{{ route('setlocale', $key) }}"
+                                class="inline-flex items-center text-base gap-x-2">
+                                <span class="fi fi-{{ $lang['flag-icon'] }}"></span>
+                                {{ $lang['name'] }}
+                            </x-dropdown-link>
+                        @endforeach
+                    </x-slot>
+                </x-dropdown>
+
                 <button @click="displayNotifications = !displayNotifications" @click.away="displayNotifications = false"
                     type="button"
                     class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">

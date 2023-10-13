@@ -3,40 +3,80 @@
 namespace App\Livewire\Suppliers;
 
 use App\Models\Supplier;
-use Livewire\Attributes\Url;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class ListSupplier extends Component
+
+class ListSupplier extends Component implements HasForms, HasTable
 {
-    use WithPagination;
+    use InteractsWithTable;
+    use InteractsWithForms;
 
-    #[Url(as: 'q')]
-    public $search = "";
 
-    public $selected = [];
+    public function table(Table $table): Table
+    {
+        return $table
+            ->recordUrl(
+                fn (Supplier $record): string => route('admin.suppliers.edit', ['supplier' => $record]),
+            )
+            ->query(Supplier::query())
+            ->columns([
+                TextColumn::make('name')
+                    ->label(__('name'))
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->label(__('address')),
+                TextColumn::make('phone_number')
+                    ->label(__('phone number')),
+                TextColumn::make('bank_name')
+                    ->label(__('bank name')),
+                TextColumn::make('bank_branch')
+                    ->label(__('bank branch')),
+            ])
+
+            ->filters([
+                Filter::make('bank_name')
+                    ->query(fn (Builder $query): Builder => $query->where('bank_name', '!=', ''))
+                    ->label(__('bank name')),
+
+            ])
+
+            ->actions([
+                Action::make('edit')
+                    ->label(__('edit'))
+                    ->url(fn (Supplier $record): string => route('admin.suppliers.edit', $record))
+                    ->icon('heroicon-m-pencil-square'),
+
+                Action::make('delete')
+                    ->label(__('delete'))
+                    ->requiresConfirmation()
+                    ->action(fn (Supplier $record) => $record->delete())
+                    ->color('danger')
+                    ->icon('heroicon-m-trash')
+                    ->iconSize('w-4 h-4')
+            ])
+
+            ->bulkActions([
+                BulkAction::make('delete')
+                    ->label(__('delete'))
+                    ->requiresConfirmation()
+                    ->action(fn (Collection $records) => $records->each->delete())
+                    ->deselectRecordsAfterCompletion()
+            ]);
+    }
 
     public function render()
     {
-        $suppliers = Supplier::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('address', 'like', '%' . $this->search . '%')
-            ->orWhere('phone_number', 'like', '%' . $this->search . '%')
-            ->latest()
-            ->paginate(10);
-
-        return view('livewire.suppliers.list-supplier', compact('suppliers'));
-    }
-
-    public function deleteSelected()
-    {
-        $suppliers = Supplier::whereKey($this->selected);
-        $suppliers->delete();
-        return back();
-    }
-
-    public function destroy(Supplier $supplier)
-    {
-        $supplier->delete();
-        return back();
+        return view('livewire.suppliers.list-supplier');
     }
 }

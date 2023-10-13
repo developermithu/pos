@@ -28,50 +28,48 @@
                         </a>
                     </li>
 
-                    {{-- category --}}
-                    {{-- <li x-data="{ expanded: {{ request()->routeIs('admin.categories.index') || request()->routeIs('admin.categories.create') || request()->routeIs('admin.categories.edit') ? 'true' : 'false' }} }">
+                    <li x-data="{ expanded: {{ request()->routeIs('admin.employees.index') || request()->routeIs('admin.employees.create') || request()->routeIs('admin.employees.edit') ? 'true' : 'false' }} }">
                         <button @click="expanded = !expanded" type="button"
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
                             <x-heroicon-m-folder-plus
                                 class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ __('Categories') }}</span>
+                            <span class="flex-1 ml-3 text-left capitalize whitespace-nowrap">{{ __('manage employee') }}</span>
                             <x-heroicon-m-chevron-down class="w-6 h-6" />
                         </button>
                         <ul x-cloak x-show="expanded" x-collapse.duration.300ms class="py-2 space-y-2">
                             <li>
-                                <a wire:navigate href="{{ route('admin.categories.index') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.categories.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('Category list') }}
+                                <a wire:navigate href="{{ route('admin.employees.index') }}"
+                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.employees.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
+                                    {{ __('employee list') }}
                                 </a>
                             </li>
                             <li>
-                                <a wire:navigate href="{{ route('admin.categories.create') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.categories.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('Add category') }}
+                                <a wire:navigate href="{{ route('admin.employees.create') }}"
+                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.employees.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
+                                    {{ __('add employee') }}
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    --}}
+                    </li> 
 
                     <li x-data="{ expanded: {{ request()->routeIs('admin.suppliers.index') || request()->routeIs('admin.suppliers.create') || request()->routeIs('admin.suppliers.edit') ? 'true' : 'false' }} }">
                         <button @click="expanded = !expanded" type="button"
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
                             <x-heroicon-m-folder-plus
                                 class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ __('supplier management') }}</span>
+                            <span class="flex-1 ml-3 text-left capitalize whitespace-nowrap">{{ __('manage supplier') }}</span>
                             <x-heroicon-m-chevron-down class="w-6 h-6" />
                         </button>
                         <ul x-cloak x-show="expanded" x-collapse.duration.300ms class="py-2 space-y-2">
                             <li>
                                 <a wire:navigate href="{{ route('admin.suppliers.index') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.suppliers.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
+                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.suppliers.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
                                     {{ __('supplier list') }}
                                 </a>
                             </li>
                             <li>
                                 <a wire:navigate href="{{ route('admin.suppliers.create') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.suppliers.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
+                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.suppliers.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
                                     {{ __('add supplier') }}
                                 </a>
                             </li>

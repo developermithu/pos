@@ -11,4 +11,8 @@ class Employee extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'joined_at' => 'date',
+    ];
 }

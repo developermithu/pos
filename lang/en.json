@@ -1,9 +1,13 @@
 {
     "name" : "Name",
+    "father name" : "Father name",
     "address" : "Address",
     "phone number" : "Phone number",
     "bank name" : "Bank name",
     "bank branch" : "Bank branch",
+    "gender" : "Gender",
+    "salary" : "Salary",
+    "joining date" : "Joining date",
 
     "dashboard": "Dashboard",
 
@@ -19,5 +23,12 @@
     "add supplier": "Add Supplier",
     "update supplier": "Update Supplier",
     "add new supplier": "Add New Supplier",
-    "supplier management": "Supplier Management"
+    "manage supplier": "Manage Supplier",
+
+    "employees": "Employees",
+    "employee list": "Employee List",
+    "add employee": "Add Employee",
+    "update employee": "Update Employee",
+    "add new employee": "Add New Employee",
+    "manage employee": "Manage Employee"
 }

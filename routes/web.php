@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\LanguageSwitchController;
+use App\Livewire\Employees\CreateEmployee;
+use App\Livewire\Employees\EditEmployee;
+use App\Livewire\Employees\ListEmployee;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -35,6 +38,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/', ListSupplier::class)->name('index');
         Route::get('/create', CreateSupplier::class)->name('create');
         Route::get('/{supplier}/edit', EditSupplier::class)->name('edit');
+    });
+
+    Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
+        Route::get('/', ListEmployee::class)->name('index');
+        Route::get('/create', CreateEmployee::class)->name('create');
+        Route::get('/{employee}/edit', EditEmployee::class)->name('edit');
     });
 });
 

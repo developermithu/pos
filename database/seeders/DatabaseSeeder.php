@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
         ]);
 
-        Supplier::factory(20)->create();
+        Supplier::factory(100)->create();
         Customer::factory(100)->create();
         Employee::factory(50)->create();
     }

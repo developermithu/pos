@@ -19,80 +19,49 @@
                             </div>
                         </form>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}" wire:navigate
-                            class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-                            <x-heroicon-s-home
-                                class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="ml-3">{{ __('dashboard') }}</span>
-                        </a>
-                    </li>
 
-                    <li x-data="{ expanded: {{ request()->routeIs('admin.employees.index') || request()->routeIs('admin.employees.create') || request()->routeIs('admin.employees.edit') ? 'true' : 'false' }} }">
-                        <button @click="expanded = !expanded" type="button"
-                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
-                            <x-heroicon-m-folder-plus
-                                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="flex-1 ml-3 text-left capitalize whitespace-nowrap">{{ __('manage employee') }}</span>
-                            <x-heroicon-m-chevron-down class="w-6 h-6" />
-                        </button>
-                        <ul x-cloak x-show="expanded" x-collapse.duration.300ms class="py-2 space-y-2">
-                            <li>
-                                <a wire:navigate href="{{ route('admin.employees.index') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.employees.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('employee list') }}
-                                </a>
-                            </li>
-                            <li>
-                                <a wire:navigate href="{{ route('admin.employees.create') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.employees.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('add employee') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li> 
+                    <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        <x-slot name="icon"><x-heroicon-s-home class="w-6 h-6" /></x-slot>
+                        {{ __('dashboard') }}
+                    </x-sidebar.link>
 
-                    <li x-data="{ expanded: {{ request()->routeIs('admin.suppliers.index') || request()->routeIs('admin.suppliers.create') || request()->routeIs('admin.suppliers.edit') ? 'true' : 'false' }} }">
-                        <button @click="expanded = !expanded" type="button"
-                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
-                            <x-heroicon-m-folder-plus
-                                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="flex-1 ml-3 text-left capitalize whitespace-nowrap">{{ __('manage supplier') }}</span>
-                            <x-heroicon-m-chevron-down class="w-6 h-6" />
-                        </button>
-                        <ul x-cloak x-show="expanded" x-collapse.duration.300ms class="py-2 space-y-2">
-                            <li>
-                                <a wire:navigate href="{{ route('admin.suppliers.index') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.suppliers.index') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('supplier list') }}
-                                </a>
-                            </li>
-                            <li>
-                                <a wire:navigate href="{{ route('admin.suppliers.create') }}"
-                                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 capitalize {{ request()->routeIs('admin.suppliers.create') ? 'bg-gray-100 dark:bg-gray-700' : 'bg-transparent dark:bg-transparent' }}">
-                                    {{ __('add supplier') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li> 
+                    <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.index') ||
+                        request()->routeIs('admin.employees.create') ||
+                        request()->routeIs('admin.employees.edit')">
+                        <x-slot name="icon"><x-heroicon-s-user-group class="w-6 h-6" /></x-slot>
+                        {{ __('employees') }}
+                    </x-sidebar.link>
 
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
-                            <x-heroicon-s-cog-8-tooth
-                                class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                            <span class="ml-3">Settings</span>
-                        </a>
-                    </li>
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.suppliers.index') || request()->routeIs('admin.suppliers.create') || request()->routeIs('admin.suppliers.edit') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-folder-plus class="w-6 h-6" /></x-slot>
+                                {{ __('manage supplier') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.index') ||
+                            request()->routeIs('admin.suppliers.edit')">
+                            {{ __('supplier list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.suppliers.create')" :active="request()->routeIs('admin.suppliers.create')">
+                            {{ __('add supplier') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
                 </ul>
 
                 <div class="pt-2 space-y-2">
-                    <a href="https://github.com/themesberg/flowbite-admin-dashboard" target="_blank"
-                        class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
-                        <x-heroicon-m-link
-                            class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
-                        <span class="ml-3">GitHub Repository</span>
-                    </a>
+                    <x-sidebar.link href="https://flowbite-admin-dashboard.vercel.app" :active="request()->routeIs('settings')"
+                        target="_blank">
+                        <x-slot name="icon"><x-heroicon-s-link class="w-6 h-6" /></x-slot>
+                        flowbite dashboard
+                    </x-sidebar.link>
+
+                    <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('settings')">
+                        <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
+                        {{ __('settings') }}
+                    </x-sidebar.link>
                 </div>
             </div>
         </div>

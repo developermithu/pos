@@ -62,115 +62,78 @@
             </div>
         </div>
 
-        <x-session-status status="{{ session('status') }}"/>
+        <x-status :status="session('status')" />
     </div>
 
-    <div class="flex flex-col">
-        <div class="overflow-x-auto">
-            <div class="inline-block min-w-full align-middle">
-                <div class="overflow-hidden shadow">
-                    <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th scope="col" class="p-4">
-                                    <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll"
-                                        for="selectAll" />
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('name') }}
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('gender') }}
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('father name') }}
-                                </th>
-                                {{-- <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('address') }}
-                                </th> --}}
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('phone number') }}
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('salary') }}
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('joining date') }}
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                    {{ __('actions') }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            @forelse ($employees as $employee)
-                                <tr wire:loading.class="opacity-50" wire:key="row-{{ $employee->id }}"
-                                    class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="w-4 p-4">
-                                        <x-input.checkbox wire:model="selected" value="{{ $employee->id }}"
-                                            id="{{ $employee->id }}" for="{{ $employee->id }}" />
-                                    </td>
-                                    <td
-                                        class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        <div class="text-base font-semibold text-gray-900 dark:text-white">
-                                            {{ $employee->name }}
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize">
-                                        {{ $employee->gender }}
-                                    </td>
-                                    <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        {{ $employee->father_name }}
-                                    </td>
-                                    {{-- <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        {{ Str::limit($employee->address, 30, '...') }}
-                                    </td> --}}
-                                    <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        {{ $employee->phone_number }}
-                                    </td>
-                                    <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        {{ $employee->salary }}
-                                    </td>
-                                    <td class="p-4 text-base text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                        {{ $employee->joined_at->format('d M, Y') }}
-                                    </td>
-                                    <td class="flex items-center p-4 space-x-2 whitespace-nowrap">
-                                        <x-primary-link href="{{ route('admin.employees.edit', $employee) }}"
-                                            class="text-xs">
-                                            <x-heroicon-o-pencil-square class="w-3 h-3" />
-                                            {{ __('edit') }}
-                                        </x-primary-link>
+    <x-table>
+        <x-slot name="heading">
+            <x-table.heading>
+                <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
+            </x-table.heading>
+            <x-table.heading> {{ __('name') }} </x-table.heading>
+            <x-table.heading> {{ __('gender') }} </x-table.heading>
+            <x-table.heading> {{ __('father name') }} </x-table.heading>
+            {{-- <x-table.heading> {{ __('address') }} </x-table.heading> --}}
+            <x-table.heading> {{ __('phone number') }} </x-table.heading>
+            <x-table.heading> {{ __('salary') }} </x-table.heading>
+            <x-table.heading> {{ __('joining date') }} </x-table.heading>
+            <x-table.heading> {{ __('actions') }} </x-table.heading>
+        </x-slot>
 
-                                        <x-danger-button wire:click="destroy({{ $employee }})" class="text-xs">
-                                            <x-heroicon-o-trash class="w-4 h-4" />
-                                            {{ __('delete') }}
-                                        </x-danger-button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="9">
-                                        <div
-                                            class="py-10 text-3xl font-semibold text-center text-gray-900 dark:text-gray-300">
-                                            Not Found
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+        @forelse ($employees as $employee)
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $employee->id }}">
+                <x-table.cell>
+                    <x-input.checkbox wire:model="selected" value="{{ $employee->id }}" id="{{ $employee->id }}"
+                        for="{{ $employee->id }}" />
+                </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $employee->name }} </x-table.cell>
+                <x-table.cell> {{ $employee->gender }} </x-table.cell>
+                <x-table.cell> {{ $employee->father_name }} </x-table.cell>
+                {{-- <x-table.cell> {{ $employee->address }} </x-table.cell> --}}
+                <x-table.cell> {{ $employee->phone_number }} </x-table.cell>
+                <x-table.cell> {{ $employee->salary }} </x-table.cell>
+                <x-table.cell> {{ $employee->joined_at->format('d M, Y') }} </x-table.cell>
+
+                <x-table.cell class="space-x-1">
+                    <x-primary-link :href="route('admin.employees.edit', $employee)" class="text-xs">
+                        <x-heroicon-o-pencil-square />
+                        {{ __('edit') }}
+                    </x-primary-link>
+
+                    <x-danger-button x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')"
+                        class="text-xs">
+                        <x-heroicon-o-trash />
+                        {{ __('delete') }}
+                    </x-danger-button>
+
+                    {{-- delete modal --}}
+                    <x-modal maxWidth="md" name="confirm-deletion-{{ $employee->id }}">
+                        <div class="p-6 text-center">
+                            <x-heroicon-o-exclamation-circle
+                                class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" />
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                {{ __('Are you sure you want to delete this?') }}
+                            </h3>
+
+                            <x-danger-button wire:click.prevent="destroy({{ $employee }})"
+                                x-on:click="$dispatch('close')">
+                                Yes, I'm sure
+                            </x-danger-button>
+
+                            <x-secondary-button x-on:click="$dispatch('close')" class="ml-3">
+                                No, cancel
+                            </x-secondary-button>
+                        </div>
+                    </x-modal>
+                    {{-- delete modal --}}
+                </x-table.cell>
+            </x-table.row>
+
+        @empty
+            <x-table.data-not-found colspan="9" />
+        @endforelse
+    </x-table>
 
     {{-- Pagination --}}
     <div class="p-4">

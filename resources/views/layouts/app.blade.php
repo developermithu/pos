@@ -36,8 +36,8 @@
         </div>
     </div>
 
-   @stack('js')
-   @filamentScripts
+    @stack('js')
+    @filamentScripts
 </body>
 
 </html>

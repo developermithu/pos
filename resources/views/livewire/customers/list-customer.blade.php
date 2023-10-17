@@ -16,7 +16,7 @@
                             <div class="flex items-center">
                                 <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
                                 <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                    {{ __('employees') }}
+                                    {{ __('customers') }}
                                 </span>
                             </div>
                         </li>
@@ -24,14 +24,14 @@
                 </nav>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('employee list') }}
+                    {{ __('customer list') }}
                 </h1>
             </div>
 
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <form class="sm:pr-3" action="#" method="GET">
-                        <label for="employees-search" class="sr-only">Search</label>
+                        <label for="customers-search" class="sr-only">Search</label>
                         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                             <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
                         </div>
@@ -55,9 +55,9 @@
                     </div>
                 </div>
 
-                <x-primary-link href="{{ route('admin.employees.create') }}">
+                <x-primary-link href="{{ route('admin.customers.create') }}">
                     <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add employee') }}
+                    {{ __('add customer') }}
                 </x-primary-link>
             </div>
         </div>
@@ -71,44 +71,40 @@
                 <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
             </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
-            <x-table.heading> {{ __('gender') }} </x-table.heading>
-            <x-table.heading> {{ __('father name') }} </x-table.heading>
-            {{-- <x-table.heading> {{ __('address') }} </x-table.heading> --}}
+            <x-table.heading> {{ __('address') }} </x-table.heading>
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
-            <x-table.heading> {{ __('salary') }} </x-table.heading>
-            <x-table.heading> {{ __('joining date') }} </x-table.heading>
+            <x-table.heading> {{ __('due') }} </x-table.heading>
+            <x-table.heading> {{ __('advanced paid') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
-        @forelse ($employees as $employee)
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $employee->id }}">
+        @forelse ($customers as $customer)
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $customer->id }}">
                 <x-table.cell>
-                    <x-input.checkbox wire:model="selected" value="{{ $employee->id }}" id="{{ $employee->id }}"
-                        for="{{ $employee->id }}" />
+                    <x-input.checkbox wire:model="selected" value="{{ $customer->id }}" id="{{ $customer->id }}"
+                        for="{{ $customer->id }}" />
                 </x-table.cell>
-                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $employee->name }} </x-table.cell>
-                <x-table.cell> {{ $employee->gender }} </x-table.cell>
-                <x-table.cell> {{ $employee->father_name }} </x-table.cell>
-                {{-- <x-table.cell> {{ $employee->address }} </x-table.cell> --}}
-                <x-table.cell> {{ $employee->phone_number }} </x-table.cell>
-                <x-table.cell> {{ $employee->salary }} </x-table.cell>
-                <x-table.cell> {{ $employee->joined_at->format('d M, Y') }} </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $customer->name }} </x-table.cell>
+                <x-table.cell> {{ $customer->address }} </x-table.cell>
+                <x-table.cell> {{ $customer->phone_number }} </x-table.cell>
+                <x-table.cell> {{ $customer->due }} tk </x-table.cell>
+                <x-table.cell> {{ $customer->advanced_paid }} tk </x-table.cell>
 
                 <x-table.cell class="space-x-1">
-                    <x-primary-link :href="route('admin.employees.edit', $employee)" class="text-xs">
+                    <x-primary-link :href="route('admin.customers.edit', $customer)" class="text-xs">
                         <x-heroicon-o-pencil-square />
                         {{ __('edit') }}
                     </x-primary-link>
 
-                    <x-danger-button x-data=""
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')"
+                    <x-danger-button
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')"
                         class="text-xs">
                         <x-heroicon-o-trash />
                         {{ __('delete') }}
                     </x-danger-button>
 
                     {{-- delete modal --}}
-                    <x-modal maxWidth="md" name="confirm-deletion-{{ $employee->id }}">
+                    <x-modal maxWidth="md" name="confirm-deletion-{{ $customer->id }}">
                         <div class="p-6 text-center">
                             <x-heroicon-o-exclamation-circle
                                 class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" />
@@ -116,7 +112,7 @@
                                 {{ __('Are you sure you want to delete this?') }}
                             </h3>
 
-                            <x-danger-button wire:click.prevent="destroy({{ $employee }})"
+                            <x-danger-button wire:click.prevent="destroy({{ $customer }})"
                                 x-on:click="$dispatch('close')">
                                 Yes, I'm sure
                             </x-danger-button>
@@ -137,6 +133,6 @@
 
     {{-- Pagination --}}
     <div class="p-4">
-        {{ $employees->links() }}
+        {{ $customers->links() }}
     </div>
 </div>

@@ -13,9 +13,9 @@
                 <li>
                     <div class="flex items-center">
                         <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
-                        <a wire:navigate href="{{ route('admin.suppliers.index') }}"
+                        <a wire:navigate href="{{ route('admin.customers.index') }}"
                             class="ml-1 text-gray-400 capitalize md:ml-2 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                            {{ __('suppliers') }}
+                            {{ __('customers') }}
                         </a>
                     </div>
                 </li>
@@ -31,7 +31,7 @@
         </nav>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-            {{ __('add new supplier') }}
+            {{ __('add new customer') }}
         </h1>
     </div>
 
@@ -40,24 +40,24 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
-                        <x-input wire:model="form.name" id="name" />
+                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('name')">
+                        <x-input wire:model="name" id="name" />
                     </x-input.group>
 
-                    <x-input.group for="address" label="{{ __('address') }}" :error="$errors->first('form.address')">
-                        <x-input wire:model="form.address" id="address" />
+                    <x-input.group for="address" label="{{ __('address') }}" :error="$errors->first('address')">
+                        <x-input wire:model="address" id="address" />
                     </x-input.group>
 
-                    <x-input.group for="phone_number" label="{{ __('phone number') }}" :error="$errors->first('form.phone_number')">
-                        <x-input wire:model="form.phone_number" id="phone_number" />
+                    <x-input.group for="phone_number" label="{{ __('phone number') }}" :error="$errors->first('phone_number')">
+                        <x-input wire:model="phone_number" id="phone_number" />
                     </x-input.group>
 
-                    <x-input.group for="bank_name" label="{{ __('bank name') }}" :error="$errors->first('form.bank_name')">
-                        <x-input wire:model="form.bank_name" id="bank_name" />
+                    <x-input.group for="due" label="{{ __('due') }}" :error="$errors->first('due')">
+                        <x-input type="number" wire:model="due" id="due" />
                     </x-input.group>
 
-                    <x-input.group for="bank_branch" label="{{ __('bank branch') }}" :error="$errors->first('form.bank_branch')">
-                        <x-input wire:model="form.bank_branch" id="bank_branch" />
+                    <x-input.group for="advanced_paid" label="{{ __('advanced paid') }}" :error="$errors->first('advanced_paid')">
+                        <x-input type="number" wire:model="advanced_paid" id="advanced_paid" />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

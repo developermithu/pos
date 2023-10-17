@@ -25,6 +25,13 @@
                         {{ __('dashboard') }}
                     </x-sidebar.link>
 
+                    <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index') ||
+                        request()->routeIs('admin.customers.create') ||
+                        request()->routeIs('admin.customers.edit')">
+                        <x-slot name="icon"><x-heroicon-s-user class="w-6 h-6" /></x-slot>
+                        {{ __('customers') }}
+                    </x-sidebar.link>
+
                     <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.index') ||
                         request()->routeIs('admin.employees.create') ||
                         request()->routeIs('admin.employees.edit')">

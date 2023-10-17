@@ -12,7 +12,7 @@ class ListEmployee extends Component
     use WithPagination;
 
     #[Url(as: 'q')]
-    public $search = "";
+    public string $search = "";
     public $selected = [];
 
     public function deleteSelected()
@@ -34,15 +34,21 @@ class ListEmployee extends Component
 
     public function render()
     {
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        
+        $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
+
         $employees = Employee::query()
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('father_name', 'like', '%' . $this->search . '%')
-            ->orWhere('address', 'like', '%' . $this->search . '%')
-            ->orWhere('phone_number', 'like', '%' . $this->search . '%')
-            ->orWhere('salary', 'like', '%' . $this->search . '%')
-            ->orWhere('gender', 'like', '%' . $this->search . '%')
+            ->when($search, function ($query) use ($searchableFields, $search) {
+                $query->where(function ($query) use ($searchableFields, $search) {
+                    foreach ($searchableFields as $field) {
+                        $query->orWhere($field, 'like', $search);
+                    }
+                });
+            })
             ->latest()
             ->paginate(10);
+
 
         return view('livewire.employees.list-employee', compact('employees'));
     }

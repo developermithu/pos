@@ -13,19 +13,19 @@ class EmployeeForm extends Form
     #[Rule('required|max:255')]
     public $name;
 
-    #[Rule('required|max:255')]
+    #[Rule('required|max:255', as: 'father name')]
     public $father_name;
 
     #[Rule('required|max:255')]
     public $address;
 
-    #[Rule('required|max:255')]
+    #[Rule('required|max:255', as: 'phone number')]
     public $phone_number;
 
     #[Rule('required|max:255')]
     public $salary;
 
-    #[Rule('required|date')]
+    #[Rule('required|date', as: 'joining date')]
     public $joined_at;
 
     #[Rule('required|in:male,female')]

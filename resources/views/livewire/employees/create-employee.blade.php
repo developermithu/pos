@@ -41,34 +41,34 @@
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
                     <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
-                        <x-input.text wire:model="form.name" id="name" />
+                        <x-input wire:model="form.name" id="name" />
                     </x-input.group>
 
                     <x-input.group for="father_name" label="{{ __('father name') }}" :error="$errors->first('form.father_name')">
-                        <x-input.text wire:model="form.father_name" id="father_name" />
+                        <x-input wire:model="form.father_name" id="father_name" />
                     </x-input.group>
 
                     <x-input.group for="address" label="{{ __('address') }}" :error="$errors->first('form.address')">
-                        <x-input.text wire:model="form.address" id="address" />
+                        <x-input wire:model="form.address" id="address" />
                     </x-input.group>
 
                     <x-input.group for="phone_number" label="{{ __('phone number') }}" :error="$errors->first('form.phone_number')">
-                        <x-input.text wire:model="form.phone_number" id="phone_number" />
+                        <x-input wire:model="form.phone_number" id="phone_number" />
                     </x-input.group>
 
                     <x-input.group for="salary" label="{{ __('salary') }}" :error="$errors->first('form.salary')">
-                        <x-input.text type="number" wire:model="form.salary" id="salary" />
+                        <x-input type="number" wire:model="form.salary" id="salary" />
                     </x-input.group>
 
                     <x-input.group for="joined_at" label="{{ __('joining date') }}" :error="$errors->first('form.joined_at')">
-                        <x-input.text type="date" wire:model="form.joined_at" id="joined_at" />
+                        <x-input type="date" wire:model="form.joined_at" id="joined_at" />
                     </x-input.group>
 
                     <x-radio.group title="{{ __('gender') }}" :error="$errors->first('form.gender')">
-                        <x-input.radio wire:model="form.gender" name="gender" value="male" label="{{ __('male') }}"
-                            for="male" id="male" />
-                        <x-input.radio wire:model="form.gender" name="gender" value="female" label="{{ __('female') }}"
-                            for="female" id="female" />
+                        <x-input.radio wire:model="form.gender" name="gender" value="male"
+                            label="{{ __('male') }}" for="male" id="male" />
+                        <x-input.radio wire:model="form.gender" name="gender" value="female"
+                            label="{{ __('female') }}" for="female" id="female" />
                     </x-radio.group>
 
                     <div class="col-span-6 sm:col-full">

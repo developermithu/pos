@@ -7,6 +7,9 @@ use App\Livewire\Customers\ListCustomer;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
+use App\Livewire\Salary\AddAdvancedSalary;
+use App\Livewire\Salary\EditAdvancedSalary;
+use App\Livewire\Salary\ListAdvancedSalary;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -53,6 +56,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/', ListCustomer::class)->name('index');
         Route::get('/create', CreateCustomer::class)->name('create');
         Route::get('/{customer}/edit', EditCustomer::class)->name('edit');
+    });
+
+    Route::group(['prefix' => 'advanced-salary', 'as' => 'advanced.salary.'], function () {
+        Route::get('/', ListAdvancedSalary::class)->name('index');
+        Route::get('/add', AddAdvancedSalary::class)->name('add');
+        Route::get('/{advanced_salary}/edit', EditAdvancedSalary::class)->name('edit');
     });
 });
 

@@ -7,13 +7,13 @@ use Livewire\Component;
 
 class EditCustomer extends Component
 {
+    public $customer;
+
     public string $name;
     public string $address;
     public string $phone_number;
-    public ?int $due;
-    public ?int $advanced_paid;
-
-    public $customer;
+    public $due;
+    public $advanced_paid;
 
     public function mount(Customer $customer)
     {

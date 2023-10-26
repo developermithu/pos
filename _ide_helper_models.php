@@ -12,6 +12,33 @@
 
 namespace App\Models{
 /**
+ * App\Models\AdvancedSalary
+ *
+ * @property int $id
+ * @property int $employee_id
+ * @property string $month
+ * @property string $year
+ * @property int $amount
+ * @property \Illuminate\Support\Carbon $paid_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereEmployeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereMonth($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereYear($value)
+ */
+	class AdvancedSalary extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Customer
  *
  * @property int $id
@@ -53,7 +80,7 @@ namespace App\Models{
  * @property string $address
  * @property string $phone_number
  * @property int $salary
- * @property string $joined_at
+ * @property \Illuminate\Support\Carbon $joined_at
  * @property string $gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

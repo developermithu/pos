@@ -56,9 +56,26 @@
                             {{ __('add supplier') }}
                         </x-collapsible.item>
                     </x-collapsible>
+
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.index') || request()->routeIs('admin.advanced.salary.add') || request()->routeIs('admin.advanced.salary.edit') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-folder-plus class="w-6 h-6" /></x-slot>
+                                {{ __('employees salary') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.index')">
+                            {{ __('advanced salary list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.advanced.salary.add')" :active="request()->routeIs('admin.advanced.salary.add')">
+                            {{ __('add advanced salary') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
                 </ul>
 
-                <div class="pt-2 space-y-2">
+                <ul class="pt-2 space-y-2">
                     <x-sidebar.link href="https://flowbite-admin-dashboard.vercel.app" :active="request()->routeIs('settings')"
                         target="_blank">
                         <x-slot name="icon"><x-heroicon-s-link class="w-6 h-6" /></x-slot>
@@ -69,8 +86,8 @@
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                         {{ __('settings') }}
                     </x-sidebar.link>
-                </div>
             </div>
         </div>
+    </div>
     </div>
 </aside>

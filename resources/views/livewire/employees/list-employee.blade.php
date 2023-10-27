@@ -55,10 +55,10 @@
                     </div>
                 </div>
 
-                <x-primary-link href="{{ route('admin.employees.create') }}">
+                <x-button :href="route('admin.employees.create')">
                     <x-heroicon-m-plus class="w-4 h-4" />
                     {{ __('add employee') }}
-                </x-primary-link>
+                </x-button>
             </div>
         </div>
 
@@ -91,42 +91,20 @@
                 <x-table.cell> {{ $employee->father_name }} </x-table.cell>
                 {{-- <x-table.cell> {{ $employee->address }} </x-table.cell> --}}
                 <x-table.cell> {{ $employee->phone_number }} </x-table.cell>
-                <x-table.cell> {{ $employee->salary }} </x-table.cell>
+                <x-table.cell> ৳ {{ $employee->salary }} </x-table.cell>
                 <x-table.cell> {{ $employee->joined_at->format('d M, Y') }} </x-table.cell>
 
-                <x-table.cell class="space-x-1">
-                    <x-primary-link :href="route('admin.employees.edit', $employee)" class="text-xs">
-                        <x-heroicon-o-pencil-square />
-                        {{ __('edit') }}
-                    </x-primary-link>
+                <x-table.cell class="space-x-2">
+                    <x-button flat="warning" :href="route('admin.employees.edit', $employee)">
+                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                    </x-button>
 
-                    <x-danger-button x-data=""
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')"
-                        class="text-xs">
-                        <x-heroicon-o-trash />
-                        {{ __('delete') }}
-                    </x-danger-button>
+                    <x-button flat="danger"
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')">
+                        <x-heroicon-m-trash /> {{ __('delete') }}
+                    </x-button>
 
-                    {{-- delete modal --}}
-                    <x-modal maxWidth="md" name="confirm-deletion-{{ $employee->id }}">
-                        <div class="p-6 text-center">
-                            <x-heroicon-o-exclamation-circle
-                                class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" />
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                {{ __('Are you sure you want to delete this?') }}
-                            </h3>
-
-                            <x-danger-button wire:click.prevent="destroy({{ $employee }})"
-                                x-on:click="$dispatch('close')">
-                                Yes, I'm sure
-                            </x-danger-button>
-
-                            <x-secondary-button x-on:click="$dispatch('close')" class="ml-3">
-                                No, cancel
-                            </x-secondary-button>
-                        </div>
-                    </x-modal>
-                    {{-- delete modal --}}
+                    @include('partials.delete-modal', ['data' => $employee])
                 </x-table.cell>
             </x-table.row>
 

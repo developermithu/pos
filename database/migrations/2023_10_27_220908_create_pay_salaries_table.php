@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advanced_salaries', function (Blueprint $table) {
+        Schema::create('pay_salaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
-            $table->string('month');
-            $table->string('year');
-            $table->integer('amount');
-            $table->timestamp('paid_at');
+            $table->string('month')->nullable();
+            $table->integer('amount')->nullable();
+            $table->integer('advance_paid')->nullable();
+            $table->integer('due')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('advanced_salaries');
+        Schema::dropIfExists('pay_salaries');
     }
 };

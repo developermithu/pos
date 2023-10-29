@@ -19,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="antialiased" x-data="{ sidebarVisible: false }">
+<body class="bg-gray-50 dark:bg-gray-800" x-data="{ sidebarVisible: false }">
     @livewire('layout.navigation')
 
     <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
@@ -28,11 +28,12 @@
         {{-- overlay in mobile --}}
         <div x-cloak x-show="sidebarVisible" class="fixed inset-0 z-10 bg-gray-900/50 dark:bg-gray-900/90"></div>
 
-        <div class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+        <div class="relative h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
 
             <main>
                 {{ $slot }}
             </main>
+            
         </div>
     </div>
 

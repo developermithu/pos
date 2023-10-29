@@ -105,7 +105,7 @@
 
                     <x-button flat="danger"
                         x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $advanced_salary->id }}')">
-                        <x-heroicon-m-trash /> {{ __('delete') }}
+                        <x-heroicon-o-trash /> {{ __('delete') }}
                     </x-button>
 
                     {{-- View Modal --}}

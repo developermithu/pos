@@ -3,25 +3,25 @@
     'size' => 'default',
     'href' => null,
     'flat' => null,
+    'as' => 'submit',
 ])
 
 @php
     switch ($type) {
         case 'secondary':
-            $type = 'text-black bg-secondary hover:bg-secondary/90 focus:bg-secondary/90 active:bg-secondary focus:ring-secondary';
+            $type = 'text-black/80 bg-transparent border-gray-300 focus:bg-gray-50 focus:ring-primary';
             break;
 
         case 'danger':
-            $type = 'text-white bg-danger/90 hover:bg-danger focus:bg-danger active:bg-danger/90 focus:ring-danger/90';
+            $type = 'text-white bg-danger/90 hover:bg-danger focus:bg-danger active:bg-danger/90 focus:ring-danger/90 border-transparent';
             break;
 
         case 'success':
-            $type = 'text-white bg-[#059669]/80 hover:bg-[#059669]/90 focus:bg-[#059669]/90 active:bg-[#059669]/80 focus:ring-[#059669]/80';
+            $type = 'text-white bg-[#059669]/80 hover:bg-[#059669]/90 focus:bg-[#059669]/90 active:bg-[#059669]/80 focus:ring-[#059669]/80 border-transparent';
             break;
 
-        case 'primary':
         default:
-            $type = 'text-white bg-primary/90 hover:bg-primary focus:bg-primary active:bg-primary/90 focus:ring-primary/90';
+            $type = 'text-white bg-primary/90 hover:bg-primary focus:bg-primary active:bg-primary/90 focus:ring-primary/90 border-transparent';
             break;
     }
 
@@ -76,22 +76,22 @@
 
 @if ($href && empty($flat))
     <a wire:navigate href="{{ $href }}"
-        class="inline-flex gap-x-1.5 {{ $size }} {{ $type }} font-semibold capitalize transition ease-in-out rounded items-center active:outline-none active:ring-2 active:ring-offset-2">
+        class="inline-flex gap-x-1.5 font-semibold capitalize transition ease-in-out rounded items-center active:outline-none active:ring-2 active:ring-offset-2 {{ $size }} {{ $type }}">
         {{ $slot }}
     </a>
 @elseif (empty($href) && $flat)
-    <button {{ $attributes->merge(['type' => 'submit']) }}
-        class="inline-flex gap-x-1 {{ $size }} {{ $type }} font-semibold capitalize transition focus:underline underline-offset-2 ease-in-out items-center">
+    <button {{ $attributes->merge(['type' => "$as"]) }}
+        class="inline-flex items-center font-semibold capitalize transition ease-in-out gap-x-1 focus:underline underline-offset-2 {{ $size }} {{ $type }}">
         {{ $slot }}
     </button>
 @elseif ($href && $flat)
     <a wire:navigate href="{{ $href }}"
-        class="inline-flex gap-x-1 {{ $size }} {{ $type }} font-semibold capitalize focus:underline transition ease-in-out items-center">
+        class="inline-flex items-center font-semibold capitalize transition ease-in-out gap-x-1 focus:underline {{ $size }} {{ $type }}">
         {{ $slot }}
     </a>
 @else
-    <button {{ $attributes->merge(['type' => 'submit']) }}
-        class="inline-flex gap-x-1.5 {{ $size }} {{ $type }} font-semibold uppercase transition ease-in-out border border-transparent rounded items-center focus:outline-none focus:ring-2 focus:ring-offset-2">
+    <button {{ $attributes->merge(['type' => "$as"]) }}
+        class="inline-flex gap-x-1.5 font-semibold uppercase transition ease-in-out border rounded items-center focus:outline-none focus:ring-2 focus:ring-offset-2 {{ $size }} {{ $type }}">
         {{ $slot }}
     </button>
 @endif

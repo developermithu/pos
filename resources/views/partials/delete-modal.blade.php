@@ -7,12 +7,15 @@
             {{ __('Are you sure you want to delete this?') }}
         </h3>
 
-        <x-danger-button wire:click.prevent="destroy({{ $data }})" x-on:click="$dispatch('close')">
-            Yes, I'm sure
-        </x-danger-button>
+        <div class="space-x-3">
+            <x-button type="danger" size="small" wire:click.prevent="destroy({{ $data }})"
+                x-on:click="$dispatch('close')">
+                Yes, I'm sure
+            </x-button>
 
-        <x-secondary-button x-on:click="$dispatch('close')" class="ml-3">
-            No, cancel
-        </x-secondary-button>
+            <x-button type="secondary" size="small" x-on:click="$dispatch('close')">
+                No, cancel
+            </x-button>
+        </div>
     </div>
 </x-modal>

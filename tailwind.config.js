@@ -37,6 +37,7 @@ export default {
             colors: {
                 primary: "#5D00BB",
                 danger: "#dc2626",
+                success: "#059669",
             },
 
             fontFamily: {

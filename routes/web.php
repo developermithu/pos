@@ -9,7 +9,10 @@ use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
 use App\Livewire\Salary\AddAdvancedSalary;
 use App\Livewire\Salary\EditAdvancedSalary;
+use App\Livewire\Salary\LastMonthSalary;
 use App\Livewire\Salary\ListAdvancedSalary;
+use App\Livewire\Salary\ListPaySalary;
+use App\Livewire\Salary\PaySalaryNow;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -63,6 +66,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/add', AddAdvancedSalary::class)->name('add');
         Route::get('/{advanced_salary}/edit', EditAdvancedSalary::class)->name('edit');
     });
+
+    Route::group(['prefix' => 'pay-salary', 'as' => 'pay.salary.'], function () {
+        Route::get('/', ListPaySalary::class)->name('index');
+        Route::get('/{id}/now', PaySalaryNow::class)->name('now');
+    });
+
+    Route::get('/last-month-salary', LastMonthSalary::class)->name('last.month.salary');
 });
 
 Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');

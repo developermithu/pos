@@ -16,7 +16,7 @@
                             <div class="flex items-center">
                                 <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
                                 <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                    {{ __('employees') }}
+                                    {{ __('pay salary') }}
                                 </span>
                             </div>
                         </li>
@@ -24,14 +24,15 @@
                 </nav>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('employee list') }}
+                    {{ __('pay salary list') }} -
+                    <span class="text-amber-600">{{ date('F Y') }}</span>
                 </h1>
             </div>
 
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <form class="sm:pr-3" action="#" method="GET">
-                        <label for="employees-search" class="sr-only">Search</label>
+                        <label for="pay_salaries-search" class="sr-only">Search</label>
                         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                             <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
                         </div>
@@ -54,11 +55,6 @@
                         </div>
                     </div>
                 </div>
-
-                <x-button :href="route('admin.employees.create')">
-                    <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add employee') }}
-                </x-button>
             </div>
         </div>
 
@@ -67,54 +63,50 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading>
-                <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
-            </x-table.heading>
-            <x-table.heading> {{ __('name') }} </x-table.heading>
-            <x-table.heading> {{ __('gender') }} </x-table.heading>
-            <x-table.heading> {{ __('father name') }} </x-table.heading>
-            {{-- <x-table.heading> {{ __('address') }} </x-table.heading> --}}
-            <x-table.heading> {{ __('phone number') }} </x-table.heading>
+            <x-table.heading> {{ __('NO.') }} </x-table.heading>
+            <x-table.heading> {{ __('employee name') }} </x-table.heading>
+            <x-table.heading> {{ __('month') }} </x-table.heading>
             <x-table.heading> {{ __('salary') }} </x-table.heading>
-            <x-table.heading> {{ __('joining date') }} </x-table.heading>
+            <x-table.heading> {{ __('advance paid') }} </x-table.heading>
+            <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
-        @forelse ($employees as $employee)
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $employee->id }}">
-                <x-table.cell>
-                    <x-input.checkbox wire:model="selected" value="{{ $employee->id }}" id="{{ $employee->id }}"
-                        for="{{ $employee->id }}" />
+        @forelse ($employees as $key => $employee)
+            @php
+                $dueAmount = $employee->salary - ($employee->advanceSalary->amount ?? 0);
+            @endphp
+
+            <x-table.row wire:key="{{ $employee->id }}">
+                <x-table.cell> {{ $key + 1 }} </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $employee->name }}
                 </x-table.cell>
-                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $employee->name }} </x-table.cell>
-                <x-table.cell> {{ $employee->gender }} </x-table.cell>
-                <x-table.cell> {{ $employee->father_name }} </x-table.cell>
-                {{-- <x-table.cell> {{ $employee->address }} </x-table.cell> --}}
-                <x-table.cell> {{ $employee->phone_number }} </x-table.cell>
-                <x-table.cell> ৳ {{ $employee->salary }} </x-table.cell>
-                <x-table.cell> {{ $employee->joined_at->format('d M, Y') }} </x-table.cell>
+                <x-table.cell>
+                    <span class="rounded-full bg-primary px-2.5 py-1 text-sm text-white">
+                        {{ date('F', strtotime('-1 month')) }}
+                    </span>
+                </x-table.cell>
+                <x-table.cell class="font-bold"> {{ number_format($employee->salary) }} </x-table.cell>
+                <x-table.cell>
+                    @if ($employee->advanceSalary)
+                        {{ number_format($employee->advanceSalary->amount) ?? '' }}
+                    @endif
+                </x-table.cell>
+                <x-table.cell> {{ number_format($dueAmount) }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">
-                    <x-button flat="warning" :href="route('admin.employees.edit', $employee)">
-                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                    </x-button>
-
-                    <x-button flat="danger"
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')">
-                        <x-heroicon-o-trash /> {{ __('delete') }}
-                    </x-button>
-
-                    @include('partials.delete-modal', ['data' => $employee])
+                    @if ($employee->paySalary)
+                        <button class="capitalize cursor-not-allowed text-danger">{{ __('full paid') }}</button>
+                    @else
+                        <x-button size="small" :href="route('admin.pay.salary.now', $employee)">
+                            {{ __('pay now') }}
+                        </x-button>
+                    @endif
                 </x-table.cell>
             </x-table.row>
-
+ 
         @empty
-            <x-table.data-not-found colspan="9" />
+            <x-table.data-not-found colspan="7" />
         @endforelse
     </x-table>
-
-    {{-- Pagination --}}
-    <div class="p-4">
-        {{ $employees->links() }}
-    </div>
 </div>

@@ -28,21 +28,21 @@
                     <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index') ||
                         request()->routeIs('admin.customers.create') ||
                         request()->routeIs('admin.customers.edit')">
-                        <x-slot name="icon"><x-heroicon-s-user class="w-6 h-6" /></x-slot>
+                        <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
                         {{ __('customers') }}
                     </x-sidebar.link>
 
                     <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.index') ||
                         request()->routeIs('admin.employees.create') ||
                         request()->routeIs('admin.employees.edit')">
-                        <x-slot name="icon"><x-heroicon-s-user-group class="w-6 h-6" /></x-slot>
+                        <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
                         {{ __('employees') }}
                     </x-sidebar.link>
 
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.suppliers.index') || request()->routeIs('admin.suppliers.create') || request()->routeIs('admin.suppliers.edit') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-folder-plus class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
                                 {{ __('manage supplier') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -57,10 +57,10 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.index') || request()->routeIs('admin.advanced.salary.add') || request()->routeIs('admin.advanced.salary.edit') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.index') || request()->routeIs('admin.advanced.salary.add') || request()->routeIs('admin.advanced.salary.edit') || request()->routeIs('admin.pay.salary.index') || request()->routeIs('admin.pay.salary.now') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-folder-plus class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
                                 {{ __('employees salary') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -71,6 +71,15 @@
 
                         <x-collapsible.item :href="route('admin.advanced.salary.add')" :active="request()->routeIs('admin.advanced.salary.add')">
                             {{ __('add advanced salary') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.index') ||
+                            request()->routeIs('admin.pay.salary.now')">
+                            {{ __('pay salary') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.last.month.salary')" :active="request()->routeIs('admin.last.month.salary')">
+                            {{ __('last month salary') }}
                         </x-collapsible.item>
                     </x-collapsible>
                 </ul>

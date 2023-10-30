@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\LanguageSwitchController;
+use App\Livewire\Attendance\AddAttendance;
+use App\Livewire\Attendance\EditAttendance;
+use App\Livewire\Attendance\ListAttendance;
+use App\Livewire\Attendance\ShowAttendance;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
@@ -73,6 +77,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     });
 
     Route::get('/last-month-salary', LastMonthSalary::class)->name('last.month.salary');
+
+    Route::group(['prefix' => 'attendance', 'as' => 'attendance.'], function () {
+        Route::get('/', ListAttendance::class)->name('index');
+        Route::get('/add', AddAttendance::class)->name('add');
+        Route::get('/{date}/edit', EditAttendance::class)->name('edit');
+        Route::get('/show/{date}', ShowAttendance::class)->name('show');
+    });
 });
 
 Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');

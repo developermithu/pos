@@ -14,7 +14,7 @@ class Employee extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'joined_at' => 'date',
+        'joined_at' => 'date: Y-m-d',
     ];
 
     /**

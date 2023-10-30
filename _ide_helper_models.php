@@ -22,19 +22,48 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $paid_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Employee $employee
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary query()
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereMonth($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary wherePaidAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereYear($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary withoutTrashed()
  */
 	class AdvancedSalary extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Attendance
+ *
+ * @property int $id
+ * @property int $employee_id
+ * @property \Illuminate\Support\Carbon $date
+ * @property \App\Enums\AttendanceStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereEmployeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
+ */
+	class Attendance extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -85,6 +114,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\AdvancedSalary|null $advanceSalary
+ * @property-read \App\Models\PaySalary|null $paySalary
  * @method static \Database\Factories\EmployeeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
@@ -105,6 +136,39 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee withoutTrashed()
  */
 	class Employee extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PaySalary
+ *
+ * @property int $id
+ * @property int $employee_id
+ * @property string|null $month
+ * @property int|null $amount
+ * @property int|null $advance_paid
+ * @property int|null $due
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Employee $employee
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereAdvancePaid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereEmployeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereMonth($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaySalary withoutTrashed()
+ */
+	class PaySalary extends \Eloquent {}
 }
 
 namespace App\Models{

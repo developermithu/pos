@@ -82,6 +82,25 @@
                             {{ __('last month salary') }}
                         </x-collapsible.item>
                     </x-collapsible>
+
+
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.attendance.index') || request()->routeIs('admin.attendance.add') || request()->routeIs('admin.attendance.edit') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-check-badge class="w-6 h-6" /></x-slot>
+                                {{ __('manage attendance') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.attendance.add')" :active="request()->routeIs('admin.attendance.add')">
+                            {{ __('add attendance') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.index') ||
+                            request()->routeIs('admin.attendance.edit')">
+                            {{ __('attendance list') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
                 </ul>
 
                 <ul class="pt-2 space-y-2">

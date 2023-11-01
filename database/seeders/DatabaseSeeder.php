@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,8 +30,9 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
         ]);
 
-        Supplier::factory(200)->create();
-        Customer::factory(200)->create();
+        Supplier::factory(100)->create();
+        Customer::factory(100)->create();
         Employee::factory(10)->create();
+        Product::factory(1000)->create();
     }
 }

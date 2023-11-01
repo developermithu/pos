@@ -11,6 +11,10 @@ use App\Livewire\Customers\ListCustomer;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
+use App\Livewire\Products\CreateProduct;
+use App\Livewire\Products\EditProduct;
+use App\Livewire\Products\ListProduct;
+use App\Livewire\Products\ShowProduct;
 use App\Livewire\Salary\AddAdvancedSalary;
 use App\Livewire\Salary\EditAdvancedSalary;
 use App\Livewire\Salary\LastMonthSalary;
@@ -83,6 +87,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/add', AddAttendance::class)->name('add');
         Route::get('/{date}/edit', EditAttendance::class)->name('edit');
         Route::get('/show/{date}', ShowAttendance::class)->name('show');
+    });
+
+    // Product Management
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        Route::get('/', ListProduct::class)->name('index');
+        Route::get('/create', CreateProduct::class)->name('create');
+        Route::get('/{product}/edit', EditProduct::class)->name('edit');
+        Route::get('/{product}/show', ShowProduct::class)->name('show');
     });
 });
 

@@ -25,6 +25,14 @@
                         {{ __('dashboard') }}
                     </x-sidebar.link>
 
+                    <x-sidebar.link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index') ||
+                        request()->routeIs('admin.products.create') ||
+                        request()->routeIs('admin.products.edit') ||
+                        request()->routeIs('admin.products.show')">
+                        <x-slot name="icon"><x-heroicon-m-shopping-bag class="w-6 h-6" /></x-slot>
+                        {{ __('products') }}
+                    </x-sidebar.link>
+
                     <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index') ||
                         request()->routeIs('admin.customers.create') ||
                         request()->routeIs('admin.customers.edit')">

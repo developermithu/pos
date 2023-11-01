@@ -40,7 +40,7 @@ class EmployeeForm extends Form
         $this->address = $employee->address;
         $this->phone_number = $employee->phone_number;
         $this->salary = $employee->salary;
-        $this->joined_at = $employee->joined_at;
+        $this->joined_at = $employee->joined_at->format('Y-m-d');
         $this->gender = $employee->gender;
     }
 

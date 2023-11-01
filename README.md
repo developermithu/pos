@@ -18,7 +18,13 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 
 - [x] Employee Attendance management
 - [ ] Category management
-- [ ] Product management
+- [x] Product management
+    - [x] create
+    - [x] edit
+    - [x] delete
+    - [ ] show
+    - [ ] adding attributes (kg, gm, cm)
+    - [ ] import and export from excel file
 - [ ] Manage Inventory Expenses
 - [ ] POS management
 - [ ] Stock management
@@ -29,8 +35,8 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [ ] Loading components
 - [ ] Adding Charts and Graphs
 - [ ] Pickaday for date picking
+- [ ] Adding price mutator (get and set)
 - [ ] Sending notifications
-- [ ] Product import and export from excel file
 - [ ] Login using Email/Phone number
 - [ ] Bulk deleting
 - [ ] Trash deleting (delete forever)

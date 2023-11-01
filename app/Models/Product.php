@@ -41,19 +41,39 @@ class Product extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function buyingPrice(): Attribute
+    // Mutator methods
+    protected function buyingPrice(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
+            get: fn ($value) => $value ? $value / 100 : null,
+            set: fn ($value) => $value ? $value * 100 : null,
         );
     }
 
-    public function sellingPrice(): Attribute
+    protected function sellingPrice(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
+            get: fn ($value) => $value ? $value / 100 : null,
+            set: fn ($value) => $value ? $value * 100 : null,
         );
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Generating product sku number based on product id
+        static::creating(function ($product) {
+            $lastProduct = static::withTrashed()->latest('id')->first(); // Get the latest product by ID with trashed.
+            $newSkuNumber = $lastProduct ? $lastProduct->id + 1 : 1; // Generate a new SKU number.
+
+            // Format the SKU as "SKU000001".
+            $product->sku = 'SKU-' . sprintf('%06d', $newSkuNumber);
+        });
     }
 }

@@ -10,7 +10,6 @@ class CreateProduct extends Component
 {
     public $supplier_id = '';
     public $name;
-    public $sku;
     public $qty;
     public $buying_date;
     public $expire_date;
@@ -24,10 +23,9 @@ class CreateProduct extends Component
         Product::create([
             'supplier_id' => $this->supplier_id,
             'name' => $this->name,
-            'sku' => trim($this->sku),
             'qty' => $this->qty,
-            'buying_date' => $this->buying_date,
-            'expire_date' => $this->expire_date,
+            'buying_date' => $this->buying_date == "" ? null : $this->buying_date,
+            'expire_date' => $this->expire_date == "" ? null : $this->expire_date,
             'buying_price' => $this->buying_price,
             'selling_price' => $this->selling_price,
         ]);
@@ -47,10 +45,9 @@ class CreateProduct extends Component
         return [
             'supplier_id' => 'required|exists:suppliers,id',
             'name' => 'required|string',
-            'sku' => 'required|string|unique:products,sku',
             'qty' => 'required|integer',
-            'buying_date' => 'nullable|date',
-            'expire_date' => 'nullable|date|after:buying_date',
+            'buying_date' => 'nullable|date|date_format:Y-m-d',
+            'expire_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
             'buying_price' => 'nullable|numeric',
             'selling_price' => 'nullable|numeric',
         ];

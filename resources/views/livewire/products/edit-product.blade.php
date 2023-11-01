@@ -45,7 +45,7 @@
                     </x-input.group>
 
                     <x-input.group for="sku" label="{{ __('product code') }}" :error="$errors->first('sku')">
-                        <x-input wire:model="sku" id="sku" class="uppercase" />
+                        <x-input wire:model="sku" id="sku" disabled="true" />
                     </x-input.group>
 
                     <x-input.group for="supplier_id" label="{{ __('supplier name') }}" :error="$errors->first('supplier_id')">

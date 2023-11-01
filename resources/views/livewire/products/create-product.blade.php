@@ -44,10 +44,6 @@
                         <x-input wire:model="name" id="name" />
                     </x-input.group>
 
-                    <x-input.group for="sku" label="{{ __('product code') }}" :error="$errors->first('sku')">
-                        <x-input wire:model="sku" id="sku" class="uppercase"/>
-                    </x-input.group>
-
                     <x-input.group for="supplier_id" label="{{ __('supplier name') }}" :error="$errors->first('supplier_id')">
                         <x-input.select wire:model="supplier_id">
                             <option value="" disabled>-- select supplier --</option>

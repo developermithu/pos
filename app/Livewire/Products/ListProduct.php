@@ -30,8 +30,8 @@ class ListProduct extends Component
                 });
             })
             ->with('supplier')
-            ->latest()
-            ->paginate(20);
+            ->latest('id')
+            ->paginate(25);
 
         return view('livewire.products.list-product', compact('products'));
     }

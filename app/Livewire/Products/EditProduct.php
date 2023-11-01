@@ -27,8 +27,8 @@ class EditProduct extends Component
         $this->name = $product->name;
         $this->sku = $product->sku;
         $this->qty = $product->qty;
-        $this->buying_date = $product->buying_date->format('Y-m-d');
-        $this->expire_date = $product->expire_date->format('Y-m-d');
+        $this->buying_date = $product->buying_date ? $product->buying_date->format('Y-m-d') : NULL;
+        $this->expire_date = $product->expire_date ? $product->expire_date->format('Y-m-d') : NULL;
         $this->buying_price = $product->buying_price;
         $this->selling_price = $product->selling_price;
     }
@@ -40,10 +40,9 @@ class EditProduct extends Component
         $this->product->update([
             'supplier_id' => $this->supplier_id,
             'name' => $this->name,
-            'sku' => trim($this->sku),
             'qty' => $this->qty,
-            'buying_date' => $this->buying_date,
-            'expire_date' => $this->expire_date,
+            'buying_date' => $this->buying_date == "" ? null : $this->buying_date,
+            'expire_date' => $this->expire_date == "" ? null : $this->expire_date,
             'buying_price' => $this->buying_price,
             'selling_price' => $this->selling_price,
         ]);
@@ -63,10 +62,9 @@ class EditProduct extends Component
         return [
             'supplier_id' => 'required|exists:suppliers,id',
             'name' => 'required|string',
-            'sku' => 'required|string|unique:products,sku,' . $this->product->id,
             'qty' => 'required|integer',
-            'buying_date' => 'nullable|date',
-            'expire_date' => 'nullable|date|after:buying_date',
+            'buying_date' => 'nullable|date|date_format:Y-m-d',
+            'expire_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
             'buying_price' => 'nullable|numeric',
             'selling_price' => 'nullable|numeric',
         ];

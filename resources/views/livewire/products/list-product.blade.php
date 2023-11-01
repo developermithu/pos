@@ -30,12 +30,12 @@
 
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
-                    <form class="sm:pr-3" action="#" method="GET">
+                    <div class="sm:pr-3">
                         <label for="products-search" class="sr-only">Search</label>
                         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                             <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
                         </div>
-                    </form>
+                    </div>
 
                     <div class="flex items-center w-full sm:justify-end">
                         <div class="flex pl-2 space-x-1">
@@ -95,8 +95,10 @@
                 <x-table.cell> {{ $product->qty }} </x-table.cell>
                 <x-table.cell> {{ $product->buying_price }} </x-table.cell>
                 <x-table.cell> {{ $product->selling_price }} </x-table.cell>
-                <x-table.cell> {{ $product->buying_date->format('d M, Y') }} </x-table.cell>
-                <x-table.cell> {{ $product->expire_date->format('d M, Y') }} </x-table.cell>
+                <x-table.cell> {{ $product->buying_date ? $product->buying_date->format('d M, Y') : '' }}
+                </x-table.cell>
+                <x-table.cell> {{ $product->expire_date ? $product->expire_date->format('d M, Y') : '' }}
+                </x-table.cell>
                 <x-table.cell class="space-x-2">
                     <x-button flat="secondary" :href="route('admin.products.show', $product)">
                         <x-heroicon-o-eye /> {{ __('view') }}

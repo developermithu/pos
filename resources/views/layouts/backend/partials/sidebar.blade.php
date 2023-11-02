@@ -112,6 +112,38 @@
                 </ul>
 
                 <ul class="pt-2 space-y-2">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.create') ||
+                    request()->routeIs('admin.expenses.edit') ||
+                    request()->routeIs('admin.expenses.todays') ||
+                    request()->routeIs('admin.expenses.monthly') ||
+                    request()->routeIs('admin.expenses.yearly')
+                        ? 'true'
+                        : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                {{ __('manage expenses') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.expenses.create')" :active="request()->routeIs('admin.expenses.create')">
+                            {{ __('add expense') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.expenses.todays')" :active="request()->routeIs('admin.expenses.todays') ||
+                            request()->routeIs('admin.expenses.edit')">
+                            {{ __('todays expense') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.expenses.monthly')" :active="request()->routeIs('admin.expenses.monthly')">
+                            {{ __('monthly expense') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.expenses.yearly')" :active="request()->routeIs('admin.expenses.yearly')">
+                            {{ __('yearly expense') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
+
                     <x-sidebar.link href="https://flowbite-admin-dashboard.vercel.app" :active="request()->routeIs('settings')"
                         target="_blank">
                         <x-slot name="icon"><x-heroicon-s-link class="w-6 h-6" /></x-slot>

@@ -16,6 +16,8 @@ use App\Livewire\Expenses\EditExpense;
 use App\Livewire\Expenses\MonthlyExpense;
 use App\Livewire\Expenses\TodaysExpense;
 use App\Livewire\Expenses\YearlyExpense;
+use App\Livewire\Pos\CreateInvoice;
+use App\Livewire\Pos\PosManagement;
 use App\Livewire\Products\CreateProduct;
 use App\Livewire\Products\EditProduct;
 use App\Livewire\Products\ListProduct;
@@ -46,7 +48,7 @@ Route::view('/', 'welcome');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
-    ->name('admin.dashboard');
+    ->name('admin.dashboard')->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -109,6 +111,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/todays', TodaysExpense::class)->name('todays');
         Route::get('/monthly', MonthlyExpense::class)->name('monthly');
         Route::get('/yearly', YearlyExpense::class)->name('yearly');
+    });
+
+    // Inventory Expense management
+    Route::group(['prefix' => 'pos', 'as' => 'pos.'], function () {
+        Route::get('/', PosManagement::class)->name('index')->lazy();
+        Route::get('/create-invoice', CreateInvoice::class)->name('create.invoice');
     });
 });
 

@@ -1,5 +1,5 @@
 <aside
-    class="fixed top-0 left-0 z-20 flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width"
+    class="fixed top-0 left-0 z-20 flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width print:hidden"
     :class="sidebarVisible ? '' : 'hidden'">
     <div
         class="relative flex flex-col flex-1 min-h-full pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -25,29 +25,27 @@
                         {{ __('dashboard') }}
                     </x-sidebar.link>
 
-                    <x-sidebar.link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index') ||
-                        request()->routeIs('admin.products.create') ||
-                        request()->routeIs('admin.products.edit') ||
-                        request()->routeIs('admin.products.show')">
+                    <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
+                        <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
+                        {{ __('pos') }}
+                    </x-sidebar.link>
+
+                    <x-sidebar.link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
                         <x-slot name="icon"><x-heroicon-m-shopping-bag class="w-6 h-6" /></x-slot>
                         {{ __('products') }}
                     </x-sidebar.link>
 
-                    <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.index') ||
-                        request()->routeIs('admin.customers.create') ||
-                        request()->routeIs('admin.customers.edit')">
+                    <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
                         {{ __('customers') }}
                     </x-sidebar.link>
 
-                    <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.index') ||
-                        request()->routeIs('admin.employees.create') ||
-                        request()->routeIs('admin.employees.edit')">
+                    <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
                         <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
                         {{ __('employees') }}
                     </x-sidebar.link>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.suppliers.index') || request()->routeIs('admin.suppliers.create') || request()->routeIs('admin.suppliers.edit') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.suppliers.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
@@ -65,7 +63,7 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.index') || request()->routeIs('admin.advanced.salary.add') || request()->routeIs('admin.advanced.salary.edit') || request()->routeIs('admin.pay.salary.index') || request()->routeIs('admin.pay.salary.now') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.*') || request()->routeIs('admin.pay.salary.*') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
@@ -73,7 +71,8 @@
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.index')">
+                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.index') ||
+                            request()->routeIs('admin.advanced.salary.edit')">
                             {{ __('advanced salary list') }}
                         </x-collapsible.item>
 
@@ -81,8 +80,7 @@
                             {{ __('add advanced salary') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.index') ||
-                            request()->routeIs('admin.pay.salary.now')">
+                        <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.*')">
                             {{ __('pay salary') }}
                         </x-collapsible.item>
 
@@ -92,7 +90,7 @@
                     </x-collapsible>
 
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.attendance.index') || request()->routeIs('admin.attendance.add') || request()->routeIs('admin.attendance.edit') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.attendance.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-check-badge class="w-6 h-6" /></x-slot>
@@ -112,13 +110,7 @@
                 </ul>
 
                 <ul class="pt-2 space-y-2">
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.create') ||
-                    request()->routeIs('admin.expenses.edit') ||
-                    request()->routeIs('admin.expenses.todays') ||
-                    request()->routeIs('admin.expenses.monthly') ||
-                    request()->routeIs('admin.expenses.yearly')
-                        ? 'true'
-                        : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>

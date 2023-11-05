@@ -38,10 +38,15 @@ class ListProduct extends Component
 
     public function deleteSelected()
     {
-        $products = Product::whereKey($this->selected);
-        $products->delete();
+        if ($this->selected) {
+            $products = Product::whereKey($this->selected);
+            $products->delete();
 
-        session()->flash('status', 'Selected records deleted successfully.');
+            session()->flash('status', 'Selected records deleted successfully.');
+        } else {
+            session()->flash('status', 'You did not select anything.');
+        }
+
         return back();
     }
 

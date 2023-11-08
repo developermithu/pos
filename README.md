@@ -26,9 +26,9 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
   - [ ] adding attributes (kg, gm, cm)
   - [ ] import and export from excel file
 - [x] Manage Inventory Expenses
-- [ ] POS management
+- [x] POS management
 - [ ] Stock management
-- [ ] Order Invoice generate pdf
+- [x] Order Invoice generate pdf
 - [ ] User roles and permissions (Manager, Cashier)
 - [ ] Backup database 
 - [ ] Custom Error page

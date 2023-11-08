@@ -35,7 +35,7 @@
         <div class="lg:col-span-6 col-span-full ">
             <div
                 class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
-                <h3 class="p-4 text-xl font-semibold sm:pt-6 dark:text-white">Purchase Items</h3>
+                <h3 class="p-4 text-xl font-semibold sm:pt-6 dark:text-white">Sale Items</h3>
                 <x-table>
                     <x-slot name="heading">
                         <x-table.heading style="padding: 12px"> {{ __('product') }} </x-table.heading>
@@ -46,7 +46,8 @@
                     </x-slot>
 
                     @forelse (Cart::content() as $key => $item)
-                        <x-table.row wire:loading.class="opacity-50" wire:key="{{ $item->id }}" wire:target="addToCart, increaseQty, decreaseQty, removeFromCart"
+                        <x-table.row wire:loading.class="opacity-50" wire:key="{{ $item->id }}"
+                            wire:target="addToCart, increaseQty, decreaseQty, removeFromCart"
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="p-0" style="padding: 12px">
                                 {{ Str::limit($item->name, 15, '..') }} </x-table.cell>
@@ -86,15 +87,18 @@
                 </x-table>
 
                 <div class="p-4 space-y-4">
-                    <div class="flex flex-col gap-1 text-right">
-                        <div>Subtotal: <strong>{{ Cart::subtotal() }}</strong></div>
-                        <div>Tax: <strong>{{ Cart::tax() }}</strong></div>
-                        <div class="text-lg">Total: <strong>{{ Cart::total() }}</strong></div>
-                    </div>
+                    @if (Cart::count() >= 1)
+                        <div class="flex flex-col gap-1 text-right">
+                            <div>Subtotal: <strong>{{ Cart::subtotal() }}</strong></div>
+                            <div>Tax: <strong>{{ Cart::tax() }}</strong></div>
+                            <div class="text-lg">Total: <strong>{{ Cart::total() }}</strong></div>
+                        </div>
+                    @endif
 
+                    @if (Cart::count() >= 1)
                     <div class="flex">
                         <label for="customers" class="sr-only">Choose a customer</label>
-                        <select wire:model='customer_id' id="customers" required
+                        <select wire:model='customer_id' id="customers" 
                             class="shadow-sm bg-gray-50 border border-gray-300  text-gray-900 rounded-l text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 transition ease-in-out dark:text-white dark:focus:ring-primary dark:focus:border-primary capitalize">
                             <option value="">-- Select Customer --</option>
                             @foreach (App\Models\Customer::pluck('name', 'id') as $key => $name)
@@ -116,6 +120,7 @@
                     <div class="text-center">
                         <x-button wire:click="createInvoice">Create Invoice</x-button>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -153,8 +158,8 @@
                     </x-slot>
 
                     @forelse ($products as $key => $product)
-                        <x-table.row wire:loading.class="opacity-50" wire:key="{{ $product->id }}" wire:target="search, perPage"
-                            class="hover:bg-transparent dark:hover:bg-bg-transparent">
+                        <x-table.row wire:loading.class="opacity-50" wire:key="{{ $product->id }}"
+                            wire:target="search, perPage" class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell style="padding: 12px"> {{ $key + 1 }} </x-table.cell>
                             <x-table.cell style="padding: 12px"> {{ Str::limit($product->name, 20, '..') }}
                             </x-table.cell>

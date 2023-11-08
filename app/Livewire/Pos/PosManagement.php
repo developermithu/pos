@@ -97,14 +97,16 @@ class PosManagement extends Component
 
         $customer = Customer::findOrFail($this->customer_id);
 
-        session([
-            'customer_id' => $customer->id,
-            'customer_name' => $customer->name,
-            'customer_address' => $customer->address,
-            'customer_phone_number' => $customer->phone_number,
-            'customer_due' => $customer->due,
-            'customer_advanced_paid' => $customer->advanced_paid,
+        session()->put('customer', [
+            'id' => $customer->id,
+            'name' => $customer->name,
+            'address' => $customer->address,
+            'phone_number' => $customer->phone_number,
+            'due' => $customer->due,
+            'advanced_paid' => $customer->advanced_paid,
         ]);
+
+        session()->put('invoice_no', rand(111111, 999999));
 
         return $this->redirect(CreateInvoice::class, navigate: true);
     }

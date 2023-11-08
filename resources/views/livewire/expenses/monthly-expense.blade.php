@@ -87,7 +87,7 @@
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="4" />
+            <x-table.data-not-found colspan="5" />
         @endforelse
     </x-table>
 

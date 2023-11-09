@@ -90,7 +90,7 @@
                 <x-table.cell class="font-medium">
                     {{ Str::limit($product->name, 20, '..') }}
                 </x-table.cell>
-                <x-table.cell> {{ $product->supplier->name }} </x-table.cell>
+                <x-table.cell> {{ $product->supplier->name ?? '' }} </x-table.cell>
                 <x-table.cell class="font-semibold"> {{ $product->sku }} </x-table.cell>
                 <x-table.cell> {{ $product->qty }} </x-table.cell>
                 <x-table.cell> {{ $product->buying_price }} </x-table.cell>

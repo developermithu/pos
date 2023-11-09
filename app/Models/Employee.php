@@ -30,6 +30,6 @@ class Employee extends Model
      */
     public function paySalary(): HasOne
     {
-        return $this->hasOne(paySalary::class);
+        return $this->hasOne(PaySalary::class);
     }
 }

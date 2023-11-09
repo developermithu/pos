@@ -129,7 +129,7 @@
                                     'text-[#E2136E]' => $sale->transaction->method === 'bkash',
                                     'text-primary' => $sale->transaction->method === 'bank',
                                 ])>
-                                    {{ $sale->transaction->method }}
+                                    {{ $sale->transaction->method ?? '' }}
                                 </p>
                             </div>
                         </li>
@@ -154,7 +154,7 @@
                                         {{ __('details') }} :
                                     </h2>
                                     <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                        {{ $sale->transaction->details }}
+                                        {{ $sale->transaction->details ?? '' }}
                                     </p>
                                 </div>
                             </li>
@@ -166,7 +166,7 @@
                                     {{ __('status') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {!! $sale->transaction->status->getLabelHtml() !!}
+                                    {!! $sale->transaction->status->getLabelHtml() ?? '' !!}
                                 </p>
                             </div>
                         </li>
@@ -187,7 +187,7 @@
                                     {{ __('name') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->name }}
+                                    {{ $sale->customer->name ?? ''}}
                                 </p>
                             </div>
                         </li>
@@ -198,7 +198,7 @@
                                     {{ __('address') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->address }}
+                                    {{ $sale->customer->address ?? '' }}
                                 </p>
                             </div>
                         </li>
@@ -209,7 +209,7 @@
                                     {{ __('phone number') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->phone_number }}
+                                    {{ $sale->customer->phone_number ?? ''}}
                                 </p>
                             </div>
                         </li>
@@ -231,9 +231,9 @@
 
                 @forelse ($sale->items as $item)
                     <x-table.row wire:key="{{ $item->id }}" class="hover:bg-transparent dark:hover:bg-transparent">
-                        <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $item->product->sku }}
+                        <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $item->product->sku ?? '' }}
                         </x-table.cell>
-                        <x-table.cell> {{ $item->product->name }} </x-table.cell>
+                        <x-table.cell> {{ $item->product->name ?? '' }} </x-table.cell>
                         <x-table.cell> {{ $item->qty }} </x-table.cell>
                         <x-table.cell> {{ $item->price }} </x-table.cell>
                         <x-table.cell> {{ $item->qty * $item->price }} </x-table.cell>

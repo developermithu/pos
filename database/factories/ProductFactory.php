@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             'supplier_id' => rand(1, 50),
             'name' => fake()->words(rand(1, 4), true),
-            'sku' => 'SKU-' . fake()->unique()->numberBetween(1000, 5000),
+            'sku' => 'SKU-' . fake()->unique()->numberBetween(000000, 999999),
             'qty' => rand(50, 100),
             'buying_date' => now()->addDays(rand(-5, -30)),
             'expire_date' => now()->addMonths(rand(6, 24)),

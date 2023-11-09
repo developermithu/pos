@@ -66,7 +66,7 @@
             </x-slot>
 
             @foreach ($employees as $employee)
-                <x-table.row wire:key="{{ $employee->id }}" class="hover:bg-transparent dark:hover:bg-bg-transparent">
+                <x-table.row wire:key="{{ $employee->id }}" class="hover:bg-transparent dark:hover:bg-transparent">
                     <x-table.cell> {{ $employee->id }} </x-table.cell>
                     <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $employee->name }}
                     </x-table.cell>

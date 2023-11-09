@@ -28,6 +28,8 @@ use App\Livewire\Salary\LastMonthSalary;
 use App\Livewire\Salary\ListAdvancedSalary;
 use App\Livewire\Salary\ListPaySalary;
 use App\Livewire\Salary\PaySalaryNow;
+use App\Livewire\Sales\ListSale;
+use App\Livewire\Sales\ShowSale;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -48,7 +50,7 @@ Route::view('/', 'welcome');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
-    ->name('admin.dashboard')->lazy();
+    ->name('admin.dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -115,8 +117,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     // Inventory Expense management
     Route::group(['prefix' => 'pos', 'as' => 'pos.'], function () {
-        Route::get('/', PosManagement::class)->name('index')->lazy();
+        Route::get('/', PosManagement::class)->name('index');
         Route::get('/create-invoice', CreateInvoice::class)->name('create.invoice');
+    });
+
+    // Sales management
+    Route::group(['prefix' => 'sales', 'as' => 'sales.'], function () {
+        Route::get('/', ListSale::class)->name('index');
+        Route::get('/{sale}/show', ShowSale::class)->name('show');
     });
 });
 

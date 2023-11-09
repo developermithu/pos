@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
@@ -38,11 +39,11 @@ class Sale extends Model
     }
 
     /**
-     * Get all of the transactions for the Sale
+     * Get the transaction associated with the Sale
      */
-    public function transactions(): HasMany
+    public function transaction(): HasOne
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasOne(Transaction::class);
     }
 
     // Mutators

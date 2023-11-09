@@ -35,6 +35,11 @@
                         {{ __('products') }}
                     </x-sidebar.link>
 
+                    <x-sidebar.link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
+                        <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
+                        {{ __('sales') }}
+                    </x-sidebar.link>
+
                     <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
                         {{ __('customers') }}

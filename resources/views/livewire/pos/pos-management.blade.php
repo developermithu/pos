@@ -62,7 +62,7 @@
                                         </button>
 
                                         <input type="number" value="{{ $item->qty }}"
-                                            class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-primary" />
+                                            class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-primary" readonly/>
 
                                         <button wire:loading.attr="disabled" type="button"
                                             wire:click="increaseQty('{{ $item->rowId }}')"

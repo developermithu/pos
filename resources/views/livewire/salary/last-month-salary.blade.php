@@ -16,7 +16,7 @@
                 </nav>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('last month salary') }} 
+                    {{ __('last month salary') }}
                 </h1>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading> {{ __('NO.') }} </x-table.heading>
+            <x-table.heading> {{ __('no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('month') }} </x-table.heading>
             <x-table.heading> {{ __('salary') }} </x-table.heading>

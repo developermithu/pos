@@ -33,7 +33,7 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading> {{ __('No.') }} </x-table.heading>
+            <x-table.heading> {{ __('no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('date') }} </x-table.heading>
             <x-table.heading> {{ __('status') }} </x-table.heading>

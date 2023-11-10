@@ -129,15 +129,15 @@
 
                         <x-collapsible.item :href="route('admin.expenses.todays')" :active="request()->routeIs('admin.expenses.todays') ||
                             request()->routeIs('admin.expenses.edit')">
-                            {{ __('todays expense') }}
+                            {{ __('todays expenses') }}
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.expenses.monthly')" :active="request()->routeIs('admin.expenses.monthly')">
-                            {{ __('monthly expense') }}
+                            {{ __('monthly expenses') }}
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.expenses.yearly')" :active="request()->routeIs('admin.expenses.yearly')">
-                            {{ __('yearly expense') }}
+                            {{ __('yearly expenses') }}
                         </x-collapsible.item>
                     </x-collapsible>
 

@@ -35,7 +35,7 @@
         <div class="lg:col-span-6 col-span-full ">
             <div
                 class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
-                <h3 class="p-4 text-xl font-semibold sm:pt-6 dark:text-white">Sale Items</h3>
+                <h3 class="p-4 text-xl font-semibold sm:pt-6 dark:text-white">{{ __('sale items') }}</h3>
                 <x-table>
                     <x-slot name="heading">
                         <x-table.heading style="padding: 12px"> {{ __('product') }} </x-table.heading>
@@ -62,7 +62,8 @@
                                         </button>
 
                                         <input type="number" value="{{ $item->qty }}"
-                                            class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-primary" readonly/>
+                                            class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-primary"
+                                            readonly />
 
                                         <button wire:loading.attr="disabled" type="button"
                                             wire:click="increaseQty('{{ $item->rowId }}')"
@@ -96,30 +97,32 @@
                     @endif
 
                     @if (Cart::count() >= 1)
-                    <div class="flex">
-                        <label for="customers" class="sr-only">Choose a customer</label>
-                        <select wire:model='customer_id' id="customers" 
-                            class="shadow-sm bg-gray-50 border border-gray-300  text-gray-900 rounded-l text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 transition ease-in-out dark:text-white dark:focus:ring-primary dark:focus:border-primary capitalize">
-                            <option value="">-- Select Customer --</option>
-                            @foreach (App\Models\Customer::pluck('name', 'id') as $key => $name)
-                                <option value="{{ $key }}"> {{ $name }} </option>
-                            @endforeach
-                        </select>
+                        <div class="flex">
+                            <label for="customers" class="sr-only">Choose a customer</label>
+                            <select wire:model='customer_id' id="customers"
+                                class="shadow-sm bg-gray-50 border border-gray-300  text-gray-900 rounded-l text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 transition ease-in-out dark:text-white dark:focus:ring-primary dark:focus:border-primary capitalize">
+                                <option value="">-- {{ __('select customer') }} --</option>
+                                @foreach (App\Models\Customer::pluck('name', 'id') as $key => $name)
+                                    <option value="{{ $key }}"> {{ $name }} </option>
+                                @endforeach
+                            </select>
 
-                        <button
-                            class="flex-shrink-0 z-10 inline-flex items-center gap-x-1 py-2.5 px-3 text-sm font-medium text-center transition ease-in-out border rounded-r focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-primary/90 hover:bg-primary focus:bg-primary active:bg-primary/90 focus:ring-primary/90 border-transparent"
-                            type="button">
-                            <x-heroicon-m-plus /> {{ __('add') }}
-                        </button>
-                    </div>
+                            <button
+                                class="flex-shrink-0 z-10 inline-flex items-center gap-x-1 py-2.5 px-3 text-sm font-medium text-center transition ease-in-out border rounded-r focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-primary/90 hover:bg-primary focus:bg-primary active:bg-primary/90 focus:ring-primary/90 border-transparent"
+                                type="button">
+                                <x-heroicon-m-plus /> {{ __('add') }}
+                            </button>
+                        </div>
 
-                    @error('customer_id')
-                        <div class="text-sm text-danger">{{ $message }}</div>
-                    @enderror
+                        @error('customer_id')
+                            <div class="text-sm text-danger">{{ $message }}</div>
+                        @enderror
 
-                    <div class="text-center">
-                        <x-button wire:click="createInvoice">Create Invoice</x-button>
-                    </div>
+                        <div class="text-center">
+                            <x-button wire:click="createInvoice">
+                                {{ __('create invoice') }}
+                            </x-button>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -130,7 +133,7 @@
                 class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
                 <div class="flex flex-wrap items-center justify-between gap-3 p-4">
                     <div class="flex items-center gap-3">
-                        <div>Per page</div>
+                        <div>{{ __('per page') }}</div>
                         <x-input.select wire:model.change="perPage" style="width: 72px">
                             <option value="10" selected>10</option>
                             <option value="20">20</option>
@@ -150,7 +153,7 @@
 
                 <x-table>
                     <x-slot name="heading">
-                        <x-table.heading style="padding: 12px"> {{ __('no.') }} </x-table.heading>
+                        <x-table.heading style="padding: 12px"> {{ __('no') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('name') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('product code') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('selling price') }} </x-table.heading>

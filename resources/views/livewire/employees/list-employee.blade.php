@@ -57,7 +57,7 @@
 
                 <x-button :href="route('admin.employees.create')">
                     <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add employee') }}
+                    {{ __('add new') }}
                 </x-button>
             </div>
         </div>

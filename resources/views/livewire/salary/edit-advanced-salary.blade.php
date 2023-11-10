@@ -15,7 +15,7 @@
                         <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
                         <a wire:navigate href="{{ route('admin.advanced.salary.index') }}"
                             class="ml-1 text-gray-400 capitalize md:ml-2 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                            {{ __('advanced salaries') }}
+                            {{ __('advanced salary') }}
                         </a>
                     </div>
                 </li>

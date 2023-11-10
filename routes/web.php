@@ -13,9 +13,9 @@ use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
 use App\Livewire\Expenses\CreateExpense;
 use App\Livewire\Expenses\EditExpense;
-use App\Livewire\Expenses\MonthlyExpense;
-use App\Livewire\Expenses\TodaysExpense;
-use App\Livewire\Expenses\YearlyExpense;
+use App\Livewire\Expenses\MonthlyExpenses;
+use App\Livewire\Expenses\TodaysExpenses;
+use App\Livewire\Expenses\YearlyExpenses;
 use App\Livewire\Pos\CreateInvoice;
 use App\Livewire\Pos\PosManagement;
 use App\Livewire\Products\CreateProduct;
@@ -110,9 +110,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'expenses', 'as' => 'expenses.'], function () {
         Route::get('/create', CreateExpense::class)->name('create');
         Route::get('/{expense}/edit', EditExpense::class)->name('edit');
-        Route::get('/todays', TodaysExpense::class)->name('todays');
-        Route::get('/monthly', MonthlyExpense::class)->name('monthly');
-        Route::get('/yearly', YearlyExpense::class)->name('yearly');
+        Route::get('/todays', TodaysExpenses::class)->name('todays');
+        Route::get('/monthly', MonthlyExpenses::class)->name('monthly');
+        Route::get('/yearly', YearlyExpenses::class)->name('yearly');
     });
 
     // Inventory Expense management

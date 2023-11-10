@@ -63,7 +63,7 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading> {{ __('NO.') }} </x-table.heading>
+            <x-table.heading> {{ __('no') }} </x-table.heading>
             <x-table.heading> {{ __('employee name') }} </x-table.heading>
             <x-table.heading> {{ __('month') }} </x-table.heading>
             <x-table.heading> {{ __('salary') }} </x-table.heading>
@@ -104,7 +104,7 @@
                     @endif
                 </x-table.cell>
             </x-table.row>
- 
+
         @empty
             <x-table.data-not-found colspan="7" />
         @endforelse

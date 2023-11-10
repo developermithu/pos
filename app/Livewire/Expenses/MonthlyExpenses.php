@@ -5,7 +5,7 @@ namespace App\Livewire\Expenses;
 use App\Models\Expense;
 use Livewire\Component;
 
-class MonthlyExpense extends Component
+class MonthlyExpenses extends Component
 {
     public function render()
     {
@@ -14,6 +14,6 @@ class MonthlyExpense extends Component
         $monthlyExpenses = Expense::where('month', $month)->paginate(20);
         $monthlyTotalExpense = Expense::where('month', $month)->sum('amount') / 100;
 
-        return view('livewire.expenses.monthly-expense', compact('monthlyExpenses', 'monthlyTotalExpense'));
+        return view('livewire.expenses.monthly-expenses', compact('monthlyExpenses', 'monthlyTotalExpense'));
     }
 }

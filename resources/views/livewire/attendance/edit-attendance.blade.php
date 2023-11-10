@@ -34,15 +34,16 @@
                     </nav>
 
                     <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                        {{ __('add attendance') }}
+                        {{ __('update attendance') }}
                     </h1>
                 </div>
 
                 <div class="items-center justify-end block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                     <div class="flex items-center gap-3 mb-4 sm:mb-0">
                         <label for="date"
-                            class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">Select
-                            Date</label>
+                            class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
+                            {{ __('select date') }}    
+                        </label>
 
                         <input type="date" wire:model="date" id="date"
                             class="px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
@@ -60,7 +61,7 @@
 
         <x-table>
             <x-slot name="heading">
-                <x-table.heading> {{ __('No.') }} </x-table.heading>
+                <x-table.heading> {{ __('no') }} </x-table.heading>
                 <x-table.heading> {{ __('name') }} </x-table.heading>
                 <x-table.heading> {{ __('status') }} </x-table.heading>
             </x-slot>

@@ -52,7 +52,7 @@
                         <x-input wire:model="phone_number" id="phone_number" />
                     </x-input.group>
 
-                    <x-input.group for="due" label="{{ __('due') }}" :error="$errors->first('due')">
+                    <x-input.group for="due" label="{{ __('due amount') }}" :error="$errors->first('due')">
                         <x-input type="number" wire:model="due" id="due" />
                     </x-input.group>
 

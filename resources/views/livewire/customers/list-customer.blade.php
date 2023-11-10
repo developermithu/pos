@@ -57,7 +57,7 @@
 
                 <x-button :href="route('admin.customers.create')">
                     <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add customer') }}
+                    {{ __('add new') }}
                 </x-button>
             </div>
         </div>
@@ -84,8 +84,8 @@
                     <x-input.checkbox wire:model="selected" value="{{ $customer->id }}" id="{{ $customer->id }}"
                         for="{{ $customer->id }}" />
                 </x-table.cell>
-                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $customer->name }} </x-table.cell>
-                <x-table.cell> {{ $customer->address }} </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ Str::limit($customer->name, 25, '..') }} </x-table.cell>
+                <x-table.cell> {{ Str::limit($customer->address, 30, '..') }} </x-table.cell>
                 <x-table.cell> {{ $customer->phone_number }} </x-table.cell>
                 <x-table.cell> {{ $customer->due ? '৳ ' . $customer->due : '' }} </x-table.cell>
                 <x-table.cell> {{ $customer->advanced_paid ? '৳ ' . $customer->advanced_paid : '' }} </x-table.cell>

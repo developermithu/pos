@@ -70,7 +70,7 @@
             <x-table.heading>
                 <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
             </x-table.heading>
-            <x-table.heading> {{ __('invoice no.') }} </x-table.heading>
+            <x-table.heading> {{ __('invoice no') }} </x-table.heading>
             <x-table.heading> {{ __('customer') }} </x-table.heading>
             <x-table.heading> {{ __('payment method') }} </x-table.heading>
             <x-table.heading> {{ __('total') }} </x-table.heading>

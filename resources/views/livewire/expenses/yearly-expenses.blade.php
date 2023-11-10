@@ -16,7 +16,7 @@
                             <div class="flex items-center">
                                 <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
                                 <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                    {{ __('monthly expenses') }}
+                                    {{ __('yearly expenses') }}
                                 </span>
                             </div>
                         </li>
@@ -24,15 +24,15 @@
                 </nav>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('monthly expense') }} -
-                    <span class="text-amber-500">{{ number_format($monthlyTotalExpense) }} ৳</span>
+                    {{ __('yearly expenses') }} -
+                    <span class="text-amber-500">{{ number_format($yearlyTotalExpense) }} ৳</span>
                 </h1>
             </div>
 
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <div class="sm:pr-3">
-                        <label for="monthlyExpenses-search" class="sr-only">Search</label>
+                        <label for="yearlyExpenses-search" class="sr-only">Search</label>
                         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                             <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
                         </div>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="px-4 py-1.5 text-white rounded-full bg-amber-500"> {{ date('F') }} </div>
+                <div class="px-4 py-1.5 text-white rounded-full bg-amber-500"> {{ date('Y') }} </div>
             </div>
         </div>
     </div>
@@ -68,31 +68,29 @@
             </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('month') }} </x-table.heading>
             <x-table.heading> {{ __('year') }} </x-table.heading>
         </x-slot>
 
-        @forelse ($monthlyExpenses as $monthlyExpense)
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $monthlyExpense->id }}">
+        @forelse ($yearlyExpenses as $yearlyExpense)
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $yearlyExpense->id }}">
                 <x-table.cell>
-                    <x-input.checkbox wire:model="selected" value="{{ $monthlyExpense->id }}"
-                        id="{{ $monthlyExpense->id }}" for="{{ $monthlyExpense->id }}" />
+                    <x-input.checkbox wire:model="selected" value="{{ $yearlyExpense->id }}"
+                        id="{{ $yearlyExpense->id }}" for="{{ $yearlyExpense->id }}" />
                 </x-table.cell>
                 <x-table.cell>
-                    {{ Str::limit($monthlyExpense->details, 50, '..') }}
+                    {{ Str::limit($yearlyExpense->details, 50, '..') }}
                 </x-table.cell>
-                <x-table.cell class="font-semibold"> {{ number_format($monthlyExpense->amount) }} ৳ </x-table.cell>
-                <x-table.cell> {{ $monthlyExpense->month }} </x-table.cell>
-                <x-table.cell> {{ $monthlyExpense->year }} </x-table.cell>
+                <x-table.cell class="font-semibold"> {{ number_format($yearlyExpense->amount) }} ৳ </x-table.cell>
+                <x-table.cell> {{ $yearlyExpense->year }} </x-table.cell>
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="5" />
+            <x-table.data-not-found colspan="4" />
         @endforelse
     </x-table>
 
     {{-- Pagination --}}
     <div class="p-4">
-        {{ $monthlyExpenses->links() }}
+        {{ $yearlyExpenses->links() }}
     </div>
 </div>

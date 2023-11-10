@@ -43,7 +43,7 @@
                 <div
                     class="p-12 mb-4 space-y-8 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
                     <div class="flex items-start justify-between">
-                        <h1 class="text-3xl font-semibold">Invoice #{{ session('invoice_no') }}</h1>
+                        <h1 class="text-3xl font-semibold"> {{ __('invoice no') }} #{{ session('invoice_no') }}</h1>
 
                         <div>
                             <h3 class="text-xl font-semibold text-primary"> {{ config('app.name') }} </h3>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div>
-                        <h3 class="pb-2 text-xl font-bold">Bill To</h3>
+                        <h3 class="pb-2 text-xl font-bold"> {{ __('bill to') }} </h3>
                         <address class="text-gray-500">
                             {{ session('customer')['name'] ?? '' }}, <br>
                             {{ session('customer')['address'] ?? '' }}, <br>
@@ -81,9 +81,10 @@
                         <x-table.row class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <td colspan="4" class="pt-4 text-gray-500">
                                 <div class="flex flex-col gap-1 text-right">
-                                    <div>Subtotal: <strong>{{ Cart::subtotal() }}</strong></div>
-                                    <div>Tax: <strong>{{ Cart::tax() }}</strong></div>
-                                    <div class="text-lg">Total: <strong>{{ Cart::total() }}</strong></div>
+                                    <div> {{ __('subtotal') }}: <strong>{{ Cart::subtotal() }}</strong></div>
+                                    <div> {{ __('tax') }}: <strong>{{ Cart::tax() }}</strong></div>
+                                    <div class="text-lg"> {{ __('total') }}: <strong>{{ Cart::total() }}</strong>
+                                    </div>
                                 </div>
                             </td>
                         </x-table.row>

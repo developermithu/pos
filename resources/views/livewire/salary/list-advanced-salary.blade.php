@@ -57,7 +57,7 @@
 
                 <x-button :href="route('admin.advanced.salary.add')">
                     <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add advanced salary') }}
+                    {{ __('add new') }}
                 </x-button>
             </div>
         </div>

@@ -16,7 +16,7 @@
                             <div class="flex items-center">
                                 <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
                                 <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                    {{ __('todays expenses') }}
+                                    {{ __('monthly expenses') }}
                                 </span>
                             </div>
                         </li>
@@ -24,15 +24,15 @@
                 </nav>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('todays expense') }} -
-                    <span class="text-amber-500">{{ number_format($todaysTotalExpense) }} ৳</span>
+                    {{ __('monthly expenses') }} -
+                    <span class="text-amber-500">{{ number_format($monthlyTotalExpense) }} ৳</span>
                 </h1>
             </div>
 
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <div class="sm:pr-3">
-                        <label for="todaysExpenses-search" class="sr-only">Search</label>
+                        <label for="monthlyExpenses-search" class="sr-only">Search</label>
                         <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                             <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
                         </div>
@@ -56,14 +56,9 @@
                     </div>
                 </div>
 
-                <x-button :href="route('admin.expenses.create')">
-                    <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add expense') }}
-                </x-button>
+                <div class="px-4 py-1.5 text-white rounded-full bg-amber-500"> {{ date('F') }} </div>
             </div>
         </div>
-
-        <x-status :status="session('status')" />
     </div>
 
     <x-table>
@@ -73,31 +68,31 @@
             </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('date') }} </x-table.heading>
-            <x-table.heading> {{ __('actions') }} </x-table.heading>
+            <x-table.heading> {{ __('month') }} </x-table.heading>
+            <x-table.heading> {{ __('year') }} </x-table.heading>
         </x-slot>
 
-        @forelse ($todaysExpenses as $todaysExpense)
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $todaysExpense->id }}">
+        @forelse ($monthlyExpenses as $monthlyExpense)
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $monthlyExpense->id }}">
                 <x-table.cell>
-                    <x-input.checkbox wire:model="selected" value="{{ $todaysExpense->id }}"
-                        id="{{ $todaysExpense->id }}" for="{{ $todaysExpense->id }}" />
+                    <x-input.checkbox wire:model="selected" value="{{ $monthlyExpense->id }}"
+                        id="{{ $monthlyExpense->id }}" for="{{ $monthlyExpense->id }}" />
                 </x-table.cell>
                 <x-table.cell>
-                    {{ Str::limit($todaysExpense->details, 50, '..') }}
+                    {{ Str::limit($monthlyExpense->details, 50, '..') }}
                 </x-table.cell>
-                <x-table.cell class="font-semibold"> {{ number_format($todaysExpense->amount) }} ৳ </x-table.cell>
-                <x-table.cell> {{ $todaysExpense->date->format('d M, Y') }} </x-table.cell>
-
-                <x-table.cell class="space-x-2">
-                    <x-button flat="warning" :href="route('admin.expenses.edit', $todaysExpense)">
-                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                    </x-button>
-                </x-table.cell>
+                <x-table.cell class="font-semibold"> {{ number_format($monthlyExpense->amount) }} ৳ </x-table.cell>
+                <x-table.cell> {{ $monthlyExpense->month }} </x-table.cell>
+                <x-table.cell> {{ $monthlyExpense->year }} </x-table.cell>
             </x-table.row>
 
         @empty
             <x-table.data-not-found colspan="5" />
         @endforelse
     </x-table>
+
+    {{-- Pagination --}}
+    <div class="p-4">
+        {{ $monthlyExpenses->links() }}
+    </div>
 </div>

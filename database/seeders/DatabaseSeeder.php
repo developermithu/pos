@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
         ]);
 
-        Supplier::factory(5000)->create();
-        Customer::factory(5000)->create();
-        Employee::factory(500)->create();
-        Product::factory(100000)->create();
+        Supplier::factory(500)->create();
+        Customer::factory(100)->create();
+        Employee::factory(30)->create();
+        Product::factory(5000)->create();
     }
 }

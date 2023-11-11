@@ -18,6 +18,7 @@ class AddAdvancedSalary extends Component
     public function render()
     {
         $employees = Employee::pluck('name', 'id');
-        return view('livewire.salary.add-advanced-salary', compact('employees'));
+        return view('livewire.salary.add-advanced-salary', compact('employees'))
+            ->title(__('add advanced salary'));
     }
 }

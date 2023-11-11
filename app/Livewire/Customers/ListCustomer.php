@@ -41,6 +41,6 @@ class ListCustomer extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.customers.list-customer', compact('customers'));
+        return view('livewire.customers.list-customer', compact('customers'))->title(__('customer list'));
     }
 }

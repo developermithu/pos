@@ -37,7 +37,7 @@ class AddAttendance extends Component
     public function render()
     {
         $employees = Employee::all(['id', 'name']);
-        return view('livewire.attendance.add-attendance', compact('employees'));
+        return view('livewire.attendance.add-attendance', compact('employees'))->title(__('add attendance'));
     }
 
     public function rules()

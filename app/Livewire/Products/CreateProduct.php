@@ -37,7 +37,7 @@ class CreateProduct extends Component
     public function render()
     {
         $suppliers = Supplier::pluck('name', 'id');
-        return view('livewire.products.create-product', compact('suppliers'));
+        return view('livewire.products.create-product', compact('suppliers'))->title(__('add new product'));
     }
 
     public function rules(): array

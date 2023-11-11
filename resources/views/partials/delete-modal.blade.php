@@ -10,11 +10,11 @@
         <div class="space-x-3">
             <x-button type="danger" size="small" wire:click.prevent="destroy({{ $data }})"
                 x-on:click="$dispatch('close')">
-                Yes, I'm sure
+                {{ __('Yes, I am sure') }}
             </x-button>
 
             <x-button type="secondary" size="small" x-on:click="$dispatch('close')">
-                No, cancel
+                {{ __('No, cancel') }}
             </x-button>
         </div>
     </div>

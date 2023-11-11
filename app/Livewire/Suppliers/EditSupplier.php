@@ -23,6 +23,7 @@ class EditSupplier extends Component
 
     public function render()
     {
-        return view('livewire.suppliers.edit-supplier');
+        return view('livewire.suppliers.edit-supplier')
+            ->title(__('update supplier'));
     }
 }

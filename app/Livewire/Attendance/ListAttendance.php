@@ -25,6 +25,6 @@ class ListAttendance extends Component
             ->latest('date')
             ->paginate(10);
 
-        return view('livewire.attendance.list-attendance', compact('attendances'));
+        return view('livewire.attendance.list-attendance', compact('attendances'))->title(__('attendance list'));
     }
 }

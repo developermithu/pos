@@ -50,6 +50,6 @@ class ListEmployee extends Component
             ->paginate(10);
 
 
-        return view('livewire.employees.list-employee', compact('employees'));
+        return view('livewire.employees.list-employee', compact('employees'))->title(__('employee list'));
     }
 }

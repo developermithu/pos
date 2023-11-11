@@ -14,6 +14,6 @@ class MonthlyExpenses extends Component
         $monthlyExpenses = Expense::where('month', $month)->paginate(20);
         $monthlyTotalExpense = Expense::where('month', $month)->sum('amount') / 100;
 
-        return view('livewire.expenses.monthly-expenses', compact('monthlyExpenses', 'monthlyTotalExpense'));
+        return view('livewire.expenses.monthly-expenses', compact('monthlyExpenses', 'monthlyTotalExpense'))->title(__('monthly expenses'));
     }
 }

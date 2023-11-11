@@ -11,6 +11,7 @@ class ListPaySalary extends Component
     {
         $employees = Employee::with(['advanceSalary', 'paySalary'])->oldest()->get();
 
-        return view('livewire.salary.list-pay-salary', compact('employees'));
+        return view('livewire.salary.list-pay-salary', compact('employees'))
+            ->title(__('pay salary list'));
     }
 }

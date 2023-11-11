@@ -19,6 +19,6 @@ class CreateEmployee extends Component
 
     public function render()
     {
-        return view('livewire.employees.create-employee');
+        return view('livewire.employees.create-employee')->title(__('add new employee'));
     }
 }

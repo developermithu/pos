@@ -54,7 +54,7 @@ class EditProduct extends Component
     public function render()
     {
         $suppliers = Supplier::pluck('name', 'id');
-        return view('livewire.products.edit-product', compact('suppliers'));
+        return view('livewire.products.edit-product', compact('suppliers'))->title(__('update product'));
     }
 
     public function rules(): array

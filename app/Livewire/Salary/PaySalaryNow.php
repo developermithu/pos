@@ -44,6 +44,6 @@ class PaySalaryNow extends Component
 
     public function render()
     {
-        return view('livewire.salary.pay-salary-now');
+        return view('livewire.salary.pay-salary-now')->title(__('pay salary'));
     }
 }

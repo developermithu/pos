@@ -11,6 +11,6 @@ class ListSale extends Component
     {
         $sales = Sale::with('customer')->paginate(20);
 
-        return view('livewire.sales.list-sale', compact('sales'));
+        return view('livewire.sales.list-sale', compact('sales'))->title(__('sale list'));
     }
 }

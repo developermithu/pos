@@ -25,6 +25,6 @@ class EditExpense extends Component
 
     public function render()
     {
-        return view('livewire.expenses.edit-expense');
+        return view('livewire.expenses.edit-expense')->title(__('edit expense'));
     }
 }

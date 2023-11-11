@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {

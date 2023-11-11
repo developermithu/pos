@@ -25,6 +25,6 @@ class EditEmployee extends Component
 
     public function render()
     {
-        return view('livewire.employees.edit-employee');
+        return view('livewire.employees.edit-employee')->title(__('update employee'));
     }
 }

@@ -21,13 +21,14 @@ class EditAdvancedSalary extends Component
         $this->form->update();
 
         session()->flash('status', 'Record updated successfully.');
-        
+
         return $this->redirect(ListAdvancedSalary::class, navigate: true);
     }
 
     public function render()
     {
         $employees = Employee::pluck('name', 'id');
-        return view('livewire.salary.edit-advanced-salary', compact('employees'));
+        return view('livewire.salary.edit-advanced-salary', compact('employees'))
+            ->title(__('update advanced salary'));
     }
 }

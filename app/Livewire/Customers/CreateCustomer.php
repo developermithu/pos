@@ -32,7 +32,7 @@ class CreateCustomer extends Component
 
     public function render()
     {
-        return view('livewire.customers.create-customer');
+        return view('livewire.customers.create-customer')->title(__('add new customer'));
     }
 
     public function rules(): array

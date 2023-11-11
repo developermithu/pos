@@ -14,6 +14,6 @@ class YearlyExpenses extends Component
         $yearlyExpenses = Expense::where('year', $year)->paginate(20);
         $yearlyTotalExpense = Expense::where('year', $year)->sum('amount') / 100;
 
-        return view('livewire.expenses.yearly-expenses', compact('yearlyExpenses', 'yearlyTotalExpense'));
+        return view('livewire.expenses.yearly-expenses', compact('yearlyExpenses', 'yearlyTotalExpense'))->title(__('yearly expenses'));
     }
 }

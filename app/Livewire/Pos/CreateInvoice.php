@@ -29,7 +29,7 @@ class CreateInvoice extends Component
 
     public function render()
     {
-        return view('livewire.pos.create-invoice');
+        return view('livewire.pos.create-invoice')->title(__('create invoice'));
     }
 
     public function generateInvoice()

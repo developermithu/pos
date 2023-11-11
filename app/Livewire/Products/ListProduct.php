@@ -33,7 +33,7 @@ class ListProduct extends Component
             ->latest('id')
             ->paginate(25);
 
-        return view('livewire.products.list-product', compact('products'));
+        return view('livewire.products.list-product', compact('products'))->title(__('product list'));
     }
 
     public function deleteSelected()

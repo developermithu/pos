@@ -44,7 +44,7 @@ class EditAttendance extends Component
 
     public function render()
     {
-        return view('livewire.attendance.edit-attendance');
+        return view('livewire.attendance.edit-attendance')->title(__('update attendance'));
     }
 
     public function rules()

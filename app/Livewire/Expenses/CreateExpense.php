@@ -21,6 +21,6 @@ class CreateExpense extends Component
 
     public function render()
     {
-        return view('livewire.expenses.create-expense');
+        return view('livewire.expenses.create-expense')->title(__('add expense'));
     }
 }

@@ -43,7 +43,7 @@ class PosManagement extends Component
             ->latest('id')
             ->paginate($this->perPage);
 
-        return view('livewire.pos.pos-management', compact('products'));
+        return view('livewire.pos.pos-management', compact('products'))->title(__('pos'));
     }
 
     public function addToCart(Product $product)

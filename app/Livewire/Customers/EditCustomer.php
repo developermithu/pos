@@ -44,7 +44,7 @@ class EditCustomer extends Component
 
     public function render()
     {
-        return view('livewire.customers.edit-customer');
+        return view('livewire.customers.edit-customer')->title(__('update customer'));
     }
 
     public function rules(): array

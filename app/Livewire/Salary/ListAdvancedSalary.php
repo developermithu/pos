@@ -52,6 +52,7 @@ class ListAdvancedSalary extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.salary.list-advanced-salary', compact('advanced_salaries'));
+        return view('livewire.salary.list-advanced-salary', compact('advanced_salaries'))
+            ->title(__('advanced salary list'));
     }
 }

@@ -19,6 +19,7 @@ class CreateSupplier extends Component
 
     public function render()
     {
-        return view('livewire.suppliers.create-supplier');
+        return view('livewire.suppliers.create-supplier')
+            ->title(__('add new supplier'));
     }
 }

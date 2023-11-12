@@ -20,7 +20,7 @@ class EditAdvancedSalary extends Component
     {
         $this->form->update();
 
-        session()->flash('status', 'Record updated successfully.');
+        session()->flash('status', __('Record has been updated successfully'));
 
         return $this->redirect(ListAdvancedSalary::class, navigate: true);
     }

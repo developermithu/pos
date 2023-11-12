@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['advanceSalary', 'paySalary', 'attendances'];
 
     protected $guarded = [];
 
@@ -31,5 +35,13 @@ class Employee extends Model
     public function paySalary(): HasOne
     {
         return $this->hasOne(PaySalary::class);
+    }
+
+    /**
+     * Get all of the attendances for the Employee
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
     }
 }

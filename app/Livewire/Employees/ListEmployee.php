@@ -13,14 +13,30 @@ class ListEmployee extends Component
 
     #[Url(as: 'q')]
     public string $search = "";
+
+    #[Url(as: 'records')]
+    public $filterByTrash;
+
     public $selected = [];
+
+    public function updated($propertyName)
+    {
+        if (in_array($propertyName, ['filterByTrash', 'search'])) {
+            $this->resetPage();
+        }
+    }
+
+    public function clear()
+    {
+        $this->filterByTrash = '';
+    }
 
     public function deleteSelected()
     {
         $employees = Employee::whereKey($this->selected);
         $employees->delete();
 
-        session()->flash('status', 'Selected records deleted successfully.');
+        session()->flash('status', __('Selected records has been deleted'));
         return back();
     }
 
@@ -28,14 +44,32 @@ class ListEmployee extends Component
     {
         $employee->delete();
 
-        session()->flash('status', 'Record deleted successfully.');
+        session()->flash('status', __('Record has been deleted successfully'));
+        return back();
+    }
+
+    public function forceDelete($id)
+    {
+        $employee = Employee::onlyTrashed()->findOrFail($id);
+        $employee->forceDelete();
+
+        session()->flash('status', __('Record has been deleted permanently'));
+        return back();
+    }
+
+    public function restore($id)
+    {
+        $employee = Employee::onlyTrashed()->findOrFail($id);
+        $employee->restore();
+
+        session()->flash('status', __('Record has been restored successfully'));
         return back();
     }
 
     public function render()
     {
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
-        
+
         $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
 
         $employees = Employee::query()
@@ -45,6 +79,13 @@ class ListEmployee extends Component
                         $query->orWhere($field, 'like', $search);
                     }
                 });
+            })
+            ->when($this->filterByTrash, function ($query, $value) {
+                if ($value === "onlyTrashed") {
+                    $query->onlyTrashed();
+                } elseif ($value === "withTrashed") {
+                    $query->withTrashed();
+                }
             })
             ->latest()
             ->paginate(10);

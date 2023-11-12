@@ -26,7 +26,7 @@ class CreateCustomer extends Component
             'advanced_paid' => $this->advanced_paid
         ]);
 
-        session()->flash('status', 'Record created successfully.');
+        session()->flash('status', __('Record has been created successfully'));
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 

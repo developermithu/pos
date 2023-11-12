@@ -19,7 +19,7 @@ class EditEmployee extends Component
     {
         $this->form->update();
 
-        session()->flash('status', 'Record updated successfully.');
+        session()->flash('status', __('Record has been updated successfully'));
         return $this->redirect(ListEmployee::class, navigate: true);
     }
 

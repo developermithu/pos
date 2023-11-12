@@ -55,10 +55,40 @@
                     </div>
                 </div>
 
-                <x-button :href="route('admin.employees.create')">
-                    <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add new') }}
-                </x-button>
+                {{-- Filter Dropdown --}}
+                <div class="flex items-center gap-3">
+                    <x-dropdown align="top" width="64" closeAfterClick="false">
+                        <x-slot name="trigger">
+                            <button
+                                class="inline-flex items-center text-primary bg-white border border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/20 font-medium rounded text-sm px-3 py-1.5 tracking-wider dark:bg-primary/80 dark:text-white dark:border-primary/60 gap-x-1.5 dark:focus:ring-primary/70 capitalize"
+                                type="button">
+                                {{ __('filter by') }}
+                                <x-heroicon-m-chevron-down class="w-5 h-5" />
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Dropdown menu -->
+                            <div class="z-10 p-4 bg-white dark:bg-gray-700 block">
+                                <div
+                                    class="mb-3 text-sm flex items-center justify-between font-medium text-gray-900 dark:text-white">
+                                    <x-button wire:click="clear" flat="warning"> {{ __('clear') }} </x-button>
+                                </div>
+
+                                <x-input.select wire:model.change="filterByTrash" class="py-1.5 px-3 text-sm">
+                                    <option value="">{{ __('without trash records') }}</option>
+                                    <option value="withTrashed">{{ __('with trash records') }}</option>
+                                    <option value="onlyTrashed">{{ __('only trash records') }}</option>
+                                </x-input.select>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+
+                    <x-button :href="route('admin.employees.create')">
+                        <x-heroicon-m-plus class="w-4 h-4" />
+                        {{ __('add new') }}
+                    </x-button>
+                </div>
             </div>
         </div>
 
@@ -95,16 +125,29 @@
                 <x-table.cell> {{ $employee->joined_at->format('d M, Y') }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">
-                    <x-button flat="warning" :href="route('admin.employees.edit', $employee)">
-                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                    </x-button>
+                    @if ($employee->trashed())
+                        <x-button flat="primary" wire:click="restore({{ $employee->id }})">
+                            <x-heroicon-o-arrow-path /> {{ __('restore') }}
+                        </x-button>
 
-                    <x-button flat="danger"
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')">
-                        <x-heroicon-o-trash /> {{ __('delete') }}
-                    </x-button>
+                        <x-button flat="danger"
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $employee->id }}')">
+                            <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
+                        </x-button>
 
-                    @include('partials.delete-modal', ['data' => $employee])
+                        @include('partials.delete-forever-modal', ['data' => $employee])
+                    @else
+                        <x-button flat="warning" :href="route('admin.employees.edit', $employee)">
+                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                        </x-button>
+
+                        <x-button flat="danger"
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')">
+                            <x-heroicon-o-trash /> {{ __('delete') }}
+                        </x-button>
+
+                        @include('partials.delete-modal', ['data' => $employee])
+                    @endif
                 </x-table.cell>
             </x-table.row>
 

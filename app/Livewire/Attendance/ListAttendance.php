@@ -14,7 +14,7 @@ class ListAttendance extends Component
     {
         $attendance->delete();
 
-        session()->flash('status', 'Record deleted successfully.');
+        session()->flash('status', __('Record has been deleted successfully'));
         return back();
     }
 

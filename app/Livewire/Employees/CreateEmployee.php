@@ -13,7 +13,7 @@ class CreateEmployee extends Component
     {
         $this->form->store();
 
-        session()->flash('status', 'Record created successfully.');
+        session()->flash('status', __('Record has been created successfully'));
         return $this->redirect(ListEmployee::class, navigate: true);
     }
 

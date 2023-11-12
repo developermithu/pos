@@ -22,7 +22,7 @@ class ListAdvancedSalary extends Component
         $advanced_salary = AdvancedSalary::whereKey($this->selected);
         $advanced_salary->delete();
 
-        session()->flash('status', 'Selected records deleted successfully.');
+        session()->flash('status', __('Selected records has been deleted'));
         return back();
     }
 
@@ -30,7 +30,7 @@ class ListAdvancedSalary extends Component
     {
         $advanced_salary->delete();
 
-        session()->flash('status', 'Record deleted successfully.');
+        session()->flash('status', __('Record has been deleted successfully'));
         return back();
     }
 

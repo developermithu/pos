@@ -30,7 +30,7 @@ class CreateProduct extends Component
             'selling_price' => $this->selling_price,
         ]);
 
-        session()->flash('status', 'Record created successfully.');
+        session()->flash('status', __('Record has been created successfully'));
         return $this->redirect(ListProduct::class, navigate: true);
     }
 

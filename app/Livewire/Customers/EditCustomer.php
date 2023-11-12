@@ -38,7 +38,7 @@ class EditCustomer extends Component
             'advanced_paid' => $this->advanced_paid
         ]);
 
-        session()->flash('status', 'Record updated successfully.');
+        session()->flash('status', __('Record has been updated successfully'));
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 

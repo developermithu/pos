@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                {{-- Dropdown --}}
+                {{-- Filter Dropdown --}}
                 <div class="flex items-center gap-3">
                     <x-dropdown align="top" width="64" closeAfterClick="false">
                         <x-slot name="trigger">
@@ -89,7 +89,6 @@
                         {{ __('add new') }}
                     </x-button>
                 </div>
-
             </div>
         </div>
 

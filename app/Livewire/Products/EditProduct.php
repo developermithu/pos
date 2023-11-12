@@ -47,7 +47,7 @@ class EditProduct extends Component
             'selling_price' => $this->selling_price,
         ]);
 
-        session()->flash('status', 'Record updated successfully.');
+        session()->flash('status', __('Record has been updated successfully'));
         return $this->redirect(ListProduct::class, navigate: true);
     }
 

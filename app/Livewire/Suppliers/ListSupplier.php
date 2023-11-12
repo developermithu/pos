@@ -69,7 +69,6 @@ class ListSupplier extends Component
     public function render()
     {
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
-
         $searchableFields = ['name', 'address', 'phone_number', 'bank_name'];
 
         $suppliers = Supplier::query()

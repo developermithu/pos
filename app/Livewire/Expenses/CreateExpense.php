@@ -15,7 +15,7 @@ class CreateExpense extends Component
 
         $this->form->reset();
 
-        session()->flash('status', 'Record created successfully.');
+        session()->flash('status', __('Record has been created successfully'));
         return back();
     }
 

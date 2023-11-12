@@ -3,81 +3,94 @@
 namespace App\Livewire\Suppliers;
 
 use App\Models\Supplier;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
-
-class ListSupplier extends Component implements HasForms, HasTable
+class ListSupplier extends Component
 {
-    use InteractsWithTable;
-    use InteractsWithForms;
+    use WithPagination;
 
+    #[Url(as: 'q')]
+    public string $search = "";
 
-    public function table(Table $table): Table
+    #[Url(as: 'records')]
+    public $filterByTrash;
+
+    public $selected = [];
+
+    public function updated($propertyName)
     {
-        return $table
-            ->recordUrl(
-                fn (Supplier $record): string => route('admin.suppliers.edit', ['supplier' => $record]),
-            )
-            ->query(Supplier::query())
-            ->columns([
-                TextColumn::make('name')
-                    ->label(__('name'))
-                    ->searchable(),
-                TextColumn::make('address')
-                    ->label(__('address')),
-                TextColumn::make('phone_number')
-                    ->label(__('phone number')),
-                TextColumn::make('bank_name')
-                    ->label(__('bank name')),
-                TextColumn::make('bank_branch')
-                    ->label(__('bank branch')),
-            ])
+        if (in_array($propertyName, ['filterByTrash', 'search'])) {
+            $this->resetPage();
+        }
+    }
 
-            ->filters([
-                Filter::make('bank_name')
-                    ->query(fn (Builder $query): Builder => $query->where('bank_name', '!=', ''))
-                    ->label(__('bank name')),
+    public function clear()
+    {
+        $this->filterByTrash = '';
+    }
 
-            ])
+    public function deleteSelected()
+    {
+        $suppliers = Supplier::whereKey($this->selected);
+        $suppliers->delete();
 
-            ->actions([
-                Action::make('edit')
-                    ->label(__('edit'))
-                    ->url(fn (Supplier $record): string => route('admin.suppliers.edit', $record))
-                    ->icon('heroicon-m-pencil-square'),
+        session()->flash('status', __('Selected records has been deleted'));
+        return back();
+    }
 
-                Action::make('delete')
-                    ->label(__('delete'))
-                    ->requiresConfirmation()
-                    ->action(fn (Supplier $record) => $record->delete())
-                    ->color('danger')
-                    ->icon('heroicon-m-trash')
-                    ->iconSize('w-4 h-4')
-            ])
+    public function destroy(Supplier $supplier)
+    {
+        $supplier->delete();
 
-            ->bulkActions([
-                BulkAction::make('delete')
-                    ->label(__('delete'))
-                    ->requiresConfirmation()
-                    ->action(fn (Collection $records) => $records->each->delete())
-                    ->deselectRecordsAfterCompletion()
-            ]);
+        session()->flash('status', __('Record has been deleted successfully'));
+        return back();
+    }
+
+    public function forceDelete($id)
+    {
+        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier->forceDelete();
+
+        session()->flash('status', __('Record has been deleted permanently'));
+        return back();
+    }
+
+    public function restore($id)
+    {
+        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier->restore();
+
+        session()->flash('status', __('Record has been restored successfully'));
+        return back();
     }
 
     public function render()
     {
-        return view('livewire.suppliers.list-supplier')
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+
+        $searchableFields = ['name', 'address', 'phone_number', 'bank_name'];
+
+        $suppliers = Supplier::query()
+            ->when($search, function ($query) use ($searchableFields, $search) {
+                $query->where(function ($query) use ($searchableFields, $search) {
+                    foreach ($searchableFields as $field) {
+                        $query->orWhere($field, 'like', $search);
+                    }
+                });
+            })
+            ->when($this->filterByTrash, function ($query, $value) {
+                if ($value === "onlyTrashed") {
+                    $query->onlyTrashed();
+                } elseif ($value === "withTrashed") {
+                    $query->withTrashed();
+                }
+            })
+            ->latest()
+            ->paginate(10);
+
+        return view('livewire.suppliers.list-supplier', compact('suppliers'))
             ->title(__('supplier list'));
     }
 }

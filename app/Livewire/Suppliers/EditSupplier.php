@@ -18,6 +18,8 @@ class EditSupplier extends Component
     public function save()
     {
         $this->form->update();
+
+        session()->flash('status', __('Record has been updated successfully'));
         return $this->redirect(ListSupplier::class, navigate: true);
     }
 

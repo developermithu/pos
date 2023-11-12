@@ -14,6 +14,8 @@ class CreateSupplier extends Component
     public function save()
     {
         $this->form->store();
+
+        session()->flash('status', __('Record has been created successfully'));
         return $this->redirect(ListSupplier::class, navigate: true);
     }
 

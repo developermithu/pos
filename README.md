@@ -30,7 +30,7 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [ ] Stock management
 - [x] Order Invoice generate pdf
 - [ ] User roles and permissions (Manager, Cashier)
-- [ ] Adding page title
+- [x] Adding page title
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Loading components

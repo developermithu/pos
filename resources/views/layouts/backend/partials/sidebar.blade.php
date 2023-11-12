@@ -50,23 +50,10 @@
                         {{ __('employees') }}
                     </x-sidebar.link>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.suppliers.*') ? 'true' : 'false' }} }">
-                        <x-slot name="trigger">
-                            <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                                {{ __('manage supplier') }}
-                            </x-collapsible.button>
-                        </x-slot>
-
-                        <x-collapsible.item :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.index') ||
-                            request()->routeIs('admin.suppliers.edit')">
-                            {{ __('supplier list') }}
-                        </x-collapsible.item>
-
-                        <x-collapsible.item :href="route('admin.suppliers.create')" :active="request()->routeIs('admin.suppliers.create')">
-                            {{ __('add supplier') }}
-                        </x-collapsible.item>
-                    </x-collapsible>
+                    <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
+                        <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
+                        {{ __('suppliers') }}
+                    </x-sidebar.link>
 
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.*') || request()->routeIs('admin.pay.salary.*') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">

@@ -66,6 +66,7 @@
     "search": "Search",
     "search by name, product code": "Search by name, product code",
 
+    "supplier": "Supplier",
     "suppliers": "Suppliers",
     "supplier list": "supplier List",
     "add supplier": "add supplier",
@@ -91,6 +92,7 @@
     "product list": "product List",
     "update product": "update product",
     "show product": "show product",
+    "product details": "product details",
     "add new product": "add new product",
 
     "product code" : "product code",
@@ -105,7 +107,7 @@
     "buying price": "buying price",
     "selling price": "selling price",
     "buying date": "buying date",
-    "expire date": "expire date",
+    "expired date": "expired date",
 
     "pos": "point of sale",
     "pos management": "point of sale management",

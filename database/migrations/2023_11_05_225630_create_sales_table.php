@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained();
             $table->string('invoice_no');
+            $table->integer('due')->nullable();
+            $table->integer('advanced_paid')->nullable();
             $table->integer('subtotal');
             $table->integer('tax')->nullable();
             $table->integer('total');

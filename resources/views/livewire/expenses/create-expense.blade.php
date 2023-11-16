@@ -35,19 +35,21 @@
         </h1>
     </div>
 
-    <x-status :status="session('status')" class="col-span-full" />
+    <x-status :status="session('status')" class="w-full m-auto lg:max-w-3xl col-span-full" />
 
-    <div class="col-span-full">
+    <div class="w-full m-auto lg:max-w-3xl col-span-full">
         <div
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('form.details')">
-                        <x-input wire:model="form.details" id="details" />
+                    <x-input.group for="amount" label="{{ __('amount') }}" :error="$errors->first('form.amount')"
+                        class="sm:col-span-full">
+                        <x-input type="number" wire:model="form.amount" id="amount" />
                     </x-input.group>
 
-                    <x-input.group for="amount" label="{{ __('amount') }}" :error="$errors->first('form.amount')">
-                        <x-input type="number" wire:model="form.amount" id="amount" />
+                    <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('form.details')"
+                        class="sm:col-span-full">
+                        <x-input.textarea wire:model="form.details" id="details"></x-input.textarea>
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">
@@ -60,4 +62,10 @@
             </form>
         </div>
     </div>
+
+    {{-- <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4">
+        <div class="col-span-"></div>
+        <div class="col-span-8">
+        </div>
+    </div> --}}
 </div>

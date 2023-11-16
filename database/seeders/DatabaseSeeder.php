@@ -33,6 +33,6 @@ class DatabaseSeeder extends Seeder
         Supplier::factory(50)->create();
         Customer::factory(10)->create();
         Employee::factory(10)->create();
-        Product::factory(20)->create();
+        Product::factory(1000)->create();
     }
 }

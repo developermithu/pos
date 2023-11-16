@@ -20,7 +20,7 @@ class EditExpense extends Component
         $this->form->update();
 
         session()->flash('status', __('Record has been updated successfully'));
-        return $this->redirect(TodaysExpense::class, navigate: true);
+        return $this->redirect(TodaysExpenses::class, navigate: true);
     }
 
     public function render()

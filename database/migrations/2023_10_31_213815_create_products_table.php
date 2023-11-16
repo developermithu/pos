@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('sku')->unique();
             $table->integer('qty');
             $table->date('buying_date')->nullable();
-            $table->date('expire_date')->nullable();
+            $table->date('expired_date')->nullable();
             $table->integer('buying_price')->nullable();
             $table->integer('selling_price')->nullable();
             $table->timestamps();

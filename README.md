@@ -22,7 +22,7 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
   - [x] create
   - [x] edit
   - [x] delete
-  - [ ] show
+  - [x] show
   - [ ] adding attributes (kg, gm, cm)
   - [ ] import and export from excel file
 - [x] Manage Inventory Expenses
@@ -40,6 +40,6 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
 - [ ] Bulk deleting
-- [ ] Trash deleting (delete forever)
+- [x] Trash deleting (delete forever)
 - [ ] Log view
 - [ ] Customize code for production

@@ -12,7 +12,7 @@ class CreateProduct extends Component
     public $name;
     public $qty;
     public $buying_date;
-    public $expire_date;
+    public $expired_date;
     public $buying_price;
     public $selling_price;
 
@@ -25,7 +25,7 @@ class CreateProduct extends Component
             'name' => $this->name,
             'qty' => $this->qty,
             'buying_date' => $this->buying_date == "" ? null : $this->buying_date,
-            'expire_date' => $this->expire_date == "" ? null : $this->expire_date,
+            'expired_date' => $this->expired_date == "" ? null : $this->expired_date,
             'buying_price' => $this->buying_price,
             'selling_price' => $this->selling_price,
         ]);
@@ -47,9 +47,9 @@ class CreateProduct extends Component
             'name' => 'required|string',
             'qty' => 'required|integer',
             'buying_date' => 'nullable|date|date_format:Y-m-d',
-            'expire_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
-            'buying_price' => 'nullable|numeric',
-            'selling_price' => 'nullable|numeric',
+            'expired_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
+            'buying_price' => 'nullable|integer',
+            'selling_price' => 'nullable|integer',
         ];
     }
 }

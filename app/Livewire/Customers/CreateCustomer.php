@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Customers;
 
-use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
 use Livewire\Component;
 

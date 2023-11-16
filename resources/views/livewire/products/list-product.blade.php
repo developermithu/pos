@@ -69,9 +69,9 @@
 
                         <x-slot name="content">
                             <!-- Dropdown menu -->
-                            <div class="z-10 p-4 bg-white dark:bg-gray-700 block">
+                            <div class="z-10 block p-4 bg-white dark:bg-gray-700">
                                 <div
-                                    class="mb-3 text-sm flex items-center justify-between font-medium text-gray-900 dark:text-white">
+                                    class="flex items-center justify-between mb-3 text-sm font-medium text-gray-900 dark:text-white">
                                     <x-button wire:click="clear" flat="warning"> {{ __('clear') }} </x-button>
                                 </div>
 
@@ -107,7 +107,7 @@
             <x-table.heading> {{ __('buying price') }} </x-table.heading>
             <x-table.heading> {{ __('selling price') }} </x-table.heading>
             <x-table.heading> {{ __('buying date') }} </x-table.heading>
-            <x-table.heading> {{ __('expire date') }} </x-table.heading>
+            <x-table.heading> {{ __('expired date') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
@@ -123,11 +123,11 @@
                 <x-table.cell> {{ $product->supplier->name ?? '' }} </x-table.cell>
                 <x-table.cell class="font-semibold"> {{ $product->sku }} </x-table.cell>
                 <x-table.cell> {{ $product->qty }} </x-table.cell>
-                <x-table.cell> {{ $product->buying_price }} </x-table.cell>
-                <x-table.cell> {{ $product->selling_price }} </x-table.cell>
-                <x-table.cell> {{ $product->buying_date ? $product->buying_date->format('d M, Y') : '' }}
+                <x-table.cell> {{ number_format($product->buying_price) }} </x-table.cell>
+                <x-table.cell> {{ number_format($product->selling_price) }} </x-table.cell>
+                <x-table.cell> {{ $product->buying_date() }}
                 </x-table.cell>
-                <x-table.cell> {{ $product->expire_date ? $product->expire_date->format('d M, Y') : '' }}
+                <x-table.cell> {{ $product->expired_date() }}
                 </x-table.cell>
                 <x-table.cell class="space-x-2">
                     @if ($product->trashed())

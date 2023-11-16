@@ -91,7 +91,7 @@ class CreateInvoice extends Component
     {
         return [
             'payment_method' => ['required', Rule::in(['cashe', 'bkash', 'bank'])],
-            'paid_amount' => 'required|numeric|lte:' . $this->cartTotal, //paid_amount is (less than or equal) to cartTotal.
+            'paid_amount' => 'required|integer|lte:' . $this->cartTotal, //paid_amount is (less than or equal) to cartTotal.
             'transaction_id' => [
                 Rule::requiredIf(function () {
                     return $this->payment_method === 'bkash';

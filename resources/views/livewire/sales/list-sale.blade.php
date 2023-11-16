@@ -73,6 +73,8 @@
             <x-table.heading> {{ __('invoice no') }} </x-table.heading>
             <x-table.heading> {{ __('customer') }} </x-table.heading>
             <x-table.heading> {{ __('payment method') }} </x-table.heading>
+            <x-table.heading> {{ __('due') }} </x-table.heading>
+            <x-table.heading> {{ __('advanced paid') }} </x-table.heading>
             <x-table.heading> {{ __('total') }} </x-table.heading>
             <x-table.heading> {{ __('status') }} </x-table.heading>
             <x-table.heading> {{ __('date') }} </x-table.heading>
@@ -88,6 +90,8 @@
                 <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $sale->invoice_no }} </x-table.cell>
                 <x-table.cell> {{ $sale->customer->name }} </x-table.cell>
                 <x-table.cell> {{ $sale->payment_method }} </x-table.cell>
+                <x-table.cell> {{ $sale->due }} </x-table.cell>
+                <x-table.cell> {{ $sale->advanced_paid }} </x-table.cell>
                 <x-table.cell> {{ $sale->total }} </x-table.cell>
                 <x-table.cell> {!! $sale->status->getLabelHTML() !!} </x-table.cell>
                 <x-table.cell> {{ $sale->date->format('d M, Y') }} </x-table.cell>
@@ -107,7 +111,7 @@
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="8" />
+            <x-table.data-not-found colspan="10" />
         @endforelse
     </x-table>
 

@@ -69,8 +69,8 @@
                         <x-input type="date" wire:model="buying_date" id="buying_date" />
                     </x-input.group>
 
-                    <x-input.group for="expire_date" label="{{ __('expire date') }}" :error="$errors->first('expire_date')">
-                        <x-input type="date" wire:model="expire_date" id="expire_date" />
+                    <x-input.group for="expired_date" label="{{ __('expired date') }}" :error="$errors->first('expired_date')">
+                        <x-input type="date" wire:model="expired_date" id="expired_date" />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

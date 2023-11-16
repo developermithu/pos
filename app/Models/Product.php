@@ -7,10 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    // protected $dateFormat = 'd M, Y';
 
     protected $fillable = [
         'supplier_id',
@@ -18,7 +26,7 @@ class Product extends Model
         'sku',
         'qty',
         'buying_date',
-        'expire_date',
+        'expired_date',
         'buying_price',
         'selling_price'
     ];
@@ -30,7 +38,7 @@ class Product extends Model
      */
     protected $casts = [
         'buying_date' => 'date:Y-m-d',
-        'expire_date' => 'date:Y-m-d',
+        'expired_date' => 'date:Y-m-d',
     ];
 
     /**
@@ -39,6 +47,17 @@ class Product extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    // Methods
+    public function buying_date(): ?string
+    {
+        return $this->buying_date ? $this->buying_date->format('d M, Y') : '';
+    }
+
+    public function expired_date(): ?string
+    {
+        return $this->expired_date ? $this->expired_date->format('d M, Y') : '';
     }
 
     // Mutator methods

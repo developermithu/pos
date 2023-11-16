@@ -11,7 +11,7 @@ class ShowProduct extends Component
 
     public function mount(Product $product)
     {
-        $this->product = $product;
+        $this->product = $product->load('supplier');
     }
 
     public function render()

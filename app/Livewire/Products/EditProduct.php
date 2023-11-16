@@ -15,7 +15,7 @@ class EditProduct extends Component
     public $sku;
     public $qty;
     public $buying_date;
-    public $expire_date;
+    public $expired_date;
     public $buying_price;
     public $selling_price;
 
@@ -28,7 +28,7 @@ class EditProduct extends Component
         $this->sku = $product->sku;
         $this->qty = $product->qty;
         $this->buying_date = $product->buying_date ? $product->buying_date->format('Y-m-d') : NULL;
-        $this->expire_date = $product->expire_date ? $product->expire_date->format('Y-m-d') : NULL;
+        $this->expired_date = $product->expired_date ? $product->expired_date->format('Y-m-d') : NULL;
         $this->buying_price = $product->buying_price;
         $this->selling_price = $product->selling_price;
     }
@@ -42,7 +42,7 @@ class EditProduct extends Component
             'name' => $this->name,
             'qty' => $this->qty,
             'buying_date' => $this->buying_date == "" ? null : $this->buying_date,
-            'expire_date' => $this->expire_date == "" ? null : $this->expire_date,
+            'expired_date' => $this->expired_date == "" ? null : $this->expired_date,
             'buying_price' => $this->buying_price,
             'selling_price' => $this->selling_price,
         ]);
@@ -64,9 +64,9 @@ class EditProduct extends Component
             'name' => 'required|string',
             'qty' => 'required|integer',
             'buying_date' => 'nullable|date|date_format:Y-m-d',
-            'expire_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
-            'buying_price' => 'nullable|numeric',
-            'selling_price' => 'nullable|numeric',
+            'expired_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
+            'buying_price' => 'nullable|integer',
+            'selling_price' => 'nullable|integer',
         ];
     }
 }

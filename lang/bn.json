@@ -66,6 +66,7 @@
     "search": "খুঁজুন",
     "search by name, product code": "পণ্যের নাম বা কোড দ্বারা অনুসন্ধান করুন",
     
+    "supplier": "সাপ্লায়ার",
     "suppliers": "সাপ্লায়ারস",
     "supplier list": "সাপ্লায়ারদের তালিকা",
     "add supplier": "নতুন সাপ্লায়ার",
@@ -91,6 +92,7 @@
     "product list": "পণ্যের তালিকা",
     "update product": "পণ্য আপডেট করুন",
     "show product": "পণ্য দেখুন",
+    "product details": "পণ্যের বিবরণ",
     "add new product": "নতুন পণ্য যুক্ত করুন",
 
     "product code" : "পণ্যের কোড",
@@ -105,7 +107,7 @@
     "buying price": "ক্রয় মূল্য",
     "selling price": "বিক্রয় মূল্য",
     "buying date": "কেনার তারিখ",
-    "expire date": "মেয়াদ উত্তীর্ণের তারিখ",
+    "expired date": "মেয়াদ উত্তীর্ণের তারিখ",
 
     "pos": "বিক্রয় পয়েন্ট",
     "pos management": "বিক্রয় পয়েন্ট ব্যবস্থাপনা",

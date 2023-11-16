@@ -52,7 +52,7 @@ class PosManagement extends Component
             $product->id,
             $product->name,
             1,
-            $product->selling_price,
+            $product->selling_price ? $product->selling_price : $product->buying_price,
         )->associate(Product::class);
 
         session()->flash('status', 'Product added successfully.');

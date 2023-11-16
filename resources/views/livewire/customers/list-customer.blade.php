@@ -69,9 +69,9 @@
 
                         <x-slot name="content">
                             <!-- Dropdown menu -->
-                            <div class="z-10 p-4 bg-white dark:bg-gray-700 block">
+                            <div class="z-10 block p-4 bg-white dark:bg-gray-700">
                                 <div
-                                    class="mb-3 text-sm flex items-center justify-between font-medium text-gray-900 dark:text-white">
+                                    class="flex items-center justify-between mb-3 text-sm font-medium text-gray-900 dark:text-white">
                                     <x-button wire:click="clear" flat="warning"> {{ __('clear') }} </x-button>
                                 </div>
 

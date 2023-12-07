@@ -20,6 +20,8 @@ class ListAdvancedSalary extends Component
     public function deleteSelected()
     {
         $advanced_salary = AdvancedSalary::whereKey($this->selected);
+
+        $this->authorize('bulkDelete', AdvancedSalary::class);
         $advanced_salary->delete();
 
         session()->flash('status', __('Selected records has been deleted'));
@@ -28,6 +30,7 @@ class ListAdvancedSalary extends Component
 
     public function destroy(AdvancedSalary $advanced_salary)
     {
+        $this->authorize('delete', $advanced_salary);
         $advanced_salary->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -36,6 +39,8 @@ class ListAdvancedSalary extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', AdvancedSalary::class);
+        
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
 
         $searchableFields = ['month', 'year'];

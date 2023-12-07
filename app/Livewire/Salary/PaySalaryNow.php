@@ -12,6 +12,8 @@ class PaySalaryNow extends Component
 
     public function mount($id)
     {
+        $this->authorize('create', PaySalary::class);
+
         $this->employee = Employee::with(['advanceSalary', 'paySalary'])->findOrFail($id);
     }
 

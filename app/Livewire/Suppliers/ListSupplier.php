@@ -33,6 +33,8 @@ class ListSupplier extends Component
 
     public function deleteSelected()
     {
+        $this->authorize('bulkDelete', Supplier::class);
+
         $suppliers = Supplier::whereKey($this->selected);
         $suppliers->delete();
 
@@ -42,6 +44,7 @@ class ListSupplier extends Component
 
     public function destroy(Supplier $supplier)
     {
+        $this->authorize('delete', $supplier);
         $supplier->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -51,6 +54,8 @@ class ListSupplier extends Component
     public function forceDelete($id)
     {
         $supplier = Supplier::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $supplier);
         $supplier->forceDelete();
 
         session()->flash('status', __('Record has been deleted permanently'));
@@ -60,6 +65,8 @@ class ListSupplier extends Component
     public function restore($id)
     {
         $supplier = Supplier::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $supplier);
         $supplier->restore();
 
         session()->flash('status', __('Record has been restored successfully'));
@@ -68,6 +75,8 @@ class ListSupplier extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Supplier::class);
+        
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'address', 'phone_number', 'bank_name'];
 

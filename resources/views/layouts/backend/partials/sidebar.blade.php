@@ -11,10 +11,12 @@
                         {{ __('dashboard') }}
                     </x-sidebar.link>
 
-                    <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
-                        <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
-                        {{ __('pos') }}
-                    </x-sidebar.link>
+                    @can('viewPos', App\Models\Product::class)
+                        <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
+                            <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
+                            {{ __('pos') }}
+                        </x-sidebar.link>
+                    @endcan
 
                     <x-sidebar.link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
                         <x-slot name="icon"><x-heroicon-m-shopping-bag class="w-6 h-6" /></x-slot>
@@ -54,9 +56,9 @@
                             {{ __('advanced salary list') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.advanced.salary.add')" :active="request()->routeIs('admin.advanced.salary.add')">
+                        {{-- <x-collapsible.item :href="route('admin.advanced.salary.add')" :active="request()->routeIs('admin.advanced.salary.add')">
                             {{ __('add advanced salary') }}
-                        </x-collapsible.item>
+                        </x-collapsible.item> --}}
 
                         <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.*')">
                             {{ __('pay salary') }}
@@ -67,7 +69,6 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
-
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.attendance.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
@@ -76,9 +77,11 @@
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.attendance.add')" :active="request()->routeIs('admin.attendance.add')">
-                            {{ __('add attendance') }}
-                        </x-collapsible.item>
+                        @can('create', App\Models\Attendance::class)
+                            <x-collapsible.item :href="route('admin.attendance.add')" :active="request()->routeIs('admin.attendance.add')">
+                                {{ __('add attendance') }}
+                            </x-collapsible.item>
+                        @endcan
 
                         <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.index') ||
                             request()->routeIs('admin.attendance.edit')">
@@ -113,12 +116,6 @@
                             {{ __('yearly expenses') }}
                         </x-collapsible.item>
                     </x-collapsible>
-
-                    <x-sidebar.link href="https://flowbite-admin-dashboard.vercel.app" :active="request()->routeIs('settings')"
-                        target="_blank">
-                        <x-slot name="icon"><x-heroicon-s-link class="w-6 h-6" /></x-slot>
-                        flowbite dashboard
-                    </x-sidebar.link>
 
                     <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('settings')">
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>

@@ -12,6 +12,7 @@ class EditSupplier extends Component
 
     public function mount(Supplier $supplier)
     {
+        $this->authorize('update', $supplier);
         $this->form->setSupplier($supplier);
     }
 

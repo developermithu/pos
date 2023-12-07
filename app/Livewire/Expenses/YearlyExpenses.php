@@ -9,6 +9,8 @@ class YearlyExpenses extends Component
 {
     public function render()
     {
+        $this->authorize('viewAny', Expense::class);
+
         $year = date('Y');
 
         $yearlyExpenses = Expense::where('year', $year)->paginate(20);

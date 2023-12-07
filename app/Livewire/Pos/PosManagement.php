@@ -27,8 +27,15 @@ class PosManagement extends Component
         $this->resetPage();
     }
 
+    public function mount()
+    {
+        $this->authorize('posManagement', Product::class);
+    }
+
     public function render()
     {
+        $this->authorize('viewPos', Product::class);
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 

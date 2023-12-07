@@ -13,6 +13,11 @@ class AddAttendance extends Component
     public $date;
     public $attendanceStatus = [];
 
+    public function mount()
+    {
+        $this->authorize('create', Attendance::class);
+    }
+
     public function markAttendance()
     {
         $this->validate();

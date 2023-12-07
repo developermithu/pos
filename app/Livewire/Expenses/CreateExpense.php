@@ -3,11 +3,17 @@
 namespace App\Livewire\Expenses;
 
 use App\Livewire\Forms\ExpenseForm;
+use App\Models\Expense;
 use Livewire\Component;
 
 class CreateExpense extends Component
 {
     public ExpenseForm $form;
+
+    public function mount()
+    {
+        $this->authorize('create', Expense::class);
+    }
 
     public function save()
     {

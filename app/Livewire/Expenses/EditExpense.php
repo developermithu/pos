@@ -12,6 +12,7 @@ class EditExpense extends Component
 
     public function mount(Expense $expense)
     {
+        $this->authorize('update', $expense);
         $this->form->setExpense($expense);
     }
 

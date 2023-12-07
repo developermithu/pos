@@ -9,6 +9,8 @@ class MonthlyExpenses extends Component
 {
     public function render()
     {
+        $this->authorize('viewAny', Expense::class);
+
         $month = date('F');
 
         $monthlyExpenses = Expense::where('month', $month)->paginate(20);

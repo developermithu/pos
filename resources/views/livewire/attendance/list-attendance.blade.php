@@ -55,10 +55,12 @@
                     </div>
                 </div>
 
-                <x-button :href="route('admin.attendance.add')">
-                    <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add attendance') }}
-                </x-button>
+                @can('create', App\Models\Attendance::class)
+                    <x-button :href="route('admin.attendance.add')">
+                        <x-heroicon-m-plus class="w-4 h-4" />
+                        {{ __('add attendance') }}
+                    </x-button>
+                @endcan
             </div>
         </div>
 
@@ -76,9 +78,11 @@
                 <x-table.cell> {{ $attendance->date->format('d M, Y') }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">
-                    <x-button flat="warning" :href="route('admin.attendance.edit', $attendance->date->format('Y-m-d'))">
-                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                    </x-button>
+                    @can('update', App\Models\Attendance::class)
+                        <x-button flat="warning" :href="route('admin.attendance.edit', $attendance->date->format('Y-m-d'))">
+                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                        </x-button>
+                    @endcan
 
                     <x-button flat="secondary" :href="route('admin.attendance.show', $attendance->date->format('Y-m-d'))">
                         <x-heroicon-o-eye /> {{ __('view') }}

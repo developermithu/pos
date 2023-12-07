@@ -150,12 +150,8 @@ new class extends Component {
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button type="button"
-                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                id="user-menu-button-2" aria-expanded="false" data-dropdown-toggle="dropdown-2">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="rounded-full md:h-8 md:w-8 w-7 h-7"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                    alt="user photo">
+                                class="flex text-sm rounded focus:ring-2 ring-offset-2 focus:ring-primary/40">
+                                {{ Auth::user()->name }}
                             </button>
                         </x-slot>
 

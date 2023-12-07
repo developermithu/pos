@@ -23,6 +23,8 @@ class CreateInvoice extends Component
 
     public function mount()
     {
+        $this->authorize('createInvoice', Sale::class);
+
         $this->due = $this->cartTotal();
         $this->cartTotal = $this->cartTotal();
     }

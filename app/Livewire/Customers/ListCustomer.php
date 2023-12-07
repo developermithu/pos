@@ -33,6 +33,8 @@ class ListCustomer extends Component
 
     public function deleteSelected()
     {
+        $this->authorize('bulkDelete', Customer::class);
+
         $customers = Customer::whereKey($this->selected);
         $customers->delete();
 
@@ -42,6 +44,8 @@ class ListCustomer extends Component
 
     public function destroy(Customer $customer)
     {
+        $this->authorize('delete', $customer);
+
         $customer->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -51,6 +55,8 @@ class ListCustomer extends Component
     public function forceDelete($id)
     {
         $customer = Customer::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $customer);
         $customer->forceDelete();
 
         session()->flash('status', __('Record has been deleted permanently'));
@@ -60,6 +66,8 @@ class ListCustomer extends Component
     public function restore($id)
     {
         $customer = Customer::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $customer);
         $customer->restore();
 
         session()->flash('status', __('Record has been restored successfully'));
@@ -68,6 +76,8 @@ class ListCustomer extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Customer::class);
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'address', 'phone_number'];
 

@@ -33,6 +33,8 @@ class ListEmployee extends Component
 
     public function deleteSelected()
     {
+        $this->authorize('bulkDelete', Employee::class);
+
         $employees = Employee::whereKey($this->selected);
         $employees->delete();
 
@@ -42,6 +44,7 @@ class ListEmployee extends Component
 
     public function destroy(Employee $employee)
     {
+        $this->authorize('delete', $employee);
         $employee->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -51,6 +54,8 @@ class ListEmployee extends Component
     public function forceDelete($id)
     {
         $employee = Employee::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $employee);
         $employee->forceDelete();
 
         session()->flash('status', __('Record has been deleted permanently'));
@@ -60,6 +65,8 @@ class ListEmployee extends Component
     public function restore($id)
     {
         $employee = Employee::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $employee);
         $employee->restore();
 
         session()->flash('status', __('Record has been restored successfully'));
@@ -68,6 +75,8 @@ class ListEmployee extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Employee::class);
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
 
         $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];

@@ -98,9 +98,11 @@
                     @if ($employee->paySalary)
                         <button class="capitalize cursor-not-allowed text-danger">{{ __('full paid') }}</button>
                     @else
-                        <x-button size="small" :href="route('admin.pay.salary.now', $employee)">
-                            {{ __('pay now') }}
-                        </x-button>
+                        @can('create', App\Models\PaySalary::class)
+                            <x-button size="small" :href="route('admin.pay.salary.now', $employee)">
+                                {{ __('pay now') }}
+                            </x-button>
+                        @endcan
                     @endif
                 </x-table.cell>
             </x-table.row>

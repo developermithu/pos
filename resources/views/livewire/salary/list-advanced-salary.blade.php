@@ -55,10 +55,12 @@
                     </div>
                 </div>
 
-                <x-button :href="route('admin.advanced.salary.add')">
-                    <x-heroicon-m-plus class="w-4 h-4" />
-                    {{ __('add new') }}
-                </x-button>
+                @can('create', App\Models\AdvancedSalary::class)
+                    <x-button :href="route('admin.advanced.salary.add')">
+                        <x-heroicon-m-plus class="w-4 h-4" />
+                        {{ __('add new') }}
+                    </x-button>
+                @endcan
             </div>
         </div>
 
@@ -99,14 +101,18 @@
                         <x-heroicon-o-eye /> {{ __('view') }}
                     </x-button>
 
-                    <x-button flat="warning" :href="route('admin.advanced.salary.edit', $advanced_salary)">
-                        <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                    </x-button>
+                    @can('update', $advanced_salary)
+                        <x-button flat="warning" :href="route('admin.advanced.salary.edit', $advanced_salary)">
+                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                        </x-button>
+                    @endcan
 
-                    <x-button flat="danger"
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $advanced_salary->id }}')">
-                        <x-heroicon-o-trash /> {{ __('delete') }}
-                    </x-button>
+                    @can('delete', $advanced_salary)
+                        <x-button flat="danger"
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $advanced_salary->id }}')">
+                            <x-heroicon-o-trash /> {{ __('delete') }}
+                        </x-button>
+                    @endcan
 
                     {{-- View Modal --}}
                     <x-modal maxWidth="xl" name="view-{{ $advanced_salary->id }}">

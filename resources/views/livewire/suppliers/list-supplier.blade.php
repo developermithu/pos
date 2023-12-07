@@ -84,10 +84,12 @@
                         </x-slot>
                     </x-dropdown>
 
-                    <x-button :href="route('admin.suppliers.create')">
-                        <x-heroicon-m-plus class="w-4 h-4" />
-                        {{ __('add new') }}
-                    </x-button>
+                    @can('create', App\Models\Supplier::class)
+                        <x-button :href="route('admin.suppliers.create')">
+                            <x-heroicon-m-plus class="w-4 h-4" />
+                            {{ __('add new') }}
+                        </x-button>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -119,7 +121,7 @@
                 <x-table.cell> {{ $supplier->phone_number }} </x-table.cell>
                 <x-table.cell> {{ $supplier->bank_name }} </x-table.cell>
                 <x-table.cell> {{ $supplier->bank_branch }} </x-table.cell>
-                
+
                 <x-table.cell class="space-x-2">
                     @if ($supplier->trashed())
                         <x-button flat="primary" wire:click="restore({{ $supplier->id }})">
@@ -133,16 +135,20 @@
 
                         @include('partials.delete-forever-modal', ['data' => $supplier])
                     @else
-                        <x-button flat="warning" :href="route('admin.suppliers.edit', $supplier)">
-                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                        </x-button>
+                        @can('update', $supplier)
+                            <x-button flat="warning" :href="route('admin.suppliers.edit', $supplier)">
+                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                            </x-button>
+                        @endcan
 
-                        <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->id }}')">
-                            <x-heroicon-o-trash /> {{ __('delete') }}
-                        </x-button>
+                        @can('delete', $supplier)
+                            <x-button flat="danger"
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->id }}')">
+                                <x-heroicon-o-trash /> {{ __('delete') }}
+                            </x-button>
 
-                        @include('partials.delete-modal', ['data' => $supplier])
+                            @include('partials.delete-modal', ['data' => $supplier])
+                        @endcan
                     @endif
                 </x-table.cell>
             </x-table.row>

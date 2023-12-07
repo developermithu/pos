@@ -11,6 +11,11 @@ class CreateSupplier extends Component
 {
     public SupplierForm $form;
 
+    public function mount()
+    {
+        $this->authorize('create', Supplier::class);
+    }
+
     public function save()
     {
         $this->form->store();

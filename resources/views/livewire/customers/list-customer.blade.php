@@ -84,10 +84,12 @@
                         </x-slot>
                     </x-dropdown>
 
-                    <x-button :href="route('admin.customers.create')">
-                        <x-heroicon-m-plus class="w-4 h-4" />
-                        {{ __('add new') }}
-                    </x-button>
+                    @can('create', App\Models\Customer::class)
+                        <x-button :href="route('admin.customers.create')">
+                            <x-heroicon-m-plus class="w-4 h-4" />
+                            {{ __('add new') }}
+                        </x-button>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -134,16 +136,20 @@
 
                         @include('partials.delete-forever-modal', ['data' => $customer])
                     @else
-                        <x-button flat="warning" :href="route('admin.customers.edit', $customer)">
-                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                        </x-button>
+                        @can('update', $customer)
+                            <x-button flat="warning" :href="route('admin.customers.edit', $customer)">
+                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                            </x-button>
+                        @endcan
 
-                        <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')">
-                            <x-heroicon-o-trash /> {{ __('delete') }}
-                        </x-button>
+                        @can('delete', $customer)
+                            <x-button flat="danger"
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')">
+                                <x-heroicon-o-trash /> {{ __('delete') }}
+                            </x-button>
 
-                        @include('partials.delete-modal', ['data' => $customer])
+                            @include('partials.delete-modal', ['data' => $customer])
+                        @endcan
                     @endif
                 </x-table.cell>
             </x-table.row>

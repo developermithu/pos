@@ -9,6 +9,8 @@ class TodaysExpenses extends Component
 {
     public function render()
     {
+        $this->authorize('viewAny', Expense::class);
+
         $todaysExpenses = Expense::where('date', date('Y-m-d'))->get();
         $todaysTotalExpense = Expense::where('date', date('Y-m-d'))->sum('amount') / 100;
 

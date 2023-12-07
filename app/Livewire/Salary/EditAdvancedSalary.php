@@ -13,6 +13,7 @@ class EditAdvancedSalary extends Component
 
     public function mount(AdvancedSalary $advanced_salary)
     {
+        $this->authorize('update', $advanced_salary);
         $this->form->setAdvancedSalary($advanced_salary);
     }
 

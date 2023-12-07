@@ -13,6 +13,8 @@ class ShowAttendance extends Component
 
     public function mount($date)
     {
+        $this->authorize('view', Attendance::class);
+
         $this->date = Carbon::parse($date)->format('d M, Y');
         $this->attendances = Attendance::with('employee')->where('date', $date)->get();
     }

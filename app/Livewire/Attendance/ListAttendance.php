@@ -12,6 +12,7 @@ class ListAttendance extends Component
 
     public function destroy(Attendance $attendance)
     {
+        $this->authorize('delete', $attendance);
         $attendance->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -20,6 +21,8 @@ class ListAttendance extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Attendance::class);
+
         $attendances = Attendance::select('date')
             ->groupBy('date')
             ->latest('date')

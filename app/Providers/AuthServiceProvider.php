@@ -18,9 +18,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        // Don't need to register policies 
         // Laravel can automatically discover policies 
         // if policy follow the standard Laravel naming conventions.
-
+        
         // Product::class => ProductPolicy::class,
     ];
 
@@ -33,6 +34,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function (User $user, string $ability) {
             if ($user->isSuperadmin()) {
                 return true;
+            }
+        });
+
+        // Deny all permissions if user is not a
+        // SUPERADMIN or MANAGER or CASHIER
+        Gate::before(function (User $user, string $ability) {
+            if (!$user->isSuperadmin() || !$user->isManager() || !$user->isCashier()) {
+                abort(403, "Don't dare to access.");
             }
         });
     }

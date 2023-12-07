@@ -18,6 +18,8 @@ class EditAttendance extends Component
 
     public function mount($date)
     {
+        $this->authorize('update', Attendance::class);
+
         $this->date = $date;
         $this->employees = Employee::all(['id', 'name']);
 

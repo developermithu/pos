@@ -12,6 +12,8 @@ class EditEmployee extends Component
 
     public function mount(Employee $employee)
     {
+        $this->authorize('update', $employee);
+
         $this->form->setEmployee($employee);
     }
 

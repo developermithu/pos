@@ -13,6 +13,11 @@ class CreateCustomer extends Component
     public ?int $due;
     public ?int $advanced_paid;
 
+    public function mount()
+    {
+        $this->authorize('create', Customer::class);
+    }
+
     public function save()
     {
         $this->validate();

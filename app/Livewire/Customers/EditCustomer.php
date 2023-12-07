@@ -17,6 +17,8 @@ class EditCustomer extends Component
 
     public function mount(Customer $customer)
     {
+        $this->authorize('update', $customer);
+
         $this->customer = $customer;
 
         $this->name = $customer->name;

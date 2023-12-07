@@ -11,6 +11,7 @@ class ShowSale extends Component
 
     public function mount(Sale $sale)
     {
+        $this->authorize('view', $sale);
         $this->sale = $sale->load('items.product');
     }
 

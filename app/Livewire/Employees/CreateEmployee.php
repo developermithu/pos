@@ -3,11 +3,17 @@
 namespace App\Livewire\Employees;
 
 use App\Livewire\Forms\EmployeeForm;
+use App\Models\Employee;
 use Livewire\Component;
 
 class CreateEmployee extends Component
 {
     public EmployeeForm $form;
+
+    public function mount()
+    {
+        $this->authorize('create', Employee::class);
+    }
 
     public function save()
     {

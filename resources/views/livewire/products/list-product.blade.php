@@ -84,10 +84,12 @@
                         </x-slot>
                     </x-dropdown>
 
-                    <x-button :href="route('admin.products.create')">
-                        <x-heroicon-m-plus class="w-4 h-4" />
-                        {{ __('add new') }}
-                    </x-button>
+                    @can('create', App\Models\Product::class)
+                        <x-button :href="route('admin.products.create')">
+                            <x-heroicon-m-plus class="w-4 h-4" />
+                            {{ __('add new') }}
+                        </x-button>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -146,16 +148,20 @@
                             <x-heroicon-o-eye /> {{ __('view') }}
                         </x-button>
 
-                        <x-button flat="warning" :href="route('admin.products.edit', $product)">
-                            <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                        </x-button>
+                        @can('update', $product)
+                            <x-button flat="warning" :href="route('admin.products.edit', $product)">
+                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                            </x-button>
+                        @endcan
 
-                        <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $product->id }}')">
-                            <x-heroicon-o-trash /> {{ __('delete') }}
-                        </x-button>
+                        @can('delete', $product)
+                            <x-button flat="danger"
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $product->id }}')">
+                                <x-heroicon-o-trash /> {{ __('delete') }}
+                            </x-button>
 
-                        @include('partials.delete-modal', ['data' => $product])
+                            @include('partials.delete-modal', ['data' => $product])
+                        @endcan
                     @endif
                 </x-table.cell>
             </x-table.row>

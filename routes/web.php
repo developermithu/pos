@@ -59,7 +59,7 @@ Route::view('profile', 'profile')
 require __DIR__ . '/auth.php';
 
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
         Route::get('/', ListSupplier::class)->name('index');
         Route::get('/create', CreateSupplier::class)->name('create');

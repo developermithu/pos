@@ -14,6 +14,13 @@ php artisan serve
 
 Generate model helper by running ```php artisan ide-helper:models``` after migrating new models.
 
+## Composer commands
+
+- ```composer outdated``` display the all package available new version.
+- ```composer show <package-name>``` to check existing packages version
+- ```composer remove <package-name>``` to remove existing package
+
+
 ## Have to Do
 
 - [x] Employee Attendance management
@@ -43,3 +50,11 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [x] Trash deleting (delete forever)
 - [ ] Log view
 - [ ] Customize code for production
+
+
+## Roles Feature
+
+- Super Admin can do anything
+- Manager can view, edit, create, update and delete but **can not view cash information**
+- Cashier can view everything
+

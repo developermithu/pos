@@ -33,6 +33,8 @@ class ListProduct extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Product::class);
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
@@ -60,6 +62,8 @@ class ListProduct extends Component
 
     public function deleteSelected()
     {
+        $this->authorize('bulkDelete', Product::class);
+
         if ($this->selected) {
             $products = Product::whereKey($this->selected);
             $products->delete();
@@ -74,6 +78,7 @@ class ListProduct extends Component
 
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product);
         $product->delete();
 
         session()->flash('status', __('Record has been deleted successfully'));
@@ -83,6 +88,8 @@ class ListProduct extends Component
     public function forceDelete($id)
     {
         $product = Product::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $product);
         $product->forceDelete();
 
         session()->flash('status', __('Record has been deleted permanently'));
@@ -92,6 +99,8 @@ class ListProduct extends Component
     public function restore($id)
     {
         $product = Product::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $product);
         $product->restore();
 
         session()->flash('status', __('Record has been restored successfully'));

@@ -16,6 +16,11 @@ class CreateProduct extends Component
     public $buying_price;
     public $selling_price;
 
+    public function mount()
+    {
+        $this->authorize('create', Product::class);
+    }
+
     public function save()
     {
         $this->validate();

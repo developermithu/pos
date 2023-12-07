@@ -3,11 +3,8 @@
 @tailwind utilities;
 
 @layer components {
-    /* filament class */
-    .fi-ta-ctn {
-       border-radius: 0px !important;
-    }
-
+  [x-cloak] { display: none !important; }
+  
     .no-spinner {
         -moz-appearance: textfield;
       }

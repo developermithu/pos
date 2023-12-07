@@ -4,11 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\UserRole;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,16 +20,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Manager',
-            'email' => 'manager@gmail.com',
-            'password' => 'manager',
+        User::updateOrCreate([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => 'superadmin',
+            'remember_token' => Str::random(10),
+            'role' => UserRole::IS_SUPERADMIN->value,
         ]);
 
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => 'admin',
+        User::updateOrCreate([
+            'name' => 'Manager',
+            'email' => 'manager@gmail.com',
+            'email_verified_at' => now(),
+            'password' => 'manager',
+            'remember_token' => Str::random(10),
+            'role' => UserRole::IS_MANAGER->value
+        ]);
+
+        User::updateOrCreate([
+            'name' => 'Cashier',
+            'email' => 'cashier@gmail.com',
+            'email_verified_at' => now(),
+            'password' => 'cashier',
+            'remember_token' => Str::random(10),
+            'role' => UserRole::IS_CASHIER->value
         ]);
 
         Supplier::factory(50)->create();

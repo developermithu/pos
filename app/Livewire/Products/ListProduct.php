@@ -6,9 +6,12 @@ use App\Models\Product;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListProduct extends Component
 {
+    use Toast;
+
     use WithPagination;
 
     #[Url(as: 'q')]
@@ -68,9 +71,9 @@ class ListProduct extends Component
             $products = Product::whereKey($this->selected);
             $products->delete();
 
-            session()->flash('status', __('Selected records has been deleted'));
+            $this->success(__('Selected records has been deleted'));
         } else {
-            session()->flash('status', __('You did not select anything'));
+            $this->success(__('You did not select anything'));
         }
 
         return back();
@@ -81,7 +84,7 @@ class ListProduct extends Component
         $this->authorize('delete', $product);
         $product->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 
@@ -92,7 +95,7 @@ class ListProduct extends Component
         $this->authorize('forceDelete', $product);
         $product->forceDelete();
 
-        session()->flash('status', __('Record has been deleted permanently'));
+        $this->success(__('Record has been deleted permanently'));
         return back();
     }
 
@@ -103,7 +106,7 @@ class ListProduct extends Component
         $this->authorize('restore', $product);
         $product->restore();
 
-        session()->flash('status', __('Record has been restored successfully'));
+        $this->success(__('Record has been restored successfully'));
         return back();
     }
 }

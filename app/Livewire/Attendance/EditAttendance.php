@@ -8,10 +8,13 @@ use App\Models\Employee;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 #[Title('Edit Attendance')]
 class EditAttendance extends Component
 {
+    use Toast;
+
     public $date;
     public $employees;
     public $attendanceStatus = [];
@@ -40,7 +43,7 @@ class EditAttendance extends Component
             ]);
         }
 
-        session()->flash('status', 'Attendance updated successfully');
+        $this->success(__('Attendance updated successfully'));
         return back();
     }
 

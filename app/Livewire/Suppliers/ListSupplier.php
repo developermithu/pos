@@ -6,10 +6,11 @@ use App\Models\Supplier;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListSupplier extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     #[Url(as: 'q')]
     public string $search = "";
@@ -38,7 +39,7 @@ class ListSupplier extends Component
         $suppliers = Supplier::whereKey($this->selected);
         $suppliers->delete();
 
-        session()->flash('status', __('Selected records has been deleted'));
+        $this->success(__('Selected records has been deleted'));
         return back();
     }
 
@@ -47,7 +48,7 @@ class ListSupplier extends Component
         $this->authorize('delete', $supplier);
         $supplier->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 
@@ -58,7 +59,7 @@ class ListSupplier extends Component
         $this->authorize('forceDelete', $supplier);
         $supplier->forceDelete();
 
-        session()->flash('status', __('Record has been deleted permanently'));
+        $this->success(__('Record has been deleted permanently'));
         return back();
     }
 
@@ -69,14 +70,14 @@ class ListSupplier extends Component
         $this->authorize('restore', $supplier);
         $supplier->restore();
 
-        session()->flash('status', __('Record has been restored successfully'));
+        $this->success(__('Record has been restored successfully'));
         return back();
     }
 
     public function render()
     {
         $this->authorize('viewAny', Supplier::class);
-        
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'address', 'phone_number', 'bank_name'];
 

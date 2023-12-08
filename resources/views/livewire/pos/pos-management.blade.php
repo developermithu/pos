@@ -28,7 +28,7 @@
                 </h1>
             </div>
 
-            <x-status :status="session('status')" />
+
         </div>
 
         <!-- Right Content -->

@@ -40,9 +40,8 @@
 
                 <div class="items-center justify-end block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                     <div class="flex items-center gap-3 mb-4 sm:mb-0">
-                        <label for="date"
-                            class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
-                            {{ __('select date') }}    
+                        <label for="date" class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
+                            {{ __('select date') }}
                         </label>
 
                         <input type="date" wire:model="date" id="date"
@@ -56,7 +55,7 @@
                 </div>
             </div>
 
-            <x-status :status="session('status')" />
+
         </div>
 
         <x-table>

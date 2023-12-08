@@ -5,9 +5,12 @@ namespace App\Livewire\Expenses;
 use App\Livewire\Forms\ExpenseForm;
 use App\Models\Expense;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class CreateExpense extends Component
 {
+    use Toast;
+    
     public ExpenseForm $form;
 
     public function mount()
@@ -21,7 +24,7 @@ class CreateExpense extends Component
 
         $this->form->reset();
 
-        session()->flash('status', __('Record has been created successfully'));
+        $this->success(__('Record has been created successfully'));
         return back();
     }
 

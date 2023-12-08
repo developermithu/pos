@@ -4,9 +4,12 @@ namespace App\Livewire\Customers;
 
 use App\Models\Customer;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class CreateCustomer extends Component
 {
+    use Toast;
+
     public string $name;
     public string $address;
     public string $phone_number;
@@ -30,7 +33,7 @@ class CreateCustomer extends Component
             'advanced_paid' => $this->advanced_paid
         ]);
 
-        session()->flash('status', __('Record has been created successfully'));
+        $this->success(__('Record has been created successfully'));
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 

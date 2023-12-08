@@ -5,17 +5,18 @@ namespace App\Livewire\Attendance;
 use App\Models\Attendance;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListAttendance extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     public function destroy(Attendance $attendance)
     {
         $this->authorize('delete', $attendance);
         $attendance->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 

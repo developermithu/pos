@@ -8,7 +8,14 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
+
+        // Mary UI
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
     ],
+
+    daisyui: {
+        themes: ["light", "dark", "cupcake"],
+    },
 
     safelist: [
         "w-64",
@@ -51,5 +58,5 @@ export default {
         },
     },
 
-    plugins: [forms, require("@tailwindcss/typography")],
+    plugins: [forms, require("@tailwindcss/typography"), require("daisyui")],
 };

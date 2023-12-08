@@ -8,10 +8,11 @@ use Livewire\Attributes\Rule;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListAdvancedSalary extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     #[Url(as: 'q')]
     public string $search = "";
@@ -24,7 +25,7 @@ class ListAdvancedSalary extends Component
         $this->authorize('bulkDelete', AdvancedSalary::class);
         $advanced_salary->delete();
 
-        session()->flash('status', __('Selected records has been deleted'));
+        $this->success(__('Selected records has been deleted'));
         return back();
     }
 
@@ -33,14 +34,14 @@ class ListAdvancedSalary extends Component
         $this->authorize('delete', $advanced_salary);
         $advanced_salary->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 
     public function render()
     {
         $this->authorize('viewAny', AdvancedSalary::class);
-        
+
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
 
         $searchableFields = ['month', 'year'];

@@ -4,9 +4,12 @@ namespace App\Livewire\Customers;
 
 use App\Models\Customer;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class EditCustomer extends Component
 {
+    use Toast;
+
     public $customer;
 
     public string $name;
@@ -40,7 +43,7 @@ class EditCustomer extends Component
             'advanced_paid' => $this->advanced_paid
         ]);
 
-        session()->flash('status', __('Record has been updated successfully'));
+        $this->success(__('Record has been updated successfully'));
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 

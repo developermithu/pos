@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <x-status :status="session('status')" />
+
     </div>
 
     <x-table>

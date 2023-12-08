@@ -19715,6 +19715,26 @@
      
 }
 
+    namespace Mary\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Mary {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hello()
+        {
+                        return \Mary\Mary::hello();
+        }
+         
+    }
+     
+}
+
     namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
@@ -24320,6 +24340,7 @@ namespace  {
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Cart extends \Gloudemans\Shoppingcart\Facades\Cart {}
             class Livewire extends \Livewire\Livewire {}
+            class Mary extends \Mary\Facades\Mary {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

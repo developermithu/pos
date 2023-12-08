@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <x-status :status="session('status')" />
+
     </div>
 
     <x-table>
@@ -87,7 +87,8 @@
                     <x-input.checkbox wire:model="selected" value="{{ $sale->id }}" id="{{ $sale->id }}"
                         for="{{ $sale->id }}" />
                 </x-table.cell>
-                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $sale->invoice_no }} </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $sale->invoice_no }}
+                </x-table.cell>
                 <x-table.cell> {{ $sale->customer->name }} </x-table.cell>
                 <x-table.cell> {{ $sale->payment_method }} </x-table.cell>
                 <x-table.cell> {{ $sale->due }} </x-table.cell>
@@ -98,7 +99,7 @@
 
                 <x-table.cell class="space-x-2">
                     <x-button size="small" :href="route('admin.sales.show', $sale)">
-                         {{ __('details') }}
+                        {{ __('details') }}
                     </x-button>
 
                     {{-- <x-button flat="danger"

@@ -3,13 +3,15 @@
 namespace App\Livewire\Customers;
 
 use App\Models\Customer;
+use Illuminate\Database\QueryException;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListCustomer extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     #[Url(as: 'q')]
     public $search = "";
@@ -38,7 +40,7 @@ class ListCustomer extends Component
         $customers = Customer::whereKey($this->selected);
         $customers->delete();
 
-        session()->flash('status', __('Selected records has been deleted'));
+        $this->success(__('Selected records has been deleted'));
         return back();
     }
 
@@ -48,7 +50,7 @@ class ListCustomer extends Component
 
         $customer->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 
@@ -57,9 +59,17 @@ class ListCustomer extends Component
         $customer = Customer::onlyTrashed()->findOrFail($id);
 
         $this->authorize('forceDelete', $customer);
-        $customer->forceDelete();
 
-        session()->flash('status', __('Record has been deleted permanently'));
+        try {
+            $customer->forceDelete();
+            $this->success(__('Record has been deleted permanently'));
+        } catch (QueryException $e) {
+            // Check if it's a foreign key constraint violation
+            if ($e->getCode() == 23000) {
+                $this->warning(__('Cannot delete customer. Related sales records exist.'));
+            }
+        }
+
         return back();
     }
 
@@ -70,7 +80,7 @@ class ListCustomer extends Component
         $this->authorize('restore', $customer);
         $customer->restore();
 
-        session()->flash('status', __('Record has been restored successfully'));
+        $this->success(__('Record has been restored successfully'));
         return back();
     }
 

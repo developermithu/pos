@@ -5,9 +5,12 @@ namespace App\Livewire\Salary;
 use App\Models\Employee;
 use App\Models\PaySalary;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class PaySalaryNow extends Component
 {
+    use Toast;
+
     public $employee;
 
     public function mount($id)
@@ -28,7 +31,7 @@ class PaySalaryNow extends Component
         $alreadyPaid = PaySalary::where('employee_id', $this->employee->id)->where('month', date('F'))->first();
 
         if ($alreadyPaid) {
-            session()->flash('status', 'Oops! Salary already paid.');
+            $this->success(__('Oops! Salary already paid.'));
             return back();
         } else {
             PaySalary::create([
@@ -39,7 +42,7 @@ class PaySalaryNow extends Component
                 'due' => $due,
             ]);
 
-            session()->flash('status', 'Salary paid successfully.');
+            $this->success(__('Salary paid successfully.'));
             return back();
         }
     }

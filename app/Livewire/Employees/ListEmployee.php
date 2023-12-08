@@ -6,9 +6,12 @@ use App\Models\Employee;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class ListEmployee extends Component
 {
+    use Toast;
+
     use WithPagination;
 
     #[Url(as: 'q')]
@@ -38,7 +41,7 @@ class ListEmployee extends Component
         $employees = Employee::whereKey($this->selected);
         $employees->delete();
 
-        session()->flash('status', __('Selected records has been deleted'));
+        $this->success(__('Selected records has been deleted'));
         return back();
     }
 
@@ -47,7 +50,7 @@ class ListEmployee extends Component
         $this->authorize('delete', $employee);
         $employee->delete();
 
-        session()->flash('status', __('Record has been deleted successfully'));
+        $this->success(__('Record has been deleted successfully'));
         return back();
     }
 
@@ -58,7 +61,7 @@ class ListEmployee extends Component
         $this->authorize('forceDelete', $employee);
         $employee->forceDelete();
 
-        session()->flash('status', __('Record has been deleted permanently'));
+        $this->success(__('Record has been deleted permanently'));
         return back();
     }
 
@@ -69,7 +72,7 @@ class ListEmployee extends Component
         $this->authorize('restore', $employee);
         $employee->restore();
 
-        session()->flash('status', __('Record has been restored successfully'));
+        $this->success(__('Record has been restored successfully'));
         return back();
     }
 

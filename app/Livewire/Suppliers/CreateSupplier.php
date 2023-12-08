@@ -6,9 +6,12 @@ use App\Livewire\Forms\SupplierForm;
 use App\Models\Supplier;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class CreateSupplier extends Component
 {
+    use Toast;
+
     public SupplierForm $form;
 
     public function mount()
@@ -20,7 +23,7 @@ class CreateSupplier extends Component
     {
         $this->form->store();
 
-        session()->flash('status', __('Record has been created successfully'));
+        $this->success(__('Record has been created successfully'));
         return $this->redirect(ListSupplier::class, navigate: true);
     }
 

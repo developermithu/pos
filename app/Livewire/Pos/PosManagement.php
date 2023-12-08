@@ -9,10 +9,11 @@ use Livewire\Attributes\Rule;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class PosManagement extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     public $perPage = 10;
 
@@ -62,7 +63,7 @@ class PosManagement extends Component
             $product->selling_price ? $product->selling_price : $product->buying_price,
         )->associate(Product::class);
 
-        session()->flash('status', 'Product added successfully.');
+        $this->success(__('Product added successfully.'));
         return back();
     }
 
@@ -71,7 +72,7 @@ class PosManagement extends Component
         $item = Cart::get($rowId);
         Cart::update($rowId, $item->qty + 1);
 
-        session()->flash('status', 'Quantity increased.');
+        $this->success(__('Quantity increased.'));
         return back();
     }
 
@@ -81,10 +82,10 @@ class PosManagement extends Component
 
         if ($item->qty === 1) {
             Cart::remove($rowId);
-            session()->flash('status', 'Item removed.');
+            $this->success(__('Item removed.'));
         } else {
             Cart::update($rowId, $item->qty - 1);
-            session()->flash('status', 'Quantity decreased.');
+            $this->success(__('Quantity decreased.'));
         }
 
         return back();
@@ -94,7 +95,7 @@ class PosManagement extends Component
     {
         Cart::remove($rowId);
 
-        session()->flash('status', 'Item removed.');
+        $this->success(__('Item removed.'));
         return back();
     }
 

@@ -10,9 +10,12 @@ use App\Models\Transaction;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class CreateInvoice extends Component
 {
+    use Toast;
+
     public $payment_method = "";
     public int $paid_amount;
     public $due;
@@ -80,7 +83,7 @@ class CreateInvoice extends Component
         session()->forget('invoice_no');
 
         // Sending invoice email
-        session()->flash('status', 'Sales generated successfully');
+        $this->success(__('Sales generated successfully'));
         return $this->redirect(PosManagement::class, navigate: true);
     }
 

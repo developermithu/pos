@@ -5,9 +5,12 @@ namespace App\Livewire\Products;
 use App\Models\Product;
 use App\Models\Supplier;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class CreateProduct extends Component
 {
+    use Toast;
+    
     public $supplier_id = '';
     public $name;
     public $qty;
@@ -35,7 +38,7 @@ class CreateProduct extends Component
             'selling_price' => $this->selling_price,
         ]);
 
-        session()->flash('status', __('Record has been created successfully'));
+        $this->success(__('Record has been created successfully'));
         return $this->redirect(ListProduct::class, navigate: true);
     }
 

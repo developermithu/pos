@@ -56,5 +56,5 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 
 - Super Admin can do anything
 - Manager can view, edit, create, update and delete but **can not view cash information**
-- Cashier can view everything
+- Cashier can view everything without pos
 

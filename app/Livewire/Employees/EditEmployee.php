@@ -5,9 +5,12 @@ namespace App\Livewire\Employees;
 use App\Livewire\Forms\EmployeeForm;
 use App\Models\Employee;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class EditEmployee extends Component
 {
+    use Toast;
+
     public EmployeeForm $form;
 
     public function mount(Employee $employee)
@@ -21,7 +24,7 @@ class EditEmployee extends Component
     {
         $this->form->update();
 
-        session()->flash('status', __('Record has been updated successfully'));
+        $this->success(__('Record has been updated successfully'));
         return $this->redirect(ListEmployee::class, navigate: true);
     }
 

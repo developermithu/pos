@@ -5,9 +5,12 @@ namespace App\Livewire\Expenses;
 use App\Livewire\Forms\ExpenseForm;
 use App\Models\Expense;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class EditExpense extends Component
 {
+    use Toast;
+
     public ExpenseForm $form;
 
     public function mount(Expense $expense)
@@ -20,7 +23,7 @@ class EditExpense extends Component
     {
         $this->form->update();
 
-        session()->flash('status', __('Record has been updated successfully'));
+        $this->success(__('Record has been updated successfully'));
         return $this->redirect(TodaysExpenses::class, navigate: true);
     }
 

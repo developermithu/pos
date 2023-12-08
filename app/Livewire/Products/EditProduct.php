@@ -5,9 +5,12 @@ namespace App\Livewire\Products;
 use App\Models\Product;
 use App\Models\Supplier;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class EditProduct extends Component
 {
+    use Toast;
+
     public $product;
 
     public $supplier_id = '';
@@ -22,7 +25,7 @@ class EditProduct extends Component
     public function mount(Product $product)
     {
         $this->authorize('update', $this->product);
-        
+
         $this->product = $product;
 
         $this->supplier_id = $product->supplier_id;
@@ -49,7 +52,7 @@ class EditProduct extends Component
             'selling_price' => $this->selling_price,
         ]);
 
-        session()->flash('status', __('Record has been updated successfully'));
+        $this->success(__('Record has been updated successfully'));
         return $this->redirect(ListProduct::class, navigate: true);
     }
 

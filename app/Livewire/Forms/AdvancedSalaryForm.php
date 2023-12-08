@@ -6,9 +6,12 @@ use App\Livewire\Salary\ListAdvancedSalary;
 use App\Models\AdvancedSalary;
 use Livewire\Attributes\Rule;
 use Livewire\Form;
+use Mary\Traits\Toast;
 
 class AdvancedSalaryForm extends Form
 {
+    use Toast;
+
     public ?AdvancedSalary $advanced_salary;
 
     #[Rule('required|exists:employees,id', as: 'employee')]
@@ -47,7 +50,7 @@ class AdvancedSalaryForm extends Form
             ->first();
 
         if ($alreadyPaid) {
-            session()->flash('status', 'Advanced salary already paid.');
+            $this->success(__('Advanced salary already paid.'));
             return back();
         } else {
             AdvancedSalary::create(
@@ -61,7 +64,7 @@ class AdvancedSalaryForm extends Form
 
             $this->reset();
 
-            session()->flash('status', __('Record has been created successfully'));
+            $this->success(__('Record has been created successfully'));
             return back();
         }
     }

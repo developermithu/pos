@@ -7,9 +7,12 @@ use App\Models\Attendance;
 use App\Models\Employee;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class AddAttendance extends Component
 {
+    use Toast;
+
     public $date;
     public $attendanceStatus = [];
 
@@ -34,8 +37,7 @@ class AddAttendance extends Component
         $this->attendanceStatus = [];
         $this->date = '';
 
-        session()->flash('status', 'Attendance marked successfully');
-
+        $this->success(__('Attendance marked successfully'));
         return back();
     }
 

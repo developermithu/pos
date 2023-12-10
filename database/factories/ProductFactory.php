@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'supplier_id' => rand(1, 50),
+            'supplier_id' => Supplier::factory(),
             'name' => fake()->words(rand(1, 4), true),
             'sku' => 'SKU-' . fake()->unique()->numberBetween(000000, 999999),
             'qty' => rand(50, 100),

@@ -12,6 +12,11 @@ yarn install && yarn dev
 php artisan serve
 ```
 
+## Hostinger Info
+
+By default ```composer --version``` will display composer version 1.0 but runing ```php composer.phar --version``` will display latest version and by running ```php composer.phar``` we can modify composer version.
+
+
 Generate model helper by running ```php artisan ide-helper:models``` after migrating new models.
 
 ## Composer commands

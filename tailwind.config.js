@@ -14,7 +14,7 @@ export default {
     ],
 
     daisyui: {
-        themes: ["light", "dark", "cupcake"],
+        themes: ["light", "dark"],
     },
 
     safelist: [

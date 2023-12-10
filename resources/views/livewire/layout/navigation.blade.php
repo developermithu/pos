@@ -53,6 +53,9 @@ new class extends Component {
                             placeholder="{{ __('search') }}">
                     </div>
                 </form> --}}
+
+                {{-- Banner --}}
+                <x-banner />
             </div>
 
             <div x-data="{ displayNotifications: false }" class="flex items-center">

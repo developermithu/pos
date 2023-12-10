@@ -8,6 +8,7 @@ use App\Livewire\Attendance\ShowAttendance;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
+use App\Livewire\Dashboard;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
@@ -46,11 +47,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', 'dashboard');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('admin.dashboard');
+Route::redirect('/', '/admin/dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -60,6 +57,8 @@ require __DIR__ . '/auth.php';
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+
     Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
         Route::get('/', ListSupplier::class)->name('index');
         Route::get('/create', CreateSupplier::class)->name('create');

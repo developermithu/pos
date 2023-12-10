@@ -89,7 +89,7 @@
                 </x-table.cell>
                 <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $sale->invoice_no }}
                 </x-table.cell>
-                <x-table.cell> {{ $sale->customer->name }} </x-table.cell>
+                <x-table.cell> {{ $sale->customer->name ?? '' }} </x-table.cell>
                 <x-table.cell> {{ $sale->payment_method }} </x-table.cell>
                 <x-table.cell> {{ $sale->due }} </x-table.cell>
                 <x-table.cell> {{ $sale->advanced_paid }} </x-table.cell>

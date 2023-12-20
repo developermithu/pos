@@ -77,6 +77,6 @@ class ProductPolicy
 
     public function posManagement(User $user): bool
     {
-        return $user->isManager() || $user->isCashier();
+        return $user->isManager();
     }
 }

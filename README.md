@@ -14,7 +14,8 @@ php artisan serve
 
 ## Hostinger Info
 
-By default ```composer --version``` will display composer version 1.0 but runing ```php composer.phar --version``` will display latest version and by running ```php composer.phar``` we can modify composer version.
+By default ```composer --version``` will display composer version 1.0 but runing ```php composer.phar --version``` will display latest version and by running ```php composer.phar``` we can modify composer version. 
+When deploying production instead of **composer install --optimize-autoloader --no-dev** we have to run ```php composer.phar install --optimize-autoloader --no-dev```
 
 
 Generate model helper by running ```php artisan ide-helper:models``` after migrating new models.
@@ -30,19 +31,11 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 
 - [x] Employee Attendance management
 - [ ] Category management
-- [x] Product management
-  - [x] create
-  - [x] edit
-  - [x] delete
-  - [x] show
+- [ ] Product management
   - [ ] adding attributes (kg, gm, cm)
   - [ ] import and export from excel file
 - [x] Manage Inventory Expenses
-- [x] POS management
 - [ ] Stock management
-- [x] Order Invoice generate pdf
-- [ ] User roles and permissions (Manager, Cashier)
-- [x] Adding page title
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Loading components
@@ -52,7 +45,6 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
 - [ ] Bulk deleting
-- [x] Trash deleting (delete forever)
 - [ ] Log view
 - [ ] Customize code for production
 

@@ -11,7 +11,7 @@
                         {{ __('dashboard') }}
                     </x-sidebar.link>
 
-                    @can('viewPos', App\Models\Product::class)
+                    @can('posManagement', App\Models\Product::class)
                         <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
                             <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
                             {{ __('pos') }}

@@ -12,6 +12,8 @@ use App\Livewire\Dashboard;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
+use App\Livewire\ExpenseCategories\EditExpenseCategory;
+use App\Livewire\ExpenseCategories\ListExpenseCategory;
 use App\Livewire\Expenses\CreateExpense;
 use App\Livewire\Expenses\EditExpense;
 use App\Livewire\Expenses\MonthlyExpenses;
@@ -105,7 +107,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/{product}/show', ShowProduct::class)->name('show');
     });
 
-    // Inventory Expense management
+    // Expense category management
+    Route::group(['prefix' => 'expense/categories', 'as' => 'expense.category.'], function () {
+        Route::get('/', ListExpenseCategory::class)->name('index');
+        Route::get('/{expenseCategory}/edit', EditExpenseCategory::class)->name('edit');
+    });
+
+    // Expense management
     Route::group(['prefix' => 'expenses', 'as' => 'expenses.'], function () {
         Route::get('/create', CreateExpense::class)->name('create');
         Route::get('/{expense}/edit', EditExpense::class)->name('edit');
@@ -114,7 +122,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/yearly', YearlyExpenses::class)->name('yearly');
     });
 
-    // Inventory Expense management
+    // Sale invoice
     Route::group(['prefix' => 'pos', 'as' => 'pos.'], function () {
         Route::get('/', PosManagement::class)->name('index');
         Route::get('/create-invoice', CreateInvoice::class)->name('create.invoice');

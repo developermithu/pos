@@ -91,13 +91,17 @@
                 </ul>
 
                 <ul class="pt-2 space-y-2">
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.*') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.*') || request()->routeIs('admin.expense.category.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
                                 {{ __('manage expenses') }}
                             </x-collapsible.button>
                         </x-slot>
+
+                        <x-collapsible.item :href="route('admin.expense.category.index')" :active="request()->routeIs('admin.expense.category.index')">
+                            {{ __('expense categories') }}
+                        </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.expenses.create')" :active="request()->routeIs('admin.expenses.create')">
                             {{ __('add expense') }}

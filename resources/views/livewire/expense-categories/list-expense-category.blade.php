@@ -1,0 +1,139 @@
+<div>
+    <div class="p-4 block bg-white border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+        <div class="w-full mb-1">
+            <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
+                {{-- Breadcrumb --}}
+                <nav class="flex order-2">
+                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                        <li class="inline-flex items-center">
+                            <a wire:navigate href="{{ route('admin.dashboard') }}"
+                                class="inline-flex items-center text-gray-400 capitalize hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
+                                <x-heroicon-s-home class="mr-2.5" />
+                                {{ __('dashboard') }}
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
+                                <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
+                                    {{ __('expense categories') }}
+                                </span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+
+                <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
+                    {{ __('expense category list') }}
+                </h1>
+            </div>
+
+            <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <form class="sm:pr-3" action="#" method="GET">
+                        <label for="customers-search" class="sr-only">Search</label>
+                        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+                            <x-input wire:model.live.debounce.250ms="search" placeholder="{{ __('search') }}.." />
+                        </div>
+                    </form>
+                </div>
+
+                {{-- Filter Dropdown --}}
+                <div class="flex items-center gap-3">
+                    <x-dropdown align="top" width="64" closeAfterClick="false">
+                        <x-slot name="trigger">
+                            <button
+                                class="inline-flex items-center text-primary bg-white border border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/20 font-medium rounded text-sm px-3 py-1.5 tracking-wider dark:bg-primary/80 dark:text-white dark:border-primary/60 gap-x-1.5 dark:focus:ring-primary/70 capitalize"
+                                type="button">
+                                {{ __('filter by') }}
+                                <x-heroicon-m-chevron-down class="w-5 h-5" />
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Dropdown menu -->
+                            <div class="z-10 block p-4 bg-white dark:bg-gray-700">
+                                <div
+                                    class="flex items-center justify-between mb-3 text-sm font-medium text-gray-900 dark:text-white">
+                                    <x-button wire:click="clear" flat="warning"> {{ __('clear') }} </x-button>
+                                </div>
+
+                                <x-input.select wire:model.change="filterByTrash" class="py-1.5 px-3 text-sm">
+                                    <option value="">{{ __('without trash records') }}</option>
+                                    <option value="withTrashed">{{ __('with trash records') }}</option>
+                                    <option value="onlyTrashed">{{ __('only trash records') }}</option>
+                                </x-input.select>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+
+                    @can('create', App\Models\ExpenseCategory::class)
+                        <x-button x-on:click.prevent="$dispatch('open-modal', 'create')">
+                            <x-heroicon-m-plus class="w-4 h-4" />
+                            {{ __('add new') }}
+                        </x-button>
+                    @endcan
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Create Modal --}}
+    @include('partials.create-modal', ['size' => 'md'])
+
+    <x-table>
+        <x-slot name="heading">
+            <x-table.heading> {{ __('no') }} </x-table.heading>
+            <x-table.heading> {{ __('name') }} </x-table.heading>
+            <x-table.heading> {{ __('details') }} </x-table.heading>
+            <x-table.heading> {{ __('actions') }} </x-table.heading>
+        </x-slot>
+
+        @forelse ($expenseCategories as $key => $expenseCategory)
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $expenseCategory->id }}"
+                wire:target="search, filterByTrash, clear, deleteSelected, destroy, forceDelete, restore">
+                <x-table.cell> {{ $key + 1 }} </x-table.cell>
+                <x-table.cell> {{ $expenseCategory->name }} </x-table.cell>
+                <x-table.cell> {{ $expenseCategory->description }} </x-table.cell>
+
+                <x-table.cell class="space-x-2">
+                    @if ($expenseCategory->trashed())
+                        <x-button flat="primary" wire:click="restore({{ $expenseCategory->id }})">
+                            <x-heroicon-o-arrow-path /> {{ __('restore') }}
+                        </x-button>
+
+                        <x-button flat="danger"
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $expenseCategory->id }}')">
+                            <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
+                        </x-button>
+
+                        @include('partials.delete-forever-modal', ['data' => $expenseCategory])
+                    @else
+                        @can('update', $expenseCategory)
+                            <x-button flat="warning" :href="route('admin.expense.category.edit', $expenseCategory)">
+                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
+                            </x-button>
+                        @endcan
+
+                        @can('delete', $expenseCategory)
+                            <x-button flat="danger"
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $expenseCategory->id }}')">
+                                <x-heroicon-o-trash /> {{ __('delete') }}
+                            </x-button>
+
+                            @include('partials.delete-modal', ['data' => $expenseCategory])
+                        @endcan
+                    @endif
+                </x-table.cell>
+            </x-table.row>
+
+        @empty
+            <x-table.data-not-found colspan="4" />
+        @endforelse
+    </x-table>
+
+    {{-- Pagination --}}
+    <div class="p-4">
+        {{ $expenseCategories->links() }}
+    </div>
+</div>

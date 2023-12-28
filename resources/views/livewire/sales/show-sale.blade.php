@@ -1,35 +1,10 @@
 <div>
     <div class="grid grid-cols-12 gap-5 px-4 py-6 lg:gap-y-10 dark:bg-gray-900">
         <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
-            {{-- Breadcrumb --}}
-            <nav class="flex order-2">
-                <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
-                    <li class="inline-flex items-center">
-                        <a wire:navigate href="{{ route('admin.dashboard') }}"
-                            class="inline-flex items-center text-gray-400 capitalize hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                            <x-heroicon-s-home class="mr-2.5" />
-                            {{ __('dashboard') }}
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
-                            <a wire:navigate href="{{ route('admin.sales.index') }}"
-                                class="ml-1 text-gray-400 capitalize md:ml-2 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                                {{ __('sales') }}
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
-                            <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                {{ __('details') }}
-                            </span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
+            <x-breadcrumb>
+                <x-breadcrumb.item :label="__('sales')" :href="route('admin.sales.index')" />
+                <x-breadcrumb.item :label="__('details')" />
+            </x-breadcrumb>
 
             <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
                 {{ __('sale details') }}
@@ -187,7 +162,7 @@
                                     {{ __('name') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->name ?? ''}}
+                                    {{ $sale->customer->name ?? '' }}
                                 </p>
                             </div>
                         </li>
@@ -209,7 +184,7 @@
                                     {{ __('phone number') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->phone_number ?? ''}}
+                                    {{ $sale->customer->phone_number ?? '' }}
                                 </p>
                             </div>
                         </li>
@@ -231,7 +206,8 @@
 
                 @forelse ($sale->items as $item)
                     <x-table.row wire:key="{{ $item->id }}" class="hover:bg-transparent dark:hover:bg-transparent">
-                        <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $item->product->sku ?? '' }}
+                        <x-table.cell class="font-medium text-gray-800 dark:text-white">
+                            {{ $item->product->sku ?? '' }}
                         </x-table.cell>
                         <x-table.cell> {{ $item->product->name ?? '' }} </x-table.cell>
                         <x-table.cell> {{ $item->qty }} </x-table.cell>

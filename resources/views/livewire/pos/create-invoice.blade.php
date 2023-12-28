@@ -2,35 +2,10 @@
     <div class="grid grid-cols-1 p-4 lg:grid-cols-12 gap-4 dark:bg-gray-900 lg:mt-1.5">
         <div class="mb-1 col-span-full print:hidden">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
-                {{-- Breadcrumb --}}
-                <nav class="flex order-2">
-                    <ol class="inline-flex flex-wrap items-center space-x-1 text-sm font-medium md:space-x-2">
-                        <li class="inline-flex items-center">
-                            <a wire:navigate href="{{ route('admin.dashboard') }}"
-                                class="inline-flex items-center text-gray-400 capitalize hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                                <x-heroicon-s-home class="mr-2.5" />
-                                {{ __('dashboard') }}
-                            </a>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
-                                <a wire:navigate href="{{ route('admin.pos.index') }}"
-                                    class="ml-1 text-gray-400 capitalize md:ml-2 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300">
-                                    {{ __('pos') }}
-                                </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <x-heroicon-m-chevron-right class="w-6 h-6 text-gray-400" />
-                                <span class="ml-1 text-gray-500 capitalize md:ml-2 dark:text-gray-300">
-                                    {{ __('generate invoice') }}
-                                </span>
-                            </div>
-                        </li>
-                    </ol>
-                </nav>
+                <x-breadcrumb>
+                    <x-breadcrumb.item :label="__('pos')" :href="route('admin.pos.index')" />
+                    <x-breadcrumb.item :label="__('generate invoice')" />
+                </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
                     {{ __('generate invoice') }}

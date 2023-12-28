@@ -11,11 +11,10 @@ class MonthlyExpenses extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $month = date('F');
+        $monthlyExpenses = Expense::whereMonth('date', now()->month)->paginate(20);
+        $monthlyTotalExpense = Expense::whereMonth('date', now()->month)->sum('amount') / 100;
 
-        $monthlyExpenses = Expense::where('month', $month)->paginate(20);
-        $monthlyTotalExpense = Expense::where('month', $month)->sum('amount') / 100;
-
-        return view('livewire.expenses.monthly-expenses', compact('monthlyExpenses', 'monthlyTotalExpense'))->title(__('monthly expenses'));
+        return view('livewire.expenses.monthly-expenses', compact('monthlyExpenses', 'monthlyTotalExpense'))
+            ->title(__('monthly expenses'));
     }
 }

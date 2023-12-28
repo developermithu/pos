@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ExpenseCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('expense_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ExpenseCategory::class)->cascadeOnDelete();
-            $table->text('details', 500);
-            $table->integer('amount');
-            $table->timestamp('date');
+            $table->string('name')->unique();
+            $table->text('description', 500)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('expense_categories');
     }
 };

@@ -11,8 +11,8 @@ class TodaysExpenses extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $todaysExpenses = Expense::where('date', date('Y-m-d'))->get();
-        $todaysTotalExpense = Expense::where('date', date('Y-m-d'))->sum('amount') / 100;
+        $todaysExpenses = Expense::whereDay('date', now()->today())->get();
+        $todaysTotalExpense = Expense::whereDay('date', now()->today())->sum('amount') / 100;
 
         return view('livewire.expenses.todays-expenses', compact('todaysExpenses', 'todaysTotalExpense'))->title(__('todays expenses'));
     }

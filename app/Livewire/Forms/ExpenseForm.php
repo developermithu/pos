@@ -16,12 +16,16 @@ class ExpenseForm extends Form
     #[Rule('required|integer')]
     public $amount;
 
+    #[Rule('required|exists:expense_categories,id', as: 'expense category')]
+    public $expense_category_id;
+
     public function setExpense(Expense $expense)
     {
         $this->expense = $expense;
 
         $this->details = $expense->details;
         $this->amount = $expense->amount;
+        $this->expense_category_id = $expense->expense_category_id;
     }
 
     public function store()
@@ -29,10 +33,9 @@ class ExpenseForm extends Form
         $this->validate();
 
         Expense::create([
+            'expense_category_id' => $this->expense_category_id,
             'details' => $this->details,
             'amount' => $this->amount,
-            'month' => date('F'),
-            'year' => date('Y'),
             'date' => date('Y-m-d'),
         ]);
     }
@@ -42,10 +45,9 @@ class ExpenseForm extends Form
         $this->validate();
 
         $this->expense->update([
+            'expense_category_id' => $this->expense_category_id,
             'details' => $this->details,
             'amount' => $this->amount,
-            'month' => date('F'),
-            'year' => date('Y'),
             'date' => date('Y-m-d'),
         ]);
     }

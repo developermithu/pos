@@ -68,8 +68,7 @@
             </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('month') }} </x-table.heading>
-            <x-table.heading> {{ __('year') }} </x-table.heading>
+            <x-table.heading> {{ __('date') }} </x-table.heading>
         </x-slot>
 
         @forelse ($monthlyExpenses as $monthlyExpense)
@@ -82,8 +81,7 @@
                     {{ Str::limit($monthlyExpense->details, 50, '..') }}
                 </x-table.cell>
                 <x-table.cell class="font-semibold"> {{ number_format($monthlyExpense->amount) }} ৳ </x-table.cell>
-                <x-table.cell> {{ $monthlyExpense->month }} </x-table.cell>
-                <x-table.cell> {{ $monthlyExpense->year }} </x-table.cell>
+                <x-table.cell> {{ $monthlyExpense->date->format('d M, Y') }} </x-table.cell>
             </x-table.row>
 
         @empty

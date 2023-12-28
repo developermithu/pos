@@ -42,6 +42,15 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
+                    <x-input.group for="expense_category_id" label="{{ __('expense category') }}" :error="$errors->first('form.expense_category_id')">
+                        <x-input.select wire:model="form.expense_category_id" required>
+                            <option value="">-- select --</option>
+                            @foreach (App\Models\ExpenseCategory::pluck('name', 'id') as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </x-input.select>
+                    </x-input.group>
+
                     <x-input.group for="amount" label="{{ __('amount') }}" :error="$errors->first('form.amount')"
                         class="sm:col-span-full">
                         <x-input type="number" wire:model="form.amount" id="amount" />
@@ -62,10 +71,4 @@
             </form>
         </div>
     </div>
-
-    {{-- <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4">
-        <div class="col-span-"></div>
-        <div class="col-span-8">
-        </div>
-    </div> --}}
 </div>

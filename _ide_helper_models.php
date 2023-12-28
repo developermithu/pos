@@ -53,17 +53,49 @@ namespace App\Models{
  * @property \App\Enums\AttendanceStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Employee $employee
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance query()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance withoutTrashed()
  */
 	class Attendance extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Category
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category withoutTrashed()
+ */
+	class Category extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -115,6 +147,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\AdvancedSalary|null $advanceSalary
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
+ * @property-read int|null $attendances_count
  * @property-read \App\Models\PaySalary|null $paySalary
  * @method static \Database\Factories\EmployeeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
@@ -136,6 +170,65 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee withoutTrashed()
  */
 	class Employee extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Expense
+ *
+ * @property int $id
+ * @property int $expense_category_id
+ * @property string $details
+ * @property int $amount
+ * @property \Illuminate\Support\Carbon $date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\ExpenseCategory|null $category
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereExpenseCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense withoutTrashed()
+ */
+	class Expense extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ExpenseCategory
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Expense> $expenses
+ * @property-read int|null $expenses_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory withoutTrashed()
+ */
+	class ExpenseCategory extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -173,6 +266,126 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property int|null $category_id
+ * @property int $supplier_id
+ * @property string $name
+ * @property string $sku
+ * @property int $qty
+ * @property \Illuminate\Support\Carbon|null $buying_date
+ * @property \Illuminate\Support\Carbon|null $expired_date
+ * @property int|null $buying_price
+ * @property int|null $selling_price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Supplier $supplier
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereBuyingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereBuyingPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereExpiredDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSellingPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product withoutTrashed()
+ */
+	class Product extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Sale
+ *
+ * @property int $id
+ * @property int $customer_id
+ * @property string $invoice_no
+ * @property int|null $due
+ * @property int|null $advanced_paid
+ * @property int $subtotal
+ * @property int|null $tax
+ * @property int $total
+ * @property \Illuminate\Support\Carbon $date
+ * @property string $payment_method
+ * @property \App\Enums\SaleStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Customer $customer
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SaleItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\Transaction|null $transaction
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereAdvancedPaid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereInvoiceNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereSubtotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale withoutTrashed()
+ */
+	class Sale extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\SaleItem
+ *
+ * @property int $id
+ * @property int $sale_id
+ * @property int $product_id
+ * @property int $price
+ * @property int $qty
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\Sale $sale
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereSaleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleItem withoutTrashed()
+ */
+	class SaleItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Supplier
  *
  * @property int $id
@@ -184,6 +397,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier newQuery()
@@ -206,11 +421,45 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Transaction
+ *
+ * @property int $id
+ * @property int $sale_id
+ * @property string $method
+ * @property string|null $transaction_id
+ * @property string|null $details
+ * @property \App\Enums\TransactionStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Sale $sale
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereSaleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction withoutTrashed()
+ */
+	class Transaction extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property \App\Enums\UserRole $role
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property mixed $password
  * @property string|null $remember_token
@@ -231,6 +480,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}

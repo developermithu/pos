@@ -48,7 +48,6 @@ class ExpenseForm extends Form
             'expense_category_id' => $this->expense_category_id,
             'details' => $this->details,
             'amount' => $this->amount,
-            'date' => date('Y-m-d'),
         ]);
     }
 }

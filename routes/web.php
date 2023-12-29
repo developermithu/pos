@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\LanguageSwitchController;
+use App\Livewire\Accounts\EditAccount;
+use App\Livewire\Accounts\ListAccount;
+use App\Livewire\Accounts\ShowAccount;
 use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
 use App\Livewire\Attendance\ListAttendance;
@@ -120,6 +123,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/todays', TodaysExpenses::class)->name('todays');
         Route::get('/monthly', MonthlyExpenses::class)->name('monthly');
         Route::get('/yearly', YearlyExpenses::class)->name('yearly');
+    });
+
+    // Account management
+    Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function () {
+        Route::get('/', ListAccount::class)->name('index');
+        Route::get('/{account}/edit', EditAccount::class)->name('edit');
     });
 
     // Sale invoice

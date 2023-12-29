@@ -88,9 +88,20 @@
                             {{ __('attendance list') }}
                         </x-collapsible.item>
                     </x-collapsible>
-                </ul>
 
-                <ul class="pt-2 space-y-2">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.accounts.*') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                {{ __('manage accounts') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.index')">
+                            {{ __('account list') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
+
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.*') || request()->routeIs('admin.expense.category.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
@@ -125,6 +136,7 @@
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                         {{ __('settings') }}
                     </x-sidebar.link>
+                </ul>
             </div>
         </div>
     </div>

@@ -21,7 +21,6 @@ class CreateExpense extends Component
     public function save()
     {
         $this->form->store();
-
         $this->form->reset();
 
         $this->success(__('Record has been created successfully'));

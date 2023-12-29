@@ -12,6 +12,46 @@
 
 namespace App\Models{
 /**
+ * App\Models\Account
+ *
+ * @property int $id
+ * @property string $account_no
+ * @property string $name
+ * @property int $initial_balance
+ * @property int $total_balance
+ * @property int|null $credit
+ * @property int|null $debit
+ * @property int $is_default
+ * @property int $is_active
+ * @property string|null $details
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Account newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereAccountNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereCredit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereDebit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereInitialBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereIsDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereTotalBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Account withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Account withoutTrashed()
+ */
+	class Account extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\AdvancedSalary
  *
  * @property int $id

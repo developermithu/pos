@@ -54,7 +54,8 @@ class DatabaseSeeder extends Seeder
 
         // Seeders
         $this->call([
-            ExpenseSeeder::class
+            AccountSeeder::class,
+            ExpenseSeeder::class,
         ]);
     }
 }

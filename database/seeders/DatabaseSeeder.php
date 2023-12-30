@@ -47,15 +47,17 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::IS_CASHIER->value
         ]);
 
-        Supplier::factory(20)->create();
-        Customer::factory(10)->create();
-        Employee::factory(10)->create();
-        Product::factory(100)->create();
-
         // Seeders
         $this->call([
             AccountSeeder::class,
             ExpenseSeeder::class,
+            UnitSeeder::class,
+            CategorySeeder::class,
         ]);
+
+        Supplier::factory(20)->create();
+        Customer::factory(10)->create();
+        Employee::factory(10)->create();
+        Product::factory(100)->create();
     }
 }

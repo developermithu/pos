@@ -8,6 +8,8 @@ use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
 use App\Livewire\Attendance\ListAttendance;
 use App\Livewire\Attendance\ShowAttendance;
+use App\Livewire\Categories\EditCategory;
+use App\Livewire\Categories\ListCategory;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
@@ -39,6 +41,8 @@ use App\Livewire\Sales\ShowSale;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
+use App\Livewire\Units\EditUnit;
+use App\Livewire\Units\ListUnit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -108,6 +112,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/create', CreateProduct::class)->name('create');
         Route::get('/{product}/edit', EditProduct::class)->name('edit');
         Route::get('/{product}/show', ShowProduct::class)->name('show');
+    });
+
+    // Unit Management
+    Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+        Route::get('/', ListCategory::class)->name('index');
+        Route::get('/{category}/edit', EditCategory::class)->name('edit');
+    });
+
+    // Unit Management
+    Route::group(['prefix' => 'units', 'as' => 'units.'], function () {
+        Route::get('/', ListUnit::class)->name('index');
+        Route::get('/{unit}/edit', EditUnit::class)->name('edit');
     });
 
     // Expense category management

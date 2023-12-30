@@ -1,4 +1,4 @@
-<tr {{ $attributes }} class="hover:bg-gray-100 dark:hover:bg-gray-700">
+<tr {{ $attributes }} class="hover:bg-gray-50 dark:hover:bg-gray-700">
 
     {{ $slot }}
 

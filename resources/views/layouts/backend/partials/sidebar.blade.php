@@ -18,10 +18,27 @@
                         </x-sidebar.link>
                     @endcan
 
-                    <x-sidebar.link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
-                        <x-slot name="icon"><x-heroicon-m-shopping-bag class="w-6 h-6" /></x-slot>
-                        {{ __('products') }}
-                    </x-sidebar.link>
+                    {{-- Product Management --}}
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.units.*') || request()->routeIs('admin.categories.*') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                {{ __('products') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                            {{ __('product list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.units.index')" :active="request()->routeIs('admin.units.*')">
+                            {{ __('unit list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
+                            {{ __('category list') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
 
                     <x-sidebar.link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
                         <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>

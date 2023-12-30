@@ -55,3 +55,37 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - Manager can view, edit, create, update and delete but **can not view cash information**
 - Cashier can view everything without pos
 
+
+## New Models
+
+- account management lagbe ?
+- cashbook ki ki lagbe ?
+- store_id lagbe ?
+- payment ki sob cash hoy na bank ?
+
+1. Account
+  - id
+  - name
+  - account_no
+  - description
+  - initial_balance
+  - total_balance
+  - credit
+  - debit
+  - balance
+  - is_default
+  - is_active
+
+
+2. CashbookEntry 
+  - id
+  - store_id ?
+    - id
+    - name
+    - address
+    - deposit_balance
+  - account_id
+  - description
+  - folio ?
+  - type (deposit/expense)
+  - amount  

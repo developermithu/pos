@@ -9,10 +9,12 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+use function Livewire\Volt\title;
+
 class ListUnit extends Component
 {
     use WithPagination, Toast, SearchAndFilter;
-    
+
     public UnitForm $form;
 
     public function create()
@@ -21,7 +23,7 @@ class ListUnit extends Component
         $this->form->store();
 
         $this->success(__('Record has been created successfully'));
-        return back();
+        $this->dispatch('close');
     }
 
     public function destroy(Unit $unit)

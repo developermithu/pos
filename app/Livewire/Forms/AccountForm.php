@@ -15,7 +15,7 @@ class AccountForm extends Form
     public string $account_no = '';
     public int $initial_balance = 0;
     public ?string $details = '';
-    public int $total_balance;
+    public int $total_balance = 0;
 
     public function setAccount(Account $account)
     {
@@ -52,7 +52,7 @@ class AccountForm extends Form
     {
         return [
             'name' => ['required'],
-            'initial_balance' => ['required', 'numeric'],
+            'initial_balance' => ['required', 'numeric', 'integer', 'gte:0'],
             'account_no' => [
                 'required',
                 Rule::unique(Account::class)->ignore($this->account ?? null),

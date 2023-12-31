@@ -4,6 +4,7 @@ namespace App\Livewire\ExpenseCategories;
 
 use App\Livewire\Forms\ExpenseCategoryForm;
 use App\Models\ExpenseCategory;
+use App\Traits\SearchAndFilter;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -12,28 +13,16 @@ use Mary\Traits\Toast;
 
 class ListExpenseCategory extends Component
 {
-    use WithPagination, Toast;
-
+    use WithPagination, Toast, SearchAndFilter;
     public ExpenseCategoryForm $form;
 
-    #[Url(as: 'q')]
-    public $search = "";
-
-    #[Url(as: 'records')]
-    public $filterByTrash;
-
-    public $selected = [];
-
-    public function updated($propertyName)
+    public function create()
     {
-        if (in_array($propertyName, ['filterByTrash', 'search'])) {
-            $this->resetPage();
-        }
-    }
+        $this->authorize('create', ExpenseCategory::class);
+        $this->form->store();
 
-    public function clear()
-    {
-        $this->filterByTrash = '';
+        $this->success(__('Record has been created successfully'));
+        $this->dispatch('close');
     }
 
     public function destroy(ExpenseCategory $expenseCategory)
@@ -41,7 +30,6 @@ class ListExpenseCategory extends Component
         $this->authorize('delete', $expenseCategory);
 
         $expenseCategory->delete();
-
         $this->success(__('Record has been deleted successfully'));
         return back();
     }
@@ -96,16 +84,5 @@ class ListExpenseCategory extends Component
 
         return view('livewire.expense-categories.list-expense-category', compact('expenseCategories'))
             ->title(__('expense category list'));
-    }
-
-    // Create expense category
-    public function create()
-    {
-        $this->authorize('create', ExpenseCategory::class);
-
-        $this->form->store();
-
-        $this->success(__('Record has been created successfully'));
-        return back();
     }
 }

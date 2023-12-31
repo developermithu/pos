@@ -3,6 +3,7 @@
 namespace App\Livewire\Products;
 
 use App\Models\Product;
+use App\Traits\SearchAndFilter;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,29 +11,9 @@ use Mary\Traits\Toast;
 
 class ListProduct extends Component
 {
-    use Toast;
-
-    use WithPagination;
-
-    #[Url(as: 'q')]
-    public string $search = "";
-
-    #[Url(as: 'records')]
-    public $filterByTrash;
+    use WithPagination, Toast, SearchAndFilter;
 
     public $selected = [];
-
-    public function updated($propertyName)
-    {
-        if (in_array($propertyName, ['filterByTrash', 'search'])) {
-            $this->resetPage();
-        }
-    }
-
-    public function clear()
-    {
-        $this->filterByTrash = '';
-    }
 
     public function render()
     {

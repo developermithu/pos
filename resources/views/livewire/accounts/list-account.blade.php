@@ -31,7 +31,7 @@
     </div>
 
     {{-- Create Modal --}}
-    @include('partials.create-account', ['size' => 'xl'])
+    @include('modals.create-account', ['size' => 'xl'])
 
     <x-table>
         <x-slot name="heading">

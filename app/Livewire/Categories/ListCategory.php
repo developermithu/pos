@@ -21,7 +21,7 @@ class ListCategory extends Component
         $this->form->store();
 
         $this->success(__('Record has been created successfully'));
-        return back();
+        $this->dispatch('close');
     }
 
     public function destroy(Category $category)

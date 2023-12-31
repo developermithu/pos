@@ -29,11 +29,7 @@ class UnitSeeder extends Seeder
             [
                 'name' => 'Liter',
                 'short_name' => 'l',
-            ],
-            [
-                'name' => 'Meter',
-                'short_name' => 'm',
-            ],
+            ]
         ];
 
         foreach ($units as $unit) {

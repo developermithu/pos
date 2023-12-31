@@ -32,7 +32,7 @@
     </div>
 
     {{-- Create Modal --}}
-    @include('partials.create-modal', ['size' => 'md'])
+    @include('modals.create-expense-category', ['size' => 'md'])
 
     <x-table>
         <x-slot name="heading">

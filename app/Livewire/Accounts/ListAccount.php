@@ -4,6 +4,7 @@ namespace App\Livewire\Accounts;
 
 use App\Livewire\Forms\AccountForm;
 use App\Models\Account;
+use App\Traits\SearchAndFilter;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,28 +12,17 @@ use Mary\Traits\Toast;
 
 class ListAccount extends Component
 {
-    use WithPagination, Toast;
+    use WithPagination, Toast, SearchAndFilter;
 
     public AccountForm $form;
 
-    #[Url(as: 'q')]
-    public string $search = "";
-
-    #[Url(as: 'records')]
-    public $filterByTrash;
-
-    public $selected = [];
-
-    public function updated($propertyName)
+    public function create()
     {
-        if (in_array($propertyName, ['filterByTrash', 'search'])) {
-            $this->resetPage();
-        }
-    }
+        $this->authorize('create', Account::class);
+        $this->form->store();
 
-    public function clear()
-    {
-        $this->filterByTrash = '';
+        $this->success(__('Record has been created successfully'));
+        $this->dispatch('close');
     }
 
     public function destroy(Account $account)
@@ -93,15 +83,5 @@ class ListAccount extends Component
 
         return view('livewire.accounts.list-account', compact('accounts'))
             ->title(__('account list'));
-    }
-
-    public function create()
-    {
-        $this->authorize('create', Account::class);
-
-        $this->form->store();
-
-        $this->success(__('Record has been created successfully'));
-        return back();
     }
 }

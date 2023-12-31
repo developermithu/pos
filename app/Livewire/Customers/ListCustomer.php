@@ -3,6 +3,7 @@
 namespace App\Livewire\Customers;
 
 use App\Models\Customer;
+use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -11,27 +12,9 @@ use Mary\Traits\Toast;
 
 class ListCustomer extends Component
 {
-    use WithPagination, Toast;
-
-    #[Url(as: 'q')]
-    public $search = "";
-
-    #[Url(as: 'records')]
-    public $filterByTrash;
+    use WithPagination, Toast, SearchAndFilter;
 
     public $selected = [];
-
-    public function updated($propertyName)
-    {
-        if (in_array($propertyName, ['filterByTrash', 'search'])) {
-            $this->resetPage();
-        }
-    }
-
-    public function clear()
-    {
-        $this->filterByTrash = '';
-    }
 
     public function deleteSelected()
     {

@@ -14,6 +14,16 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         Account::create([
+            'account_no' => 12345,
+            'name' => 'Cash',
+            'initial_balance' => 0,
+            'total_balance' => 0,
+            'is_default' => false,
+            'is_active' => true,
+            'details' => 'Cashbook account'
+        ]);
+
+        Account::create([
             'account_no' => rand(10000, 50000),
             'name' => 'Sonali bank',
             'initial_balance' => 100000,

@@ -53,6 +53,8 @@ class DatabaseSeeder extends Seeder
             ExpenseSeeder::class,
             UnitSeeder::class,
             CategorySeeder::class,
+            StoreSeeder::class,
+            CashbookEntrySeeder::class,
         ]);
 
         Supplier::factory(20)->create();

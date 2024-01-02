@@ -17,6 +17,6 @@
     },
     "dependencies": {
         "daisyui": "^4.4.19",
-        "flag-icons": "^6.11.1"
+        "flag-icons": "^7.1.0"
     }
 }

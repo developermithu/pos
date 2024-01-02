@@ -50,32 +50,31 @@
                         {{ __('customers') }}
                     </x-sidebar.link>
 
-                    <x-sidebar.link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
-                        <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
-                        {{ __('employees') }}
-                    </x-sidebar.link>
-
                     <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
                         {{ __('suppliers') }}
                     </x-sidebar.link>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.advanced.salary.*') || request()->routeIs('admin.pay.salary.*') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
+                    {{-- Employee Management --}}
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.advanced.salary.*') || request()->routeIs('admin.pay.salary.*') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
-                                {{ __('employees salary') }}
+                                {{ __('employees') }}
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.index') ||
-                            request()->routeIs('admin.advanced.salary.edit')">
-                            {{ __('advanced salary list') }}
+                        <x-collapsible.item :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
+                            {{ __('employee list') }}
                         </x-collapsible.item>
 
-                        {{-- <x-collapsible.item :href="route('admin.advanced.salary.add')" :active="request()->routeIs('admin.advanced.salary.add')">
-                            {{ __('add advanced salary') }}
-                        </x-collapsible.item> --}}
+                        <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*')">
+                            {{ __('attendance') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.*')">
+                            {{ __('advanced salary list') }}
+                        </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.*')">
                             {{ __('pay salary') }}
@@ -86,44 +85,26 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.attendance.*') ? 'true' : 'false' }} }">
-                        <x-slot name="trigger">
-                            <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-check-badge class="w-6 h-6" /></x-slot>
-                                {{ __('manage attendance') }}
-                            </x-collapsible.button>
-                        </x-slot>
-
-                        @can('create', App\Models\Attendance::class)
-                            <x-collapsible.item :href="route('admin.attendance.add')" :active="request()->routeIs('admin.attendance.add')">
-                                {{ __('add attendance') }}
-                            </x-collapsible.item>
-                        @endcan
-
-                        <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.index') ||
-                            request()->routeIs('admin.attendance.edit')">
-                            {{ __('attendance list') }}
-                        </x-collapsible.item>
-                    </x-collapsible>
-
+                     {{-- Account Management --}}
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.accounts.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
-                                {{ __('manage accounts') }}
+                                {{ __('accounting') }}
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.index')">
+                        <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.*')">
                             {{ __('account list') }}
                         </x-collapsible.item>
                     </x-collapsible>
 
+                     {{-- Expense Management --}}
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.expenses.*') || request()->routeIs('admin.expense.category.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
-                                {{ __('manage expenses') }}
+                                {{ __('expenses') }}
                             </x-collapsible.button>
                         </x-slot>
 
@@ -149,6 +130,25 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
+                     {{-- Cashbooks Management --}}
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.stores.*') || request()->routeIs('admin.cashbooks.*')  ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                {{ __('cashbooks') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.cashbooks.index')" :active="request()->routeIs('admin.cashbooks.index')">
+                            {{ __('cashbook list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.stores.index')" :active="request()->routeIs('admin.stores.*')">
+                            {{ __('store list') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
+
+                     {{-- Settings Management --}}
                     <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('settings')">
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                         {{ __('settings') }}

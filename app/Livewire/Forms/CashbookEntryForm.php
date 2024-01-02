@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Livewire\Forms;
+
+use App\Enums\CashbookEntryType;
+use App\Models\CashbookEntry;
+use App\Models\Store;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
+use Livewire\Form;
+
+class CashbookEntryForm extends Form
+{
+    public ?CashbookEntry $entry;
+
+    public int|string $store_id = '';
+    public int $account_id = 1;
+    public $amount;
+    public $type = '';
+    public ?string $note = '';
+    public $date;
+
+
+    public function setCashbookEntry(CashbookEntry $entry)
+    {
+        $this->entry = $entry;
+
+        $this->store_id = $entry->store_id;
+        $this->amount = $entry->amount;
+        $this->type = $entry->type;
+        $this->note = $entry->note;
+        $this->date = $entry->date->format('Y-m-d');
+    }
+
+    public function store()
+    {
+        $this->validate();
+        CashbookEntry::create($this->only(['store_id', 'account_id', 'amount', 'type', 'note', 'date']));
+
+        $this->reset();
+    }
+
+    public function update()
+    {
+        $this->validate();
+        $this->entry->update($this->only(['store_id', 'amount', 'type', 'note', 'date']));
+    }
+
+    public function rules(): array
+    {
+        return [
+            'store_id' => [
+                'required',
+                Rule::exists(Store::class, 'id'),
+            ],
+            'type' => 'required',
+            'amount' => 'required|integer|numeric',
+            'date' => 'required',
+            'note' => 'nullable',
+        ];
+    }
+}

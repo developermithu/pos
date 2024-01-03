@@ -39,7 +39,7 @@ class ListProduct extends Component
                 }
             })
             ->latest('id')
-            ->paginate(25);
+            ->paginate(20);
 
         return view('livewire.products.list-product', compact('products'))->title(__('product list'));
     }

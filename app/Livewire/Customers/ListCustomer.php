@@ -49,7 +49,7 @@ class ListCustomer extends Component
         } catch (QueryException $e) {
             // Check if it's a foreign key constraint violation
             if ($e->getCode() == 23000) {
-                $this->warning(__('Cannot delete customer. Related sales records exist.'));
+                $this->warning(__('Failed to delete customer. There are existing sale records linked to it.'), timeout: 5000);
             }
         }
 

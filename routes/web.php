@@ -3,7 +3,6 @@
 use App\Http\Controllers\LanguageSwitchController;
 use App\Livewire\Accounts\EditAccount;
 use App\Livewire\Accounts\ListAccount;
-use App\Livewire\Accounts\ShowAccount;
 use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
 use App\Livewire\Attendance\ListAttendance;
@@ -52,11 +51,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::redirect('/', '/admin/dashboard');

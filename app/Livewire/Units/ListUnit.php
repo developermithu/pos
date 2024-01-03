@@ -5,6 +5,7 @@ namespace App\Livewire\Units;
 use App\Livewire\Forms\UnitForm;
 use App\Models\Unit;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -40,9 +41,16 @@ class ListUnit extends Component
         $unit = Unit::onlyTrashed()->findOrFail($id);
 
         $this->authorize('forceDelete', $unit);
-        $unit->forceDelete();
 
-        $this->success(__('Record has been deleted permanently'));
+        try {
+            $unit->forceDelete();
+            $this->success(__('Record has been deleted permanently'));
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) {
+                $this->warning(__('Failed to delete unit. There are existing product records linked to it.'), timeout: 5000);
+            }
+        }
+
         return back();
     }
 

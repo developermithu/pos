@@ -5,6 +5,7 @@ namespace App\Livewire\Categories;
 use App\Livewire\Forms\CategoryForm;
 use App\Models\Category;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -36,11 +37,17 @@ class ListCategory extends Component
     public function forceDelete($id)
     {
         $category = Category::onlyTrashed()->findOrFail($id);
-
         $this->authorize('forceDelete', $category);
-        $category->forceDelete();
 
-        $this->success(__('Record has been deleted permanently'));
+        try {
+            $category->forceDelete();
+            $this->success(__('Record has been deleted permanently'));
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) {
+                $this->warning(__('Failed to delete category. There are existing product records linked to it.'), timeout: 5000);
+            }
+        }
+
         return back();
     }
 

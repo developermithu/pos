@@ -30,7 +30,7 @@ class ListProduct extends Component
                     }
                 });
             })
-            ->with('supplier')
+            ->with('category:id,name', 'unit:id,short_name')
             ->when($this->filterByTrash, function ($query, $value) {
                 if ($value === "onlyTrashed") {
                     $query->onlyTrashed();

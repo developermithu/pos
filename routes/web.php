@@ -31,7 +31,6 @@ use App\Livewire\Pos\PosManagement;
 use App\Livewire\Products\CreateProduct;
 use App\Livewire\Products\EditProduct;
 use App\Livewire\Products\ListProduct;
-use App\Livewire\Products\ShowProduct;
 use App\Livewire\Salary\AddAdvancedSalary;
 use App\Livewire\Salary\EditAdvancedSalary;
 use App\Livewire\Salary\LastMonthSalary;
@@ -115,7 +114,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListProduct::class)->name('index');
         Route::get('/create', CreateProduct::class)->name('create');
         Route::get('/{product}/edit', EditProduct::class)->name('edit');
-        Route::get('/{product}/show', ShowProduct::class)->name('show');
     });
 
     // Unit Management

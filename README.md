@@ -48,16 +48,13 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 - [ ] Log view
 - [ ] Customize code for production
 
-
-## Roles Feature
-
-- Super Admin can do anything
-- Manager can view, edit, create, update and delete but **can not view cash information**
-- Cashier can view everything without pos
-
-
 ## New Models
 
+- Purchases
+  -  ProductPurchase (many to many)
+- Sales
+  - ProductSale (many to many)
+  
 1. CashbookEntry 
   - id
   - store_id ?
@@ -72,3 +69,8 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
   - type (deposit/expense)
   - amount  
   - balance
+
+## Meeting
+
+-  product selling price, expire date ?
+- 

@@ -2,22 +2,23 @@
 
 namespace App\Livewire\Products;
 
+use App\Models\Category;
 use App\Models\Product;
-use App\Models\Supplier;
+use App\Models\Unit;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 class CreateProduct extends Component
 {
     use Toast;
-    
-    public $supplier_id = '';
-    public $name;
-    public $qty;
-    public $buying_date;
-    public $expired_date;
-    public $buying_price;
-    public $selling_price;
+
+    public int|string $category_id = '';
+    public int|string $unit_id = '';
+    public string $name;
+    public ?int $qty;
+    public ?int $cost;
+    public int $price;
 
     public function mount()
     {
@@ -28,14 +29,15 @@ class CreateProduct extends Component
     {
         $this->validate();
 
+        $category_is_null = $this->category_id === '' || $this->category_id === null;
+
         Product::create([
-            'supplier_id' => $this->supplier_id,
+            'category_id' => $category_is_null ? null : $this->category_id,
+            'unit_id' => $this->unit_id,
             'name' => $this->name,
-            'qty' => $this->qty,
-            'buying_date' => $this->buying_date == "" ? null : $this->buying_date,
-            'expired_date' => $this->expired_date == "" ? null : $this->expired_date,
-            'buying_price' => $this->buying_price,
-            'selling_price' => $this->selling_price,
+            'qty' => $this->qty ?? null,
+            'cost' => $this->cost ?? null,
+            'price' => $this->price,
         ]);
 
         $this->success(__('Record has been created successfully'));
@@ -44,20 +46,26 @@ class CreateProduct extends Component
 
     public function render()
     {
-        $suppliers = Supplier::pluck('name', 'id');
-        return view('livewire.products.create-product', compact('suppliers'))->title(__('add new product'));
+        return view('livewire.products.create-product')->title(__('add new product'));
     }
 
     public function rules(): array
     {
         return [
-            'supplier_id' => 'required|exists:suppliers,id',
+            'category_id' => [
+                'nullable',
+                Rule::exists(Category::class, 'id')->when($this->category_id, function ($query) {
+                    return $query;
+                }),
+            ],
+            'unit_id' => [
+                'required',
+                Rule::exists(Unit::class, 'id')
+            ],
             'name' => 'required|string',
-            'qty' => 'required|integer',
-            'buying_date' => 'nullable|date|date_format:Y-m-d',
-            'expired_date' => 'nullable|date|date_format:Y-m-d|after:buying_date',
-            'buying_price' => 'nullable|integer',
-            'selling_price' => 'nullable|integer',
+            'qty' => 'nullable|numeric',
+            'cost' => 'nullable|numeric',
+            'price' => 'required|numeric',
         ];
     }
 }

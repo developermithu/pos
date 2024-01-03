@@ -15,12 +15,4 @@ class Supplier extends Model
     protected $cascadeDeletes = ['products'];
 
     protected $guarded = [];
-
-    /**
-     * Get all of the products for the Supplier
-     */
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
 }

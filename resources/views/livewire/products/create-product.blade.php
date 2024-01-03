@@ -16,37 +16,30 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('name')">
-                        <x-input wire:model="name" id="name" />
+                    <x-input.group for="name" :label="__('name *')" :error="$errors->first('name')">
+                        <x-input wire:model="name" id="name" required />
                     </x-input.group>
 
-                    <x-input.group for="supplier_id" label="{{ __('supplier name') }}" :error="$errors->first('supplier_id')">
-                        <x-input.select wire:model="supplier_id">
-                            <option value="" disabled>-- select supplier --</option>
-                            @foreach ($suppliers as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
+                    <x-input.group for="category_id" :label="__('category name')" :error="$errors->first('category_id')">
+                        <x-input.select wire:model="category_id" :options="App\Models\Category::pluck('name', 'id')">
                         </x-input.select>
                     </x-input.group>
 
-                    <x-input.group for="qty" label="{{ __('quantity') }}" :error="$errors->first('qty')">
-                        <x-input type="number" wire:model="qty" id="qty" />
+                    <x-input.group for="unit_id" :label="__('unit name *')" :error="$errors->first('unit_id')">
+                        <x-input.select wire:model="unit_id" :options="App\Models\Unit::pluck('short_name', 'id')" class="!lowercase" required>
+                        </x-input.select>
                     </x-input.group>
 
-                    <x-input.group for="buying_price" label="{{ __('buying price') }}" :error="$errors->first('buying_price')">
-                        <x-input type="number" wire:model="buying_price" id="buying_price" />
+                    <x-input.group for="qty" :label="__('quantity')" :error="$errors->first('qty')">
+                        <x-input type="number" wire:model="qty" id="qty" placeholder="0" />
                     </x-input.group>
 
-                    <x-input.group for="selling_price" label="{{ __('selling price') }}" :error="$errors->first('selling_price')">
-                        <x-input type="number" wire:model="selling_price" id="selling_price" />
+                    <x-input.group for="cost" :label="__('cost')" :error="$errors->first('cost')">
+                        <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
                     </x-input.group>
 
-                    <x-input.group for="buying_date" label="{{ __('buying date') }}" :error="$errors->first('buying_date')">
-                        <x-input type="date" wire:model="buying_date" id="buying_date" />
-                    </x-input.group>
-
-                    <x-input.group for="expired_date" label="{{ __('expired date') }}" :error="$errors->first('expired_date')">
-                        <x-input type="date" wire:model="expired_date" id="expired_date" />
+                    <x-input.group for="price" :label="__('price *')" :error="$errors->first('price')">
+                        <x-input type="number" wire:model="price" id="price" placeholder="00" required />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

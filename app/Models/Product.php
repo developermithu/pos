@@ -13,63 +13,28 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    // protected $dateFormat = 'd M, Y';
-
     protected $fillable = [
-        'supplier_id',
+        'category_id',
+        'unit_id',
         'name',
         'sku',
         'qty',
-        'buying_date',
-        'expired_date',
-        'buying_price',
-        'selling_price'
+        'cost',
+        'price'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'buying_date' => 'date:Y-m-d',
-        'expired_date' => 'date:Y-m-d',
+        'created_at' => 'date:Y-m-d'
     ];
-
-    /**
-     * Get the supplier that owns the Product
-     */
-    public function supplier(): BelongsTo
-    {
-        return $this->belongsTo(Supplier::class);
-    }
 
     // Methods
-    public function buying_date(): ?string
+    public function created_at(): string
     {
-        return $this->buying_date ? $this->buying_date->format('d M, Y') : '';
-    }
-
-    public function expired_date(): ?string
-    {
-        return $this->expired_date ? $this->expired_date->format('d M, Y') : '';
+        return $this->created_at->format('d M, Y');
     }
 
     // Mutator methods
-    protected function buyingPrice(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ? $value / 100 : null,
-            set: fn ($value) => $value ? $value * 100 : null,
-        );
-    }
-
-    protected function sellingPrice(): Attribute
+    protected function price(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value ? $value / 100 : null,
@@ -91,8 +56,19 @@ class Product extends Model
             $lastProduct = static::withTrashed()->latest('id')->first(); // Get the latest product by ID with trashed.
             $newSkuNumber = $lastProduct ? $lastProduct->id + 1 : 1; // Generate a new SKU number.
 
-            // Format the SKU as "SKU000001".
-            $product->sku = 'SKU-' . sprintf('%06d', $newSkuNumber);
+            // Format the SKU as "001".
+            $product->sku = sprintf('%03d', $newSkuNumber);
         });
+    }
+
+    //========== Relationships ===========//
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

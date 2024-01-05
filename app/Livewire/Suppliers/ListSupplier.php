@@ -19,8 +19,7 @@ class ListSupplier extends Component
     {
         $this->authorize('bulkDelete', Supplier::class);
 
-        $suppliers = Supplier::whereKey($this->selected);
-        $suppliers->delete();
+        Supplier::destroy($this->selected);
 
         $this->success(__('Selected records has been deleted'));
         return back();

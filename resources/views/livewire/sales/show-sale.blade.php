@@ -65,6 +65,28 @@
                         <li class="py-3">
                             <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
                                 <h2 class=" text-gray-900 capitalize mb-0.5 dark:text-white">
+                                    {{ __('paid amount') }} :
+                                </h2>
+                                <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
+                                    {{ $sale->paid_amount }} ৳
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="py-3">
+                            <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
+                                <h2 class=" text-gray-900 capitalize mb-0.5 dark:text-white">
+                                    {{ __('due') }} :
+                                </h2>
+                                <p class="flex-1 font-medium text-danger mb-0.5">
+                                    {{ $sale->total - $sale->paid_amount }} ৳
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="py-3">
+                            <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
+                                <h2 class=" text-gray-900 capitalize mb-0.5 dark:text-white">
                                     {{ __('status') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
@@ -88,7 +110,7 @@
             </div>
         </div>
 
-        <div class="xl:col-span-4 md:col-span-6 col-span-full">
+        {{-- <div class="xl:col-span-4 md:col-span-6 col-span-full">
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                 <div class="flow-root">
@@ -148,7 +170,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="xl:col-span-4 md:col-span-6 col-span-full">
             <div

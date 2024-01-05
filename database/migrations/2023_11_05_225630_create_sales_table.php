@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,14 +16,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained();
             $table->string('invoice_no');
-            $table->integer('due')->nullable();
-            $table->integer('advanced_paid')->nullable();
             $table->integer('subtotal');
             $table->integer('tax')->nullable();
             $table->integer('total');
-            $table->date('date');
-            $table->string('payment_method');
-            $table->string('status');
+            $table->integer('paid_amount')->nullable();
+            $table->string('status')->comment('ordered', 'pending', 'delivered');
+            $table->string('payment_status')->comment('pending', 'due', 'partial', 'paid');
+            $table->text('note')->nullable();
+            $table->timestamp('date');
             $table->timestamps();
             $table->softDeletes();
         });

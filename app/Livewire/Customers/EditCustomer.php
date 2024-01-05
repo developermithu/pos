@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customers;
 
+use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -10,56 +11,24 @@ class EditCustomer extends Component
 {
     use Toast;
 
-    public $customer;
-
-    public string $name;
-    public string $address;
-    public string $phone_number;
-    public $due;
-    public $advanced_paid;
+    public CustomerForm $form;
 
     public function mount(Customer $customer)
     {
         $this->authorize('update', $customer);
-
-        $this->customer = $customer;
-
-        $this->name = $customer->name;
-        $this->address = $customer->address;
-        $this->phone_number = $customer->phone_number;
-        $this->due = $customer->due;
-        $this->advanced_paid = $customer->advanced_paid;
+        $this->form->setCustomer($customer);
     }
 
     public function save()
     {
-        $this->validate();
-
-        $this->customer->update([
-            'name' => $this->name,
-            'address' => $this->address,
-            'phone_number' => $this->phone_number,
-            'due' => $this->due,
-            'advanced_paid' => $this->advanced_paid
-        ]);
-
+        $this->form->update();
         $this->success(__('Record has been updated successfully'));
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 
     public function render()
     {
-        return view('livewire.customers.edit-customer')->title(__('update customer'));
-    }
-
-    public function rules(): array
-    {
-        return [
-            'name' => 'required|unique:customers,name,' . $this->customer->id,
-            'address' => 'required',
-            'phone_number' => 'required',
-            'due' => 'nullable|numeric',
-            'advanced_paid' => 'nullable|numeric',
-        ];
+        return view('livewire.customers.edit-customer')
+            ->title(__('update customer'));
     }
 }

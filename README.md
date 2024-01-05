@@ -14,11 +14,12 @@ php artisan serve
 
 ## Hostinger Info
 
-By default ```composer --version``` will display composer version 1.0 but runing ```php composer.phar --version``` will display latest version and by running ```php composer.phar``` we can modify composer version. 
+ ```composer --version``` will display composer version 1.0 but 
+ ```php composer.phar --version``` will display latest version and by running ```php composer.phar``` we can modify composer version. 
 When deploying production instead of **composer install --optimize-autoloader --no-dev** we have to run ```php composer.phar install --optimize-autoloader --no-dev```
 
 
-Generate model helper by running ```php artisan ide-helper:models``` after migrating new models.
+Generate model helper: ```php artisan ide-helper:models``` 
 
 ## Composer commands
 
@@ -29,19 +30,14 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
 
 ## Have to Do
 
-- [x] Employee Attendance management
-- [ ] Category management
 - [ ] Product management
-  - [ ] adding attributes (kg, gm, cm)
   - [ ] import and export from excel file
-- [x] Manage Inventory Expenses
 - [ ] Stock management
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Loading components
 - [ ] Adding Charts and Graphs
 - [ ] Pickaday for date picking
-- [ ] Adding price mutator (get and set)
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
 - [ ] Bulk deleting
@@ -54,21 +50,7 @@ Generate model helper by running ```php artisan ide-helper:models``` after migra
   -  ProductPurchase (many to many)
 - Sales
   - ProductSale (many to many)
-  
-1. CashbookEntry 
-  - id
-  - store_id ?
-    - id
-    - name
-    - address
-    - deposit_balance
-  
-  - account_id
-  - description
-  - folio ?
-  - type (deposit/expense)
-  - amount  
-  - balance
+- Payment
 
 ## Meeting
 

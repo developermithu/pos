@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    // protected $cascadeDeletes = ['products'];
+    // protected $softCascade =  ['products'];
 
     protected $guarded = [];
 

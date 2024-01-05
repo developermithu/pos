@@ -20,8 +20,7 @@ class ListCustomer extends Component
     {
         $this->authorize('bulkDelete', Customer::class);
 
-        $customers = Customer::whereKey($this->selected);
-        $customers->delete();
+        Customer::destroy($this->selected);
 
         $this->success(__('Selected records has been deleted'));
         return back();
@@ -72,7 +71,7 @@ class ListCustomer extends Component
         $this->authorize('viewAny', Customer::class);
 
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
-        $searchableFields = ['name', 'address', 'phone_number'];
+        $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()
             ->when($search, function ($query) use ($searchableFields, $search) {

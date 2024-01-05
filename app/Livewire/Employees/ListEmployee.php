@@ -19,9 +19,8 @@ class ListEmployee extends Component
     {
         $this->authorize('bulkDelete', Employee::class);
 
-        $employees = Employee::whereKey($this->selected);
-        $employees->delete();
-
+        Employee::destroy($this->selected);
+        
         $this->success(__('Selected records has been deleted'));
         return back();
     }

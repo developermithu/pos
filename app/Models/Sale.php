@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\SalePaymentStatus;
 use App\Enums\SaleStatus;
-use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,14 +15,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    protected $cascadeDeletes = ['items', 'transaction'];
+    protected $softCascade =  ['items', 'payments'];
 
     protected $guarded = [];
 
     protected $casts = [
         'status' => SaleStatus::class,
+        'payment_status' => SalePaymentStatus::class,
         'date' => 'date:Y-m-d',
     ];
 
@@ -42,11 +44,11 @@ class Sale extends Model
     }
 
     /**
-     * Get the transaction associated with the Sale
+     * Get the payments associated with the Sale
      */
-    public function transaction(): HasOne
+    public function payments()
     {
-        return $this->hasOne(Transaction::class);
+        return $this->morphMany(Payment::class, 'paymentable');
     }
 
     // Mutators

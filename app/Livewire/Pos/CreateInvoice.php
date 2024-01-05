@@ -24,8 +24,12 @@ class CreateInvoice extends Component
     public $transaction_id;
     public $bank_details;
 
-    public function mount()
+    public Sale $sale;
+
+    public function mount($invoice_no)
     {
+        $this->sale = Sale::whereInvoiceNo($invoice_no)->firstOrFail();
+
         $this->authorize('createInvoice', Sale::class);
 
         $this->due = $this->cartTotal();

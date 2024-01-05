@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sale_id')->constrained()->cascadeOnDelete();
-            $table->string('method');
-            $table->string('transaction_id')->nullable();
-            $table->text('details', 360)->nullable();
-            $table->string('status');
+            $table->foreignId('account_id')->constrained();
+            $table->integer('amount');
+            $table->string('payment_method')->comment('cash', 'cheque', 'bank', 'bkash');
+            $table->string('reference')->nullable();
+            $table->text('note')->nullable();
+            $table->morphs('paymentable');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('payments');
     }
 };

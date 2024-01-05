@@ -37,10 +37,9 @@
                 <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
             </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
-            <x-table.heading> {{ __('address') }} </x-table.heading>
-            <x-table.heading> {{ __('phone number') }} </x-table.heading>
+            <x-table.heading> {{ __('details') }} </x-table.heading>
+            <x-table.heading> {{ __('deposit') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
-            <x-table.heading> {{ __('advanced paid') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
@@ -52,10 +51,19 @@
                 </x-table.cell>
                 <x-table.cell class="font-medium text-gray-800 dark:text-white">
                     {{ Str::limit($customer->name, 25, '..') }} </x-table.cell>
-                <x-table.cell> {{ Str::limit($customer->address, 30, '..') }} </x-table.cell>
-                <x-table.cell> {{ $customer->phone_number }} </x-table.cell>
-                <x-table.cell> {{ $customer->due ? '৳ ' . $customer->due : '' }} </x-table.cell>
-                <x-table.cell> {{ $customer->advanced_paid ? '৳ ' . $customer->advanced_paid : '' }} </x-table.cell>
+                <x-table.cell>
+                    {{ $customer?->company_name }} <br>
+                    {{ $customer->phone_number }} <br>
+                    {{ $customer?->address }}
+                </x-table.cell>
+                <x-table.cell> {{ Number::currency($customer->deposit, 'BDT') }} </x-table.cell>
+                <x-table.cell>
+                    @php
+                        $due = $customer->expense - $customer->deposit;
+                    @endphp
+
+                    {{ Number::currency($due, 'BDT') }}
+                </x-table.cell>
 
                 <x-table.cell class="space-x-2">
                     @if ($customer->trashed())
@@ -89,7 +97,7 @@
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="9" />
+            <x-table.data-not-found colspan="6" />
         @endforelse
     </x-table>
 

@@ -36,6 +36,7 @@ use App\Livewire\Salary\LastMonthSalary;
 use App\Livewire\Salary\ListAdvancedSalary;
 use App\Livewire\Salary\ListPaySalary;
 use App\Livewire\Salary\PaySalaryNow;
+use App\Livewire\Sales\CreateSale;
 use App\Livewire\Sales\ListSale;
 use App\Livewire\Sales\ShowSale;
 use App\Livewire\Stores\EditStore;
@@ -158,12 +159,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
     // Sale invoice
     Route::group(['prefix' => 'pos', 'as' => 'pos.'], function () {
         Route::get('/', PosManagement::class)->name('index');
-        Route::get('/create-invoice', CreateInvoice::class)->name('create.invoice');
+        Route::get('/{invoice_no}/invoice', CreateInvoice::class)->name('create.invoice');
     });
 
     // Sales management
     Route::group(['prefix' => 'sales', 'as' => 'sales.'], function () {
         Route::get('/', ListSale::class)->name('index');
+        Route::get('/create', CreateSale::class)->name('create');
         Route::get('/{sale}/show', ShowSale::class)->name('show');
     });
 });

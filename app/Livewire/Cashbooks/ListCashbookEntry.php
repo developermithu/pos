@@ -31,8 +31,7 @@ class ListCashbookEntry extends Component
         $this->authorize('bulkDelete', CashbookEntry::class);
 
         if ($this->selected) {
-            $entries = CashbookEntry::whereKey($this->selected);
-            $entries->delete();
+            CashbookEntry::destroy($this->selected);
 
             $this->success(__('Selected records has been deleted'));
         } else {

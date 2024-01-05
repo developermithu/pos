@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    protected $cascadeDeletes = ['advanceSalary', 'paySalary', 'attendances'];
+    protected $softCascade = ['advanceSalary', 'paySalary', 'attendances'];
 
     protected $guarded = [];
 

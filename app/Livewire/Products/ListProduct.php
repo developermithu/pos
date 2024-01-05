@@ -49,9 +49,7 @@ class ListProduct extends Component
         $this->authorize('bulkDelete', Product::class);
 
         if ($this->selected) {
-            $products = Product::whereKey($this->selected);
-            $products->delete();
-
+            Product::destroy($this->selected);
             $this->success(__('Selected records has been deleted'));
         } else {
             $this->success(__('You did not select anything'));

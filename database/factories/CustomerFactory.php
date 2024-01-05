@@ -18,10 +18,11 @@ class CustomerFactory extends Factory
     {
         return [
             'name' => fake()->unique()->name(),
+            'company_name' => fake()->company(),
             'address' => fake()->address(),
             'phone_number' => fake()->phoneNumber(),
-            'due' => null,
-            'advanced_paid' => null,
+            'deposit' => 0,
+            'expense' => 0,
         ];
     }
 }

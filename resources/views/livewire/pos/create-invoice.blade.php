@@ -66,62 +66,16 @@
                 </x-table>
 
                 <div class="flex flex-wrap items-center justify-end gap-3 print:hidden">
+                    <x-button type="secondary" :href="route('admin.pos.index')">
+                        {{ __('go back') }} </x-button>
+
                     <a href="javascript:window.print()"
                         class="inline-flex gap-x-1.5 font-semibold uppercase transition ease-in-out rounded items-center active:outline-none active:ring-2 active:ring-offset-2 px-4 py-2 text-sm tracking-widest text-white bg-primary/90 hover:bg-primary focus:bg-primary active:bg-primary/90 focus:ring-primary/90 border-transparent">
                         <x-heroicon-m-printer />
                         {{ __('print') }}
                     </a>
-                    <x-button x-on:click.prevent="$dispatch('open-modal', 'generate-invoice')">
-                        {{ __('generate invoice') }} </x-button>
                 </div>
             </div>
         </div>
-
-        {{-- Generate Invoice Modal --}}
-        <x-modal maxWidth="xl" name="generate-invoice">
-            <form wire:submit.prevent="generateInvoice" class="grid grid-cols-6 gap-5 p-6 py-8">
-                <x-input.group class="sm:col-span-full" for="payment_method" label="{{ __('payment method') }}"
-                    :error="$errors->first('payment_method')">
-                    <x-input.select wire:model.change="payment_method">
-                        <option value="" disabled>-- {{ __('payment method') }} --</option>
-                        <option value="cashe"> {{ __('cashe') }} </option>
-                        <option value="bkash"> {{ __('bkash') }} </option>
-                        <option value="bank"> {{ __('bank') }} </option>
-                    </x-input.select>
-                </x-input.group>
-
-                @if ($payment_method === 'bkash')
-                    <x-input.group for="transaction_id" label="{{ __('bkash transaction id') }}" :error="$errors->first('transaction_id')">
-                        <x-input wire:model="transaction_id" id="transaction_id" required />
-                    </x-input.group>
-                @endif
-
-                @if ($payment_method === 'bank')
-                    <x-input.group class="sm:col-span-full" for="bank_details" label="{{ __('bkash details') }}"
-                        :error="$errors->first('bank_details')">
-                        <x-input.textarea wire:model="bank_details" id="bank_details"></x-input.textarea>
-                    </x-input.group>
-                @endif
-
-                <x-input.group for="paid_amount" label="{{ __('paid amount') }}" :error="$errors->first('paid_amount')">
-                    <x-input wire:model.blur="paid_amount" id="paid_amount" type="number" />
-                </x-input.group>
-
-                <x-input.group for="due" label="{{ __('due') }}" :error="$errors->first('due')">
-                    <x-input wire:model="due" id="due" disabled="true" />
-                </x-input.group>
-
-                <div class="flex items-center justify-center gap-3 pt-2 md:justify-end col-span-full sm:col-span-full">
-                    <x-secondary-button x-on:click="$dispatch('close')">
-                        cancel
-                    </x-secondary-button>
-
-                    <x-button.primary wire:loading.attr="disabled" wire:target="generateInvoice"
-                        wire:loading.class="opacity-40">
-                        {{ __('submit') }}
-                    </x-button.primary>
-                </div>
-            </form>
-        </x-modal>
     </div>
 </div>

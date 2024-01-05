@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained();
             $table->string('invoice_no');
             $table->integer('subtotal');
-            $table->integer('tax')->nullable();
+            $table->integer('tax')->default(0)->nullable();
             $table->integer('total');
-            $table->integer('paid_amount')->nullable();
+            $table->integer('paid_amount')->default(0)->nullable();
             $table->string('status')->comment('ordered', 'pending', 'delivered');
             $table->string('payment_status')->comment('pending', 'due', 'partial', 'paid');
             $table->text('note')->nullable();

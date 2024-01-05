@@ -35,7 +35,7 @@ class PosManagement extends Component
     public string $status;
     public string $payment_status;
     public ?string $paid_by = 'cash';
-    public ?int $received_amount;
+    // public ?int $received_amount;
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
@@ -52,7 +52,7 @@ class PosManagement extends Component
 
         $this->status = SaleStatus::DELIVERED->value;
         $this->payment_status = SalePaymentStatus::PENDING->value;
-        $this->received_amount = $this->cartTotal();
+        // $this->received_amount = $this->cartTotal();
     }
 
     // create customer
@@ -131,18 +131,41 @@ class PosManagement extends Component
         return back();
     }
 
+    public function updatedPaymentStatus($value)
+    {
+        if ($value === SalePaymentStatus::PAID->value) {
+            $this->paid_amount = $this->cartTotal();
+        } else {
+            $this->paid_amount = 0;
+        }
+    }
+
     public function createInvoice()
     {
         $this->validate([
-            'customer_id' => [
-                'required',
-                Rule::exists(Customer::class, 'id')
+            'customer_id'    => ['required', Rule::exists(Customer::class, 'id')],
+            'status'         => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
+            'payment_status' => ['nullable', Rule::in(['pending', 'due', 'partial', 'paid'])],
+            'paid_by'        => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            // 'received_amount' => 'nullable|numeric',
+            'paid_amount'   => [
+                Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+
+                function ($attribute, $value, $fail) {
+                    $cartTotal = $this->cartTotal();
+                    if (in_array($this->payment_status, ['partial', 'paid'])) {
+                        if (!is_numeric($value)) {
+                            $fail('Paid amount must be numeric.');
+                        } elseif ($value > $cartTotal) {
+                            $fail("Paid amount must not be greater than total amount $cartTotal tk.");
+                        } elseif ($value < 1) {
+                            $fail('Paid amount must not be less than 1 tk.');
+                        } elseif ($this->payment_status === 'paid' && $value !== $cartTotal) {
+                            $fail("Paid amount must be equal to $cartTotal tk.");
+                        }
+                    }
+                },
             ],
-            'status' => 'nullable',
-            'payment_status' => 'nullable',
-            'paid_by' => 'nullable',
-            'received_amount' => 'nullable|numeric',
-            'paid_amount' => 'nullable|numeric',
             'note' => 'nullable',
         ]);
 
@@ -199,13 +222,13 @@ class PosManagement extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
+            dd($e->getMessage());
             \Log::error('Error creating sale: ' . $e->getMessage());
 
-            $this->error(__('Something went wrong!'));
+            $this->error(__('Something went wrong!') . $e->getMessage());
             return back();
         }
     }
-
 
 
     //======== Format cart total, subtotal and tax amount into int ======//

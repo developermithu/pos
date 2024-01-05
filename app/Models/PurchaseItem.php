@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SaleItem extends Model
+class PurchaseItem extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
     /**
-     * Get the sale that owns the SaleItem
+     * Get the purchase that owns the purchaseItem
      */
-    public function sale(): BelongsTo
+    public function purchase(): BelongsTo
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Purchase::class);
     }
 
     /**

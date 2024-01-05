@@ -21,7 +21,7 @@
                     <x-table.filter-action />
 
                     @can('create', App\Models\Sale::class)
-                        <x-button :href="route('admin.sales.create')">
+                        <x-button :href="route('admin.pos.index')">
                             <x-heroicon-m-plus class="w-4 h-4" />
                             {{ __('add new') }}
                         </x-button>
@@ -57,11 +57,18 @@
                 </x-table.cell>
                 <x-table.cell> {{ $sale->customer->name ?? '' }} </x-table.cell>
                 <x-table.cell> {{ Number::currency($sale->paid_amount, 'BDT') }} </x-table.cell>
-                <x-table.cell class="!text-danger">
+                <x-table.cell>
                     @php
                         $due = $sale->total - $sale->paid_amount;
                     @endphp
-                    {{ Number::currency($due, 'BDT') }}
+
+                    @if ($due)
+                        <span class="text-danger">
+                            {{ Number::currency($due, 'BDT') }}
+                        </span>
+                    @else
+                        {{ Number::format($due, 2) }}
+                    @endif
                 </x-table.cell>
                 <x-table.cell> {{ Number::currency($sale->total, 'BDT') }} </x-table.cell>
                 <x-table.cell> {!! $sale->status->getLabelHTML() !!} </x-table.cell>
@@ -96,7 +103,7 @@
                                 @endif
 
                                 @if ($sale->payments->sum('amount') < $sale->total)
-                                    <x-mary-menu-item :title="__('add payment')" icon="o-plus" />
+                                    <x-mary-menu-item :title="__('add payment')" icon="o-plus" :link="route('admin.sales.add-payment', $sale)" />
                                 @endif
                                 <x-mary-menu-item :title="__('delete')"
                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $sale->id }}')"
@@ -114,6 +121,9 @@
             <x-table.data-not-found colspan="10" />
         @endforelse
     </x-table>
+
+    {{-- Add Payments --}}
+    @include('modals.add-payment', ['size' => '2xl'])
 
     {{-- Pagination --}}
     <div class="p-4">

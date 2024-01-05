@@ -1,5 +1,5 @@
 <x-modal maxWidth="md" name="confirm-deletion-{{ $data->id }}">
-    <div class="p-6 text-center">
+    <div class="p-6 text-center whitespace-normal">
         <x-heroicon-o-exclamation-circle class="mx-auto mb-4 text-gray-400 dark:text-gray-200"
             style="width: 48px; height: 48px" />
 

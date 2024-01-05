@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->morphs('paymentable');
             $table->timestamps();
-            $table->softDeletes();
+            // $table->softDeletes();
         });
     }
 

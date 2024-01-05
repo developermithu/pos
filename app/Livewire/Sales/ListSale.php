@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Sales;
 
+use App\Enums\SalePaymentStatus;
+use App\Models\Payment;
 use App\Models\Sale;
 use App\Traits\SearchAndFilter;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +69,33 @@ class ListSale extends Component
         return back();
     }
 
+    public function destroyPayment(Payment $payment)
+    {
+        $this->authorize('delete', $payment);
+
+        $paymentable = $payment->paymentable;
+
+        // Subtract the payment amount from the sale
+        $paymentable->paid_amount -= $payment->amount;
+
+        // Update payment_status based on paid_amount
+        if ($paymentable->paid_amount > 0 && $paymentable->paid_amount < $paymentable->total) {
+            $paymentable->payment_status = SalePaymentStatus::PARTIAL->value;
+        } elseif ($paymentable->paid_amount == 0) {
+            $paymentable->payment_status = SalePaymentStatus::DUE->value;
+        } elseif ($paymentable->paid_amount === $paymentable->total) {
+            $paymentable->payment_status = SalePaymentStatus::PAID->value;
+        }
+
+        // Save the changes to 
+        $paymentable->save();
+
+        $payment->delete();
+
+        $this->success(__('Record has been deleted successfully'));
+        return back();
+    }
+
     public function forceDelete($id)
     {
         $sale = Sale::onlyTrashed()->findOrFail($id);
@@ -78,7 +107,10 @@ class ListSale extends Component
 
         try {
             // Delete associated payments
-            $sale->payments()->onlyTrashed()->forceDelete();
+            if ($sale->payments->count() > 0) {
+                $sale->payments()->onlyTrashed()->forceDelete();
+            }
+
             $sale->forceDelete();
 
             DB::commit();

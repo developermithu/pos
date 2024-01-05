@@ -1,5 +1,5 @@
 <x-modal maxWidth="lg" name="confirm-deletion-forever-{{ $data->id }}">
-    <div class="p-6 text-center">
+    <div class="p-6 text-center whitespace-normal">
         <x-heroicon-o-exclamation-circle class="mx-auto mb-4 text-danger/30 dark:text-danger/50"
             style="width: 48px; height: 48px" />
 
@@ -7,7 +7,7 @@
             {{ __('Are you sure you want to delete this forever?') }}
         </h3>
 
-        <p class="text-gray-400 mb-5" style="text-transform: none">
+        <p class="mb-5 text-gray-400" style="text-transform: none">
             {{ __('You can not restore again once you delete this') }}
         </p>
 

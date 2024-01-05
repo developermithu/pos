@@ -53,7 +53,7 @@
                             {{ __('sale list') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.sales.create')" :active="request()->routeIs('admin.sales.create')">
+                        <x-collapsible.item :href="route('admin.pos.index')" :active="request()->routeIs('admin.sales.create')">
                             {{ __('add sale') }}
                         </x-collapsible.item>
                     </x-collapsible>

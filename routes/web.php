@@ -36,6 +36,7 @@ use App\Livewire\Salary\LastMonthSalary;
 use App\Livewire\Salary\ListAdvancedSalary;
 use App\Livewire\Salary\ListPaySalary;
 use App\Livewire\Salary\PaySalaryNow;
+use App\Livewire\Sales\AddSalePayment;
 use App\Livewire\Sales\CreateSale;
 use App\Livewire\Sales\ListSale;
 use App\Livewire\Sales\ShowSale;
@@ -167,6 +168,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListSale::class)->name('index');
         Route::get('/create', CreateSale::class)->name('create');
         Route::get('/{sale}/show', ShowSale::class)->name('show');
+        Route::get('/{sale}/add-payment', AddSalePayment::class)->name('add-payment');
     });
 });
 

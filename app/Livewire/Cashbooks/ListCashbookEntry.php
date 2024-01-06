@@ -5,6 +5,7 @@ namespace App\Livewire\Cashbooks;
 use App\Livewire\Forms\CashbookEntryForm;
 use App\Models\CashbookEntry;
 use App\Traits\SearchAndFilter;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -97,7 +98,46 @@ class ListCashbookEntry extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.cashbooks.list-cashbook-entry', compact('cashbookEntries'))
+
+        $today = Carbon::now()->toDateString();
+        $currentMonth = Carbon::now()->startOfMonth()->toDateString();
+        $currentYear = Carbon::now()->startOfYear()->toDateString();
+
+        $totalTodaysDeposits = $this->calculateTotalAmount('deposit', $today);
+        $totalTodaysExpenses = $this->calculateTotalAmount('expense', $today);
+
+        $totalMonthlyDeposits = $this->calculateTotalAmount('deposit', $currentMonth);
+        $totalMonthlyExpenses = $this->calculateTotalAmount('expense', $currentMonth);
+
+        $totalYearlyDeposits = $this->calculateTotalAmount('deposit', $currentYear);
+        $totalYearlyExpenses = $this->calculateTotalAmount('expense', $currentYear);
+
+        return view(
+            'livewire.cashbooks.list-cashbook-entry',
+            compact([
+                'cashbookEntries',
+                'totalTodaysDeposits',
+                'totalTodaysExpenses',
+                'totalMonthlyDeposits',
+                'totalMonthlyExpenses',
+                'totalYearlyDeposits',
+                'totalYearlyExpenses',
+            ])
+        )
+
             ->title(__('cashbook entry list'));
+    }
+
+    public function calculateTotalAmount($type, $startDate)
+    {
+        $rawAmounts = CashbookEntry::where('type', $type)
+            ->whereDate('date', '>=', $startDate)
+            ->whereNull('deleted_at')
+            ->pluck('amount');
+
+        // Applying the mutator manually
+        $totalAmount = $rawAmounts->sum() / 100;
+
+        return $totalAmount;
     }
 }

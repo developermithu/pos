@@ -12,10 +12,10 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
     #[Rule(['required', 'string', 'email'])]
-    public string $email;
+    public string $email = 'superadmin@gmail.com';
 
     #[Rule(['required', 'string'])]
-    public string $password;
+    public string $password = 'superadmin';
 
     #[Rule(['boolean'])]
     public bool $remember = true;
@@ -66,18 +66,18 @@ new #[Layout('layouts.guest')] class extends Component {
         return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 
-    public function loginAs(string $role)
-    {
-        $this->email = $role . '@gmail.com';
-        $this->password = $role;
+    // public function loginAs(string $role)
+    // {
+    //     $this->email = $role . '@gmail.com';
+    //     $this->password = $role;
 
-        $this->role = $role;
-    }
+    //     $this->role = $role;
+    // }
 }; ?>
 
 <div>
     <div class="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0">
-        
+
         <x-application-logo />
 
         {{-- form --}}
@@ -130,7 +130,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </form>
         </div>
 
-        <div class="mt-10 space-x-3">
+        {{-- <div class="mt-10 space-x-3">
             <span>Login as: </span>
 
             <span class="inline-flex -space-x-px overflow-hidden bg-white border rounded-md shadow-sm">
@@ -155,6 +155,6 @@ new #[Layout('layouts.guest')] class extends Component {
                     {{ __('Cashier') }}
                 </button>
             </span>
-        </div>
+        </div> --}}
     </div>
 </div>

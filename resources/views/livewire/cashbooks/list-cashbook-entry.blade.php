@@ -11,6 +11,30 @@
                 </h1>
             </div>
 
+            <div class="pb-5 grid grid-cols-12 gap-5 lg:gap-10">
+                <x-mary-stat :title="__('todays deposit')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalTodaysDeposits, '2') }} Taka" />
+
+                <x-mary-stat :title="__('monthly deposit')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalMonthlyDeposits, '2') }} Taka" />
+
+                <x-mary-stat :title="__('yearly deposit')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalYearlyDeposits, '2') }} Taka" />
+
+                <x-mary-stat :title="__('todays expense')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalTodaysExpenses, '2') }} Taka" />
+                <x-mary-stat :title="__('monthly expense')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalMonthlyExpenses, '2') }} Taka" />
+                <x-mary-stat :title="__('yearly expense')" icon="o-banknotes"
+                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    value="{{ Number::forHumans($totalYearlyExpenses, '2') }} Taka" />
+            </div>
+
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <x-table.search />

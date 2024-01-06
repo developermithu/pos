@@ -31,7 +31,7 @@ class Purchase extends Model
      */
     public function supplier(): BelongsTo
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(Supplier::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class Purchase extends Model
      */
     public function payments()
     {
-        return $this->morphMany(Payment::class, 'paymentable');
+        return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
     }
 
     // Mutators

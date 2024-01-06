@@ -1,73 +1,47 @@
 <?php
 
-namespace App\Livewire\Pos;
+namespace App\Livewire\Purchases;
 
-use App\Enums\SalePaymentStatus;
-use App\Enums\SaleStatus;
-use App\Livewire\Forms\CustomerForm;
-use App\Models\Customer;
+use App\Enums\PurchasePaymentStatus;
+use App\Enums\PurchaseStatus;
 use App\Models\Payment;
 use App\Models\Product;
-use App\Models\Sale;
-use App\Models\SaleItem;
+use App\Models\Purchase;
+use App\Models\PurchaseItem;
+use App\Models\Supplier;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-class PosManagement extends Component
+class CreatePurchase extends Component
 {
-    use WithPagination, Toast;
+    use Toast;
 
-    public CustomerForm $form;
-
-    public $perPage = 10;
-
-    #[Url(as: 'q')]
-    public string $search = "";
-
-    // Creating sale properties
-    public int|string $customer_id = '';
+    // Purchase properties
+    public int|string $supplier_id = '';
     public string $status;
     public string $payment_status;
     public ?string $paid_by = 'cash';
-    // public ?int $received_amount;
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
     public $invoice_no;
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
+    public string $search = "";
 
     public function mount()
     {
-        $this->authorize('posManagement', Product::class);
+        $this->authorize('create', Purchase::class);
 
-        $this->status = SaleStatus::DELIVERED->value;
-        $this->payment_status = SalePaymentStatus::PENDING->value;
-        // $this->received_amount = $this->cartTotal();
-    }
-
-    // create customer
-    public function createCustomer()
-    {
-        $this->authorize('create', Customer::class);
-        $this->form->store();
-
-        $this->success(__('Record has been created successfully'));
-        $this->dispatch('close');
+        $this->status = PurchaseStatus::RECEIVED->value;
+        $this->payment_status = PurchasePaymentStatus::UNPAID->value;
     }
 
     public function render()
     {
-        $this->authorize('posManagement', Product::class);
+        $this->authorize('create', Purchase::class);
 
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
@@ -81,28 +55,29 @@ class PosManagement extends Component
                 });
             })
             ->latest('id')
-            ->paginate($this->perPage);
+            ->take(8)
+            ->get();
 
-        return view('livewire.pos.pos-management', compact('products'))->title(__('pos'));
+        return view('livewire.purchases.create-purchase', compact('products'));
     }
 
     public function addToCart(Product $product)
     {
-        Cart::add(
+        Cart::instance('purchases')->add(
             $product->id,
             $product->name,
             1,
             $product->price,
         )->associate(Product::class);
 
-        $this->success(__('Product added successfully.'));
+        $this->search = '';
         return back();
     }
 
     public function increaseQty($rowId)
     {
-        $item = Cart::get($rowId);
-        Cart::update($rowId, $item->qty + 1);
+        $item = Cart::instance('purchases')->get($rowId);
+        Cart::instance('purchases')->update($rowId, $item->qty + 1);
 
         $this->success(__('Quantity increased.'));
         return back();
@@ -110,13 +85,13 @@ class PosManagement extends Component
 
     public function decreaseQty($rowId)
     {
-        $item = Cart::get($rowId);
+        $item = Cart::instance('purchases')->get($rowId);
 
         if ($item->qty === 1) {
-            Cart::remove($rowId);
+            Cart::instance('purchases')->remove($rowId);
             $this->success(__('Item removed.'));
         } else {
-            Cart::update($rowId, $item->qty - 1);
+            Cart::instance('purchases')->update($rowId, $item->qty - 1);
             $this->success(__('Quantity decreased.'));
         }
 
@@ -125,7 +100,7 @@ class PosManagement extends Component
 
     public function removeFromCart($rowId)
     {
-        Cart::remove($rowId);
+        Cart::instance('purchases')->remove($rowId);
 
         $this->success(__('Item removed.'));
         return back();
@@ -133,21 +108,84 @@ class PosManagement extends Component
 
     public function updatedPaymentStatus($value)
     {
-        if ($value === SalePaymentStatus::PAID->value) {
+        if ($value === PurchasePaymentStatus::PAID->value) {
             $this->paid_amount = $this->cartTotal();
         } else {
             $this->paid_amount = 0;
         }
     }
 
-    public function createInvoice()
+    public function createPurchase()
     {
-        $this->validate([
-            'customer_id'    => ['required', Rule::exists(Customer::class, 'id')],
-            'status'         => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
-            'payment_status' => ['nullable', Rule::in(['pending', 'due', 'partial', 'paid'])],
+        $this->validate();
+
+        // Start a database transaction
+        DB::beginTransaction();
+
+        try {
+            // Insert purchase
+            $purchase = Purchase::create([
+                'supplier_id' => $this->supplier_id,
+                'invoice_no' => rand(111111, 999999),
+                'subtotal' => $this->cartSubtotal(),
+                'tax' => $this->cartTax(),
+                'total' => $this->cartTotal(),
+                'paid_amount' => $this->paid_amount,
+                'status' => $this->status,
+                'payment_status' => $this->payment_status,
+                'note' => $this->note,
+                'date' => now(),
+            ]);
+
+            // Insert purchase Items
+            foreach (Cart::instance('purchases')->content() as $item) {
+                PurchaseItem::create([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $item->id,
+                    'price' => $item->price,
+                    'qty' => $item->qty,
+                ]);
+            }
+
+            // Insert Payment
+            if ($this->payment_status === PurchasePaymentStatus::PARTIAL->value || $this->payment_status === PurchasePaymentStatus::PAID->value) {
+                Payment::create([
+                    'account_id' => 1,
+                    'amount' => $this->paid_amount,
+                    'payment_method' => $this->paid_by,
+                    'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'paymentable_id' => $purchase->id,
+                    'paymentable_type' => Purchase::class,
+                ]);
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            // Clear the cart & session data
+            Cart::instance('purchases')->destroy();
+            $this->invoice_no = $purchase->invoice_no;
+
+            // Sending invoice email
+            $this->success(__('Purchases created successfully'));
+            return $this->redirectRoute('admin.purchases.generate.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            \Log::error('Error creating purchase: ' . $e->getMessage());
+
+            $this->error(__('Something went wrong!'));
+            return back();
+        }
+    }
+
+    public function rules(): array
+    {
+        return [
+            'supplier_id'    => ['required', Rule::exists(Supplier::class, 'id')],
+            'status'         => ['nullable', Rule::in(['ordered', 'pending', 'received'])],
+            'payment_status' => ['nullable', Rule::in(['partial', 'paid', 'unpaid'])],
             'paid_by'        => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            // 'received_amount' => 'nullable|numeric',
             'paid_amount'   => [
                 Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
 
@@ -167,68 +205,8 @@ class PosManagement extends Component
                 },
             ],
             'note' => 'nullable',
-        ]);
-
-        // Start a database transaction
-        DB::beginTransaction();
-
-        try {
-            // Insert sale
-            $sale = Sale::create([
-                'customer_id' => $this->customer_id,
-                'invoice_no' => rand(111111, 999999),
-                'subtotal' => $this->cartSubtotal(),
-                'tax' => $this->cartTax(),
-                'total' => $this->cartTotal(),
-                'paid_amount' => $this->paid_amount,
-                'status' => $this->status,
-                'payment_status' => $this->payment_status,
-                'note' => $this->note,
-                'date' => now(),
-            ]);
-
-            // Insert Sale Items
-            foreach (Cart::content() as $item) {
-                SaleItem::create([
-                    'sale_id' => $sale->id,
-                    'product_id' => $item->id,
-                    'price' => $item->price,
-                    'qty' => $item->qty,
-                ]);
-            }
-
-            // Insert Payment
-            if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
-                Payment::create([
-                    'account_id' => 1,
-                    'amount' => $this->paid_amount,
-                    'payment_method' => $this->paid_by,
-                    'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
-                    'paymentable_id' => $sale->id,
-                    'paymentable_type' => Sale::class,
-                ]);
-            }
-
-            // Commit the transaction
-            DB::commit();
-
-            // Clear the cart & session data
-            Cart::destroy();
-            $this->invoice_no = $sale->invoice_no;
-
-            // Sending invoice email
-            $this->success(__('Sales generated successfully'));
-            return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            \Log::error('Error creating sale: ' . $e->getMessage());
-
-            $this->error(__('Something went wrong!'));
-            return back();
-        }
+        ];
     }
-
 
     //======== Format cart total, subtotal and tax amount into int ======//
     private function cartTotal()
@@ -241,7 +219,7 @@ class PosManagement extends Component
         $thousandsSeparator = $format['thousand_seperator'];
 
         // Remove thousands separators and replace the decimal point if needed
-        $total = str_replace($thousandsSeparator, '', Cart::total());
+        $total = str_replace($thousandsSeparator, '', Cart::instance('purchases')->total());
 
         // Convert the total to a float
         $cartTotal = (int) str_replace($decimalPoint, '.', $total);
@@ -259,7 +237,7 @@ class PosManagement extends Component
         $thousandsSeparator = $format['thousand_seperator'];
 
         // Remove thousands separators and replace the decimal point if needed
-        $subtotal = str_replace($thousandsSeparator, '', Cart::subtotal());
+        $subtotal = str_replace($thousandsSeparator, '', Cart::instance('purchases')->subtotal());
 
         // Convert the total to a float
         $cartSubtotal = (int) str_replace($decimalPoint, '.', $subtotal);
@@ -277,7 +255,7 @@ class PosManagement extends Component
         $thousandsSeparator = $format['thousand_seperator'];
 
         // Remove thousands separators and replace the decimal point if needed
-        $tax = str_replace($thousandsSeparator, '', Cart::tax());
+        $tax = str_replace($thousandsSeparator, '', Cart::instance('purchases')->tax());
 
         // Convert the tax to a float
         $cartTax = (int) str_replace($decimalPoint, '.', $tax);

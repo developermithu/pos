@@ -30,6 +30,11 @@ use App\Livewire\Pos\PosManagement;
 use App\Livewire\Products\CreateProduct;
 use App\Livewire\Products\EditProduct;
 use App\Livewire\Products\ListProduct;
+use App\Livewire\Purchases\AddPurchasePayment;
+use App\Livewire\Purchases\CreatePurchase;
+use App\Livewire\Purchases\GeneratePurchaseInvoice;
+use App\Livewire\Purchases\ListPurchase;
+use App\Livewire\Purchases\ShowPurchase;
 use App\Livewire\Salary\AddAdvancedSalary;
 use App\Livewire\Salary\EditAdvancedSalary;
 use App\Livewire\Salary\LastMonthSalary;
@@ -169,6 +174,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/create', CreateSale::class)->name('create');
         Route::get('/{sale}/show', ShowSale::class)->name('show');
         Route::get('/{sale}/add-payment', AddSalePayment::class)->name('add-payment');
+    });
+
+    // Purchase management
+    Route::group(['prefix' => 'purchases', 'as' => 'purchases.'], function () {
+        Route::get('/', ListPurchase::class)->name('index');
+        Route::get('/create', CreatePurchase::class)->name('create');
+        Route::get('/{purchase}/show', ShowPurchase::class)->name('show');
+        Route::get('/{purchase}/add-payment', AddPurchasePayment::class)->name('add-payment');
+        Route::get('/{invoice_no}/generate-invoice', GeneratePurchaseInvoice::class)->name('generate.invoice');
     });
 });
 

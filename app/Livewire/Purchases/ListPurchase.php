@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Livewire\Sales;
+namespace App\Livewire\Purchases;
 
-use App\Enums\SalePaymentStatus;
+use App\Enums\PurchasePaymentStatus;
 use App\Models\Payment;
-use App\Models\Sale;
+use App\Models\Purchase;
 use App\Traits\SearchAndFilter;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-class ListSale extends Component
+class ListPurchase extends Component
 {
     use WithPagination, Toast, SearchAndFilter;
 
@@ -19,12 +19,12 @@ class ListSale extends Component
 
     public function render()
     {
-        $this->authorize('viewAny', Sale::class);
+        $this->authorize('viewAny', Purchase::class);
 
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['invoice_no'];
 
-        $sales = Sale::query()
+        $purchases = Purchase::query()
             ->when($search, function ($query) use ($searchableFields, $search) {
                 $query->where(function ($query) use ($searchableFields, $search) {
                     foreach ($searchableFields as $field) {
@@ -32,7 +32,7 @@ class ListSale extends Component
                     }
                 });
             })
-            ->with('customer:id,name')
+            ->with('supplier:id,name')
             ->when($this->filterByTrash, function ($query, $value) {
                 if ($value === "onlyTrashed") {
                     $query->onlyTrashed();
@@ -43,15 +43,15 @@ class ListSale extends Component
             ->latest('id')
             ->paginate(20);
 
-        return view('livewire.sales.list-sale', compact('sales'))->title(__('sale list'));
+        return view('livewire.purchases.list-purchase', compact('purchases'))->title(__('purchase list'));
     }
 
     public function deleteSelected()
     {
-        $this->authorize('bulkDelete', Sale::class);
+        $this->authorize('bulkDelete', Purchase::class);
 
         if ($this->selected) {
-            Sale::destroy($this->selected);
+            Purchase::destroy($this->selected);
             $this->success(__('Selected records has been deleted'));
         } else {
             $this->success(__('You did not select anything'));
@@ -60,10 +60,10 @@ class ListSale extends Component
         return back();
     }
 
-    public function destroy(Sale $sale)
+    public function destroy(Purchase $purchase)
     {
-        $this->authorize('delete', $sale);
-        $sale->delete();
+        $this->authorize('delete', $purchase);
+        $purchase->delete();
 
         $this->success(__('Record has been deleted successfully'));
         return back();
@@ -71,9 +71,9 @@ class ListSale extends Component
 
     public function forceDelete($id)
     {
-        $sale = Sale::onlyTrashed()->findOrFail($id);
+        $purchase = Purchase::onlyTrashed()->findOrFail($id);
 
-        $this->authorize('forceDelete', $sale);
+        $this->authorize('forceDelete', $purchase);
 
         // Start a database transaction
         DB::beginTransaction();
@@ -81,11 +81,11 @@ class ListSale extends Component
         try {
             // Delete associated payments 
             // both non-deleted and soft-deleted
-            if ($sale->payments->count() > 0) {
-                $sale->payments()->forceDelete();
+            if ($purchase->payments->count() > 0) {
+                $purchase->payments()->forceDelete();
             }
 
-            $sale->forceDelete();
+            $purchase->forceDelete();
 
             DB::commit();
             $this->success(__('Record has been deleted permanently'));
@@ -101,31 +101,32 @@ class ListSale extends Component
 
     public function restore($id)
     {
-        $sale = Sale::onlyTrashed()->findOrFail($id);
+        $purchase = Purchase::onlyTrashed()->findOrFail($id);
 
-        $this->authorize('restore', $sale);
-        $sale->restore();
+        $this->authorize('restore', $purchase);
+        $purchase->restore();
 
         $this->success(__('Record has been restored successfully'));
         return back();
     }
 
+    // delete payment
     public function destroyPayment(Payment $payment)
     {
         $this->authorize('delete', $payment);
 
         $paymentable = $payment->paymentable;
 
-        // Subtract the payment amount from the sale
+        // Subtract the payment amount from the purchase
         $paymentable->paid_amount -= $payment->amount;
 
         // Update payment_status based on paid_amount
         if ($paymentable->paid_amount > 0 && $paymentable->paid_amount < $paymentable->total) {
-            $paymentable->payment_status = SalePaymentStatus::PARTIAL->value;
+            $paymentable->payment_status = PurchasePaymentStatus::PARTIAL->value;
         } elseif ($paymentable->paid_amount == 0) {
-            $paymentable->payment_status = SalePaymentStatus::DUE->value;
+            $paymentable->payment_status = PurchasePaymentStatus::UNPAID->value;
         } elseif ($paymentable->paid_amount === $paymentable->total) {
-            $paymentable->payment_status = SalePaymentStatus::PAID->value;
+            $paymentable->payment_status = PurchasePaymentStatus::PAID->value;
         }
 
         // Save the changes to 
@@ -151,11 +152,11 @@ class ListSale extends Component
 
             // Update payment_status based on paid_amount
             if ($paymentable->paid_amount > 0 && $paymentable->paid_amount < $paymentable->total) {
-                $paymentable->payment_status = SalePaymentStatus::PARTIAL->value;
+                $paymentable->payment_status = PurchasePaymentStatus::PARTIAL->value;
             } elseif ($paymentable->paid_amount == 0) {
-                $paymentable->payment_status = SalePaymentStatus::DUE->value;
+                $paymentable->payment_status = PurchasePaymentStatus::UNPAID->value;
             } elseif ($paymentable->paid_amount === $paymentable->total) {
-                $paymentable->payment_status = SalePaymentStatus::PAID->value;
+                $paymentable->payment_status = PurchasePaymentStatus::PAID->value;
             }
 
             // Save the changes

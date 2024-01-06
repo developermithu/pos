@@ -43,14 +43,8 @@ Generate model helper: ```php artisan ide-helper:models```
 - [ ] Bulk deleting
 - [ ] Log view
 - [ ] Customize code for production
+- [ ] Payments Trash delete
 
-## New Models
-
-- Purchases
-  -  ProductPurchase (many to many)
-- Sales
-  - ProductSale (many to many)
-- Payment
 
 ## Meeting
 

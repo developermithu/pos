@@ -8,8 +8,6 @@ use Mary\Traits\Toast;
 
 class CreateInvoice extends Component
 {
-    use Toast;
-
     public Sale $sale;
 
     public function mount($invoice_no)
@@ -20,6 +18,6 @@ class CreateInvoice extends Component
 
     public function render()
     {
-        return view('livewire.pos.create-invoice')->title(__('create invoice'));
+        return view('livewire.pos.create-invoice')->title(__('create sale invoice'));
     }
 }

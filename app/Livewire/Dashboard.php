@@ -19,6 +19,6 @@ class Dashboard extends Component
             'totalSuppliers' => Supplier::count(),
             'totalCustomers' => Customer::count(),
             'totalUsers' => User::count(),
-        ]);
+        ])->title(__('dashboard'));
     }
 }

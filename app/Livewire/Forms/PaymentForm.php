@@ -85,18 +85,6 @@ class PaymentForm extends Form
         }
     }
 
-    // public function update()
-    // {
-    //     $this->validate();
-
-    //     $this->payment->update([
-    //         'account_id' => $this->account_id,
-    //         'amount' => $this->paid_amount,
-    //         'payment_method' => $this->paid_by,
-    //         'note' => $this->note,
-    //     ]);
-    // }
-
     public function rules(): array
     {
         return [

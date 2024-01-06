@@ -40,6 +40,27 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
+                    {{-- Purchase Management --}}
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.purchases.*') ? 'true' : 'false' }} }">
+                        <x-slot name="trigger">
+                            <x-collapsible.button>
+                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
+                                {{ __('purchases') }}
+                            </x-collapsible.button>
+                        </x-slot>
+
+                        <x-collapsible.item :href="route('admin.purchases.index')" :active="request()->routeIs('admin.purchases.index') ||
+                            request()->routeIs('admin.purchases.show') ||
+                            request()->routeIs('admin.purchases.add-payment') ||
+                            request()->routeIs('admin.purchases.generate.invoice')">
+                            {{ __('purchase list') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.purchases.create')" :active="request()->routeIs('admin.purchases.create')">
+                            {{ __('add purchase') }}
+                        </x-collapsible.item>
+                    </x-collapsible>
+
                     {{-- Sale Management --}}
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.sales.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
@@ -49,7 +70,9 @@
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.index') || request()->routeIs('admin.sales.show')">
+                        <x-collapsible.item :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.index') ||
+                            request()->routeIs('admin.sales.show') ||
+                            request()->routeIs('admin.sales.add-payment')">
                             {{ __('sale list') }}
                         </x-collapsible.item>
 

@@ -202,7 +202,7 @@ class PosManagement extends Component
                 Payment::create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
                     'paymentable_id' => $sale->id,
                     'paymentable_type' => Sale::class,

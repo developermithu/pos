@@ -51,7 +51,7 @@ class AddSalePayment extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'SR-' . date('Ymd') . '-' . rand(11111, 99999),
+                'reference' => 'Sale-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paymentable_id' => $this->sale->id,

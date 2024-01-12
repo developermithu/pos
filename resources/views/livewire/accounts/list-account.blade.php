@@ -92,6 +92,11 @@
 
                         @include('partials.delete-forever-modal', ['data' => $account])
                     @else
+                        <x-button flat="secondary"
+                            x-on:click.prevent="$dispatch('open-modal', 'view-account-transactions-{{ $account->id }}')">
+                            <x-heroicon-o-eye /> {{ __('view') }}
+                        </x-button>
+
                         @can('update', $account)
                             <x-button flat="warning" :href="route('admin.accounts.edit', $account)">
                                 <x-heroicon-o-pencil-square /> {{ __('edit') }}
@@ -104,6 +109,8 @@
                                 <x-heroicon-o-trash /> {{ __('delete') }}
                             </x-button>
 
+                            {{-- View Payments --}}
+                            @include('modals.view-account-transactions', ['data' => $account])
                             @include('partials.delete-modal', ['data' => $account])
                         @endcan
                     @endif

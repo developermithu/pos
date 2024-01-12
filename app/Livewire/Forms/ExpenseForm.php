@@ -47,7 +47,7 @@ class ExpenseForm extends Form
         Payment::create([
             'account_id' => $this->account_id,
             'amount' => $this->amount,
-            'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
             'type' => PaymentType::DEBIT->value,
             'paymentable_id' => $expense->id,
             'paymentable_type' => Expense::class,

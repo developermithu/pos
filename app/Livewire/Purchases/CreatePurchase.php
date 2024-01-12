@@ -156,7 +156,7 @@ class CreatePurchase extends Component
                 Payment::create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value,
                     'paymentable_id' => $purchase->id,
                     'paymentable_type' => Purchase::class,

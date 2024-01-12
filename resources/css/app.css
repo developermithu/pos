@@ -17,6 +17,25 @@
 
       /* Mary table */
       .table thead {
-        @apply bg-gray-100 text-gray-500 text-sm;
+        @apply text-sm text-gray-500 bg-gray-100;
       }
+
+      /* Scrolbar style */
+      .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #ddd rgb(16 185 129);
+    }
+
+    /* For WebKit browsers like Chrome and Safari */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgb(16 185 129);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: #ddd;
+    }
 }

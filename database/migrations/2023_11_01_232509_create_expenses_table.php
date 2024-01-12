@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account;
 use App\Models\ExpenseCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(ExpenseCategory::class)->cascadeOnDelete();
-            $table->text('details', 500);
+            $table->text('details')->nullable();
             $table->integer('amount');
             $table->timestamp('date');
             $table->timestamps();

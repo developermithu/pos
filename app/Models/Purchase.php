@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
@@ -45,7 +46,7 @@ class Purchase extends Model
     /**
      * Get the payments associated with the purchase
      */
-    public function payments()
+    public function payments(): MorphMany
     {
         return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
     }

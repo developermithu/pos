@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Pos;
 
+use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Enums\SaleStatus;
 use App\Livewire\Forms\CustomerForm;
+use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Product;
@@ -12,7 +14,6 @@ use App\Models\Sale;
 use App\Models\SaleItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -32,10 +33,9 @@ class PosManagement extends Component
 
     // Creating sale properties
     public int|string $customer_id = '';
+    public int|string $account_id = '';
     public string $status;
     public string $payment_status;
-    public ?string $paid_by = 'cash';
-    // public ?int $received_amount;
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
@@ -52,7 +52,6 @@ class PosManagement extends Component
 
         $this->status = SaleStatus::DELIVERED->value;
         $this->payment_status = SalePaymentStatus::PENDING->value;
-        // $this->received_amount = $this->cartTotal();
     }
 
     // create customer
@@ -83,7 +82,9 @@ class PosManagement extends Component
             ->latest('id')
             ->paginate($this->perPage);
 
-        return view('livewire.pos.pos-management', compact('products'))->title(__('pos'));
+        $accounts = Account::active()->pluck('name', 'id');
+
+        return view('livewire.pos.pos-management', compact('products', 'accounts'))->title(__('pos'));
     }
 
     public function addToCart(Product $product)
@@ -146,9 +147,8 @@ class PosManagement extends Component
             'customer_id'    => ['required', Rule::exists(Customer::class, 'id')],
             'status'         => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
             'payment_status' => ['nullable', Rule::in(['pending', 'due', 'partial', 'paid'])],
-            'paid_by'        => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            // 'received_amount' => 'nullable|numeric',
-            'paid_amount'   => [
+            'account_id'     => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'paid_amount'    => [
                 Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
 
                 function ($attribute, $value, $fail) {
@@ -169,10 +169,10 @@ class PosManagement extends Component
             'note' => 'nullable',
         ]);
 
-        // Start a database transaction
-        DB::beginTransaction();
-
         try {
+            // Start a database transaction
+            DB::beginTransaction();
+
             // Insert sale
             $sale = Sale::create([
                 'customer_id' => $this->customer_id,
@@ -200,10 +200,10 @@ class PosManagement extends Component
             // Insert Payment
             if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
                 Payment::create([
-                    'account_id' => 1,
+                    'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'payment_method' => $this->paid_by,
                     'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'type' => PaymentType::CREDIT->value,
                     'paymentable_id' => $sale->id,
                     'paymentable_type' => Sale::class,
                 ]);
@@ -221,7 +221,6 @@ class PosManagement extends Component
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-
             \Log::error('Error creating sale: ' . $e->getMessage());
 
             $this->error(__('Something went wrong!'));

@@ -75,16 +75,11 @@ class ListPurchase extends Component
 
         $this->authorize('forceDelete', $purchase);
 
-        // Start a database transaction
-        DB::beginTransaction();
-
         try {
-            // Delete associated payments 
-            // both non-deleted and soft-deleted
-            if ($purchase->payments->count() > 0) {
-                $purchase->payments()->forceDelete();
-            }
+            DB::beginTransaction();
 
+            // Delete associated payments 
+            $purchase->payments()->forceDelete();
             $purchase->forceDelete();
 
             DB::commit();

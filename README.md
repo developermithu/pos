@@ -48,5 +48,12 @@ Generate model helper: ```php artisan ide-helper:models```
 
 ## Meeting
 
--  product selling price, expire date ?
-- 
+```php
+
+$sale->payments()
+$purchase->payments()
+$expense->payment
+$employee->payments()
+$sale->payments()
+
+``````

@@ -2,22 +2,25 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\PaymentType;
+use App\Models\Account;
 use App\Models\Expense;
-use Livewire\Attributes\Rule;
+use App\Models\ExpenseCategory;
+use App\Models\Payment;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
+use Mary\Traits\Toast;
 
 class ExpenseForm extends Form
 {
+    use Toast;
+
     public ?Expense $expense;
 
-    #[Rule('required|string|max:500')]
-    public $details;
-
-    #[Rule('required|integer')]
-    public $amount;
-
-    #[Rule('required|exists:expense_categories,id', as: 'expense category')]
-    public $expense_category_id;
+    public int|string $expense_category_id = '';
+    public int|string $account_id = '';
+    public ?int $amount;
+    public ?string $details = null;
 
     public function setExpense(Expense $expense)
     {
@@ -26,17 +29,28 @@ class ExpenseForm extends Form
         $this->details = $expense->details;
         $this->amount = $expense->amount;
         $this->expense_category_id = $expense->expense_category_id;
+        $this->account_id = $expense->account_id;
     }
 
     public function store()
     {
         $this->validate();
 
-        Expense::create([
+        $expense = Expense::create([
             'expense_category_id' => $this->expense_category_id,
             'details' => $this->details,
             'amount' => $this->amount,
             'date' => date('Y-m-d'),
+        ]);
+
+        // Creating Payment
+        Payment::create([
+            'account_id' => $this->account_id,
+            'amount' => $this->amount,
+            'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+            'type' => PaymentType::DEBIT->value,
+            'paymentable_id' => $expense->id,
+            'paymentable_type' => Expense::class,
         ]);
     }
 
@@ -49,5 +63,21 @@ class ExpenseForm extends Form
             'details' => $this->details,
             'amount' => $this->amount,
         ]);
+
+        // Update Payment
+        $this->expense->payment->update([
+            'account_id' => $this->account_id,
+            'amount' => $this->amount,
+        ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            'expense_category_id' => ['required', Rule::exists(ExpenseCategory::class, 'id')],
+            'account_id'  => ['required', Rule::exists(Account::class, 'id')],
+            'amount'     => ['required', 'integer'],
+            'details'    => ['nullable', 'max:255'],
+        ];
     }
 }

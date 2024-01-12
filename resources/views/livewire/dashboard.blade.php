@@ -3,48 +3,35 @@
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
             {{ __('welcome') }}, {{ Auth::user()->name }}
         </h1>
-        
+
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-10">
-            {{-- <article class="p-6 bg-white border border-gray-200 rounded-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-gray-500">Profit</p>
-
-                        <p class="text-2xl font-medium text-gray-900">$240.94</p>
-                    </div>
-
-                    <span class="p-3 text-blue-600 bg-blue-100 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                    </span>
-                </div>
-
-                <div class="flex gap-1 mt-1 text-green-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-
-                    <p class="flex gap-2 text-xs">
-                        <span class="font-medium"> 67.81% </span>
-
-                        <span class="text-gray-500"> Since last week </span>
-                    </p>
-                </div>
-            </article> --}}
-
-            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-envelope" :tooltip="__('total products')"/>
-            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-envelope" :tooltip="__('total employees')"/>
-            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-envelope" :tooltip="__('total suppliers')"/>
-            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-envelope" :tooltip="__('total customers')"/>
-            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-envelope" :tooltip="__('total users')"/>
+            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-envelope" :tooltip="__('total products')" />
+            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-envelope" :tooltip="__('total employees')" />
+            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-envelope" :tooltip="__('total suppliers')" />
+            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-envelope" :tooltip="__('total customers')" />
+            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-envelope" :tooltip="__('total users')" />
         </div>
 
-        <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="grid grid-cols-12 gap-5">
+            <div
+                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 col-span-full lg:col-span-8">
+                <div class="text-lg font-semibold text-center capitalize">
+                    {{ __('monthly sales') }} ({{ date('Y') }})
+                </div>
+                <x-mary-chart wire:model="monthlySalesChart" />
+            </div>
+
+            <div
+                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm lg:col-span-4 col-span-full dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+                <div class="text-lg font-semibold text-center capitalize">
+                    {{ __('top 5 customers') }} ({{ date('Y') }})
+                </div>
+                <x-mary-chart wire:model="top5CustomersChart" />
+            </div>
+        </div>
+
+        <div
+            class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <!-- Card header -->
             <div class="items-center justify-between lg:flex">
                 <div class="mb-4 lg:mb-0">
@@ -712,3 +699,8 @@
 
     </div>
 </div>
+
+
+@assets
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+@endassets

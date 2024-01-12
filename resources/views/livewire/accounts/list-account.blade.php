@@ -38,8 +38,9 @@
             <x-table.heading> {{ __('account_no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('initial balance') }} </x-table.heading>
+            <x-table.heading> {{ __('credit') }} </x-table.heading>
+            <x-table.heading> {{ __('debit') }} </x-table.heading>
             <x-table.heading> {{ __('total balance') }} </x-table.heading>
-            <x-table.heading> {{ __('default') }} </x-table.heading>
             <x-table.heading> {{ __('active') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
@@ -51,9 +52,31 @@
                 <x-table.cell> {{ $account->account_no }} </x-table.cell>
                 <x-table.cell> {{ $account->name }} </x-table.cell>
                 <x-table.cell> {{ Number::format($account->initial_balance) }} </x-table.cell>
-                <x-table.cell> {{ Number::format($account->total_balance) }} </x-table.cell>
-                <x-table.cell> {{ $account->is_default }} </x-table.cell>
-                <x-table.cell> {{ $account->is_active }} </x-table.cell>
+                <x-table.cell class="!text-success">
+                    @if ($account->totalCredit())
+                        +{{ Number::format($account->totalCredit()) }}
+                    @else
+                    @endif
+                </x-table.cell>
+                <x-table.cell class="!text-danger">
+                    @if ($account->totalDebit())
+                        -{{ Number::format($account->totalDebit()) }}
+                    @else
+                    @endif
+                </x-table.cell>
+                <x-table.cell class="!text-primary">
+                    @php
+                        $total = $account->totalCredit() + $account->initial_balance - $account->totalDebit();
+                    @endphp
+                    {{ Number::format($total) }}
+                </x-table.cell>
+                <x-table.cell>
+                    @if ($account->is_active)
+                        <x-mary-icon name="o-check-circle" class='text-success' />
+                    @else
+                        <x-mary-icon name="o-x-circle" class='text-danger' />
+                    @endif
+                </x-table.cell>
                 <x-table.cell> {{ Str::limit($account->details, 80, '..') }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">

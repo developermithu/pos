@@ -133,6 +133,10 @@
                         <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.*')">
                             {{ __('account list') }}
                         </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.accounts.balance-sheet')" :active="request()->routeIs('admin.accounts.balance-sheet')">
+                            {{ __('balance sheet') }}
+                        </x-collapsible.item>
                     </x-collapsible>
 
                     {{-- Expense Management --}}
@@ -152,17 +156,8 @@
                             {{ __('add expense') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.expenses.todays')" :active="request()->routeIs('admin.expenses.todays') ||
-                            request()->routeIs('admin.expenses.edit')">
-                            {{ __('todays expenses') }}
-                        </x-collapsible.item>
-
-                        <x-collapsible.item :href="route('admin.expenses.monthly')" :active="request()->routeIs('admin.expenses.monthly')">
-                            {{ __('monthly expenses') }}
-                        </x-collapsible.item>
-
-                        <x-collapsible.item :href="route('admin.expenses.yearly')" :active="request()->routeIs('admin.expenses.yearly')">
-                            {{ __('yearly expenses') }}
+                        <x-collapsible.item :href="route('admin.expenses.index')" :active="request()->routeIs('admin.expenses.index')">
+                            {{ __('expense list') }}
                         </x-collapsible.item>
                     </x-collapsible>
 

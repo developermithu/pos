@@ -14,8 +14,7 @@
                     ['key' => 'id', 'label' => 'no'],
                     ['key' => 'reference', 'label' => 'Reference'],
                     ['key' => 'amount', 'label' => 'Amount'],
-                    ['key' => 'payment_method', 'label' => 'Payment method'],
-                    ['key' => 'account.name', 'label' => 'Account'], # <---- nested attributes
+                    ['key' => 'account.name', 'label' => 'Account'], 
                     ['key' => 'created_at', 'label' => 'Date'],
                 ];
             @endphp

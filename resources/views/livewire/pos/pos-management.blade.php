@@ -135,28 +135,20 @@
                                 $payment_status === App\Enums\SalePaymentStatus::PARTIAL->value ||
                                     $payment_status === App\Enums\SalePaymentStatus::PAID->value)
                                 <div class="col-span-6 sm:col-span-3">
-                                    <x-input.group for="paid_by" label="{{ __('paid by *') }}" :error="$errors->first('paid_by')">
-                                        <x-input.select wire:model="paid_by" required>
-                                            <option value="cash">cash</option>
-                                            <option value="bank">bank</option>
-                                            <option value="cheque">cheque</option>
-                                            <option value="bkash">bkash</option>
+                                    <x-input.group for="account_id" label="{{ __('select account *') }}" :error="$errors->first('account_id')">
+                                        <x-input.select wire:model="account_id" required>
+                                            <option value="" disabled>-- {{ __('select account') }} --</option>
+                                            @foreach ($accounts as $key => $name)
+                                                <option value="{{ $key }}"> {{ $name }} </option>
+                                            @endforeach
                                         </x-input.select>
                                     </x-input.group>
                                 </div>
 
-                                {{-- <div class="col-span-6 sm:col-span-3">
-                                    <x-input.group for="received_amount" label="{{ __('received amount *') }}"
-                                        :error="$errors->first('received_amount')">
-                                        <x-input type="number" wire:model="received_amount" id="received_amount"
-                                            required />
-                                    </x-input.group>
-                                </div> --}}
-
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="paid_amount" label="{{ __('paying amount *') }}"
                                         :error="$errors->first('paid_amount')">
-                                        <x-input type="text" wire:model="paid_amount" id="paid_amount" required/>
+                                        <x-input type="text" wire:model="paid_amount" id="paid_amount" required />
                                     </x-input.group>
                                 </div>
                             @endif

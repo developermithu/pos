@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('account_no')->unique();
             $table->string('name');
             $table->integer('initial_balance')->default(0);
-            $table->bigInteger('total_balance')->default(0);
-            $table->integer('credit')->nullable();
-            $table->integer('debit')->nullable();
-            $table->boolean('is_default')->default(false);
             $table->boolean('is_active')->default(true);
             $table->text('details')->nullable();
             $table->timestamps();

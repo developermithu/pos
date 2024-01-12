@@ -15,10 +15,8 @@ class AccountSeeder extends Seeder
     {
         Account::create([
             'account_no' => 12345,
-            'name' => 'Cash',
-            'initial_balance' => 0,
-            'total_balance' => 0,
-            'is_default' => false,
+            'name' => 'Cashbook',
+            'initial_balance' => 50000,
             'is_active' => true,
             'details' => 'Cashbook account'
         ]);
@@ -27,8 +25,6 @@ class AccountSeeder extends Seeder
             'account_no' => rand(10000, 50000),
             'name' => 'Sonali bank',
             'initial_balance' => 100000,
-            'total_balance' => 500000,
-            'is_default' => true,
             'is_active' => true,
             'details' => 'Sonali bank account'
         ]);
@@ -37,8 +33,6 @@ class AccountSeeder extends Seeder
             'account_no' => rand(10000, 50000),
             'name' => 'Bkash',
             'initial_balance' => 100,
-            'total_balance' => 5000,
-            'is_default' => false,
             'is_active' => true,
             'details' => 'Bkash account'
         ]);
@@ -47,8 +41,6 @@ class AccountSeeder extends Seeder
             'account_no' => rand(10000, 50000),
             'name' => 'Dutch Bangla Bank',
             'initial_balance' => 3000,
-            'total_balance' => 20000,
-            'is_default' => false,
             'is_active' => false,
             'details' => 'Dutch Bangla Bank Account'
         ]);

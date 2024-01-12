@@ -16,37 +16,26 @@
             <form wire:submit="addPayment">
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
-                        <x-input.group for="received_amount" label="{{ __('received amount') }}" :error="$errors->first('form.received_amount')">
-                            <x-input wire:model="form.received_amount" id="received_amount" />
+                        <x-input.group for="received_amount" label="{{ __('received amount') }}" :error="$errors->first('received_amount')">
+                            <x-input wire:model="received_amount" id="received_amount" />
                         </x-input.group>
                     </div>
 
                     <div class="col-span-6 sm:col-span-3">
-                        <x-input.group for="paid_amount" label="{{ __('paying amount *') }}" :error="$errors->first('form.paid_amount')">
-                            <x-input wire:model="form.paid_amount" id="paid_amount" required />
+                        <x-input.group for="paid_amount" label="{{ __('paying amount *') }}" :error="$errors->first('paid_amount')">
+                            <x-input wire:model="paid_amount" id="paid_amount" required />
                         </x-input.group>
                     </div>
 
                     <div class="col-span-6 sm:col-span-3">
-                        <x-input.group for="paid_by" label="{{ __('paid by *') }}" :error="$errors->first('form.paid_by')">
-                            <x-input.select wire:model="form.paid_by" required>
-                                <option value="cash">cash</option>
-                                <option value="bank">bank</option>
-                                <option value="cheque">cheque</option>
-                                <option value="bkash">bkash</option>
-                            </x-input.select>
+                        <x-input.group for="account_id" label="{{ __('account name *') }}" :error="$errors->first('account_id')">
+                            <x-input.select wire:model="account_id" :options="$accounts" required />
                         </x-input.group>
                     </div>
 
-                    <div class="col-span-6 sm:col-span-3">
-                        <x-input.group for="account_id" label="{{ __('account name *') }}" :error="$errors->first('form.account_id')">
-                            <x-input.select wire:model="form.account_id" :options="App\Models\Account::pluck('name', 'id')" required />
-                        </x-input.group>
-                    </div>
-
-                    <x-input.group for="note" label="{{ __('note') }}" :error="$errors->first('form.note')"
+                    <x-input.group for="note" label="{{ __('note') }}" :error="$errors->first('note')"
                         class="sm:col-span-full">
-                        <x-input.textarea wire:model="form.note" id="note" rows="3" />
+                        <x-input.textarea wire:model="note" id="note" rows="3" />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

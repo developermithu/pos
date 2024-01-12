@@ -94,7 +94,7 @@
                     <!-- Cart Items -->
                     <div class="lg:col-span-6 col-span-full ">
                         <div
-                            class="mb-4 p-4 lg:p-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
+                            class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm lg:p-6 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
                             <h3 class="pb-4 text-xl font-semibold dark:text-white">{{ __('purchase items') }}</h3>
 
                             {{-- Cart Items --}}
@@ -172,7 +172,7 @@
                                             </x-input.group>
                                         </div>
 
-                                        <div class="col-span-6 sm:col-span-3 space-y-4">
+                                        <div class="col-span-6 space-y-4 sm:col-span-3">
                                             <div class="col-span-6 sm:col-span-3">
                                                 <x-input.group for="status" label="{{ __('purchase status *') }}"
                                                     :error="$errors->first('status')">
@@ -205,14 +205,10 @@
                                                 $payment_status === App\Enums\PurchasePaymentStatus::PARTIAL->value ||
                                                     $payment_status === App\Enums\PurchasePaymentStatus::PAID->value)
                                                 <div class="col-span-6 sm:col-span-3">
-                                                    <x-input.group for="paid_by" label="{{ __('paid by *') }}"
-                                                        :error="$errors->first('paid_by')">
-                                                        <x-input.select wire:model="paid_by" required>
-                                                            <option value="cash">cash</option>
-                                                            <option value="bank">bank</option>
-                                                            <option value="cheque">cheque</option>
-                                                            <option value="bkash">bkash</option>
-                                                        </x-input.select>
+                                                    <x-input.group for="account_id"
+                                                        label="{{ __('account name *') }}" :error="$errors->first('account_id')">
+                                                        <x-input.select wire:model="account_id" :options="$accounts"
+                                                            required />
                                                     </x-input.group>
                                                 </div>
 
@@ -225,7 +221,7 @@
                                                 </div>
                                             @endif
 
-                                            <div class="sm:col-span-3 mr-auto">
+                                            <div class="mr-auto sm:col-span-3">
                                                 <x-button wire:click.prevent="createPurchase"
                                                     wire:loading.attr="disabled" wire:loading.class="opacity-40"
                                                     wire:target="createPurchase"

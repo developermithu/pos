@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,11 +16,15 @@ class Payment extends Model
     protected $fillable = [
         'account_id',
         'amount',
-        'payment_method',
         'reference',
         'note',
+        'type',
         'paymentable_id',
         'paymentable_type'
+    ];
+
+    protected $casts = [
+        'type' => PaymentType::class,
     ];
 
     public function paymentable(): MorphTo

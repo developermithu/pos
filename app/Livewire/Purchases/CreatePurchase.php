@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Purchases;
 
+use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
 use App\Enums\PurchaseStatus;
+use App\Models\Account;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -21,9 +23,9 @@ class CreatePurchase extends Component
 
     // Purchase properties
     public int|string $supplier_id = '';
+    public int|string $account_id = '';
     public string $status;
     public string $payment_status;
-    public ?string $paid_by = 'cash';
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
@@ -58,7 +60,9 @@ class CreatePurchase extends Component
             ->take(8)
             ->get();
 
-        return view('livewire.purchases.create-purchase', compact('products'));
+        $accounts = Account::active()->pluck('name', 'id');
+
+        return view('livewire.purchases.create-purchase', compact('products', 'accounts'));
     }
 
     public function addToCart(Product $product)
@@ -150,10 +154,10 @@ class CreatePurchase extends Component
             // Insert Payment
             if ($this->payment_status === PurchasePaymentStatus::PARTIAL->value || $this->payment_status === PurchasePaymentStatus::PAID->value) {
                 Payment::create([
-                    'account_id' => 1,
+                    'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'payment_method' => $this->paid_by,
                     'reference' => 'SR-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'type' => PaymentType::DEBIT->value,
                     'paymentable_id' => $purchase->id,
                     'paymentable_type' => Purchase::class,
                 ]);
@@ -185,7 +189,7 @@ class CreatePurchase extends Component
             'supplier_id'    => ['required', Rule::exists(Supplier::class, 'id')],
             'status'         => ['nullable', Rule::in(['ordered', 'pending', 'received'])],
             'payment_status' => ['nullable', Rule::in(['partial', 'paid', 'unpaid'])],
-            'paid_by'        => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'account_id'     => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
             'paid_amount'   => [
                 Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
 

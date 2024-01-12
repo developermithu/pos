@@ -3,14 +3,16 @@
 namespace App\Livewire\Expenses;
 
 use App\Livewire\Forms\ExpenseForm;
+use App\Models\Account;
 use App\Models\Expense;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 class CreateExpense extends Component
 {
     use Toast;
-    
+
     public ExpenseForm $form;
 
     public function mount()
@@ -20,15 +22,29 @@ class CreateExpense extends Component
 
     public function save()
     {
-        $this->form->store();
-        $this->form->reset();
+        try {
+            DB::beginTransaction();
 
-        $this->success(__('Record has been created successfully'));
+            $this->form->store();
+            $this->form->reset();
+
+            DB::commit();
+            $this->success(__('Record has been created successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error creating expense: ' . $e->getMessage());
+
+            $this->error(__('Something went wrong!'));
+        }
+
         return back();
     }
 
     public function render()
     {
-        return view('livewire.expenses.create-expense')->title(__('add expense'));
+        $accounts = Account::active()->pluck('name', 'id');
+
+        return view('livewire.expenses.create-expense', compact('accounts'))
+            ->title(__('add expense'));
     }
 }

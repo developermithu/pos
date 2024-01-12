@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageSwitchController;
+use App\Livewire\Accounts\BalanceSheet;
 use App\Livewire\Accounts\EditAccount;
 use App\Livewire\Accounts\ListAccount;
 use App\Livewire\Attendance\AddAttendance;
@@ -22,6 +23,7 @@ use App\Livewire\ExpenseCategories\EditExpenseCategory;
 use App\Livewire\ExpenseCategories\ListExpenseCategory;
 use App\Livewire\Expenses\CreateExpense;
 use App\Livewire\Expenses\EditExpense;
+use App\Livewire\Expenses\ListExpense;
 use App\Livewire\Expenses\MonthlyExpenses;
 use App\Livewire\Expenses\TodaysExpenses;
 use App\Livewire\Expenses\YearlyExpenses;
@@ -137,17 +139,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
 
     // Expense management
     Route::group(['prefix' => 'expenses', 'as' => 'expenses.'], function () {
+        Route::get('/', ListExpense::class)->name('index');
         Route::get('/create', CreateExpense::class)->name('create');
         Route::get('/{expense}/edit', EditExpense::class)->name('edit');
-        Route::get('/todays', TodaysExpenses::class)->name('todays');
-        Route::get('/monthly', MonthlyExpenses::class)->name('monthly');
-        Route::get('/yearly', YearlyExpenses::class)->name('yearly');
     });
 
     // Account management
     Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function () {
         Route::get('/', ListAccount::class)->name('index');
         Route::get('/{account}/edit', EditAccount::class)->name('edit');
+        Route::get('/balance-sheet', BalanceSheet::class)->name('balance-sheet');
     });
 
     // Store management

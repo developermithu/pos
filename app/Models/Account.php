@@ -2,31 +2,27 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'account_no',
-        'name',
-        'credit',
-        'debit',
-        'initial_balance',
-        'total_balance',
-        'is_default',
-        'is_active',
-        'details'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
-        'is_default' => 'boolean',
         'is_active' => 'boolean',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     protected function initialBalance(): Attribute
     {
@@ -36,25 +32,33 @@ class Account extends Model
         );
     }
 
-    protected function totalBalance(): Attribute
+    /**
+     * Get the total credit & debit amount for the account.
+     */
+    public function totalCredit()
     {
-        return Attribute::make(
-            get: fn ($value) => $value ? $value / 100 : 0,
-            set: fn ($value) => $value ? $value * 100 : 0,
-        );
+        return $this->payments
+            ->where('type', PaymentType::CREDIT)
+            ->whereNull('deleted_at')
+            ->sum('amount');
     }
 
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
+    public function totalDebit()
     {
-        parent::boot();
+        return $this->payments
+            ->where('type', PaymentType::DEBIT)
+            ->whereNull('deleted_at')
+            ->sum('amount');
+    }
 
-        static::creating(function ($account) {
-            $account->total_balance = $account->initial_balance;
-        });
+    // ========== Relationships =========== //
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(Expense::class);
     }
 }

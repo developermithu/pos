@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained();
             $table->integer('amount');
-            $table->string('payment_method')->comment('cash', 'cheque', 'bank', 'bkash');
             $table->string('reference')->nullable();
             $table->text('note')->nullable();
+            $table->string('type'); // Credit or Debit
             $table->morphs('paymentable');
             $table->timestamps();
             $table->softDeletes();

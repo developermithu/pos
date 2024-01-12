@@ -15,7 +15,6 @@ class AccountForm extends Form
     public string $account_no = '';
     public int $initial_balance = 0;
     public ?string $details = '';
-    public int $total_balance = 0;
 
     public function setAccount(Account $account)
     {
@@ -24,7 +23,6 @@ class AccountForm extends Form
         $this->name = $account->name;
         $this->account_no = $account->account_no;
         $this->initial_balance = $account->initial_balance;
-        $this->total_balance = $account->total_balance;
         $this->details = $account->details ?? null;
     }
 
@@ -43,7 +41,6 @@ class AccountForm extends Form
             'name' => $this->name,
             'account_no' => $this->account_no,
             'initial_balance' => $this->initial_balance,
-            'total_balance' => $this->initial_balance ?? $this->total_balance,
             'details' => $this->details,
         ]);
     }

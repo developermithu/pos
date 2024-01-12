@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Purchases;
 
+use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
 use App\Models\Account;
 use App\Models\Payment;
@@ -19,7 +20,6 @@ class AddPurchasePayment extends Component
 
     public ?int $received_amount;
     public ?int $paid_amount;
-    public ?string $paid_by = 'cash';
     public int|string $account_id = '';
     public ?string $note = null;
 
@@ -40,7 +40,9 @@ class AddPurchasePayment extends Component
 
     public function render()
     {
-        return view('livewire.purchases.add-purchase-payment')
+        $accounts = Account::active()->pluck('name', 'id');
+
+        return view('livewire.purchases.add-purchase-payment', compact('accounts'))
             ->title(__('add payment to purchase order'));
     }
 
@@ -58,9 +60,9 @@ class AddPurchasePayment extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'payment_method' => $this->paid_by,
                 'reference' => 'SR-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
+                'type' => PaymentType::DEBIT->value,
                 'paymentable_id' => $this->purchase->id,
                 'paymentable_type' => Purchase::class
             ]);
@@ -86,6 +88,7 @@ class AddPurchasePayment extends Component
             $this->reset();
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error('Error creating purchase: ' . $e->getMessage());
 
             $this->error(__('Something went wrong!'));
             return back();
@@ -96,7 +99,6 @@ class AddPurchasePayment extends Component
     {
         return [
             'paid_amount' => ['required', 'gt:0', 'lte: ' . $this->received_amount],
-            'paid_by'     => ['required', Rule::in(['cash', 'cheque', 'bank', 'bkash'])],
             'account_id'  => ['required', Rule::exists(Account::class, 'id')],
             'note'        => ['nullable', 'max:255'],
         ];

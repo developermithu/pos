@@ -75,16 +75,11 @@ class ListSale extends Component
 
         $this->authorize('forceDelete', $sale);
 
-        // Start a database transaction
-        DB::beginTransaction();
-
         try {
-            // Delete associated payments 
-            // both non-deleted and soft-deleted
-            if ($sale->payments->count() > 0) {
-                $sale->payments()->forceDelete();
-            }
+            DB::beginTransaction();
 
+            // Delete associated payments 
+            $sale->payments()->forceDelete();
             $sale->forceDelete();
 
             DB::commit();

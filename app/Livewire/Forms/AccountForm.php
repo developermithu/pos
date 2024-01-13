@@ -40,7 +40,6 @@ class AccountForm extends Form
         $this->account->update([
             'name' => $this->name,
             'account_no' => $this->account_no,
-            'initial_balance' => $this->initial_balance,
             'details' => $this->details,
         ]);
     }

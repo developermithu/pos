@@ -130,12 +130,14 @@
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.*')">
+                        <x-collapsible.item :href="route('admin.accounts.index')" :active="request()->routeIs('admin.accounts.index') ||
+                            request()->routeIs('admin.accounts.create') ||
+                            request()->routeIs('admin.accounts.edit')">
                             {{ __('account list') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.accounts.balance-sheet')" :active="request()->routeIs('admin.accounts.balance-sheet')">
-                            {{ __('balance sheet') }}
+                        <x-collapsible.item :href="route('admin.accounts.all-transactions')" :active="request()->routeIs('admin.accounts.all-transactions')">
+                            {{ __('all transactions') }}
                         </x-collapsible.item>
                     </x-collapsible>
 

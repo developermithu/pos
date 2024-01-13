@@ -15,19 +15,19 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')" class="sm:col-span-full">
+                    <x-input.group for="name" label="{{ __('name *') }}" :error="$errors->first('form.name')" class="sm:col-span-full">
                         <x-input wire:model="form.name" id="name" />
                     </x-input.group>
 
-                    <div class="col-span-6 sm:col-span-3">
-                        <x-input.group for="account_no" label="{{ __('account no') }}" :error="$errors->first('form.account_no')">
+                    <div class="col-span-6 sm:col-span-3"> 
+                        <x-input.group for="account_no" label="{{ __('account no *') }}" :error="$errors->first('form.account_no')">
                             <x-input wire:model="form.account_no" id="account_no" />
                         </x-input.group>
                     </div>
 
-                    <div class="col-span-6 sm:col-span-3">
+                    <div class="col-span-6 sm:col-span-3"> 
                         <x-input.group for="initial_balance" label="{{ __('initial balance') }}" :error="$errors->first('form.initial_balance')">
-                            <x-input type="number" wire:model="form.initial_balance" id="initial_balance" />
+                            <x-input type="number" wire:model="form.initial_balance" id="initial_balance" disabled />
                         </x-input.group>
                     </div>
 

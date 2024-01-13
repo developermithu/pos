@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageSwitchController;
-use App\Livewire\Accounts\BalanceSheet;
+use App\Livewire\Accounts\AllTransactions;
 use App\Livewire\Accounts\EditAccount;
 use App\Livewire\Accounts\ListAccount;
 use App\Livewire\Attendance\AddAttendance;
@@ -24,9 +24,6 @@ use App\Livewire\ExpenseCategories\ListExpenseCategory;
 use App\Livewire\Expenses\CreateExpense;
 use App\Livewire\Expenses\EditExpense;
 use App\Livewire\Expenses\ListExpense;
-use App\Livewire\Expenses\MonthlyExpenses;
-use App\Livewire\Expenses\TodaysExpenses;
-use App\Livewire\Expenses\YearlyExpenses;
 use App\Livewire\Pos\CreateInvoice;
 use App\Livewire\Pos\PosManagement;
 use App\Livewire\Products\CreateProduct;
@@ -148,7 +145,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
     Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function () {
         Route::get('/', ListAccount::class)->name('index');
         Route::get('/{account}/edit', EditAccount::class)->name('edit');
-        Route::get('/balance-sheet', BalanceSheet::class)->name('balance-sheet');
+        Route::get('/all-transactions', AllTransactions::class)->name('all-transactions');
     });
 
     // Store management

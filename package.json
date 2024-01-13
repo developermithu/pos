@@ -16,7 +16,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "daisyui": "^4.4.19",
-        "flag-icons": "^7.1.0"
+        "daisyui": "^4.4.19"
     }
 }

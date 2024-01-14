@@ -65,10 +65,10 @@
                     @endif
                 </x-table.cell>
                 <x-table.cell class="!text-primary">
-                    @php
-                        $total = $account->totalCredit() + $account->initial_balance - $account->totalDebit();
-                    @endphp
-                    {{ Number::format($total) }}
+                    @if ($account->totalBalance())
+                    {{ Number::format($account->totalBalance()) }}
+                @else
+                @endif
                 </x-table.cell>
                 <x-table.cell>
                     @if ($account->is_active)

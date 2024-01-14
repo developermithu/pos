@@ -25,7 +25,7 @@ class EditProduct extends Component
 
     public function mount(Product $product)
     {
-        $this->authorize('update', $this->product);
+        $this->authorize('update', $product);
 
         $this->product = $product;
 

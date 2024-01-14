@@ -9,6 +9,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
+                    <x-breadcrumb.item :label="__('accounts')" :href="route('admin.accounts.index')" />
                     <x-breadcrumb.item :label="__('transactions')" />
                 </x-breadcrumb>
 

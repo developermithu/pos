@@ -136,6 +136,10 @@
                             {{ __('account list') }}
                         </x-collapsible.item>
 
+                        <x-collapsible.item :href="route('admin.accounts.money-transfer')" :active="request()->routeIs('admin.accounts.money-transfer')">
+                            {{ __('money transfer') }}
+                        </x-collapsible.item>
+
                         <x-collapsible.item :href="route('admin.accounts.all-transactions')" :active="request()->routeIs('admin.accounts.all-transactions')">
                             {{ __('all transactions') }}
                         </x-collapsible.item>

@@ -35,7 +35,7 @@ class Account extends Model
     /**
      * Get the total credit & debit amount for the account.
      */
-    public function totalCredit()
+    public function totalCredit(): ?int
     {
         return $this->payments
             ->where('type', PaymentType::CREDIT)
@@ -43,12 +43,17 @@ class Account extends Model
             ->sum('amount');
     }
 
-    public function totalDebit()
+    public function totalDebit(): ?int
     {
         return $this->payments
             ->where('type', PaymentType::DEBIT)
             ->whereNull('deleted_at')
             ->sum('amount');
+    }
+
+    public function totalBalance(): ?int
+    {
+        return $this->totalCredit() + $this->initial_balance - $this->totalDebit();
     }
 
     // ========== Relationships =========== //

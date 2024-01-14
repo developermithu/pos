@@ -310,6 +310,36 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\MoneyTransfer
+ *
+ * @property int $id
+ * @property int $from_account_id
+ * @property int $to_account_id
+ * @property int $amount
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Account $fromAccount
+ * @property-read \App\Models\Account $toAccount
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereFromAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereToAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer withoutTrashed()
+ */
+	class MoneyTransfer extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\PaySalary
  *
  * @property int $id

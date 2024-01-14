@@ -4,6 +4,7 @@ use App\Http\Controllers\LanguageSwitchController;
 use App\Livewire\Accounts\AllTransactions;
 use App\Livewire\Accounts\EditAccount;
 use App\Livewire\Accounts\ListAccount;
+use App\Livewire\Accounts\ListMoneyTransfer;
 use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
 use App\Livewire\Attendance\ListAttendance;
@@ -146,6 +147,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListAccount::class)->name('index');
         Route::get('/{account}/edit', EditAccount::class)->name('edit');
         Route::get('/all-transactions', AllTransactions::class)->name('all-transactions');
+        Route::get('/money-transfer', ListMoneyTransfer::class)->name('money-transfer');
     });
 
     // Store management

@@ -13,6 +13,7 @@ use App\Livewire\Cashbooks\EditCashbookEntry;
 use App\Livewire\Cashbooks\ListCashbookEntry;
 use App\Livewire\Categories\EditCategory;
 use App\Livewire\Categories\ListCategory;
+use App\Livewire\Customers\AddDeposit;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
@@ -88,6 +89,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListCustomer::class)->name('index');
         Route::get('/create', CreateCustomer::class)->name('create');
         Route::get('/{customer}/edit', EditCustomer::class)->name('edit');
+        Route::get('/{customer}/add-deposit', AddDeposit::class)->name('add-deposit');
     });
 
     Route::group(['prefix' => 'advanced-salary', 'as' => 'advanced.salary.'], function () {

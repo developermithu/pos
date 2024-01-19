@@ -200,7 +200,7 @@ class PosManagement extends Component
             // Insert Payment
             if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
                 Payment::create([
-                    'account_id' => $this->account_id,
+                    'account_id' => $this->account_id, 
                     'amount' => $this->paid_amount,
                     'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,

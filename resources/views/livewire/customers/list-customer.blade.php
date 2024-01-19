@@ -56,13 +56,30 @@
                     {{ $customer->phone_number }} <br>
                     {{ $customer?->address }}
                 </x-table.cell>
-                <x-table.cell> {{ Number::currency($customer->deposit, 'BDT') }} </x-table.cell>
+                <x-table.cell>
+                    @if ($customer->deposit)
+                        <span class="text-success">
+                            +{{ Number::format($customer->deposit) }} TK
+                        </span>
+                    @else
+                        0
+                    @endif
+                </x-table.cell>
                 <x-table.cell>
                     @php
-                        $due = $customer->expense - $customer->deposit;
+                        $totalSaleAmount = $customer->sales->whereNull('deleted_at')->sum('total');
+                        $totalPaidAmount = $customer->sales->whereNull('deleted_at')->sum('paid_amount');
+
+                        $dueAmount = $totalSaleAmount - $totalPaidAmount;
                     @endphp
 
-                    {{ Number::currency($due, 'BDT') }}
+                    @if ($dueAmount)
+                        <span class="text-danger">
+                            {{ Number::format($dueAmount) }} TK
+                        </span>
+                    @else
+                        0
+                    @endif
                 </x-table.cell>
 
                 <x-table.cell class="space-x-2">
@@ -78,21 +95,41 @@
 
                         @include('partials.delete-forever-modal', ['data' => $customer])
                     @else
-                        @can('update', $customer)
-                            <x-button flat="warning" :href="route('admin.customers.edit', $customer)">
-                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                            </x-button>
-                        @endcan
+                        <div x-data="{ open: false }">
+                            <x-mary-button x-ref="button" icon="o-ellipsis-vertical" @click.outside="open = false"
+                                x-on:click="open = !open" class="btn-circle" />
 
-                        @can('delete', $customer)
-                            <x-button flat="danger"
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')">
-                                <x-heroicon-o-trash /> {{ __('delete') }}
-                            </x-button>
+                            <x-mary-menu x-cloak x-show="open" x-anchor.bottom-end.offset.5="$refs.button"
+                                class="bg-white border">
 
-                            @include('partials.delete-modal', ['data' => $customer])
-                        @endcan
+                                <x-mary-menu-item :title="__('view')" icon="o-eye" />
+
+                                @can('update', $customer)
+                                    <x-mary-menu-item :title="__('edit')" :link="route('admin.customers.edit', $customer)" icon="o-pencil-square" />
+                                @endcan
+
+                                <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
+                                    x-on:click.prevent="$dispatch('open-modal', 'clear-due')" />
+
+                                @if ($customer->deposits->count() > 0)
+                                    <x-mary-menu-item :title="__('view deposits')" icon="o-banknotes"
+                                        x-on:click.prevent="$dispatch('open-modal', 'view-deposits-{{ $customer->id }}')" />
+                                @endif
+
+                                <x-mary-menu-item :title="__('add deposit')" icon="o-plus" :link="route('admin.customers.add-deposit', $customer)" />
+
+                                @can('delete', $customer)
+                                    <x-mary-menu-item :title="__('delete')"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')"
+                                        icon="o-trash" class="text-danger" />
+                                @endcan
+                            </x-mary-menu>
+                        </div>
                     @endif
+
+                    {{-- View Deposits --}}
+                    @include('modals.view-deposits', ['data' => $customer])
+                    @include('partials.delete-modal', ['data' => $customer])
                 </x-table.cell>
             </x-table.row>
 
@@ -100,6 +137,9 @@
             <x-table.data-not-found colspan="6" />
         @endforelse
     </x-table>
+
+    {{-- Clear Due Modal --}}
+    @include('modals.clear-due', ['size' => 'md'])
 
     {{-- Pagination --}}
     <div class="p-4">

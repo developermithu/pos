@@ -37,10 +37,9 @@
                 <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
             </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
-            <x-table.heading> {{ __('address') }} </x-table.heading>
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
-            <x-table.heading> {{ __('bank name') }} </x-table.heading>
-            <x-table.heading> {{ __('bank branch') }} </x-table.heading>
+            <x-table.heading> {{ __('details') }} </x-table.heading>
+            <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
@@ -50,11 +49,25 @@
                     <x-input.checkbox wire:model="selected" value="{{ $supplier->id }}" id="{{ $supplier->id }}"
                         for="{{ $supplier->id }}" />
                 </x-table.cell>
-                <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $supplier->name }} </x-table.cell>
-                <x-table.cell> {{ Str::limit($supplier->address, 30, '..') }} </x-table.cell>
-                <x-table.cell> {{ $supplier->phone_number }} </x-table.cell>
-                <x-table.cell> {{ $supplier->bank_name }} </x-table.cell>
-                <x-table.cell> {{ $supplier->bank_branch }} </x-table.cell>
+                <x-table.cell class="font-medium text-gray-800 dark:text-white">
+                    {{ Str::limit($supplier->name, 25, '..') }}
+                </x-table.cell>
+                <x-table.cell>
+                    {{ $supplier->phone_number }}
+                </x-table.cell>
+                <x-table.cell>
+                    {{ $supplier?->company_name }} <br>
+                    {{ $supplier?->address }}
+                </x-table.cell>
+                <x-table.cell>
+                    @if ($supplier->totalDue())
+                        <span class="text-danger">
+                            {{ Number::format($supplier->totalDue()) }} TK
+                        </span>
+                    @else
+                        0
+                    @endif
+                </x-table.cell>
 
                 <x-table.cell class="space-x-2">
                     @if ($supplier->trashed())
@@ -88,7 +101,7 @@
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="7" />
+            <x-table.data-not-found colspan="6" />
         @endforelse
     </x-table>
 

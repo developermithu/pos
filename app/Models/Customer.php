@@ -20,18 +20,33 @@ class Customer extends Model
         'company_name',
         'address',
         'phone_number',
-        'deposit',
-        'expense',
+        'deposit'
     ];
+
+    public function totalSale(): ?int
+    {
+        return $this->sales->whereNull('deleted_at')->sum('total');
+    }
+
+    public function totalPaid(): ?int
+    {
+        return $this->sales->whereNull('deleted_at')->sum('paid_amount');
+    }
+
+    public function totalDue(): ?int
+    {
+        return $this->totalSale() - $this->totalPaid();
+    }
+
+    /**
+     * Relationships
+    */
 
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);
     }
 
-    /**
-     * Get the deposits associated with the Customer
-     */
     public function deposits(): MorphMany
     {
         return $this->morphMany(Payment::class, 'paymentable')->withTrashed();

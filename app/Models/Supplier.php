@@ -12,7 +12,27 @@ class Supplier extends Model
 {
     use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    // protected $softCascade = ['product_purchase'];
+    // protected $softCascade = [''];
 
     protected $guarded = [];
+
+    public function totalSale(): ?int
+    {
+        return $this->purchases->whereNull('deleted_at')->sum('total');
+    }
+
+    public function totalPaid(): ?int
+    {
+        return $this->purchases->whereNull('deleted_at')->sum('paid_amount');
+    }
+
+    public function totalDue(): ?int
+    {
+        return $this->totalSale() - $this->totalPaid();
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

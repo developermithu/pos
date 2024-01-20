@@ -1,4 +1,4 @@
-<x-modal maxWidth="4xl" name="view-deposits-{{ $data->id }}">
+<x-modal maxWidth="3xl" name="view-deposits-{{ $data->id }}">
     <div class="p-5 lg:p-6">
         <div class="flex items-center justify-between pb-5">
             <h2 class="text-xl font-semibold text-gray-500">

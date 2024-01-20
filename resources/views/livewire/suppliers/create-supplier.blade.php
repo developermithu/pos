@@ -15,24 +15,20 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
-                        <x-input wire:model="form.name" id="name" />
+                    <x-input.group for="name" label="{{ __('name *') }}" :error="$errors->first('form.name')">
+                        <x-input wire:model="form.name" id="name" required />
+                    </x-input.group>
+
+                    <x-input.group for="company_name" label="{{ __('company name') }}" :error="$errors->first('form.company_name')">
+                        <x-input wire:model="form.company_name" id="company_name" />
                     </x-input.group>
 
                     <x-input.group for="address" label="{{ __('address') }}" :error="$errors->first('form.address')">
                         <x-input wire:model="form.address" id="address" />
                     </x-input.group>
 
-                    <x-input.group for="phone_number" label="{{ __('phone number') }}" :error="$errors->first('form.phone_number')">
-                        <x-input wire:model="form.phone_number" id="phone_number" />
-                    </x-input.group>
-
-                    <x-input.group for="bank_name" label="{{ __('bank name') }}" :error="$errors->first('form.bank_name')">
-                        <x-input wire:model="form.bank_name" id="bank_name" />
-                    </x-input.group>
-
-                    <x-input.group for="bank_branch" label="{{ __('bank branch') }}" :error="$errors->first('form.bank_branch')">
-                        <x-input wire:model="form.bank_branch" id="bank_branch" />
+                    <x-input.group for="phone_number" label="{{ __('phone number *') }}" :error="$errors->first('form.phone_number')">
+                        <x-input wire:model="form.phone_number" id="phone_number" required />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

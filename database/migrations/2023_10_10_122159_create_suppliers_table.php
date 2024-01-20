@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
-            $table->string('phone_number');
-            $table->string('bank_name')->nullable();
-            $table->string('bank_branch')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone_number')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

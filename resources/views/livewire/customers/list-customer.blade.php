@@ -37,6 +37,7 @@
                 <x-input.checkbox wire:model="selectAll" value="selectALl" id="selectAll" for="selectAll" />
             </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
+            <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('deposit') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
@@ -50,10 +51,13 @@
                         for="{{ $customer->id }}" />
                 </x-table.cell>
                 <x-table.cell class="font-medium text-gray-800 dark:text-white">
-                    {{ Str::limit($customer->name, 25, '..') }} </x-table.cell>
+                    {{ Str::limit($customer->name, 25, '..') }} 
+                </x-table.cell>
+                <x-table.cell>
+                    {{ $customer->phone_number }}
+                </x-table.cell>
                 <x-table.cell>
                     {{ $customer?->company_name }} <br>
-                    {{ $customer->phone_number }} <br>
                     {{ $customer?->address }}
                 </x-table.cell>
                 <x-table.cell>
@@ -66,16 +70,9 @@
                     @endif
                 </x-table.cell>
                 <x-table.cell>
-                    @php
-                        $totalSaleAmount = $customer->sales->whereNull('deleted_at')->sum('total');
-                        $totalPaidAmount = $customer->sales->whereNull('deleted_at')->sum('paid_amount');
-
-                        $dueAmount = $totalSaleAmount - $totalPaidAmount;
-                    @endphp
-
-                    @if ($dueAmount)
+                    @if ($customer->totalDue())
                         <span class="text-danger">
-                            {{ Number::format($dueAmount) }} TK
+                            {{ Number::format($customer->totalDue()) }} TK
                         </span>
                     @else
                         0
@@ -134,7 +131,7 @@
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="6" />
+            <x-table.data-not-found colspan="7" />
         @endforelse
     </x-table>
 

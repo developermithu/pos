@@ -61,7 +61,7 @@ class ListSupplier extends Component
         $this->authorize('viewAny', Supplier::class);
 
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
-        $searchableFields = ['name', 'address', 'phone_number', 'bank_name'];
+        $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $suppliers = Supplier::query()
             ->when($search, function ($query) use ($searchableFields, $search) {

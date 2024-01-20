@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('phone_number')->unique();
             $table->integer('deposit')->default(0);
-            $table->integer('expense')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

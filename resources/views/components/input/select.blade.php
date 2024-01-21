@@ -9,8 +9,8 @@
     @if ($options)
         <option value="" disabled>-- {{ __('select') }} {{ $id }} --</option>
 
-        @foreach ($options as $key => $value)
-            <option value="{{ $key }}"> {{ $value }} </option>
+        @foreach ($options as $key => $name)
+            <option value="{{ $key }}"> {{ $name }} </option>
         @endforeach
     @else
         {{ $slot }}

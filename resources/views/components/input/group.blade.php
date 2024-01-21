@@ -1,4 +1,4 @@
-@props(['label', 'for', 'error'])
+@props(['label', 'for' => null, 'error' => null])
 
 @php
     // Check if the label contains '*'

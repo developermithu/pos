@@ -36,6 +36,7 @@ use App\Livewire\Purchases\CreatePurchase;
 use App\Livewire\Purchases\GeneratePurchaseInvoice;
 use App\Livewire\Purchases\ListPurchase;
 use App\Livewire\Purchases\ShowPurchase;
+use App\Livewire\Reports\CustomerDueReport;
 use App\Livewire\Salary\AddAdvancedSalary;
 use App\Livewire\Salary\EditAdvancedSalary;
 use App\Livewire\Salary\LastMonthSalary;
@@ -185,6 +186,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/{purchase}/show', ShowPurchase::class)->name('show');
         Route::get('/{purchase}/add-payment', AddPurchasePayment::class)->name('add-payment');
         Route::get('/{invoice_no}/generate-invoice', GeneratePurchaseInvoice::class)->name('generate.invoice');
+    });
+
+    // Reports
+    Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
+        Route::get('/customer-due-report', CustomerDueReport::class)->name('customer-due-report');
     });
 });
 

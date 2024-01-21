@@ -9,12 +9,12 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('customers')" :href="route('admin.customers.index')" />
+                    <x-breadcrumb.item :label="__('suppliers')" :href="route('admin.suppliers.index')" />
                     <x-breadcrumb.item :label="__('due report')" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('customer due report') }}
+                    {{ __('supplier due report') }}
                 </h1>
             </div>
 
@@ -24,7 +24,7 @@
                     <x-mary-input wire:model.live.debounce.300ms="search" placeholder="{{ __('search') }}.."
                         class="w-48 border-2 border-gray-100 focus:outline-none focus:border-gray-300 sm:w-64 xl:w-96" />
 
-                    @if ($status || $search || $start_date || $end_date || $customer_id)
+                    @if ($status || $search || $start_date || $end_date || $supplier_id)
                         <x-mary-button wire:click="clear" icon="o-x-mark"
                             class="btn-circle btn-ghost text-danger hover:bg-danger/10" />
                     @endif
@@ -43,10 +43,10 @@
                     <x-mary-datepicker wire:model.live="end_date" icon="o-calendar" :config="$config" :placeholder="__('end date')"
                         :label="__('end date')" class="border-2 border-gray-100 focus:outline-none focus:border-gray-300" />
 
-                    <x-input.group label="customer">
-                        <x-input.select wire:model.change="customer_id" id="customer" class="!w-64">
-                            <option value=""> {{ __('all customer') }} </option>
-                            @foreach (App\Models\Customer::pluck('name', 'id') as $key => $name)
+                    <x-input.group label="supplier">
+                        <x-input.select wire:model.change="supplier_id" id="supplier" class="!w-64">
+                            <option value=""> {{ __('all supplier') }} </option>
+                            @foreach (App\Models\Supplier::pluck('name', 'id') as $key => $name)
                                 <option value="{{ $key }}"> {{ $name }} </option>
                             @endforeach
                         </x-input.select>
@@ -60,7 +60,7 @@
                             <x-mary-button :label="__('status')" icon-right="o-chevron-down" />
                         </x-slot:trigger>
 
-                        @foreach (App\Enums\SaleStatus::forselect() as $value => $name)
+                        @foreach (App\Enums\PurchaseStatus::forselect() as $value => $name)
                             <x-mary-menu-item @click.stop="">
                                 <x-mary-checkbox value="{{ $value }}" wire:model.live="status"
                                     :label="$name" />
@@ -74,7 +74,7 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading> {{ __('customer') }} </x-table.heading>
+            <x-table.heading> {{ __('supplier') }} </x-table.heading>
             <x-table.heading> {{ __('invoice_no') }} </x-table.heading>
             <x-table.heading> {{ __('products') }} </x-table.heading>
             <x-table.heading> {{ __('total') }} </x-table.heading>
@@ -98,7 +98,7 @@
             @endphp
 
             <x-table.row wire:loading.class="opacity-50" wire:key="{{ $sale->id }}">
-                <x-table.cell> {{ $sale->customer?->name }} </x-table.cell>
+                <x-table.cell> {{ $sale->supplier?->name }} </x-table.cell>
                 <x-table.cell> {{ $sale->invoice_no }} </x-table.cell>
                 <x-table.cell>
                     @foreach ($sale->items as $item)

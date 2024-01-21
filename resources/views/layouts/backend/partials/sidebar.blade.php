@@ -149,7 +149,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.reports.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-o-document class="w-6 h-6" /></x-slot>
                                 {{ __('reports') }} <x-mary-badge value="New"
                                     class="pl-1 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
@@ -157,6 +157,10 @@
 
                         <x-collapsible.item :href="route('admin.reports.customer-due-report')" :active="request()->routeIs('admin.reports.customer-due-report')">
                             {{ __('customer due report') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.reports.supplier-due-report')" :active="request()->routeIs('admin.reports.supplier-due-report')">
+                            {{ __('supplier due report') }}
                         </x-collapsible.item>
                     </x-collapsible>
 

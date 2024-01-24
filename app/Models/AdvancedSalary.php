@@ -14,7 +14,7 @@ class AdvancedSalary extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'paid_at' => 'datetime',
+        'paid_at' => 'date',
     ];
 
     public function employee(): BelongsTo

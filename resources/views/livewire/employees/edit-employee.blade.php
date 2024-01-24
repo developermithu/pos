@@ -31,9 +31,51 @@
                         <x-input wire:model="form.phone_number" id="phone_number" />
                     </x-input.group>
 
-                    <x-input.group for="salary" label="{{ __('salary') }}" :error="$errors->first('form.salary')">
-                        <x-input type="number" wire:model="form.salary" id="salary" />
-                    </x-input.group>
+                    {{-- Update employees salary --}}
+                    <div x-data="{ isUpdatedSalaryChecked: false }" class="col-span-6 sm:col-span-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
+                                <div x-cloak x-show="isUpdatedSalaryChecked">
+                                    {{ __('new basic salary') }}
+                                </div>
+
+                                <div x-cloak x-show="isUpdatedSalaryChecked === false">
+                                    {{ __('basic salary') }}
+                                    @if ($employee->old_basic_salary)
+                                        <span class="!text-xs !font-normal">
+                                            ({{ __('old basic salary') }} - {{ $employee->old_basic_salary }} TK)
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <label for="updateSalary"
+                                class="relative h-8 w-14 cursor-pointer [-webkit-tap-highlight-color:_transparent]">
+                                <input x-model="isUpdatedSalaryChecked" type="checkbox" id="updateSalary"
+                                    class="sr-only peer" />
+
+                                <span
+                                    :class="{ 'bg-gray-300': !isUpdatedSalaryChecked, 'bg-green-500': isUpdatedSalaryChecked }"
+                                    class="absolute inset-0 transition rounded-full"></span>
+
+                                <span :class="{ 'start-0': !isUpdatedSalaryChecked, 'start-6': isUpdatedSalaryChecked }"
+                                    class="absolute inset-y-0 w-6 h-6 m-1 transition-all bg-white rounded-full"></span>
+                            </label>
+                        </div>
+
+                        <div x-cloak x-show="isUpdatedSalaryChecked === false">
+                            <x-input type="number" wire:model="form.basic_salary" id="basic_salary" disabled />
+                        </div>
+
+                        <div x-cloak x-show="isUpdatedSalaryChecked">
+                            <x-input type="number" wire:model="form.new_basic_salary" id="new_basic_salary"
+                                placeholder="00" />
+                        </div>
+
+                        @error('form.new_basic_salary')
+                            <div class="mt-1 text-sm text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
                     <x-input.group for="joined_at" label="{{ __('joining date') }}" :error="$errors->first('form.joined_at')">
                         <x-input type="date" wire:model="form.joined_at" id="joined_at" />

@@ -31,8 +31,8 @@
                         <x-input wire:model="form.phone_number" id="phone_number" />
                     </x-input.group>
 
-                    <x-input.group for="salary" label="{{ __('salary') }}" :error="$errors->first('form.salary')">
-                        <x-input type="number" wire:model="form.salary" id="salary" />
+                    <x-input.group for="basic_salary" label="{{ __('basic salary') }}" :error="$errors->first('form.basic_salary')">
+                        <x-input type="number" wire:model="form.basic_salary" id="basic_salary" />
                     </x-input.group>
 
                     <x-input.group for="joined_at" label="{{ __('joining date') }}" :error="$errors->first('form.joined_at')">

@@ -4,6 +4,7 @@ namespace App\Livewire\Accounts;
 
 use App\Livewire\Forms\AccountForm;
 use App\Models\Account;
+use App\Models\AdvancedSalary;
 use App\Traits\SearchAndFilter;
 use Livewire\Attributes\Url;
 use Livewire\Component;

@@ -10,25 +10,13 @@ class EmployeeForm extends Form
 {
     public ?Employee $employee;
 
-    #[Rule('required|max:255')]
     public $name;
-
-    #[Rule('required|max:255', as: 'father name')]
     public $father_name;
-
-    #[Rule('required|max:255')]
     public $address;
-
-    #[Rule('required|max:255', as: 'phone number')]
     public $phone_number;
-
-    #[Rule('required|max:255')]
-    public $salary;
-
-    #[Rule('required|date', as: 'joining date')]
+    public $basic_salary;
+    public $new_basic_salary;
     public $joined_at;
-
-    #[Rule('required|in:male,female')]
     public $gender;
 
     public function setEmployee(Employee $employee)
@@ -39,7 +27,7 @@ class EmployeeForm extends Form
         $this->father_name = $employee->father_name;
         $this->address = $employee->address;
         $this->phone_number = $employee->phone_number;
-        $this->salary = $employee->salary;
+        $this->basic_salary = $employee->basic_salary;
         $this->joined_at = $employee->joined_at->format('Y-m-d');
         $this->gender = $employee->gender;
     }
@@ -48,15 +36,43 @@ class EmployeeForm extends Form
     {
         $this->validate();
 
-        Employee::create($this->only(['name', 'father_name', 'address', 'phone_number', 'salary', 'joined_at', 'gender']));
+        Employee::create($this->only(['name', 'father_name', 'address', 'phone_number', 'basic_salary', 'joined_at', 'gender']));
     }
 
     public function update()
     {
         $this->validate();
 
-        $this->employee->update(
-            $this->only(['name', 'father_name', 'address', 'phone_number', 'salary', 'joined_at', 'gender'])
-        );
+        $this->employee->update([
+            'name' => $this->name,
+            'father_name' => $this->father_name,
+            'address' => $this->address,
+            'phone_number' => $this->phone_number,
+            'joined_at' => $this->joined_at,
+            'gender' => $this->gender,
+        ]);
+
+        // update salary
+        if ($this->new_basic_salary) {
+            $this->employee->update([
+                'basic_salary' => $this->new_basic_salary, // new salary
+                'old_basic_salary' => $this->basic_salary, // old salary
+                'salary_updated_at' => now(),
+            ]);
+        }
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'name' => ['required', 'max:255'],
+            'father_name' => ['required', 'max:255'],
+            'address' => ['nullable', 'max:255'],
+            'phone_number' => ['required', 'max:255'],
+            'basic_salary' => ['required', 'max:255'],
+            'new_basic_salary' => ['nullable', 'numeric', "gt:$this->basic_salary"],
+            'joined_at' => ['required', 'date'],
+            'gender' => ['required', 'in:male,female'],
+        ];
     }
 }

@@ -35,15 +35,15 @@ Generate model helper: ```php artisan ide-helper:models```
 - [ ] Stock management
 - [ ] Backup database 
 - [ ] Custom Error page
-- [ ] Loading components
-- [ ] Adding Charts and Graphs
-- [ ] Pickaday for date picking
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
-- [ ] Bulk deleting
 - [ ] Log view
 - [ ] Customize code for production
-- [ ] Payments Trash delete
 
 
 ## Meeting
+
+<!-- Employee -->
+
+- advancePayments()
+- 

@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('father_name');
-            $table->string('address');
-            $table->string('phone_number');
-            $table->integer('salary');
-            $table->date('joined_at');
+            $table->string('address')->nullable();
+            $table->string('phone_number')->unique();
             $table->enum('gender', ['male', 'female']);
+            $table->integer('basic_salary');
+            $table->integer('old_basic_salary')->nullable();
+            $table->date('salary_updated_at')->nullable();
+            $table->date('joined_at');
             $table->timestamps();
             $table->softDeletes();
         });

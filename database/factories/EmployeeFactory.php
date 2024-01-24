@@ -21,7 +21,9 @@ class EmployeeFactory extends Factory
             'father_name' => fake()->name('male'),
             'address' => fake()->address(),
             'phone_number' => fake()->phoneNumber(),
-            'salary' => fake()->randomFloat(2, 5000, 10000),
+            'basic_salary' => fake()->randomFloat(2, 5000, 10000),
+            'old_basic_salary' => null,
+            'salary_updated_at' => null,
             'joined_at' => now()->addDays(rand(-30, -10)),
             'gender' => fake()->randomElement(['male', 'female'])
         ];

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(ExpenseCategory::class)->cascadeOnDelete();
             $table->text('details')->nullable();
             $table->integer('amount');
-            $table->timestamp('date');
+            $table->date('date');
             $table->timestamps();
             $table->softDeletes();
         });

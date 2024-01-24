@@ -12,12 +12,14 @@ class EditEmployee extends Component
     use Toast;
 
     public EmployeeForm $form;
+    public Employee $employee;
 
     public function mount(Employee $employee)
     {
         $this->authorize('update', $employee);
 
         $this->form->setEmployee($employee);
+        $this->employee = $employee;
     }
 
     public function save()

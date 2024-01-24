@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('status')->comment('ordered', 'pending', 'delivered');
             $table->string('payment_status')->comment('pending', 'due', 'partial', 'paid');
             $table->text('note')->nullable();
-            $table->timestamp('date');
+            $table->date('date');
             $table->timestamps();
             $table->softDeletes();
         });

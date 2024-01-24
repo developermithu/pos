@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('month');
             $table->string('year');
             $table->integer('amount');
-            $table->timestamp('paid_at');
+            $table->date('paid_at');
             $table->timestamps();
             $table->softDeletes();
         });

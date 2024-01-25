@@ -18,6 +18,7 @@ use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
 use App\Livewire\Dashboard;
+use App\Livewire\Employees\AddAdvancePayment;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListEmployee;
@@ -85,6 +86,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListEmployee::class)->name('index');
         Route::get('/create', CreateEmployee::class)->name('create');
         Route::get('/{employee}/edit', EditEmployee::class)->name('edit');
+        Route::get('/{employee}/add-advance-payment', AddAdvancePayment::class)->name('add-advance-payment');
     });
 
     Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {

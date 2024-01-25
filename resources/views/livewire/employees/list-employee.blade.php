@@ -29,8 +29,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <x-table>
@@ -83,21 +81,38 @@
 
                         @include('partials.delete-forever-modal', ['data' => $employee])
                     @else
-                        @can('update', $employee)
-                            <x-button flat="warning" :href="route('admin.employees.edit', $employee)">
-                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                            </x-button>
-                        @endcan
+                        <div x-data="{ open: false }">
+                            <x-mary-button x-ref="button" icon="o-ellipsis-vertical" @click.outside="open = false"
+                                x-on:click="open = !open" class="btn-circle" />
 
-                        @can('delete', $employee)
-                            <x-button flat="danger"
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')">
-                                <x-heroicon-o-trash /> {{ __('delete') }}
-                            </x-button>
+                            <x-mary-menu x-cloak x-show="open" x-anchor.bottom-end.offset.5="$refs.button"
+                                class="bg-white border">
 
-                            @include('partials.delete-modal', ['data' => $employee])
-                        @endcan
+                                <x-mary-menu-item :title="__('view')" icon="o-eye" />
+
+                                @can('update', $employee)
+                                    <x-mary-menu-item :title="__('edit')" :link="route('admin.employees.edit', $employee)" icon="o-pencil-square" />
+                                @endcan
+
+                                @if ($employee->advancePayments->count() > 0)
+                                    <x-mary-menu-item :title="__('view advance payments')" icon="o-banknotes"
+                                        x-on:click.prevent="$dispatch('open-modal', 'view-advance-payments-{{ $employee->id }}')" />
+                                @endif
+
+                                <x-mary-menu-item :title="__('add advance payment')" icon="o-plus" :link="route('admin.employees.add-advance-payment', $employee)" />
+
+                                @can('delete', $employee)
+                                    <x-mary-menu-item :title="__('delete')"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $employee->id }}')"
+                                        icon="o-trash" class="text-danger" />
+                                @endcan
+                            </x-mary-menu>
+                        </div>
                     @endif
+
+                    {{-- View Deposits --}}
+                    @include('modals.view-advance-payments', ['data' => $employee])
+                    @include('partials.delete-modal', ['data' => $employee])
                 </x-table.cell>
             </x-table.row>
 

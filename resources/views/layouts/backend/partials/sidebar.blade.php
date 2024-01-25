@@ -104,6 +104,10 @@
                             {{ __('employee list') }}
                         </x-collapsible.item>
 
+                        {{-- <x-collapsible.item :href="route('admin.employees.add-advance-payment')" :active="request()->routeIs('admin.employees.add-advance-payment')">
+                            {{ __('add advance payment') }}
+                        </x-collapsible.item> --}}
+
                         <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*')">
                             {{ __('attendance') }}
                         </x-collapsible.item>

@@ -10,8 +10,10 @@ use App\Models\Supplier;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
+#[Lazy]
 class Dashboard extends Component
 {
     public array $monthlySalesChart;
@@ -122,5 +124,10 @@ class Dashboard extends Component
             $this->top5CustomersChart['data']['labels'][] = $name;
             $this->top5CustomersChart['data']['datasets'][0]['data'][] = $sales;
         }
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.dashboard');
     }
 }

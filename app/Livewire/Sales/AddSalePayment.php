@@ -29,10 +29,6 @@ class AddSalePayment extends Component
 
         $dueAmount = $sale->total - $sale->paid_amount;
 
-        if ($dueAmount <= 0) {
-            abort(403);
-        }
-
         $this->sale = $sale;
         $this->received_amount = $dueAmount;
         $this->paid_amount     = $dueAmount;
@@ -41,7 +37,7 @@ class AddSalePayment extends Component
     public function addPayment()
     {
         $this->authorize('create', Payment::class);
-
+        
         $this->validate();
 
         try {
@@ -76,21 +72,19 @@ class AddSalePayment extends Component
             DB::commit();
 
             $this->success(__('Record has been created successfully'));
-            $this->reset();
+            return $this->redirect(ListSale::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error adding sale payment: ' . $e->getMessage());
-
             $this->error(__('Something went wrong!'));
             return back();
         }
-
-        return back();
     }
 
     public function rules(): array
     {
         return [
+            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->sale->total - $this->sale->paid_amount],
             'paid_amount' => ['required', 'gt:0', 'lte: ' . $this->received_amount],
             'account_id'  => ['required', Rule::exists(Account::class, 'id')],
             'note'        => ['nullable', 'max:255'],

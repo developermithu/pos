@@ -32,14 +32,14 @@
                     </x-input.group>
 
                     {{-- Update employees salary --}}
-                    <div x-data="{ isUpdatedSalaryChecked: false }" class="col-span-6 sm:col-span-3">
+                    <div x-data="{ isChecked: false }" class="col-span-6 sm:col-span-3">
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
-                                <div x-cloak x-show="isUpdatedSalaryChecked">
+                                <div x-cloak x-show="isChecked">
                                     {{ __('new basic salary') }}
                                 </div>
 
-                                <div x-cloak x-show="isUpdatedSalaryChecked === false">
+                                <div x-cloak x-show="isChecked === false">
                                     {{ __('basic salary') }}
                                     @if ($employee->old_basic_salary)
                                         <span class="!text-xs !font-normal">
@@ -49,25 +49,33 @@
                                 </div>
                             </div>
 
-                            <label for="updateSalary"
-                                class="relative h-8 w-14 cursor-pointer [-webkit-tap-highlight-color:_transparent]">
-                                <input x-model="isUpdatedSalaryChecked" type="checkbox" id="updateSalary"
-                                    class="sr-only peer" />
+                            <div class="flex items-center gap-x-2">
+                                <span class="text-sm font-medium"
+                                    :class="{ 'text-gray-400': !isChecked, 'text-primary': isChecked }">
+                                    {{ __('update salary') }} </span>
+                                <label for="updateSalary"
+                                    class="relative h-8 w-14 cursor-pointer [-webkit-tap-highlight-color:_transparent]">
+                                    <input x-model="isChecked" type="checkbox" id="updateSalary" class="sr-only peer" />
 
-                                <span
-                                    :class="{ 'bg-gray-300': !isUpdatedSalaryChecked, 'bg-green-500': isUpdatedSalaryChecked }"
-                                    class="absolute inset-0 transition rounded-full"></span>
+                                    <span
+                                        :class="{
+                                            'bg-gray-300': !
+                                                isChecked,
+                                            'bg-primary': isChecked
+                                        }"
+                                        class="absolute inset-0 transition rounded-full"></span>
 
-                                <span :class="{ 'start-0': !isUpdatedSalaryChecked, 'start-6': isUpdatedSalaryChecked }"
-                                    class="absolute inset-y-0 w-6 h-6 m-1 transition-all bg-white rounded-full"></span>
-                            </label>
+                                    <span :class="{ 'start-0': !isChecked, 'start-6': isChecked }"
+                                        class="absolute inset-y-0 w-6 h-6 m-1 transition-all bg-white rounded-full"></span>
+                                </label>
+                            </div>
                         </div>
 
-                        <div x-cloak x-show="isUpdatedSalaryChecked === false">
+                        <div x-cloak x-show="isChecked === false">
                             <x-input type="number" wire:model="form.basic_salary" id="basic_salary" disabled />
                         </div>
 
-                        <div x-cloak x-show="isUpdatedSalaryChecked">
+                        <div x-cloak x-show="isChecked">
                             <x-input type="number" wire:model="form.new_basic_salary" id="new_basic_salary"
                                 placeholder="00" />
                         </div>
@@ -76,6 +84,7 @@
                             <div class="mt-1 text-sm text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    {{-- Update employees salary --}}
 
                     <x-input.group for="joined_at" label="{{ __('joining date') }}" :error="$errors->first('form.joined_at')">
                         <x-input type="date" wire:model="form.joined_at" id="joined_at" />

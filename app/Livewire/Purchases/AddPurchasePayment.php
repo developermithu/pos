@@ -29,10 +29,6 @@ class AddPurchasePayment extends Component
 
         $dueAmount = $purchase->total - $purchase->paid_amount;
 
-        if ($dueAmount <= 0) {
-            abort(403);
-        }
-
         $this->purchase        = $purchase;
         $this->received_amount = $dueAmount;
         $this->paid_amount     = $dueAmount;
@@ -85,11 +81,10 @@ class AddPurchasePayment extends Component
             DB::commit();
 
             $this->success(__('Record has been created successfully'));
-            $this->reset();
+            return $this->redirect(ListPurchase::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error creating purchase: ' . $e->getMessage());
-
             $this->error(__('Something went wrong!'));
             return back();
         }
@@ -98,6 +93,7 @@ class AddPurchasePayment extends Component
     public function rules(): array
     {
         return [
+            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->purchase->total - $this->purchase->paid_amount],
             'paid_amount' => ['required', 'gt:0', 'lte: ' . $this->received_amount],
             'account_id'  => ['required', Rule::exists(Account::class, 'id')],
             'note'        => ['nullable', 'max:255'],

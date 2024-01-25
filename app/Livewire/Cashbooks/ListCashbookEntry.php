@@ -6,10 +6,12 @@ use App\Livewire\Forms\CashbookEntryForm;
 use App\Models\CashbookEntry;
 use App\Traits\SearchAndFilter;
 use Carbon\Carbon;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class ListCashbookEntry extends Component
 {
     use WithPagination, Toast, SearchAndFilter;

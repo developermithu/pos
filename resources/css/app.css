@@ -38,4 +38,8 @@
     .custom-scrollbar::-webkit-scrollbar-track {
         background-color: #ddd;
     }
+
+    .skeleton {
+      @apply rounded-lg;
+    }
 }

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
     use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    protected $softCascade = ['advanceSalary', 'paySalary', 'attendances'];
+    protected $softCascade = ['advancePayments', 'paySalary', 'attendances'];
 
     protected $guarded = [];
 
@@ -21,6 +22,11 @@ class Employee extends Model
         'joined_at' => 'date',
         'salary_updated_at' => 'date',
     ];
+
+    public function advancePayments(): MorphMany
+    {
+        return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
+    }
 
     /**
      * Get the advance salary that owns the Employee

@@ -7,6 +7,7 @@ use App\Livewire\Accounts\ListAccount;
 use App\Livewire\Accounts\ListMoneyTransfer;
 use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
+use App\Livewire\Attendance\LastMonthAttendance;
 use App\Livewire\Attendance\ListAttendance;
 use App\Livewire\Attendance\ShowAttendance;
 use App\Livewire\Cashbooks\EditCashbookEntry;
@@ -21,6 +22,7 @@ use App\Livewire\Dashboard;
 use App\Livewire\Employees\AddAdvancePayment;
 use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
+use App\Livewire\Employees\ListAdvancePayment;
 use App\Livewire\Employees\ListEmployee;
 use App\Livewire\ExpenseCategories\EditExpenseCategory;
 use App\Livewire\ExpenseCategories\ListExpenseCategory;
@@ -39,12 +41,6 @@ use App\Livewire\Purchases\ListPurchase;
 use App\Livewire\Purchases\ShowPurchase;
 use App\Livewire\Reports\CustomerDueReport;
 use App\Livewire\Reports\SupplierDueReport;
-use App\Livewire\Salary\AddAdvancedSalary;
-use App\Livewire\Salary\EditAdvancedSalary;
-use App\Livewire\Salary\LastMonthSalary;
-use App\Livewire\Salary\ListAdvancedSalary;
-use App\Livewire\Salary\ListPaySalary;
-use App\Livewire\Salary\PaySalaryNow;
 use App\Livewire\Sales\AddSalePayment;
 use App\Livewire\Sales\CreateSale;
 use App\Livewire\Sales\ListSale;
@@ -86,6 +82,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListEmployee::class)->name('index');
         Route::get('/create', CreateEmployee::class)->name('create');
         Route::get('/{employee}/edit', EditEmployee::class)->name('edit');
+        Route::get('/list-advance-payment', ListAdvancePayment::class)->name('list.advance.payment');
         Route::get('/{employee}/add-advance-payment', AddAdvancePayment::class)->name('add-advance-payment');
     });
 
@@ -96,24 +93,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/{customer}/add-deposit', AddDeposit::class)->name('add-deposit');
     });
 
-    Route::group(['prefix' => 'advanced-salary', 'as' => 'advanced.salary.'], function () {
-        Route::get('/', ListAdvancedSalary::class)->name('index');
-        Route::get('/add', AddAdvancedSalary::class)->name('add');
-        Route::get('/{advanced_salary}/edit', EditAdvancedSalary::class)->name('edit');
-    });
-
-    Route::group(['prefix' => 'pay-salary', 'as' => 'pay.salary.'], function () {
-        Route::get('/', ListPaySalary::class)->name('index');
-        Route::get('/{id}/now', PaySalaryNow::class)->name('now');
-    });
-
-    Route::get('/last-month-salary', LastMonthSalary::class)->name('last.month.salary');
-
     Route::group(['prefix' => 'attendance', 'as' => 'attendance.'], function () {
         Route::get('/', ListAttendance::class)->name('index');
         Route::get('/add', AddAttendance::class)->name('add');
         Route::get('/{date}/edit', EditAttendance::class)->name('edit');
         Route::get('/show/{date}', ShowAttendance::class)->name('show');
+        Route::get('/last-month', LastMonthAttendance::class)->name('last-month');
     });
 
     // Product Management

@@ -50,32 +50,22 @@
                         <div class="flex items-center gap-2">
                             <div class="flex items-center mr-4">
                                 <input type="radio" name="attendanceStatus.{{ $employee->id }}"
-                                    wire:model="attendanceStatus.{{ $employee->id }}" value="present" id="present"
-                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    required>
+                                    wire:model="attendanceStatus.{{ $employee->id }}" value="present"
+                                    id="present_{{ $employee->id }}"
+                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
 
-                                <label for="present"
+                                <label for="present_{{ $employee->id }}"
                                     class="ml-2 text-sm font-medium text-gray-900 capitalize dark:text-gray-300">{{ __('present') }}</label>
                             </div>
 
                             <div class="flex items-center mr-4">
                                 <input type="radio" name="attendanceStatus.{{ $employee->id }}"
-                                    wire:model="attendanceStatus.{{ $employee->id }}" value="absent" id="absent"
-                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    required>
+                                    wire:model="attendanceStatus.{{ $employee->id }}" value="absent"
+                                    id="absent_{{ $employee->id }}"
+                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
 
-                                <label for="absent"
+                                <label for="absent_{{ $employee->id }}"
                                     class="ml-2 text-sm font-medium capitalize text-danger dark:text-gray-300">{{ __('absent') }}</label>
-                            </div>
-
-                            <div class="flex items-center mr-4">
-                                <input type="radio" name="attendanceStatus.{{ $employee->id }}"
-                                    wire:model="attendanceStatus.{{ $employee->id }}" value="leave" id="leave"
-                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    required>
-
-                                <label for="leave"
-                                    class="ml-2 text-sm font-medium capitalize text-amber-500 dark:text-gray-300">{{ __('leave') }}</label>
                             </div>
                         </div>
 

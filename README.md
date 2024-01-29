@@ -40,10 +40,3 @@ Generate model helper: ```php artisan ide-helper:models```
 - [ ] Log view
 - [ ] Customize code for production
 
-
-## Meeting
-
-<!-- Employee -->
-
-- advancePayments()
-- 

@@ -59,7 +59,7 @@ class EditAttendance extends Component
             'attendanceStatus' => 'required|array',
             'attendanceStatus.*' => [
                 'required',
-                // Rule::in([AttendanceStatus::PRESENT, AttendanceStatus::ABSENT, AttendanceStatus::LEAVE])
+                // Rule::in([AttendanceStatus::PRESENT, AttendanceStatus::ABSENT])
             ],
         ];
     }

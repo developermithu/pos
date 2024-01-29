@@ -92,36 +92,31 @@
                     </x-sidebar.link>
 
                     {{-- Employee Management --}}
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.advanced.salary.*') || request()->routeIs('admin.pay.salary.*') || request()->routeIs('admin.last.month.salary') ? 'true' : 'false' }} }">
+                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
-                                {{ __('employees') }}
+                                {{ __('employees') }} <x-mary-badge value="New"
+                                    class="pl-1 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
-                        <x-collapsible.item :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
+                        <x-collapsible.item :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*') &&
+                            !request()->routeIs('admin.employees.list.advance.payment')">
                             {{ __('employee list') }}
                         </x-collapsible.item>
 
-                        {{-- <x-collapsible.item :href="route('admin.employees.add-advance-payment')" :active="request()->routeIs('admin.employees.add-advance-payment')">
-                            {{ __('add advance payment') }}
-                        </x-collapsible.item> --}}
-
-                        <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*')">
+                        <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*') &&
+                            !request()->routeIs('admin.attendance.last-month')">
                             {{ __('attendance') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.advanced.salary.index')" :active="request()->routeIs('admin.advanced.salary.*')">
-                            {{ __('advanced salary list') }}
+                        <x-collapsible.item :href="route('admin.employees.list.advance.payment')" :active="request()->routeIs('admin.employees.list.advance.payment')">
+                            {{ __('advance payment list') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.pay.salary.index')" :active="request()->routeIs('admin.pay.salary.*')">
-                            {{ __('pay salary') }}
-                        </x-collapsible.item>
-
-                        <x-collapsible.item :href="route('admin.last.month.salary')" :active="request()->routeIs('admin.last.month.salary')">
-                            {{ __('last month salary') }}
+                        <x-collapsible.item :href="route('admin.attendance.last-month')" :active="request()->routeIs('admin.attendance.last-month')">
+                            {{ __('last month attendances') }}
                         </x-collapsible.item>
                     </x-collapsible>
 

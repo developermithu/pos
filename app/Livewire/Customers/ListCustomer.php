@@ -123,7 +123,7 @@ class ListCustomer extends Component
     public function restoreDeposit($id)
     {
         $deposit = Payment::onlyTrashed()->findOrFail($id);
-        $this->authorize('delete', $deposit);
+        $this->authorize('restore', $deposit);
 
         try {
             DB::beginTransaction();

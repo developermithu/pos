@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AttendanceStatus;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    protected $softCascade = ['advancePayments', 'paySalary', 'attendances'];
+    protected $softCascade = ['advancePayments', 'attendances'];
 
     protected $guarded = [];
 
@@ -23,33 +24,37 @@ class Employee extends Model
         'salary_updated_at' => 'date',
     ];
 
+    // ========= Relationships ======== //
+
     public function advancePayments(): MorphMany
     {
         return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
     }
 
-    /**
-     * Get the advance salary that owns the Employee
-     */
-    public function advanceSalary(): HasOne
-    {
-        return $this->hasOne(AdvancedSalary::class);
-    }
-
-    /**
-     * Get the pay salary that owns the Employee
-     */
-    public function paySalary(): HasOne
-    {
-        return $this->hasOne(PaySalary::class);
-    }
-
-    /**
-     * Get all of the attendances for the Employee
-     */
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function lastMonthTotalPresent(): ?int
+    {
+        return $this->lastMonthAttendance(AttendanceStatus::PRESENT);
+    }
+
+    public function lastMonthTotalAbsent(): ?int
+    {
+        return $this->lastMonthAttendance(AttendanceStatus::ABSENT);
+    }
+
+    private function lastMonthAttendance(AttendanceStatus $status): ?int
+    {
+        $firstDayLastMonth = now()->subMonth()->startOfMonth();
+        $lastDayLastMonth = now()->subMonth()->endOfMonth();
+
+        return $this->attendances
+            ->whereBetween('date', [$firstDayLastMonth, $lastDayLastMonth])
+            ->where('status', $status)
+            ->count();
     }
 
     public function salary_updated_at()

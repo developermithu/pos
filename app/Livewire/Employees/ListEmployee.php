@@ -3,6 +3,7 @@
 namespace App\Livewire\Employees;
 
 use App\Models\Employee;
+use App\Models\Payment;
 use App\Traits\SearchAndFilter;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -20,7 +21,7 @@ class ListEmployee extends Component
         $this->authorize('bulkDelete', Employee::class);
 
         Employee::destroy($this->selected);
-        
+
         $this->success(__('Selected records has been deleted'));
         return back();
     }
@@ -84,5 +85,35 @@ class ListEmployee extends Component
 
 
         return view('livewire.employees.list-employee', compact('employees'))->title(__('employee list'));
+    }
+
+    //===== Employees Payment Management ======//
+    public function destroyAdvancePayment(Payment $payment)
+    {
+        $this->authorize('delete', $payment);
+        $payment->delete();
+
+        $this->success(__('Record has been deleted successfully'));
+        return back();
+    }
+
+    public function restoreAdvancePayment($id)
+    {
+        $payment = Payment::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', $payment);
+        $payment->restore();
+
+        $this->success(__('Record has been restored successfully'));
+        return back();
+    }
+
+    public function forceDeleteAdvancePayment($id)
+    {
+        $payment = Payment::onlyTrashed()->findOrFail($id);
+        $this->authorize('forceDelete', $payment);
+
+        $payment->forceDelete();
+        $this->success(__('Record has been deleted permanently'));
+        return back();
     }
 }

@@ -32,6 +32,11 @@ class Payment extends Model
         return $this->morphTo()->withTrashed();
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'paymentable_id')->withTrashed();
+    }
+
     /**
      * Get the account that owns the Payment
      */

@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 use Mary\Traits\Toast;
 

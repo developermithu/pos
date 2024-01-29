@@ -19,6 +19,7 @@ class AddAttendance extends Component
     public function mount()
     {
         $this->authorize('create', Attendance::class);
+        $this->date = now()->today()->format('Y-m-d');
     }
 
     public function markAttendance()
@@ -38,7 +39,7 @@ class AddAttendance extends Component
         $this->date = '';
 
         $this->success(__('Attendance marked successfully'));
-        return back();
+        return $this->redirect(ListAttendance::class, navigate: true);
     }
 
     public function render()
@@ -54,7 +55,7 @@ class AddAttendance extends Component
             'attendanceStatus' => 'required|array',
             'attendanceStatus.*' => [
                 'required',
-                Rule::in([AttendanceStatus::PRESENT, AttendanceStatus::ABSENT, AttendanceStatus::LEAVE])
+                // Rule::in([AttendanceStatus::PRESENT, AttendanceStatus::ABSENT])
             ],
         ];
     }

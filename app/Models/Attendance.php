@@ -16,7 +16,7 @@ class Attendance extends Model
 
     protected $casts = [
         'status' => AttendanceStatus::class,
-        'date' => 'date: Y-m-d'
+        'date' => 'date'
     ];
 
     /**

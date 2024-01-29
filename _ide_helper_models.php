@@ -49,39 +49,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\AdvancedSalary
- *
- * @property int $id
- * @property int $employee_id
- * @property string $month
- * @property string $year
- * @property int $amount
- * @property \Illuminate\Support\Carbon $paid_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\Employee $employee
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary query()
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereEmployeeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereMonth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary wherePaidAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary whereYear($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|AdvancedSalary withoutTrashed()
- */
-	class AdvancedSalary extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Attendance
  *
  * @property int $id
@@ -180,10 +147,11 @@ namespace App\Models{
  * @property string|null $address
  * @property string $phone_number
  * @property int $deposit
- * @property int $expense
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $deposits
+ * @property-read int|null $deposits_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Sale> $sales
  * @property-read int|null $sales_count
  * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
@@ -196,7 +164,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereDeposit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Customer whereExpense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePhoneNumber($value)
@@ -214,24 +181,27 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $father_name
- * @property string $address
+ * @property string|null $address
  * @property string $phone_number
- * @property int $salary
- * @property \Illuminate\Support\Carbon $joined_at
  * @property string $gender
+ * @property int $basic_salary
+ * @property int|null $old_basic_salary
+ * @property \Illuminate\Support\Carbon|null $salary_updated_at
+ * @property \Illuminate\Support\Carbon $joined_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\AdvancedSalary|null $advanceSalary
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $advancePayments
+ * @property-read int|null $advance_payments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
  * @property-read int|null $attendances_count
- * @property-read \App\Models\PaySalary|null $paySalary
  * @method static \Database\Factories\EmployeeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee query()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereBasicSalary($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereFatherName($value)
@@ -239,8 +209,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereJoinedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereOldBasicSalary($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee wherePhoneNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Employee whereSalary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereSalaryUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee withoutTrashed()
@@ -320,6 +291,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Account $fromAccount
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
  * @property-read \App\Models\Account $toAccount
  * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoneyTransfer newQuery()
@@ -340,39 +313,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PaySalary
- *
- * @property int $id
- * @property int $employee_id
- * @property string|null $month
- * @property int|null $amount
- * @property int|null $advance_paid
- * @property int|null $due
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\Employee $employee
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary query()
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereAdvancePaid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereDue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereEmployeeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereMonth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|PaySalary withoutTrashed()
- */
-	class PaySalary extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Payment
  *
  * @property int $id
@@ -387,6 +327,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Account $account
+ * @property-read \App\Models\Employee|null $employee
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $paymentable
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
@@ -640,21 +581,21 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property string $address
+ * @property string|null $company_name
+ * @property string|null $address
  * @property string $phone_number
- * @property string|null $bank_name
- * @property string|null $bank_branch
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Purchase> $purchases
+ * @property-read int|null $purchases_count
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier query()
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereBankBranch($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereBankName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereCompanyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereId($value)

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Cashbooks;
 
-use App\Enums\CashbookEntryType;
 use App\Livewire\Forms\CashbookEntryForm;
 use App\Models\CashbookEntry;
 use Livewire\Component;
@@ -24,6 +23,7 @@ class EditCashbookEntry extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListCashbookEntry::class, navigate: true);
     }
 

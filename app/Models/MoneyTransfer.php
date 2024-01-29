@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MoneyTransfer extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
 
-    protected $softCascade =  ['payments'];
+    protected $softCascade = ['payments'];
 
     protected $guarded = [];
 

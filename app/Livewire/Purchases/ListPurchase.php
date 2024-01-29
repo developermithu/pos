@@ -13,7 +13,7 @@ use Mary\Traits\Toast;
 
 class ListPurchase extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -21,7 +21,7 @@ class ListPurchase extends Component
     {
         $this->authorize('viewAny', Purchase::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['invoice_no'];
 
         $purchases = Purchase::query()
@@ -34,9 +34,9 @@ class ListPurchase extends Component
             })
             ->with('supplier:id,name')
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
@@ -66,6 +66,7 @@ class ListPurchase extends Component
         $purchase->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -78,7 +79,7 @@ class ListPurchase extends Component
         try {
             DB::beginTransaction();
 
-            // Delete associated payments 
+            // Delete associated payments
             $purchase->payments()->forceDelete();
             $purchase->forceDelete();
 
@@ -87,7 +88,7 @@ class ListPurchase extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting sale: ' . $e->getMessage());
+            \Log::error('Error force deleting sale: '.$e->getMessage());
             $this->error(__('Error force deleting sale and payments.'));
         }
 
@@ -102,6 +103,7 @@ class ListPurchase extends Component
         $purchase->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -124,12 +126,13 @@ class ListPurchase extends Component
             $paymentable->payment_status = PurchasePaymentStatus::PAID->value;
         }
 
-        // Save the changes to 
+        // Save the changes to
         $paymentable->save();
 
         $payment->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -176,6 +179,7 @@ class ListPurchase extends Component
         // When deleted the payment
         $payment->forceDelete();
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 }

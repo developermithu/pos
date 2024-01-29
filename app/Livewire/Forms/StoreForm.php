@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Store;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class StoreForm extends Form

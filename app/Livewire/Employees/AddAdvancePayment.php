@@ -8,7 +8,6 @@ use App\Models\Employee;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -40,21 +39,23 @@ class AddAdvancePayment extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->amount,
-                'reference' => 'Payroll-' . date('Ymd') . '-' . rand(11111, 99999),
+                'reference' => 'Payroll-'.date('Ymd').'-'.rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::DEBIT->value,
                 'paymentable_id' => $this->employee->id,
-                'paymentable_type' => Employee::class
+                'paymentable_type' => Employee::class,
             ]);
 
             DB::commit();
 
             $this->success(__('Record has been created successfully'));
+
             return $this->redirect(ListEmployee::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error($e->getMessage());
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }
@@ -62,6 +63,7 @@ class AddAdvancePayment extends Component
     public function render()
     {
         $accounts = Account::active()->pluck('name', 'id');
+
         return view('livewire.employees.add-advance-payment', compact('accounts'))
             ->title(__('add advance payment'));
     }
@@ -69,9 +71,9 @@ class AddAdvancePayment extends Component
     public function rules(): array
     {
         return [
-            'amount'      => ['required', 'integer', 'gt:0'],
-            'account_id'  => ['required', Rule::exists(Account::class, 'id')],
-            'note'        => ['nullable', 'max:255'],
+            'amount' => ['required', 'integer', 'gt:0'],
+            'account_id' => ['required', Rule::exists(Account::class, 'id')],
+            'note' => ['nullable', 'max:255'],
         ];
     }
 }

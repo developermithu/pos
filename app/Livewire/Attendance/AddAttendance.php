@@ -39,12 +39,14 @@ class AddAttendance extends Component
         $this->date = '';
 
         $this->success(__('Attendance marked successfully'));
+
         return $this->redirect(ListAttendance::class, navigate: true);
     }
 
     public function render()
     {
         $employees = Employee::all(['id', 'name']);
+
         return view('livewire.attendance.add-attendance', compact('employees'))->title(__('add attendance'));
     }
 

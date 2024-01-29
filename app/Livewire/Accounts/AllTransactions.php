@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 
 class AllTransactions extends Component
 {
-    use WithPagination, SearchAndFilter;
+    use SearchAndFilter, WithPagination;
 
     public $type = [];
 
@@ -24,7 +24,7 @@ class AllTransactions extends Component
     {
         $this->authorize('viewAny', Payment::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['reference', 'type', 'note'];
 
         $transactions = Payment::query()

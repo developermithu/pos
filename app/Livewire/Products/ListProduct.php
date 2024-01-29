@@ -4,14 +4,13 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListProduct extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -19,7 +18,7 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -32,9 +31,9 @@ class ListProduct extends Component
             })
             ->with('category:id,name', 'unit:id,short_name')
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
@@ -64,6 +63,7 @@ class ListProduct extends Component
         $product->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -75,6 +75,7 @@ class ListProduct extends Component
         $product->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 
@@ -86,6 +87,7 @@ class ListProduct extends Component
         $product->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 }

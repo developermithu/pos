@@ -10,8 +10,8 @@ use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'manager',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_MANAGER->value
+            'role' => UserRole::IS_MANAGER->value,
         ]);
 
         User::updateOrCreate([
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'cashier',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_CASHIER->value
+            'role' => UserRole::IS_CASHIER->value,
         ]);
 
         // Seeders

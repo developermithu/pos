@@ -10,11 +10,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-use function Livewire\Volt\title;
-
 class ListUnit extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public UnitForm $form;
 
@@ -33,6 +31,7 @@ class ListUnit extends Component
         $unit->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -62,6 +61,7 @@ class ListUnit extends Component
         $unit->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -69,7 +69,7 @@ class ListUnit extends Component
     {
         $this->authorize('viewAny', Unit::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'short_name'];
 
         $units = Unit::query()
@@ -81,9 +81,9 @@ class ListUnit extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })

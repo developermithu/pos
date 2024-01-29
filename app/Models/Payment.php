@@ -20,7 +20,7 @@ class Payment extends Model
         'note',
         'type',
         'paymentable_id',
-        'paymentable_type'
+        'paymentable_type',
     ];
 
     protected $casts = [

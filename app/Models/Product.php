@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Date;
 
 class Product extends Model
 {
@@ -20,11 +19,11 @@ class Product extends Model
         'sku',
         'qty',
         'cost',
-        'price'
+        'price',
     ];
 
     protected $casts = [
-        'created_at' => 'date:Y-m-d'
+        'created_at' => 'date:Y-m-d',
     ];
 
     // Methods

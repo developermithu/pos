@@ -4,7 +4,6 @@ namespace App\Livewire\Pos;
 
 use App\Models\Sale;
 use Livewire\Component;
-use Mary\Traits\Toast;
 
 class CreateInvoice extends Component
 {

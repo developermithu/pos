@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Attendance;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class AttendancePolicy
 {
@@ -45,7 +44,7 @@ class AttendancePolicy
      */
     public function delete(User $user, Attendance $attendance): bool
     {
-        //   
+        //
     }
 
     /**
@@ -53,7 +52,7 @@ class AttendancePolicy
      */
     public function restore(User $user, Attendance $attendance): bool
     {
-        //   
+        //
     }
 
     /**
@@ -61,6 +60,6 @@ class AttendancePolicy
      */
     public function forceDelete(User $user, Attendance $attendance): bool
     {
-        //   
+        //
     }
 }

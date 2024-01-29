@@ -37,13 +37,14 @@ class EditAttendance extends Component
         foreach ($this->attendanceStatus as $employeeId => $status) {
             Attendance::updateOrCreate([
                 'employee_id' => $employeeId,
-                'date' => $this->date
+                'date' => $this->date,
             ], [
-                'status' => $status
+                'status' => $status,
             ]);
         }
 
         $this->success(__('Attendance updated successfully'));
+
         return back();
     }
 

@@ -38,11 +38,11 @@ class AddDeposit extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->amount,
-                'reference' => 'Deposit-' . date('Ymd') . '-' . rand(11111, 99999),
+                'reference' => 'Deposit-'.date('Ymd').'-'.rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paymentable_id' => $this->customer->id,
-                'paymentable_type' => Customer::class
+                'paymentable_type' => Customer::class,
             ]);
 
             // Update customer deposit amount
@@ -52,11 +52,13 @@ class AddDeposit extends Component
             DB::commit();
 
             $this->success(__('Record has been created successfully'));
+
             return $this->redirect(ListCustomer::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error($e->getMessage());
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }
@@ -64,6 +66,7 @@ class AddDeposit extends Component
     public function render()
     {
         $accounts = Account::active()->pluck('name', 'id');
+
         return view('livewire.customers.add-deposit', compact('accounts'))
             ->title(__('add deposit'));
     }
@@ -71,9 +74,9 @@ class AddDeposit extends Component
     public function rules(): array
     {
         return [
-            'amount'      => ['required', 'integer', 'gt:0'],
-            'account_id'  => ['required', Rule::exists(Account::class, 'id')],
-            'note'        => ['nullable', 'max:255'],
+            'amount' => ['required', 'integer', 'gt:0'],
+            'account_id' => ['required', Rule::exists(Account::class, 'id')],
+            'note' => ['nullable', 'max:255'],
         ];
     }
 }

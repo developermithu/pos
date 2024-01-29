@@ -11,16 +11,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
 
-    protected $softCascade =  ['deposits'];
+    protected $softCascade = ['deposits'];
 
     protected $fillable = [
         'name',
         'company_name',
         'address',
         'phone_number',
-        'deposit'
+        'deposit',
     ];
 
     public function totalSale(): ?int
@@ -40,8 +40,7 @@ class Customer extends Model
 
     /**
      * Relationships
-    */
-
+     */
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);

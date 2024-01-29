@@ -5,14 +5,13 @@ namespace App\Livewire\Employees;
 use App\Models\Employee;
 use App\Models\Payment;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListEmployee extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -23,6 +22,7 @@ class ListEmployee extends Component
         Employee::destroy($this->selected);
 
         $this->success(__('Selected records has been deleted'));
+
         return back();
     }
 
@@ -32,6 +32,7 @@ class ListEmployee extends Component
         $employee->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -43,6 +44,7 @@ class ListEmployee extends Component
         $employee->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 
@@ -54,6 +56,7 @@ class ListEmployee extends Component
         $employee->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -61,7 +64,7 @@ class ListEmployee extends Component
     {
         $this->authorize('viewAny', Employee::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
 
         $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
 
@@ -74,15 +77,14 @@ class ListEmployee extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
             ->latest()
             ->paginate(10);
-
 
         return view('livewire.employees.list-employee', compact('employees'))->title(__('employee list'));
     }
@@ -94,6 +96,7 @@ class ListEmployee extends Component
         $payment->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -104,6 +107,7 @@ class ListEmployee extends Component
         $payment->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -114,6 +118,7 @@ class ListEmployee extends Component
 
         $payment->forceDelete();
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 }

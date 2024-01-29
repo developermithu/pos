@@ -21,6 +21,6 @@ class ShowAttendance extends Component
 
     public function render()
     {
-        return view('livewire.attendance.show-attendance')->title(__('show attendance') . ' | ' . $this->date);
+        return view('livewire.attendance.show-attendance')->title(__('show attendance').' | '.$this->date);
     }
 }

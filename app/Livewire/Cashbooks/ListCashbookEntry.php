@@ -14,7 +14,7 @@ use Mary\Traits\Toast;
 #[Lazy]
 class ListCashbookEntry extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public CashbookEntryForm $form;
 
@@ -50,6 +50,7 @@ class ListCashbookEntry extends Component
         $entry->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -61,6 +62,7 @@ class ListCashbookEntry extends Component
         $entry->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 
@@ -72,6 +74,7 @@ class ListCashbookEntry extends Component
         $entry->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -79,7 +82,7 @@ class ListCashbookEntry extends Component
     {
         $this->authorize('viewAny', CashbookEntry::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['type', 'note'];
 
         $cashbookEntries = CashbookEntry::query()
@@ -91,15 +94,14 @@ class ListCashbookEntry extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
             ->latest()
             ->paginate(10);
-
 
         $today = Carbon::now()->toDateString();
         $currentMonth = Carbon::now()->startOfMonth()->toDateString();

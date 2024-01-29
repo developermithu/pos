@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Customer;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class CustomerForm extends Form
@@ -49,7 +48,7 @@ class CustomerForm extends Form
             'phone_number' => [
                 'required',
                 Rule::unique(Customer::class, 'phone_number')
-                    ->ignore($this->customer ?? null)
+                    ->ignore($this->customer ?? null),
             ],
         ];
     }

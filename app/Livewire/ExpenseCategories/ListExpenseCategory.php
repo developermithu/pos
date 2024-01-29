@@ -5,15 +5,13 @@ namespace App\Livewire\ExpenseCategories;
 use App\Livewire\Forms\ExpenseCategoryForm;
 use App\Models\ExpenseCategory;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListExpenseCategory extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
     public ExpenseCategoryForm $form;
 
     public function create()
@@ -31,6 +29,7 @@ class ListExpenseCategory extends Component
 
         $expenseCategory->delete();
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -54,6 +53,7 @@ class ListExpenseCategory extends Component
         $expenseCategory->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -61,7 +61,7 @@ class ListExpenseCategory extends Component
     {
         $this->authorize('viewAny', ExpenseCategory::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name'];
 
         $expenseCategories = ExpenseCategory::query()
@@ -73,9 +73,9 @@ class ListExpenseCategory extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ExpenseSeeder extends Seeder
@@ -28,7 +27,6 @@ class ExpenseSeeder extends Seeder
             'name' => 'জলখাবার',
             'description' => 'জলখাবারের বিবরণ',
         ]);
-
 
         Expense::create([
             'expense_category_id' => $expense_category1->id,

@@ -24,6 +24,7 @@ class EditUnit extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListUnit::class, navigate: true);
     }
 

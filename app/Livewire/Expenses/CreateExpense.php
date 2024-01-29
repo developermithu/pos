@@ -32,7 +32,7 @@ class CreateExpense extends Component
             $this->success(__('Record has been created successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating expense: ' . $e->getMessage());
+            \Log::error('Error creating expense: '.$e->getMessage());
 
             $this->error(__('Something went wrong!'));
         }

@@ -12,7 +12,7 @@ use Mary\Traits\Toast;
 
 class ListExpense extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -23,7 +23,7 @@ class ListExpense extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['details'];
 
         $expenses = Expense::query()
@@ -35,19 +35,19 @@ class ListExpense extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
             ->when($this->selectedTimePeriod, function ($query, $value) {
-                if ($value === "todays") {
+                if ($value === 'todays') {
                     $query->whereDate('created_at', now()->today());
-                } elseif ($value === "monthly") {
+                } elseif ($value === 'monthly') {
                     $query->whereMonth('created_at', now()->month);
                     $query->whereYear('created_at', now()->year);
-                } elseif ($value === "yearly") {
+                } elseif ($value === 'yearly') {
                     $query->whereYear('created_at', now()->year);
                 }
             })
@@ -85,6 +85,7 @@ class ListExpense extends Component
         $expense->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -106,7 +107,7 @@ class ListExpense extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting expense: ' . $e->getMessage());
+            \Log::error('Error force deleting expense: '.$e->getMessage());
             $this->error(__('Something went wrong!'));
         }
 
@@ -121,6 +122,7 @@ class ListExpense extends Component
         $expense->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 

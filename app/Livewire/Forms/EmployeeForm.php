@@ -3,7 +3,6 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Employee;
-use Livewire\Attributes\Rule;
 use Livewire\Form;
 
 class EmployeeForm extends Form

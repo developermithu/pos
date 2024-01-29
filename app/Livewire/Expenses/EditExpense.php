@@ -31,10 +31,11 @@ class EditExpense extends Component
             DB::commit();
 
             $this->success(__('Record has been updated successfully'));
+
             return $this->redirect(ListExpense::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error updating expense: ' . $e->getMessage());
+            \Log::error('Error updating expense: '.$e->getMessage());
 
             $this->error(__('Something went wrong!'));
         }
@@ -45,7 +46,7 @@ class EditExpense extends Component
     public function render()
     {
         $accounts = Account::active()->pluck('name', 'id');
-        
+
         return view('livewire.expenses.edit-expense', compact('accounts'))
             ->title(__('edit expense'));
     }

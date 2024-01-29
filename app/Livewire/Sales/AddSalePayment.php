@@ -31,13 +31,13 @@ class AddSalePayment extends Component
 
         $this->sale = $sale;
         $this->received_amount = $dueAmount;
-        $this->paid_amount     = $dueAmount;
+        $this->paid_amount = $dueAmount;
     }
 
     public function addPayment()
     {
         $this->authorize('create', Payment::class);
-        
+
         $this->validate();
 
         try {
@@ -47,11 +47,11 @@ class AddSalePayment extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Sale-' . date('Ymd') . '-' . rand(11111, 99999),
+                'reference' => 'Sale-'.date('Ymd').'-'.rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paymentable_id' => $this->sale->id,
-                'paymentable_type' => Sale::class
+                'paymentable_type' => Sale::class,
             ]);
 
             // Update Sale paid amount
@@ -72,11 +72,13 @@ class AddSalePayment extends Component
             DB::commit();
 
             $this->success(__('Record has been created successfully'));
+
             return $this->redirect(ListSale::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error adding sale payment: ' . $e->getMessage());
+            \Log::error('Error adding sale payment: '.$e->getMessage());
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }
@@ -84,10 +86,10 @@ class AddSalePayment extends Component
     public function rules(): array
     {
         return [
-            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->sale->total - $this->sale->paid_amount],
-            'paid_amount' => ['required', 'gt:0', 'lte: ' . $this->received_amount],
-            'account_id'  => ['required', Rule::exists(Account::class, 'id')],
-            'note'        => ['nullable', 'max:255'],
+            'received_amount' => ['required', 'gt:0', 'lte: '.$this->sale->total - $this->sale->paid_amount],
+            'paid_amount' => ['required', 'gt:0', 'lte: '.$this->received_amount],
+            'account_id' => ['required', Rule::exists(Account::class, 'id')],
+            'note' => ['nullable', 'max:255'],
         ];
     }
 

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Account;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AccountSeeder extends Seeder
@@ -18,7 +17,7 @@ class AccountSeeder extends Seeder
             'name' => 'Cashbook',
             'initial_balance' => 50000,
             'is_active' => true,
-            'details' => 'Cashbook account'
+            'details' => 'Cashbook account',
         ]);
 
         Account::create([
@@ -26,7 +25,7 @@ class AccountSeeder extends Seeder
             'name' => 'Sonali bank',
             'initial_balance' => 100000,
             'is_active' => true,
-            'details' => 'Sonali bank account'
+            'details' => 'Sonali bank account',
         ]);
 
         Account::create([
@@ -34,7 +33,7 @@ class AccountSeeder extends Seeder
             'name' => 'Bkash',
             'initial_balance' => 100,
             'is_active' => true,
-            'details' => 'Bkash account'
+            'details' => 'Bkash account',
         ]);
 
         Account::create([
@@ -42,7 +41,7 @@ class AccountSeeder extends Seeder
             'name' => 'Dutch Bangla Bank',
             'initial_balance' => 3000,
             'is_active' => false,
-            'details' => 'Dutch Bangla Bank Account'
+            'details' => 'Dutch Bangla Bank Account',
         ]);
     }
 }

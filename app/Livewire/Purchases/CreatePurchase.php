@@ -31,7 +31,7 @@ class CreatePurchase extends Component
 
     public $invoice_no;
 
-    public string $search = "";
+    public string $search = '';
 
     public function mount()
     {
@@ -45,7 +45,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -75,6 +75,7 @@ class CreatePurchase extends Component
         )->associate(Product::class);
 
         $this->search = '';
+
         return back();
     }
 
@@ -84,6 +85,7 @@ class CreatePurchase extends Component
         Cart::instance('purchases')->update($rowId, $item->qty + 1);
 
         $this->success(__('Quantity increased.'));
+
         return back();
     }
 
@@ -107,6 +109,7 @@ class CreatePurchase extends Component
         Cart::instance('purchases')->remove($rowId);
 
         $this->success(__('Item removed.'));
+
         return back();
     }
 
@@ -156,7 +159,7 @@ class CreatePurchase extends Component
                 Payment::create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Purchase-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value,
                     'paymentable_id' => $purchase->id,
                     'paymentable_type' => Purchase::class,
@@ -172,13 +175,15 @@ class CreatePurchase extends Component
 
             // Sending invoice email
             $this->success(__('Purchases created successfully'));
+
             return $this->redirectRoute('admin.purchases.generate.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error creating purchase: ' . $e->getMessage());
+            \Log::error('Error creating purchase: '.$e->getMessage());
 
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }
@@ -186,17 +191,17 @@ class CreatePurchase extends Component
     public function rules(): array
     {
         return [
-            'supplier_id'    => ['required', Rule::exists(Supplier::class, 'id')],
-            'status'         => ['nullable', Rule::in(['ordered', 'pending', 'received'])],
+            'supplier_id' => ['required', Rule::exists(Supplier::class, 'id')],
+            'status' => ['nullable', Rule::in(['ordered', 'pending', 'received'])],
             'payment_status' => ['nullable', Rule::in(['partial', 'paid', 'unpaid'])],
-            'account_id'     => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            'paid_amount'   => [
+            'account_id' => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'paid_amount' => [
                 Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
 
                 function ($attribute, $value, $fail) {
                     $cartTotal = $this->cartTotal();
                     if (in_array($this->payment_status, ['partial', 'paid'])) {
-                        if (!is_numeric($value)) {
+                        if (! is_numeric($value)) {
                             $fail('Paid amount must be numeric.');
                         } elseif ($value > $cartTotal) {
                             $fail("Paid amount must not be greater than total amount $cartTotal tk.");

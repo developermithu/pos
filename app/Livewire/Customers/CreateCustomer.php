@@ -22,6 +22,7 @@ class CreateCustomer extends Component
     {
         $this->form->store();
         $this->success(__('Record has been created successfully'));
+
         return $this->redirect(ListCustomer::class, navigate: true);
     }
 

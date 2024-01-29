@@ -7,14 +7,13 @@ use App\Models\Payment;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListCustomer extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -22,7 +21,7 @@ class ListCustomer extends Component
     {
         $this->authorize('viewAny', Customer::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()
@@ -34,9 +33,9 @@ class ListCustomer extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
@@ -53,6 +52,7 @@ class ListCustomer extends Component
         Customer::destroy($this->selected);
 
         $this->success(__('Selected records has been deleted'));
+
         return back();
     }
 
@@ -62,6 +62,7 @@ class ListCustomer extends Component
         $customer->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -92,6 +93,7 @@ class ListCustomer extends Component
         $customer->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -152,7 +154,7 @@ class ListCustomer extends Component
 
         $deposit->forceDelete();
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 }
-

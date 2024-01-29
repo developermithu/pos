@@ -4,14 +4,13 @@ namespace App\Livewire\Suppliers;
 
 use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListSupplier extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
 
@@ -22,6 +21,7 @@ class ListSupplier extends Component
         Supplier::destroy($this->selected);
 
         $this->success(__('Selected records has been deleted'));
+
         return back();
     }
 
@@ -31,6 +31,7 @@ class ListSupplier extends Component
         $supplier->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -42,6 +43,7 @@ class ListSupplier extends Component
         $supplier->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 
@@ -53,6 +55,7 @@ class ListSupplier extends Component
         $supplier->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -60,7 +63,7 @@ class ListSupplier extends Component
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $suppliers = Supplier::query()
@@ -72,9 +75,9 @@ class ListSupplier extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })

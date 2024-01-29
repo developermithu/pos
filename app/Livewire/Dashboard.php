@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -36,11 +35,10 @@ class Dashboard extends Component
         ])->title(__('dashboard'));
     }
 
-
     // ============ Charts ========== //
     private function getMonthlySalesData()
     {
-        $this->monthlySalesChart  = [
+        $this->monthlySalesChart = [
             'type' => 'bar',
             'data' => [
                 'labels' => [],
@@ -55,11 +53,11 @@ class Dashboard extends Component
                             'rgba(75, 192, 192, 0.95)',
                             'rgba(54, 162, 235, 0.95)',
                             'rgba(153, 102, 255, 0.95)',
-                            'rgba(201, 203, 207, 0.95)'
+                            'rgba(201, 203, 207, 0.95)',
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         // Fetch current year monthly sales data from the database
@@ -91,7 +89,7 @@ class Dashboard extends Component
     {
         $currentYear = now()->year;
 
-        $this->top5CustomersChart  = [
+        $this->top5CustomersChart = [
             'type' => 'pie',
             'data' => [
                 'labels' => [],
@@ -99,9 +97,9 @@ class Dashboard extends Component
                     [
                         'label' => "Yearly Sales ($currentYear)",
                         'data' => [],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         // Get the top 5 customers based on sales for the current year

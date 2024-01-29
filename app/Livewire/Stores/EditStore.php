@@ -23,6 +23,7 @@ class EditStore extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListStore::class, navigate: true);
     }
 

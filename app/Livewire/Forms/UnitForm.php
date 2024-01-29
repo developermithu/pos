@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Unit;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class UnitForm extends Form
@@ -17,7 +16,7 @@ class UnitForm extends Form
     public function setUnit(Unit $unit)
     {
         $this->unit = $unit;
-        
+
         $this->name = $unit->name;
         $this->short_name = $unit->short_name;
     }

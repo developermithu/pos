@@ -8,7 +8,6 @@ use App\Models\MoneyTransfer;
 use App\Models\Payment;
 use App\Traits\SearchAndFilter;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,7 +15,7 @@ use Mary\Traits\Toast;
 
 class ListMoneyTransfer extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     #[Validate('required|exists:accounts,id')]
     public int|string $from_account_id = '';
@@ -33,7 +32,7 @@ class ListMoneyTransfer extends Component
     {
         $this->authorize('viewAny', MoneyTransfer::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['amount'];
 
         $moneyTransfers = MoneyTransfer::query()
@@ -45,9 +44,9 @@ class ListMoneyTransfer extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })
@@ -67,7 +66,7 @@ class ListMoneyTransfer extends Component
         $fromAccount = Account::findOrFail($this->from_account_id);
 
         if ($fromAccount->totalBalance() < $this->amount) {
-            $this->error('You have only ' . number_format($fromAccount->totalBalance()) . ' tk in ' . $fromAccount->name, timeout: 5000);
+            $this->error('You have only '.number_format($fromAccount->totalBalance()).' tk in '.$fromAccount->name, timeout: 5000);
         } else {
             try {
                 DB::beginTransaction();
@@ -78,7 +77,7 @@ class ListMoneyTransfer extends Component
                 Payment::create([
                     'account_id' => $this->from_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value, // debit
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
@@ -88,7 +87,7 @@ class ListMoneyTransfer extends Component
                 Payment::create([
                     'account_id' => $this->to_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value, // credit
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
@@ -101,7 +100,7 @@ class ListMoneyTransfer extends Component
                 $this->dispatch('close');
             } catch (\Exception $e) {
                 DB::rollBack();
-                \Log::error('Money transfer: ' . $e->getMessage());
+                \Log::error('Money transfer: '.$e->getMessage());
                 $this->error(__('Something went wrong!'));
             }
         }
@@ -127,6 +126,7 @@ class ListMoneyTransfer extends Component
         $moneyTransfer->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -162,6 +162,7 @@ class ListMoneyTransfer extends Component
         $moneyTransfer->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 }

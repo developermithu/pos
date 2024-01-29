@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
 
     // protected $softCascade = [''];
 

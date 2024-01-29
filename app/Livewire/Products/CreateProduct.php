@@ -41,6 +41,7 @@ class CreateProduct extends Component
         ]);
 
         $this->success(__('Record has been created successfully'));
+
         return $this->redirect(ListProduct::class, navigate: true);
     }
 
@@ -60,7 +61,7 @@ class CreateProduct extends Component
             ],
             'unit_id' => [
                 'required',
-                Rule::exists(Unit::class, 'id')
+                Rule::exists(Unit::class, 'id'),
             ],
             'name' => 'required|string',
             'qty' => 'nullable|numeric',

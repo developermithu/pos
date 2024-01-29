@@ -47,7 +47,7 @@ class ExpenseForm extends Form
         Payment::create([
             'account_id' => $this->account_id,
             'amount' => $this->amount,
-            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
+            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
             'type' => PaymentType::DEBIT->value,
             'paymentable_id' => $expense->id,
             'paymentable_type' => Expense::class,
@@ -75,9 +75,9 @@ class ExpenseForm extends Form
     {
         return [
             'expense_category_id' => ['required', Rule::exists(ExpenseCategory::class, 'id')],
-            'account_id'  => ['required', Rule::exists(Account::class, 'id')],
-            'amount'     => ['required', 'integer'],
-            'details'    => ['nullable', 'max:255'],
+            'account_id' => ['required', Rule::exists(Account::class, 'id')],
+            'amount' => ['required', 'integer'],
+            'details' => ['nullable', 'max:255'],
         ];
     }
 }

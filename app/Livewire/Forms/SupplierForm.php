@@ -35,7 +35,7 @@ class SupplierForm extends Form
                     'name',
                     'company_name',
                     'address',
-                    'phone_number'
+                    'phone_number',
                 ]
             )
         );
@@ -51,7 +51,7 @@ class SupplierForm extends Form
                     'name',
                     'company_name',
                     'address',
-                    'phone_number'
+                    'phone_number',
                 ]
             )
         );
@@ -66,7 +66,7 @@ class SupplierForm extends Form
             'phone_number' => [
                 'required',
                 Rule::unique(Supplier::class, 'phone_number')
-                    ->ignore($this->supplier ?? null)
+                    ->ignore($this->supplier ?? null),
             ],
         ];
     }

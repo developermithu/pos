@@ -15,9 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
 
-    protected $softCascade =  ['items', 'payments'];
+    protected $softCascade = ['items', 'payments'];
 
     protected $guarded = [];
 

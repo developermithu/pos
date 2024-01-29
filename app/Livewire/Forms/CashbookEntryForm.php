@@ -2,11 +2,9 @@
 
 namespace App\Livewire\Forms;
 
-use App\Enums\CashbookEntryType;
 use App\Models\CashbookEntry;
 use App\Models\Store;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class CashbookEntryForm extends Form
@@ -19,7 +17,6 @@ class CashbookEntryForm extends Form
     public $type = '';
     public ?string $note = '';
     public $date;
-
 
     public function setCashbookEntry(CashbookEntry $entry)
     {

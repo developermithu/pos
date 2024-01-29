@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 
 class SupplierDueReport extends Component
 {
-    use WithPagination, SearchAndFilter;
+    use SearchAndFilter, WithPagination;
 
     public $status = [];
 
@@ -26,7 +26,7 @@ class SupplierDueReport extends Component
     public function render()
     {
         $this->authorize('viewAny', Purchase::class);
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
 
         $sales = Purchase::query()
             ->where('payment_status', '!=', PurchasePaymentStatus::PAID)

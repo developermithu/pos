@@ -23,6 +23,7 @@ class CreateEmployee extends Component
         $this->form->store();
 
         $this->success(__('Record has been created successfully'));
+
         return $this->redirect(ListEmployee::class, navigate: true);
     }
 

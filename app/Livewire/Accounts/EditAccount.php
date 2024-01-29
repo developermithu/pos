@@ -24,6 +24,7 @@ class EditAccount extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListAccount::class, navigate: true);
     }
 

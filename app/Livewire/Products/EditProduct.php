@@ -54,6 +54,7 @@ class EditProduct extends Component
         ]);
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListProduct::class, navigate: true);
     }
 
@@ -73,7 +74,7 @@ class EditProduct extends Component
             ],
             'unit_id' => [
                 'required',
-                Rule::exists(Unit::class, 'id')
+                Rule::exists(Unit::class, 'id'),
             ],
             'name' => 'required|string',
             'qty' => 'nullable|numeric',

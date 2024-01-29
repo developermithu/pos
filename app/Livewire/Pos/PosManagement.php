@@ -22,14 +22,14 @@ use Mary\Traits\Toast;
 
 class PosManagement extends Component
 {
-    use WithPagination, Toast;
+    use Toast, WithPagination;
 
     public CustomerForm $form;
 
     public $perPage = 10;
 
     #[Url(as: 'q')]
-    public string $search = "";
+    public string $search = '';
 
     // Creating sale properties
     public int|string $customer_id = '';
@@ -68,7 +68,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -97,6 +97,7 @@ class PosManagement extends Component
         )->associate(Product::class);
 
         $this->success(__('Product added successfully.'));
+
         return back();
     }
 
@@ -106,6 +107,7 @@ class PosManagement extends Component
         Cart::update($rowId, $item->qty + 1);
 
         $this->success(__('Quantity increased.'));
+
         return back();
     }
 
@@ -129,6 +131,7 @@ class PosManagement extends Component
         Cart::remove($rowId);
 
         $this->success(__('Item removed.'));
+
         return back();
     }
 
@@ -144,17 +147,17 @@ class PosManagement extends Component
     public function createInvoice()
     {
         $this->validate([
-            'customer_id'    => ['required', Rule::exists(Customer::class, 'id')],
-            'status'         => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
+            'customer_id' => ['required', Rule::exists(Customer::class, 'id')],
+            'status' => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
             'payment_status' => ['nullable', Rule::in(['pending', 'due', 'partial', 'paid'])],
-            'account_id'     => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            'paid_amount'    => [
+            'account_id' => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'paid_amount' => [
                 Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
 
                 function ($attribute, $value, $fail) {
                     $cartTotal = $this->cartTotal();
                     if (in_array($this->payment_status, ['partial', 'paid'])) {
-                        if (!is_numeric($value)) {
+                        if (! is_numeric($value)) {
                             $fail('Paid amount must be numeric.');
                         } elseif ($value > $cartTotal) {
                             $fail("Paid amount must not be greater than total amount $cartTotal tk.");
@@ -200,9 +203,9 @@ class PosManagement extends Component
             // Insert Payment
             if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
                 Payment::create([
-                    'account_id' => $this->account_id, 
+                    'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Sale-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
                     'paymentable_id' => $sale->id,
                     'paymentable_type' => Sale::class,
@@ -218,16 +221,17 @@ class PosManagement extends Component
 
             // Sending invoice email
             $this->success(__('Sales generated successfully'));
+
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: ' . $e->getMessage());
+            \Log::error('Error creating sale: '.$e->getMessage());
 
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }
-
 
     //======== Format cart total, subtotal and tax amount into int ======//
     private function cartTotal()

@@ -104,7 +104,7 @@ return [
     |--------------------------------------------------------------------------
     | Application Supported Languages
     | Visit https://github.com/lipis/flag-icons for more
-    | flag-icon based on country name such as (us, bd, in, pk) 
+    | flag-icon based on country name such as (us, bd, in, pk)
     | for more info https://flagicons.lipis.dev
     |--------------------------------------------------------------------------
     */
@@ -112,12 +112,12 @@ return [
     'supported_languages' => [
         'en' => [
             'name' => 'English',
-            'flag-icon' => 'gb'
+            'flag-icon' => 'gb',
         ],
 
         'bn' => [
             'name' => 'Bangla',
-            'flag-icon' => 'bd'
+            'flag-icon' => 'bd',
         ],
     ],
 

@@ -24,6 +24,7 @@ class EditSupplier extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListSupplier::class, navigate: true);
     }
 

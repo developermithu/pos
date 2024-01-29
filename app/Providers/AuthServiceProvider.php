@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-
-use App\Enums\UserRole;
 use App\Models\Product;
 use App\Models\User;
 use App\Policies\ProductPolicy;
@@ -18,8 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // Don't need to register policies 
-        // Laravel can automatically discover policies 
+        // Don't need to register policies
+        // Laravel can automatically discover policies
         // if policy follow the standard Laravel naming conventions.
 
         // Product::class => ProductPolicy::class,
@@ -41,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
         // SUPERADMIN or MANAGER or CASHIER
 
         Gate::before(function (User $user, string $ability) {
-            if (!$user->isSuperadmin() && !$user->isManager() && !$user->isCashier()) {
+            if (! $user->isSuperadmin() && ! $user->isManager() && ! $user->isCashier()) {
                 abort(403, "Don't dare to access.");
             }
         });

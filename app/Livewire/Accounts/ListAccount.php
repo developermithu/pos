@@ -4,16 +4,14 @@ namespace App\Livewire\Accounts;
 
 use App\Livewire\Forms\AccountForm;
 use App\Models\Account;
-use App\Models\AdvancedSalary;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ListAccount extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public AccountForm $form;
 
@@ -32,6 +30,7 @@ class ListAccount extends Component
         $account->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -43,6 +42,7 @@ class ListAccount extends Component
         $account->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 
@@ -54,6 +54,7 @@ class ListAccount extends Component
         $account->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -61,7 +62,7 @@ class ListAccount extends Component
     {
         $this->authorize('viewAny', Account::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['account_no', 'name'];
 
         $accounts = Account::query()
@@ -73,9 +74,9 @@ class ListAccount extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })

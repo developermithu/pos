@@ -25,7 +25,7 @@ class EmployeeFactory extends Factory
             'old_basic_salary' => null,
             'salary_updated_at' => null,
             'joined_at' => now()->addDays(rand(-30, -10)),
-            'gender' => fake()->randomElement(['male', 'female'])
+            'gender' => fake()->randomElement(['male', 'female']),
         ];
     }
 }

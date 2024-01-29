@@ -12,7 +12,7 @@ use Mary\Traits\Toast;
 
 class ListCategory extends Component
 {
-    use WithPagination, Toast, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public CategoryForm $form;
 
@@ -31,6 +31,7 @@ class ListCategory extends Component
         $category->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 
@@ -59,6 +60,7 @@ class ListCategory extends Component
         $category->restore();
 
         $this->success(__('Record has been restored successfully'));
+
         return back();
     }
 
@@ -66,7 +68,7 @@ class ListCategory extends Component
     {
         $this->authorize('viewAny', Category::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name'];
 
         $categories = Category::query()
@@ -78,9 +80,9 @@ class ListCategory extends Component
                 });
             })
             ->when($this->filterByTrash, function ($query, $value) {
-                if ($value === "onlyTrashed") {
+                if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
-                } elseif ($value === "withTrashed") {
+                } elseif ($value === 'withTrashed') {
                     $query->withTrashed();
                 }
             })

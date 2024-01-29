@@ -9,7 +9,7 @@ use Mary\Traits\Toast;
 
 class ListAttendance extends Component
 {
-    use WithPagination, Toast;
+    use Toast, WithPagination;
 
     public function destroy(Attendance $attendance)
     {
@@ -17,6 +17,7 @@ class ListAttendance extends Component
         $attendance->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 

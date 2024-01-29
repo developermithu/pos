@@ -21,7 +21,7 @@ class CustomerFactory extends Factory
             'company_name' => fake()->company(),
             'address' => fake()->address(),
             'phone_number' => fake()->phoneNumber(),
-            'deposit' => 0
+            'deposit' => 0,
         ];
     }
 }

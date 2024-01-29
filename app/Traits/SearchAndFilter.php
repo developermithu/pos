@@ -7,7 +7,7 @@ use Livewire\Attributes\Url;
 trait SearchAndFilter
 {
     #[Url(as: 'q')]
-    public string $search = "";
+    public string $search = '';
 
     #[Url(as: 'records')]
     public $filterByTrash;

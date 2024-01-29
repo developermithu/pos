@@ -23,6 +23,7 @@ class EditCategory extends Component
         $this->form->update();
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListCategory::class, navigate: true);
     }
 

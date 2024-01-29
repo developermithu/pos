@@ -4,7 +4,6 @@ namespace App\Livewire\Purchases;
 
 use App\Models\Purchase;
 use Livewire\Component;
-use Mary\Traits\Toast;
 
 class GeneratePurchaseInvoice extends Component
 {

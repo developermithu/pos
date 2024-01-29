@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExpenseCategory extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
 
-    protected $softCascade =  ['expenses'];
+    protected $softCascade = ['expenses'];
 
     protected $guarded = [];
 

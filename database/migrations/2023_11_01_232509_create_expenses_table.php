@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Account;
 use App\Models\ExpenseCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Attendance;
 
-use App\Models\Attendance;
 use App\Models\Employee;
 use Livewire\Component;
 

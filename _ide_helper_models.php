@@ -357,11 +357,16 @@ namespace App\Models{
  * @property int $id
  * @property int|null $category_id
  * @property int $unit_id
+ * @property int|null $purchase_unit_id
+ * @property int|null $sale_unit_id
  * @property string $name
  * @property string $sku
  * @property int|null $qty
- * @property int|null $cost extra cost
+ * @property int $cost
  * @property int $price
+ * @property int|null $purchase_price
+ * @property int|null $sale_price
+ * @property \App\Enums\ProductType $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -379,8 +384,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePurchasePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePurchaseUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSalePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSaleUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product withTrashed()
@@ -613,11 +623,13 @@ namespace App\Models{
  * App\Models\Unit
  *
  * @property int $id
+ * @property int|null $unit_id
  * @property string $name
  * @property string $short_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read Unit|null $baseUnit
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
  * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder|Unit newModelQuery()
@@ -629,6 +641,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit withoutTrashed()

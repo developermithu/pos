@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,7 @@ class ProductFactory extends Factory
             'cost' => rand(0, 100),
             'price' => rand(500, 1000),
             'created_at' => now()->addMonths(rand(-1, -24)),
+            'type' => fake()->randomElement([ProductType::SERVICE])
         ];
     }
 }

@@ -37,7 +37,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#5D00BB",
+                primary: "rgb(8 145 178)", // bg-cyan-600
                 danger: "#dc2626",
                 success: "#059669",
             },

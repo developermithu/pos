@@ -38,6 +38,7 @@
             <x-table.heading> {{ __('no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('short name') }} </x-table.heading>
+            <x-table.heading> {{ __('base unit') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
@@ -47,6 +48,7 @@
                 <x-table.cell> {{ $key + 1 }} </x-table.cell>
                 <x-table.cell> {{ $unit->name }} </x-table.cell>
                 <x-table.cell class="!lowercase "> {{ $unit->short_name }} </x-table.cell>
+                <x-table.cell> {{ $unit->baseUnit?->name }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">
                     @if ($unit->trashed())

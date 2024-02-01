@@ -16,31 +16,75 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" :label="__('name *')" :error="$errors->first('name')">
-                        <x-input wire:model="name" id="name" required />
-                    </x-input.group>
-
-                    <x-input.group for="category_id" :label="__('category name')" :error="$errors->first('category_id')">
-                        <x-input.select wire:model="category_id" :options="App\Models\Category::pluck('name', 'id')">
+                    <x-input.group :label="__('product type *')" :error="$errors->first('type')" class="lg:col-span-2">
+                        <x-input.select wire:model.change="type">
+                            <option value="" disabled>-- {{ __('choose product type') }} --</option>
+                            @foreach (App\Enums\ProductType::forSelect() as $value => $name)
+                                <option value="{{ $value }}"> {{ $name }} </option>
+                            @endforeach
                         </x-input.select>
                     </x-input.group>
 
-                    <x-input.group for="unit_id" :label="__('unit name *')" :error="$errors->first('unit_id')">
-                        <x-input.select wire:model="unit_id" :options="App\Models\Unit::pluck('short_name', 'id')" class="!lowercase" required>
-                        </x-input.select>
+                    <x-input.group for="name" :label="__('name *')" :error="$errors->first('name')" class="lg:col-span-2">
+                        <x-input wire:model="name" id="name" />
                     </x-input.group>
 
-                    <x-input.group for="qty" :label="__('quantity')" :error="$errors->first('qty')">
+                    <x-input.group for="category_id" :label="__('category name')" :error="$errors->first('category_id')" class="lg:col-span-2">
+                        <x-input.select wire:model="category_id" :options="App\Models\Category::pluck('name', 'id')" selected="true" />
+                    </x-input.group>
+
+                    <x-input.group :label="__('unit name *')" :error="$errors->first('unit_id')" class="lg:col-span-2">
+                        <x-input.select wire:model.change="unit_id" class="!lowercase" :options="App\Models\Unit::pluck('name', 'id')"
+                            selected="true" placeholder="choose unit" />
+                    </x-input.group>
+
+                    @if ($type === App\Enums\ProductType::STANDARD->value)
+                        <x-input.group :label="__('sale unit *')" :error="$errors->first('sale_unit_id')" class="lg:col-span-2">
+                            <x-input.select wire:model="sale_unit_id" class="!lowercase">
+                                <option value="" selected>-- {{ __('choose sale unit') }} --</option>
+                                @if (!is_null($sale_units))
+                                    @foreach ($sale_units as $key => $name)
+                                        <option value="{{ $key }}"> {{ $name }} </option>
+                                    @endforeach
+                                @endif
+                            </x-input.select>
+                        </x-input.group>
+
+                        <x-input.group :label="__('purchase unit *')" :error="$errors->first('purchase_unit_id')" class="lg:col-span-2">
+                            <x-input.select wire:model="purchase_unit_id" class="!lowercase">
+                                <option value="" selected>-- {{ __('choose purchase unit') }} --</option>
+                                @if (!is_null($purchase_units))
+                                    @foreach ($purchase_units as $key => $name)
+                                        <option value="{{ $key }}"> {{ $name }} </option>
+                                    @endforeach
+                                @endif
+                            </x-input.select>
+                        </x-input.group>
+                    @endif
+
+                    <x-input.group for="qty" :label="__('quantity')" :error="$errors->first('qty')" class="lg:col-span-2">
                         <x-input type="number" wire:model="qty" id="qty" placeholder="0" />
                     </x-input.group>
 
-                    <x-input.group for="cost" :label="__('cost')" :error="$errors->first('cost')">
-                        <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
+                    @if ($type === App\Enums\ProductType::STANDARD->value)
+                        <x-input.group for="cost" :label="__('cost *')" :error="$errors->first('cost')" class="lg:col-span-2">
+                            <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
+                        </x-input.group>
+                    @endif
+
+                    <x-input.group for="price" :label="__('price *')" :error="$errors->first('price')" class="lg:col-span-2">
+                        <x-input type="number" wire:model="price" id="price" placeholder="00" />
                     </x-input.group>
 
-                    <x-input.group for="price" :label="__('price *')" :error="$errors->first('price')">
-                        <x-input type="number" wire:model="price" id="price" placeholder="00" required />
-                    </x-input.group>
+                    @if ($type === App\Enums\ProductType::STANDARD->value)
+                        <x-input.group for="purchase_price" :label="__('purchase price *')" :error="$errors->first('purchase_price')" class="lg:col-span-2">
+                            <x-input type="number" wire:model="purchase_price" placeholder="00" />
+                        </x-input.group>
+
+                        <x-input.group for="sale_price" :label="__('sale price *')" :error="$errors->first('sale_price')" class="lg:col-span-2">
+                            <x-input type="number" wire:model="sale_price" placeholder="00" />
+                        </x-input.group>
+                    @endif
 
                     <div class="col-span-6 sm:col-full">
                         <x-button.primary wire:loading.attr="disabled" wire:target="save"

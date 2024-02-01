@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProductType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,18 +13,11 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'category_id',
-        'unit_id',
-        'name',
-        'sku',
-        'qty',
-        'cost',
-        'price',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'created_at' => 'date:Y-m-d',
+        'type' => ProductType::class,
     ];
 
     // Methods

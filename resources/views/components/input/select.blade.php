@@ -1,4 +1,4 @@
-@props(['options' => null, 'id' => 'option'])
+@props(['options' => null, 'placeholder' => null, 'selected' => false])
 
 <select
     {{ $attributes->merge([
@@ -7,7 +7,8 @@
     ]) }}>
 
     @if ($options)
-        <option value="" disabled>-- {{ __('select') }} {{ $id }} --</option>
+        <option value="" {{ $selected ? 'selected' : 'disabled' }}>-- {{ __($placeholder ?? 'choose option') }} --
+        </option>
 
         @foreach ($options as $key => $name)
             <option value="{{ $key }}"> {{ $name }} </option>

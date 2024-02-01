@@ -96,8 +96,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
-                                {{ __('employees') }} <x-mary-badge value="New"
-                                    class="pl-1 badge-warning animate-pulse badge-sm" />
+                                {{ __('employees') }}
                             </x-collapsible.button>
                         </x-slot>
 
@@ -149,8 +148,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-o-document class="w-6 h-6" /></x-slot>
-                                {{ __('reports') }} <x-mary-badge value="New"
-                                    class="pl-1 badge-warning animate-pulse badge-sm" />
+                                {{ __('reports') }}
                             </x-collapsible.button>
                         </x-slot>
 

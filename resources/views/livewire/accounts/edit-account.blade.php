@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('accounts')" :href="route('admin.accounts.index')" />
-            <x-breadcrumb.item :label="__('edit')" />
+            <x-breadcrumb.item label="accounts" :href="route('admin.accounts.index')" />
+            <x-breadcrumb.item label="edit" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -19,13 +19,13 @@
                         <x-input wire:model="form.name" id="name" />
                     </x-input.group>
 
-                    <div class="col-span-6 sm:col-span-3"> 
+                    <div class="col-span-6 sm:col-span-3">
                         <x-input.group for="account_no" label="{{ __('account no *') }}" :error="$errors->first('form.account_no')">
                             <x-input wire:model="form.account_no" id="account_no" />
                         </x-input.group>
                     </div>
 
-                    <div class="col-span-6 sm:col-span-3"> 
+                    <div class="col-span-6 sm:col-span-3">
                         <x-input.group for="initial_balance" label="{{ __('initial balance') }}" :error="$errors->first('form.initial_balance')">
                             <x-input type="number" wire:model="form.initial_balance" id="initial_balance" disabled />
                         </x-input.group>

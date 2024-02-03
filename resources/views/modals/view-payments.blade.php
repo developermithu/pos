@@ -1,7 +1,9 @@
 <x-modal maxWidth="4xl" name="view-payments-{{ $data->id }}">
     <div class="p-5 lg:p-6">
         <div class="flex items-center justify-between pb-5">
-            <h2 class="text-xl font-semibold text-gray-500">All Payments</h2>
+            <h2 class="text-xl font-semibold text-gray-500">
+                {{ __('all payments') }}
+            </h2>
 
             <x-mary-button x-on:click="$dispatch('close')" icon="o-x-mark" class="btn-circle btn-ghost btn-sm" />
         </div>
@@ -11,10 +13,10 @@
                 $payments = $data->payments;
 
                 $headers = [
-                    ['key' => 'id', 'label' => 'no'],
+                    ['key' => 'id', 'label' => 'No'],
                     ['key' => 'reference', 'label' => 'Reference'],
                     ['key' => 'amount', 'label' => 'Amount'],
-                    ['key' => 'account.name', 'label' => 'Account'], 
+                    ['key' => 'account.name', 'label' => 'Account'], // nested
                     ['key' => 'created_at', 'label' => 'Date'],
                 ];
             @endphp

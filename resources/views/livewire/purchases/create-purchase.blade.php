@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('purchases')" :href="route('admin.purchases.index')" />
-            <x-breadcrumb.item :label="__('create')" />
+            <x-breadcrumb.item label="purchases" :href="route('admin.purchases.index')" />
+            <x-breadcrumb.item label="create" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -57,7 +57,7 @@
                                 <x-mary-icon name="o-magnifying-glass" class="text-gray-600" />
 
                                 <input x-ref="searchInput" type="text" wire:model.live="search"
-                                    placeholder="{{ __('Search product by name or code..') }}"
+                                    placeholder="{{ __('Search product by name or code') }}"
                                     class="w-full flex-1 py-1.5 border-none focus:ring-0 bg-transparent dark:text-white/80">
 
                                 <button @click="searchModal = false" type="button"
@@ -152,10 +152,11 @@
                             <div class="p-4 space-y-4">
                                 @if (Cart::instance('purchases')->count() >= 1)
                                     <div class="flex flex-col gap-1 text-right">
-                                        <div>Subtotal: <strong>{{ Cart::instance('purchases')->subtotal() }}</strong>
+                                        <div> {{ __('subtotal') }}: 
+                                            <strong> {{ Cart::instance('purchases')->subtotal() }} </strong>
                                         </div>
-                                        <div>Tax: <strong>{{ Cart::instance('purchases')->tax() }}</strong></div>
-                                        <div class="text-lg">Total:
+                                        <div> {{ __('tax') }}: <strong>{{ Cart::instance('purchases')->tax() }}</strong></div>
+                                        <div class="text-lg"> {{ __('total') }}:
                                             <strong>{{ Cart::instance('purchases')->total() }}</strong>
                                         </div>
                                     </div>
@@ -208,7 +209,7 @@
                                                     <x-input.group for="account_id"
                                                         label="{{ __('account name *') }}" :error="$errors->first('account_id')">
                                                         <x-input.select wire:model="account_id" :options="$accounts"
-                                                            required />
+                                                            placeholder="choose account" required />
                                                     </x-input.group>
                                                 </div>
 

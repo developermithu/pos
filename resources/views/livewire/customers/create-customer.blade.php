@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('customers')" :href="route('admin.customers.index')" />
-            <x-breadcrumb.item :label="__('create')" />
+            <x-breadcrumb.item label="customers" :href="route('admin.customers.index')" />
+            <x-breadcrumb.item label="create" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -18,7 +18,7 @@
                     <x-input.group for="name" label="{{ __('name *') }}" :error="$errors->first('form.name')">
                         <x-input wire:model="form.name" id="name" required />
                     </x-input.group>
-                    
+
                     <x-input.group for="company_name" label="{{ __('company name') }}" :error="$errors->first('form.company_name')">
                         <x-input wire:model="form.company_name" id="company_name" />
                     </x-input.group>
@@ -28,7 +28,7 @@
                     </x-input.group>
 
                     <x-input.group for="phone_number" label="{{ __('phone number *') }}" :error="$errors->first('form.phone_number')">
-                        <x-input wire:model="form.phone_number" id="phone_number" required/>
+                        <x-input wire:model="form.phone_number" id="phone_number" required />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

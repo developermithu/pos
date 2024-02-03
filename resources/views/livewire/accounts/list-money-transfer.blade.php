@@ -3,12 +3,12 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('accounts')" :href="route('admin.accounts.index')" />
-                    <x-breadcrumb.item :label="__('money transfer')" />
+                    <x-breadcrumb.item label="accounts" :href="route('admin.accounts.index')" />
+                    <x-breadcrumb.item label="money transfer" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
-                    {{ __('account list') }}
+                    {{ __('money transfer list') }}
                 </h1>
             </div>
 
@@ -43,7 +43,7 @@
             <x-table.heading> {{ __('from account') }} </x-table.heading>
             <x-table.heading> {{ __('to account') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('created') }} </x-table.heading>
+            <x-table.heading> {{ __('created at') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 

@@ -3,7 +3,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('purchases')" />
+                    <x-breadcrumb.item label="purchases" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -112,7 +112,7 @@
                                 @if ($totalPurchasedPaymentAmount < $purchase->total)
                                     <x-mary-menu-item :title="__('add payment')" icon="o-plus" :link="route('admin.purchases.add-payment', $purchase)" />
                                 @endif
-                                
+
                                 <x-mary-menu-item :title="__('delete')"
                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $purchase->id }}')"
                                     icon="o-trash" class="text-danger" />

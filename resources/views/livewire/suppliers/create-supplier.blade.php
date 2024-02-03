@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('suppliers')" :href="route('admin.suppliers.index')" />
-            <x-breadcrumb.item :label="__('create')" />
+            <x-breadcrumb.item label="suppliers" :href="route('admin.suppliers.index')" />
+            <x-breadcrumb.item label="create" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">

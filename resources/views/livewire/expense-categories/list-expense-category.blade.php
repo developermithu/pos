@@ -3,7 +3,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('expense categories')" />
+                    <x-breadcrumb.item label="expense categories" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -16,7 +16,7 @@
                     <x-table.search />
                     <x-table.bulk-action />
                 </div>
-                
+
                 <div class="flex items-center gap-3">
                     <x-table.filter-action />
 

@@ -9,8 +9,8 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('customers')" :href="route('admin.customers.index')" />
-                    <x-breadcrumb.item :label="__('due report')" />
+                    <x-breadcrumb.item label="customers" :href="route('admin.customers.index')" />
+                    <x-breadcrumb.item label="due report" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">

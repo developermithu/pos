@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('cashbook entries')" :href="route('admin.cashbooks.index')" />
-            <x-breadcrumb.item :label="__('edit')" />
+            <x-breadcrumb.item label="cashbook entries" :href="route('admin.cashbooks.index')" />
+            <x-breadcrumb.item label="edit" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -15,11 +15,11 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="store_id" :label="__('store')" :error="$errors->first('form.store_id')">
+                    <x-input.group for="store_id" label="store" :error="$errors->first('form.store_id')">
                         <x-input.select :options="App\Models\Store::pluck('name', 'id')" wire:model="form.store_id" />
                     </x-input.group>
 
-                    <x-input.group for="amount" :label="__('amount')" :error="$errors->first('form.amount')">
+                    <x-input.group for="amount" label="amount" :error="$errors->first('form.amount')">
                         <x-input wire:model="form.amount" id="amount" required />
                     </x-input.group>
 

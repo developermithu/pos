@@ -3,7 +3,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('cashbooks')" />
+                    <x-breadcrumb.item label="cashbooks" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -11,27 +11,27 @@
                 </h1>
             </div>
 
-            <div class="pb-5 grid grid-cols-12 gap-5 lg:gap-10">
+            <div class="grid grid-cols-12 gap-5 pb-5 lg:gap-10">
                 <x-mary-stat :title="__('todays deposit')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalTodaysDeposits, '2') }} Taka" />
 
                 <x-mary-stat :title="__('monthly deposit')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalMonthlyDeposits, '2') }} Taka" />
 
                 <x-mary-stat :title="__('yearly deposit')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalYearlyDeposits, '2') }} Taka" />
 
                 <x-mary-stat :title="__('todays expense')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalTodaysExpenses, '2') }} Taka" />
                 <x-mary-stat :title="__('monthly expense')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalMonthlyExpenses, '2') }} Taka" />
                 <x-mary-stat :title="__('yearly expense')" icon="o-banknotes"
-                    class="bg-gray-100 col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 capitalize"
+                    class="col-span-12 capitalize bg-gray-100 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                     value="{{ Number::forHumans($totalYearlyExpenses, '2') }} Taka" />
             </div>
 

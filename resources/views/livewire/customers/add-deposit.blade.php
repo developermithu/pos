@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('customers')" :href="route('admin.customers.index')" />
-            <x-breadcrumb.item :label="__('add deposit')" />
+            <x-breadcrumb.item label="customers" :href="route('admin.customers.index')" />
+            <x-breadcrumb.item label="add deposit" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -23,7 +23,7 @@
 
                     <div class="col-span-6 sm:col-span-3">
                         <x-input.group for="account_id" label="{{ __('account name *') }}" :error="$errors->first('account_id')">
-                            <x-input.select wire:model="account_id" :options="$accounts" required />
+                            <x-input.select wire:model="account_id" :options="$accounts" placeholder="choose account" required />
                         </x-input.group>
                     </div>
 

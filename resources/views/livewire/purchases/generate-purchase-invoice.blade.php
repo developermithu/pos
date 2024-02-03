@@ -3,8 +3,8 @@
         <div class="mb-1 col-span-full print:hidden">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('purchases')" :href="route('admin.purchases.index')" />
-                    <x-breadcrumb.item :label="__('generate invoice')" />
+                    <x-breadcrumb.item label="purchases" :href="route('admin.purchases.index')" />
+                    <x-breadcrumb.item label="generate invoice" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">

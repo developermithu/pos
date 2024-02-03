@@ -2,8 +2,8 @@
     <div class="grid grid-cols-12 gap-5 px-4 py-6 lg:gap-y-10 dark:bg-gray-900">
         <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
             <x-breadcrumb>
-                <x-breadcrumb.item :label="__('sales')" :href="route('admin.sales.index')" />
-                <x-breadcrumb.item :label="__('details')" />
+                <x-breadcrumb.item label="sales" :href="route('admin.sales.index')" />
+                <x-breadcrumb.item label="details" />
             </x-breadcrumb>
 
             <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">

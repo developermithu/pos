@@ -16,21 +16,21 @@
     <form wire:submit="create" class="p-4 md:p-5">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">
-                <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
+                <x-input.group for="name" label="name *" :error="$errors->first('form.name')">
                     <x-input wire:model="form.name" id="name" required />
                 </x-input.group>
             </div>
 
             <div class="col-span-2">
-                <x-input.group for="short_name" label="{{ __('short name') }}" :error="$errors->first('form.short_name')">
+                <x-input.group for="short_name" label="short name *" :error="$errors->first('form.short_name')">
                     <x-input wire:model="form.short_name" id="short_name" required />
                 </x-input.group>
             </div>
 
             <div class="col-span-2">
-                <x-input.group for="unit_id" :label="__('base unit')" :error="$errors->first('form.unit_id')">
+                <x-input.group for="unit_id" label="base unit" :error="$errors->first('form.unit_id')">
                     <x-input.select wire:model="form.unit_id">
-                        <option value=""> {{ __('select base unit') }} </option>
+                        <option value=""> {{ __('choose base unit') }} </option>
                         @foreach (App\Models\Unit::pluck('name', 'id') as $key => $name)
                             <option value="{{ $key }}"> {{ $name }} </option>
                         @endforeach

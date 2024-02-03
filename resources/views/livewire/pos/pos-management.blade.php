@@ -3,7 +3,7 @@
         <div class="mb-1 col-span-full">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('pos')" />
+                    <x-breadcrumb.item label="pos" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -73,9 +73,9 @@
                 <div class="p-4 space-y-4">
                     @if (Cart::count() >= 1)
                         <div class="flex flex-col gap-1 text-right">
-                            <div>Subtotal: <strong>{{ Cart::subtotal() }}</strong></div>
-                            <div>Tax: <strong>{{ Cart::tax() }}</strong></div>
-                            <div class="text-lg">Total: <strong>{{ Cart::total() }}</strong></div>
+                            <div> {{ __('subtotal') }}: <strong>{{ Cart::subtotal() }}</strong></div>
+                            <div> {{ __('tax') }}: <strong>{{ Cart::tax() }}</strong></div>
+                            <div class="text-lg"> {{ __('total') }}: <strong>{{ Cart::total() }}</strong></div>
                         </div>
                     @endif
                 </div>
@@ -122,7 +122,7 @@
                                 <x-input.group for="payment_status" label="{{ __('payment status *') }}"
                                     :error="$errors->first('payment_status')">
                                     <x-input.select wire:model.change="payment_status" required>
-                                        <option value="" disabled>-- {{ __('select payment status') }} --
+                                        <option value="" disabled>-- {{ __('choose payment status') }} --
                                         </option>
                                         @foreach (App\Enums\SalePaymentStatus::forSelect() as $value => $name)
                                             <option value="{{ $value }}"> {{ $name }} </option>
@@ -135,9 +135,10 @@
                                 $payment_status === App\Enums\SalePaymentStatus::PARTIAL->value ||
                                     $payment_status === App\Enums\SalePaymentStatus::PAID->value)
                                 <div class="col-span-6 sm:col-span-3">
-                                    <x-input.group for="account_id" label="{{ __('select account *') }}" :error="$errors->first('account_id')">
+                                    <x-input.group for="account_id" label="account name *"
+                                        :error="$errors->first('account_id')">
                                         <x-input.select wire:model="account_id" required>
-                                            <option value="" disabled>-- {{ __('select account') }} --</option>
+                                            <option value="" disabled>-- {{ __('choose account') }} --</option>
                                             @foreach ($accounts as $key => $name)
                                                 <option value="{{ $key }}"> {{ $name }} </option>
                                             @endforeach

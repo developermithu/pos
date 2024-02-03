@@ -45,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     protected function ensureIsNotRateLimited(): void
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
             return;
         }
 
@@ -91,7 +91,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <div>
                     <x-input-label for="email" :value="__('Email')" />
                     <x-text-input wire:model="email" id="email" class="block w-full mt-1" type="email" name="email"
-                        required autofocus autocomplete="username" />
+                        autofocus />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
@@ -100,7 +100,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <x-input-label for="password" :value="__('Password')" />
 
                     <x-text-input wire:model="password" id="password" class="block w-full mt-1" type="password"
-                        name="password" required autocomplete="current-password" />
+                        name="password" />
 
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>

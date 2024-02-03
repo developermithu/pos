@@ -3,7 +3,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('products')" />
+                    <x-breadcrumb.item label="products" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -78,7 +78,7 @@
                             <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
                         </x-button>
 
-                          {{-- Delete Forever Modal --}}
+                        {{-- Delete Forever Modal --}}
                         @include('partials.delete-forever-modal', ['data' => $product])
                     @else
                         <x-button flat="secondary"

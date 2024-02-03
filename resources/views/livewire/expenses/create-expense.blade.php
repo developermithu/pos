@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('expenses')" :href="route('admin.expenses.index')" />
-            <x-breadcrumb.item :label="__('create')" />
+            <x-breadcrumb.item label="expenses" :href="route('admin.expenses.index')" />
+            <x-breadcrumb.item label="create" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -17,14 +17,14 @@
                 <div class="grid grid-cols-6 gap-6">
                     <x-input.group for="expense_category_id" label="{{ __('expense category *') }}" :error="$errors->first('form.expense_category_id')">
                         <x-input.select wire:model="form.expense_category_id" required>
-                            <option value="" disabled>-- select expense category --</option>
+                            <option value="" disabled>-- {{ __('choose option') }} --</option>
                             @foreach (App\Models\ExpenseCategory::pluck('name', 'id') as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach
                         </x-input.select>
                     </x-input.group>
 
-                    <x-input.group for="account_id" label="{{ __('account *') }}" :error="$errors->first('form.account_id')">
+                    <x-input.group for="account_id" label="{{ __('account name *') }}" :error="$errors->first('form.account_id')">
                         <x-input.select wire:model="form.account_id" :options="$accounts" />
                     </x-input.group>
 

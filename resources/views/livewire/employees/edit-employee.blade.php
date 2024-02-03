@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
     <div class="flex flex-col mb-4 col-span-full md:flex-row md:items-center md:justify-between xl:mb-2">
         <x-breadcrumb>
-            <x-breadcrumb.item :label="__('employees')" :href="route('admin.employees.index')" />
-            <x-breadcrumb.item :label="__('edit')" />
+            <x-breadcrumb.item label="employees" :href="route('admin.employees.index')" />
+            <x-breadcrumb.item label="edit" />
         </x-breadcrumb>
 
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -15,11 +15,11 @@
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <form wire:submit="save">
                 <div class="grid grid-cols-6 gap-6">
-                    <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
+                    <x-input.group for="name" label="{{ __('name *') }}" :error="$errors->first('form.name')">
                         <x-input wire:model="form.name" id="name" />
                     </x-input.group>
 
-                    <x-input.group for="father_name" label="{{ __('father name') }}" :error="$errors->first('form.father_name')">
+                    <x-input.group for="father_name" label="{{ __('father name *') }}" :error="$errors->first('form.father_name')">
                         <x-input wire:model="form.father_name" id="father_name" />
                     </x-input.group>
 
@@ -27,7 +27,7 @@
                         <x-input wire:model="form.address" id="address" />
                     </x-input.group>
 
-                    <x-input.group for="phone_number" label="{{ __('phone number') }}" :error="$errors->first('form.phone_number')">
+                    <x-input.group for="phone_number" label="{{ __('phone number *') }}" :error="$errors->first('form.phone_number')">
                         <x-input wire:model="form.phone_number" id="phone_number" />
                     </x-input.group>
 
@@ -36,11 +36,11 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
                                 <div x-cloak x-show="isChecked">
-                                    {{ __('new basic salary') }}
+                                    {{ __('new basic salary') }} <span class="text-red-500">*</span>
                                 </div>
 
                                 <div x-cloak x-show="isChecked === false">
-                                    {{ __('basic salary') }}
+                                    {{ __('basic salary') }} <span class="text-red-500">*</span>
                                     @if ($employee->old_basic_salary)
                                         <span class="!text-xs !font-normal">
                                             ({{ __('old basic salary') }} - {{ $employee->old_basic_salary }} TK)

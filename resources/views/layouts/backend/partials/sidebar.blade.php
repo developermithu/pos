@@ -22,7 +22,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.units.*') || request()->routeIs('admin.categories.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-list-bullet class="w-6 h-6" /></x-slot>
                                 {{ __('products') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -44,7 +44,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.purchases.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-credit-card class="w-6 h-6" /></x-slot>
                                 {{ __('purchases') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -65,7 +65,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.sales.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-shopping-cart class="w-6 h-6" /></x-slot>
                                 {{ __('sales') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -95,7 +95,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
                                 {{ __('employees') }}
                             </x-collapsible.button>
                         </x-slot>
@@ -107,7 +107,7 @@
 
                         <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*') &&
                             !request()->routeIs('admin.attendance.last-month')">
-                            {{ __('attendance') }}
+                            {{ __('attendances') }}
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.employees.list.advance.payment')" :active="request()->routeIs('admin.employees.list.advance.payment')">
@@ -123,7 +123,7 @@
                     <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.accounts.*') ? 'true' : 'false' }} }">
                         <x-slot name="trigger">
                             <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
+                                <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
                                 {{ __('accounting') }}
                             </x-collapsible.button>
                         </x-slot>

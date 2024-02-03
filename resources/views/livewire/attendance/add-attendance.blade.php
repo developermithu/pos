@@ -4,8 +4,8 @@
             <div class="w-full mb-1">
                 <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                     <x-breadcrumb>
-                        <x-breadcrumb.item :label="__('attendance list')" :href="route('admin.attendance.index')" />
-                        <x-breadcrumb.item :label="__('add')" />
+                        <x-breadcrumb.item label="attendance list" :href="route('admin.attendance.index')" />
+                        <x-breadcrumb.item label="add" />
                     </x-breadcrumb>
 
                     <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -52,7 +52,8 @@
                                 <input type="radio" name="attendanceStatus.{{ $employee->id }}"
                                     wire:model="attendanceStatus.{{ $employee->id }}" value="present"
                                     id="present_{{ $employee->id }}"
-                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    required>
 
                                 <label for="present_{{ $employee->id }}"
                                     class="ml-2 text-sm font-medium text-gray-900 capitalize dark:text-gray-300">{{ __('present') }}</label>
@@ -62,7 +63,8 @@
                                 <input type="radio" name="attendanceStatus.{{ $employee->id }}"
                                     wire:model="attendanceStatus.{{ $employee->id }}" value="absent"
                                     id="absent_{{ $employee->id }}"
-                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                                    class = "w-4 h-4 bg-gray-100 border-gray-300 text-primary focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    required>
 
                                 <label for="absent_{{ $employee->id }}"
                                     class="ml-2 text-sm font-medium capitalize text-danger dark:text-gray-300">{{ __('absent') }}</label>

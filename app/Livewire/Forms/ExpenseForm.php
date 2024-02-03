@@ -29,7 +29,7 @@ class ExpenseForm extends Form
         $this->details = $expense->details;
         $this->amount = $expense->amount;
         $this->expense_category_id = $expense->expense_category_id;
-        $this->account_id = $expense->account_id;
+        $this->account_id = $expense->payment->account_id;
     }
 
     public function store()

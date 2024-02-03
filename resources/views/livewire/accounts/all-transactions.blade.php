@@ -9,8 +9,8 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('accounts')" :href="route('admin.accounts.index')" />
-                    <x-breadcrumb.item :label="__('transactions')" />
+                    <x-breadcrumb.item label="accounts" :href="route('admin.accounts.index')" />
+                    <x-breadcrumb.item label="transactions" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -37,18 +37,19 @@
                     @endphp
 
                     <x-mary-datepicker wire:model.live="start_date" icon="o-calendar" :config="$config"
-                        :placeholder="__('start date')" :label="__('start date')"
+                        :placeholder="__('start date')" label="{{ __('start date') }}"
                         class="border-2 border-gray-100 focus:outline-none focus:border-gray-300" />
 
                     <x-mary-datepicker wire:model.live="end_date" icon="o-calendar" :config="$config" :placeholder="__('end date')"
-                        :label="__('end date')" class="border-2 border-gray-100 focus:outline-none focus:border-gray-300" />
+                        label="{{ __('end date') }}"
+                        class="border-2 border-gray-100 focus:outline-none focus:border-gray-300" />
                 </div>
 
                 {{-- Type --}}
                 <div class="flex items-center gap-3">
                     <x-mary-dropdown>
                         <x-slot:trigger>
-                            <x-mary-button :label="__('Type')" icon-right="o-chevron-down" />
+                            <x-mary-button label="{{ __('type') }}" icon-right="o-chevron-down" />
                         </x-slot:trigger>
 
                         <x-mary-menu-item @click.stop="">
@@ -69,7 +70,7 @@
             <x-table.heading> {{ __('reference') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
             <x-table.heading> {{ __('note') }} </x-table.heading>
-            <x-table.heading> {{ __('created') }} </x-table.heading>
+            <x-table.heading> {{ __('created at') }} </x-table.heading>
         </x-slot>
 
         @forelse ($transactions as $key => $transaction)

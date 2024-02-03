@@ -3,7 +3,7 @@
         <div class="w-full mb-1">
             <div class="flex flex-col mb-4 md:flex-row md:items-center md:justify-between">
                 <x-breadcrumb>
-                    <x-breadcrumb.item :label="__('accounts')" />
+                    <x-breadcrumb.item label="accounts" />
                 </x-breadcrumb>
 
                 <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
@@ -35,7 +35,7 @@
 
     <x-table>
         <x-slot name="heading">
-            <x-table.heading> {{ __('account_no') }} </x-table.heading>
+            <x-table.heading> {{ __('account no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('initial balance') }} </x-table.heading>
             <x-table.heading> {{ __('credit') }} </x-table.heading>
@@ -66,9 +66,9 @@
                 </x-table.cell>
                 <x-table.cell class="!text-primary">
                     @if ($account->totalBalance())
-                    {{ Number::format($account->totalBalance()) }}
-                @else
-                @endif
+                        {{ Number::format($account->totalBalance()) }}
+                    @else
+                    @endif
                 </x-table.cell>
                 <x-table.cell>
                     @if ($account->is_active)

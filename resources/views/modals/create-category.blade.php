@@ -16,7 +16,7 @@
     <form wire:submit="create" class="p-4 md:p-5">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">
-                <x-input.group for="name" label="{{ __('name') }}" :error="$errors->first('form.name')">
+                <x-input.group for="name" label="name *" :error="$errors->first('form.name')">
                     <x-input wire:model="form.name" id="name" required />
                 </x-input.group>
             </div>

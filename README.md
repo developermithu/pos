@@ -21,22 +21,34 @@ When deploying production instead of **composer install --optimize-autoloader --
 
 Generate model helper: ```php artisan ide-helper:models``` 
 
-## Composer commands
+## Composer Commands
 
 - ```composer outdated``` display the all package available new version.
 - ```composer show <package-name>``` to check existing packages version
 - ```composer remove <package-name>``` to remove existing package
 
+## Uses of Laravel Pint
+
+- `pint --test` display code style issues 
+- `pint` fix code style issues 
+- `pint app/Models/User.php` fix code style issues on specific files or directories
+
 
 ## Have to Do
 
-- [ ] Product management
-  - [ ] import and export from excel file
-- [ ] Stock management
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
 - [ ] Log view
 - [ ] Customize code for production
+- [ ] import and export from excel file
+  
 
+**May need to add**
+purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_items** tabe.
+
+
+## Must do 
+
+- [ ] Product Stock/Qty management

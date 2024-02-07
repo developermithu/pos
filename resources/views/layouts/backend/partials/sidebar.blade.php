@@ -124,7 +124,8 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-currency-dollar class="w-6 h-6" /></x-slot>
-                                {{ __('accounting') }}
+                                {{ __('accounting') }} <x-mary-badge value="Updated"
+                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
@@ -136,6 +137,10 @@
 
                         <x-collapsible.item :href="route('admin.accounts.money-transfer')" :active="request()->routeIs('admin.accounts.money-transfer')">
                             {{ __('money transfer') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.accounts.balance-adjustment')" :active="request()->routeIs('admin.accounts.balance-adjustment.*')">
+                            {{ __('balance adjustment') }} <span class="text-danger/80 text-xs pl-1.5">New</span>
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.accounts.all-transactions')" :active="request()->routeIs('admin.accounts.all-transactions')">

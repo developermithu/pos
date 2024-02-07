@@ -9,12 +9,9 @@ use App\Models\ExpenseCategory;
 use App\Models\Payment;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
-use Mary\Traits\Toast;
 
 class ExpenseForm extends Form
 {
-    use Toast;
-
     public ?Expense $expense;
 
     public int|string $expense_category_id = '';
@@ -71,7 +68,7 @@ class ExpenseForm extends Form
         ]);
     }
 
-    public function rules(): array
+    protected function rules(): array
     {
         return [
             'expense_category_id' => ['required', Rule::exists(ExpenseCategory::class, 'id')],

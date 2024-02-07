@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\LanguageSwitchController;
 use App\Livewire\Accounts\AllTransactions;
+use App\Livewire\Accounts\CreateBalanceAdjustment;
 use App\Livewire\Accounts\EditAccount;
+use App\Livewire\Accounts\EditBalanceAdjustment;
 use App\Livewire\Accounts\ListAccount;
+use App\Livewire\Accounts\ListBalanceAdjustment;
 use App\Livewire\Accounts\ListMoneyTransfer;
 use App\Livewire\Attendance\AddAttendance;
 use App\Livewire\Attendance\EditAttendance;
@@ -66,7 +69,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -138,6 +141,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/{account}/edit', EditAccount::class)->name('edit');
         Route::get('/all-transactions', AllTransactions::class)->name('all-transactions');
         Route::get('/money-transfer', ListMoneyTransfer::class)->name('money-transfer');
+
+        // Balance Adjustment
+        Route::get('/balance-adjustment', ListBalanceAdjustment::class)->name('balance-adjustment');
+        Route::get('/balance-adjustment/create', CreateBalanceAdjustment::class)->name('balance-adjustment.create');
+        Route::get('/balance-adjustment/{balanceAdjustment}/edit', EditBalanceAdjustment::class)->name('balance-adjustment.edit');
     });
 
     // Store management

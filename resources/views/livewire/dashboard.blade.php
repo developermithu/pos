@@ -5,11 +5,11 @@
         </h1>
 
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-10">
-            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-envelope" :tooltip="__('total products')" />
-            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-envelope" :tooltip="__('total employees')" />
-            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-envelope" :tooltip="__('total suppliers')" />
-            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-envelope" :tooltip="__('total customers')" />
-            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-envelope" :tooltip="__('total users')" />
+            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" :tooltip="__('total products')" />
+            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" :tooltip="__('total employees')" />
+            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" :tooltip="__('total suppliers')" />
+            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" :tooltip="__('total customers')" />
+            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" :tooltip="__('total users')" />
         </div>
 
         <div class="grid grid-cols-12 gap-5">

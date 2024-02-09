@@ -13,7 +13,7 @@
     </div>
 
     <!-- Modal body -->
-    <form wire:submit="create" class="p-4 md:p-5">
+    <form wire:submit="clearDue" class="p-4 md:p-5">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">
                 <x-input.group for="amount" label="{{ __('amount *') }}" :error="$errors->first('amount')">
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <x-button wire:loading.attr="disabled" wire:loading.class="opacity-40" wire:target="create"
+        <x-button wire:loading.attr="disabled" wire:loading.class="opacity-40" wire:target="clearDue"
             style="width: 100%; justify-content: center">
             {{ __('submit') }}
         </x-button>

@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Customers;
 
+use App\Enums\PaymentType;
+use App\Enums\SalePaymentStatus;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\Sale;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -17,11 +21,15 @@ class ListCustomer extends Component
 
     public $selected = [];
 
+    // For clearing due
+    public int $amount;
+    public ?string $note = null;
+
     public function render()
     {
         $this->authorize('viewAny', Customer::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()
@@ -44,6 +52,66 @@ class ListCustomer extends Component
             ->paginate(10);
 
         return view('livewire.customers.list-customer', compact('customers'))->title(__('customer list'));
+    }
+
+    // Clearing customer due 
+    public function clearDue()
+    {
+        $this->validate([
+            'amount' => ['required', 'integer', 'numeric', 'gt:0'],
+            'note' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $sales = Sale::select('id', 'total', 'paid_amount', 'payment_status')
+                ->where('payment_status', '!=', SalePaymentStatus::PAID)
+                ->oldest()
+                ->get();
+
+            foreach ($sales as $sale) {
+                if ($this->amount <= 0) break;
+
+                $dueAmount = $sale->total - $sale->paid_amount;
+
+                if ($this->amount >= $dueAmount) {
+                    $paid_amount = $dueAmount;
+                    $payment_status = SalePaymentStatus::PAID->value;
+                } else {
+                    $paid_amount = $this->amount;
+                    $payment_status = SalePaymentStatus::PARTIAL->value;
+                }
+
+                Payment::create([
+                    'account_id' => 1, // cash
+                    'amount' => $paid_amount,
+                    'reference' => Str::random(),
+                    'type' => PaymentType::CREDIT,
+                    'note' => $this->note,
+                    'paymentable_id' => $sale->id,
+                    'paymentable_type' => Sale::class,
+                ]);
+
+                $sale->paid_amount += $paid_amount;
+                $sale->payment_status = $payment_status;
+                $sale->save();
+
+                $this->amount -= $paid_amount; // Subtract the paid amount from this amount
+
+                DB::commit();
+
+                $this->reset(['amount', 'note']);
+                $this->dispatch('close');
+                $this->success(__('Due has been cleared.'));
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->error(__('An error occurred while clearing due. Please try again.'));
+        }
+
+        return back();
     }
 
     public function deleteSelected()

@@ -105,8 +105,10 @@
                                     <x-mary-menu-item :title="__('edit')" :link="route('admin.customers.edit', $customer)" icon="o-pencil-square" />
                                 @endcan
 
-                                <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
-                                    x-on:click.prevent="$dispatch('open-modal', 'clear-due')" />
+                                @if ($customer->totalDue())
+                                    <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
+                                        x-on:click.prevent="$dispatch('open-modal', 'clear-due')" />
+                                @endif
 
                                 @if ($customer->deposits->count() > 0)
                                     <x-mary-menu-item :title="__('view deposits')" icon="o-banknotes"

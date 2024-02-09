@@ -139,7 +139,8 @@
                             {{ __('money transfer') }}
                         </x-collapsible.item>
 
-                        <x-collapsible.item :href="route('admin.accounts.balance-adjustment')" :active="request()->routeIs('admin.accounts.balance-adjustment.*')">
+                        <x-collapsible.item :href="route('admin.accounts.balance-adjustment')" :active="request()->routeIs('admin.accounts.balance-adjustment') ||
+                            request()->routeIs('admin.accounts.balance-adjustment.*')">
                             {{ __('balance adjustment') }} <span class="text-danger/80 text-xs pl-1.5">New</span>
                         </x-collapsible.item>
 

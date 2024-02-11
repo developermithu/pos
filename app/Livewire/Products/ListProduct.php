@@ -4,10 +4,12 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use App\Traits\SearchAndFilter;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class ListProduct extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -18,7 +20,7 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -89,5 +91,10 @@ class ListProduct extends Component
         $this->success(__('Record has been restored successfully'));
 
         return back();
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.product-page');
     }
 }

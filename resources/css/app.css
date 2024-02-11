@@ -40,6 +40,6 @@
     }
 
     .skeleton {
-      @apply rounded-lg;
+      @apply bg-gray-200 rounded-lg;
     }
 }

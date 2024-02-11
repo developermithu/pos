@@ -11,10 +11,12 @@ use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class ListCustomer extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -224,5 +226,10 @@ class ListCustomer extends Component
         $this->success(__('Record has been deleted permanently'));
 
         return back();
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.customer-page');
     }
 }

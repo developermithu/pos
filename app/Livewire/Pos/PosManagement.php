@@ -15,11 +15,13 @@ use App\Models\SaleItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class PosManagement extends Component
 {
     use Toast, WithPagination;
@@ -68,7 +70,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -157,7 +159,7 @@ class PosManagement extends Component
                 function ($attribute, $value, $fail) {
                     $cartTotal = $this->cartTotal();
                     if (in_array($this->payment_status, ['partial', 'paid'])) {
-                        if (! is_numeric($value)) {
+                        if (!is_numeric($value)) {
                             $fail('Paid amount must be numeric.');
                         } elseif ($value > $cartTotal) {
                             $fail("Paid amount must not be greater than total amount $cartTotal tk.");
@@ -205,7 +207,7 @@ class PosManagement extends Component
                 Payment::create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
                     'paymentable_id' => $sale->id,
                     'paymentable_type' => Sale::class,
@@ -225,7 +227,7 @@ class PosManagement extends Component
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: '.$e->getMessage());
+            \Log::error('Error creating sale: ' . $e->getMessage());
 
             $this->error(__('Something went wrong!'));
 
@@ -286,5 +288,10 @@ class PosManagement extends Component
         $cartTax = (int) str_replace($decimalPoint, '.', $tax);
 
         return $cartTax;
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.pos');
     }
 }

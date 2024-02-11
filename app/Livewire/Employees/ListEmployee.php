@@ -5,10 +5,12 @@ namespace App\Livewire\Employees;
 use App\Models\Employee;
 use App\Models\Payment;
 use App\Traits\SearchAndFilter;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class ListEmployee extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -64,7 +66,7 @@ class ListEmployee extends Component
     {
         $this->authorize('viewAny', Employee::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
 
         $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
 
@@ -120,5 +122,10 @@ class ListEmployee extends Component
         $this->success(__('Record has been deleted permanently'));
 
         return back();
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.employee-page');
     }
 }

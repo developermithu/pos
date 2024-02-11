@@ -4,10 +4,12 @@ namespace App\Livewire\Suppliers;
 
 use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Lazy]
 class ListSupplier extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -63,7 +65,7 @@ class ListSupplier extends Component
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $suppliers = Supplier::query()
@@ -86,5 +88,10 @@ class ListSupplier extends Component
 
         return view('livewire.suppliers.list-supplier', compact('suppliers'))
             ->title(__('supplier list'));
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.supplier-page');
     }
 }

@@ -6,7 +6,6 @@
 
         <ul class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-10">
             <template x-for="i in 5">
-                
                 {{-- skeleton --}}
                 <li class="w-full h-[76px] skeleton"></li>
             </template>

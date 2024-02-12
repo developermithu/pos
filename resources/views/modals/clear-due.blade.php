@@ -1,6 +1,7 @@
 <x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__(
-    'Customer sales payment status will be automatically update and clear due based on input amount. Payment will be added in cashbook account.',
-)" class="lg:w-3/12" with-close-button separator right>
+    'Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.',
+)" class="lg:w-3/12" with-close-button separator
+    right>
     <form wire:submit="clearDue">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">

@@ -4,18 +4,29 @@
             {{ __('welcome') }}, {{ Auth::user()->name }}
         </h1>
 
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-10">
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-10">
             <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" :tooltip="__('total products')" />
             <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" :tooltip="__('total employees')" />
             <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" :tooltip="__('total suppliers')" />
             <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" :tooltip="__('total customers')" />
             <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" :tooltip="__('total users')" />
+
+            <x-mary-stat :title="__('total sales')" value="{{ Number::format($totalSales) }}" icon="o-currency-bangladeshi"
+                :tooltip="__('total sales')" />
+            <x-mary-stat :title="__('total purchases')" value="{{ Number::format($totalPurchases) }}" icon="o-currency-bangladeshi"
+                :tooltip="__('total purchases')" />
+            <x-mary-stat :title="__('total expenses')" value="{{ Number::format($totalExpenses) }}" icon="o-currency-bangladeshi"
+                :tooltip="__('total expenses')" />
+            <x-mary-stat :title="__('total customer due')" value="{{ Number::format($totalCustomerDue) }}"
+                icon="o-currency-bangladeshi" :tooltip="__('total customer due')" />
+            <x-mary-stat :title="__('total supplier due')" value="{{ Number::format($totalSupplierDue) }}"
+                icon="o-currency-bangladeshi" :tooltip="__('total supplier due')" />
         </div>
 
         <div class="grid grid-cols-12 gap-5">
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 col-span-full lg:col-span-8">
-                <div class="text-lg font-semibold text-center capitalize">
+                <div class="-mt-2 text-lg font-semibold text-center capitalize">
                     {{ __('monthly sales') }} ({{ date('Y') }})
                 </div>
                 <x-mary-chart wire:model="monthlySalesChart" />
@@ -23,7 +34,7 @@
 
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm lg:col-span-4 col-span-full dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <div class="text-lg font-semibold text-center capitalize">
+                <div class="-mt-2 text-lg font-semibold text-center capitalize">
                     {{ __('top 5 customers') }} ({{ date('Y') }})
                 </div>
                 <x-mary-chart wire:model="top5CustomersChart" />

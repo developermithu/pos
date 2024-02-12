@@ -16,7 +16,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-// #[Lazy]
+#[Lazy]
 class ListCustomer extends Component
 {
     use SearchAndFilter, Toast, WithPagination;

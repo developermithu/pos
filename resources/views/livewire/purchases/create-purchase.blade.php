@@ -16,7 +16,7 @@
             <div>
                 <div class="grid grid-cols-6 gap-6">
                     {{-- supplier --}}
-                    <div class="col-span-3">
+                    <div class="col-span-full md:col-span-3">
                         <label for="supplier_id"
                             class="block mb-2 text-sm font-medium text-gray-700 capitalize dark:text-gray-300">
                             {{ __('supplier') }} <span class="text-red-500">*</span>
@@ -50,7 +50,7 @@
 
                     {{-- Serach content --}}
                     <div
-                        class="divide-y rounded-lg bg-slate-100 sm:col-span-6 dark:bg-dark-primary divide-gray dark:divide-white/10">
+                        class="divide-y rounded-lg bg-slate-100 col-span-full dark:bg-dark-primary divide-gray dark:divide-white/10">
                         <div
                             class="w-full text-gray-900 border border-gray-300 divide-y rounded-md shadow-sm dark:bg-dark-primary divide-gray dark:divide-white/10 bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary">
                             <div class="relative flex items-center px-4 py-1.5" @click.away="searchModal = false">

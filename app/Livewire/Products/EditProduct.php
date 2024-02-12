@@ -105,7 +105,7 @@ class EditProduct extends Component
 
     public function rules(): array
     {
-        $rules =  [
+        $rules = [
             'category_id' => [
                 'nullable',
                 Rule::exists(Category::class, 'id')->when($this->category_id, function ($query) {

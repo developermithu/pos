@@ -50,7 +50,7 @@ class AddPurchasePayment extends Component
         $this->validate();
 
         DB::beginTransaction();
-        
+
         try {
             // Create Payment
             $payment = Payment::create([

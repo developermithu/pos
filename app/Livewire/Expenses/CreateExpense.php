@@ -23,7 +23,7 @@ class CreateExpense extends Component
     public function save()
     {
         DB::beginTransaction();
-        
+
         try {
             $this->form->store();
             $this->form->reset();

@@ -34,7 +34,7 @@ class ListCustomer extends Component
     {
         $this->authorize('viewAny', Customer::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()
@@ -82,7 +82,9 @@ class ListCustomer extends Component
                 ->get();
 
             foreach ($sales as $sale) {
-                if ($this->amount <= 0) break;
+                if ($this->amount <= 0) {
+                    break;
+                }
 
                 $dueAmount = $sale->total - $sale->paid_amount;
 

@@ -20,7 +20,7 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()

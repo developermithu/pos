@@ -55,26 +55,26 @@ class ExpenseSeeder extends Seeder
         // Attaching payments
         $expense1->payment()->create([
             'account_id' => 1,
-            'amount' =>  $expense1->amount,
-            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
+            'amount' => $expense1->amount,
+            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
             'note' => $expense1->details,
-            'type' => PaymentType::DEBIT->value
+            'type' => PaymentType::DEBIT->value,
         ]);
 
         $expense2->payment()->create([
             'account_id' => 1,
-            'amount' =>  $expense2->amount,
-            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
+            'amount' => $expense2->amount,
+            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
             'note' => $expense2->details,
-            'type' => PaymentType::DEBIT->value
+            'type' => PaymentType::DEBIT->value,
         ]);
 
         $expense3->payment()->create([
             'account_id' => 1,
-            'amount' =>  $expense3->amount,
-            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
+            'amount' => $expense3->amount,
+            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
             'note' => $expense3->details,
-            'type' => PaymentType::DEBIT->value
+            'type' => PaymentType::DEBIT->value,
         ]);
     }
 }

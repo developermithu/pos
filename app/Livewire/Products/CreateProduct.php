@@ -59,8 +59,8 @@ class CreateProduct extends Component
         $this->purchase_unit_id = null;
         $this->sale_unit_id = null;
         $this->purchase_price = null;
-        $this->sale_price = null;;
-        $this->cost = null;;
+        $this->sale_price = null;
+        $this->cost = null;
     }
 
     public function save()
@@ -89,7 +89,7 @@ class CreateProduct extends Component
 
     public function rules(): array
     {
-        $rules =  [
+        $rules = [
             'category_id' => [
                 'nullable',
                 Rule::exists(Category::class, 'id')->when($this->category_id, function ($query) {

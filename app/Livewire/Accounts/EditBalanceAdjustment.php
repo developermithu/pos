@@ -36,6 +36,7 @@ class EditBalanceAdjustment extends Component
 
             DB::commit();
             $this->success(__('Record has been updated successfully'));
+
             return $this->redirect(ListBalanceAdjustment::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();

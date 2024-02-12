@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Accounts;
 
-use App\Models\Account;
 use App\Models\BalanceAdjustment;
 use App\Traits\SearchAndFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -19,7 +18,7 @@ class ListBalanceAdjustment extends Component
     {
         $this->authorize('viewAny', BalanceAdjustment::class);
 
-        $searchTerm = $this->search ? '%' . trim($this->search) . '%' : null;
+        $searchTerm = $this->search ? '%'.trim($this->search).'%' : null;
 
         $balanceAdjustments = BalanceAdjustment::query()
             ->with(['payment.account:id,name,account_no'])

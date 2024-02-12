@@ -77,7 +77,7 @@ class ListPurchase extends Component
         $this->authorize('forceDelete', $purchase);
 
         DB::beginTransaction();
-        
+
         try {
             // Delete associated payments
             $purchase->payments()->forceDelete();

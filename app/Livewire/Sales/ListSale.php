@@ -21,7 +21,7 @@ class ListSale extends Component
     {
         $this->authorize('viewAny', Sale::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['invoice_no'];
 
         $sales = Sale::query()
@@ -88,7 +88,7 @@ class ListSale extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting sale: ' . $e->getMessage());
+            \Log::error('Error force deleting sale: '.$e->getMessage());
             $this->error(__('Error force deleting sale and payments.'));
         }
 

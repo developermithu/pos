@@ -21,7 +21,7 @@ class Dashboard extends Component
 {
     public array $monthlySalesChart;
     public array $top5CustomersChart;
-    private DateTimeInterface|null $cacheDuration;
+    private ?DateTimeInterface $cacheDuration;
 
     public function mount()
     {

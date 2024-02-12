@@ -69,7 +69,7 @@ class ListUnit extends Component
     {
         $this->authorize('viewAny', Unit::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'short_name'];
 
         $units = Unit::query()

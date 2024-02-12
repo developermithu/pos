@@ -33,12 +33,13 @@ class CreateBalanceAdjustment extends Component
         );
 
         DB::beginTransaction();
-        
+
         try {
             $this->form->store();
 
             DB::commit();
             $this->success(__('Record has been created successfully'));
+
             return $this->redirect(ListBalanceAdjustment::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();

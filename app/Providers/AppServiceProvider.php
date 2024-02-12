@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Debugbar::disable();
 
-        // Only Super Admin can access Log Viewer 
+        // Only Super Admin can access Log Viewer
         LogViewer::auth(function ($request) {
             return $request->user()
                 && in_array($request->user()->role, [

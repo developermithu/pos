@@ -66,7 +66,7 @@ class ListEmployee extends Component
     {
         $this->authorize('viewAny', Employee::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
 
         $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
 

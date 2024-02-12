@@ -23,9 +23,9 @@ class EditExpense extends Component
 
     public function save()
     {
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             $this->form->update();
 
             DB::commit();
@@ -35,7 +35,7 @@ class EditExpense extends Component
             return $this->redirect(ListExpense::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error updating expense: '.$e->getMessage());
+            \Log::error('Error updating expense: ' . $e->getMessage());
 
             $this->error(__('Something went wrong!'));
         }

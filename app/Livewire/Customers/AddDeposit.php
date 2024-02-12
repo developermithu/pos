@@ -31,14 +31,14 @@ class AddDeposit extends Component
         $this->authorize('create', Customer::class);
         $this->validate();
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Create Payment
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->amount,
-                'reference' => 'Deposit-'.date('Ymd').'-'.rand(11111, 99999),
+                'reference' => 'Deposit-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paymentable_id' => $this->customer->id,

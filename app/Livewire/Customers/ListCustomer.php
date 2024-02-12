@@ -181,8 +181,9 @@ class ListCustomer extends Component
     {
         $this->authorize('delete', $deposit);
 
+        DB::beginTransaction();
+
         try {
-            DB::beginTransaction();
             $paymentable = $deposit->paymentable;
             // Subtract amount from the customer deposit
             $paymentable->deposit -= $deposit->amount;
@@ -206,8 +207,9 @@ class ListCustomer extends Component
         $deposit = Payment::onlyTrashed()->findOrFail($id);
         $this->authorize('restore', $deposit);
 
+        DB::beginTransaction();
+
         try {
-            DB::beginTransaction();
             $paymentable = $deposit->paymentable;
             // Addition amount in customer deposit
             $paymentable->deposit += $deposit->amount;

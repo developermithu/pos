@@ -32,14 +32,14 @@ class AddAdvancePayment extends Component
 
         $this->validate();
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Create Payment
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->amount,
-                'reference' => 'Payroll-'.date('Ymd').'-'.rand(11111, 99999),
+                'reference' => 'Payroll-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::DEBIT->value,
                 'paymentable_id' => $this->employee->id,

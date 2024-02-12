@@ -39,9 +39,9 @@ class ListBalanceAdjustment extends Component
     {
         $this->authorize('forceDelete', $balanceAdjustment);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Delete associated payment
             $balanceAdjustment->payment()->forceDelete();
             $balanceAdjustment->forceDelete();

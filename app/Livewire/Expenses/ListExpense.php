@@ -23,7 +23,7 @@ class ListExpense extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['details'];
 
         $expenses = Expense::query()
@@ -95,9 +95,9 @@ class ListExpense extends Component
 
         $this->authorize('forceDelete', $expense);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Delete associated payment
             $expense->payment()->forceDelete();
             $expense->forceDelete();
@@ -107,7 +107,7 @@ class ListExpense extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting expense: '.$e->getMessage());
+            \Log::error('Error force deleting expense: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
         }
 

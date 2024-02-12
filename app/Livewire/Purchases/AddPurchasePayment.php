@@ -49,9 +49,9 @@ class AddPurchasePayment extends Component
 
         $this->validate();
 
+        DB::beginTransaction();
+        
         try {
-            DB::beginTransaction();
-
             // Create Payment
             $payment = Payment::create([
                 'account_id' => $this->account_id,

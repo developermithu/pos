@@ -32,8 +32,9 @@ class CreateBalanceAdjustment extends Component
             BalanceAdjustmentForm::attributes()
         );
 
+        DB::beginTransaction();
+        
         try {
-            DB::beginTransaction();
             $this->form->store();
 
             DB::commit();

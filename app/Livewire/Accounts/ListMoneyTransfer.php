@@ -32,7 +32,7 @@ class ListMoneyTransfer extends Component
     {
         $this->authorize('viewAny', MoneyTransfer::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['amount'];
 
         $moneyTransfers = MoneyTransfer::query()
@@ -66,18 +66,18 @@ class ListMoneyTransfer extends Component
         $fromAccount = Account::findOrFail($this->from_account_id);
 
         if ($fromAccount->totalBalance() < $this->amount) {
-            $this->error('You have only '.number_format($fromAccount->totalBalance()).' tk in '.$fromAccount->name, timeout: 5000);
+            $this->error('You have only ' . number_format($fromAccount->totalBalance()) . ' tk in ' . $fromAccount->name, timeout: 5000);
         } else {
-            try {
-                DB::beginTransaction();
+            DB::beginTransaction();
 
+            try {
                 $moneyTransfer = MoneyTransfer::create($this->only(['from_account_id', 'to_account_id', 'amount']));
 
                 // From Account Paymen
                 Payment::create([
                     'account_id' => $this->from_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Transfer-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value, // debit
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
@@ -87,7 +87,7 @@ class ListMoneyTransfer extends Component
                 Payment::create([
                     'account_id' => $this->to_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Transfer-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value, // credit
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
@@ -100,7 +100,7 @@ class ListMoneyTransfer extends Component
                 $this->dispatch('close');
             } catch (\Exception $e) {
                 DB::rollBack();
-                \Log::error('Money transfer: '.$e->getMessage());
+                \Log::error('Money transfer: ' . $e->getMessage());
                 $this->error(__('Something went wrong!'));
             }
         }
@@ -136,9 +136,9 @@ class ListMoneyTransfer extends Component
 
         $this->authorize('forceDelete', $moneyTransfer);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Delete associated payments
             $moneyTransfer->payments()->forceDelete();
             $moneyTransfer->forceDelete();

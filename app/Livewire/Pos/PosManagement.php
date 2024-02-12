@@ -174,10 +174,9 @@ class PosManagement extends Component
             'note' => 'nullable',
         ]);
 
-        try {
-            // Start a database transaction
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Insert sale
             $sale = Sale::create([
                 'customer_id' => $this->customer_id,

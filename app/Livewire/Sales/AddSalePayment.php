@@ -40,14 +40,14 @@ class AddSalePayment extends Component
 
         $this->validate();
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             // Create Payment
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Sale-'.date('Ymd').'-'.rand(11111, 99999),
+                'reference' => 'Sale-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paymentable_id' => $this->sale->id,
@@ -76,7 +76,7 @@ class AddSalePayment extends Component
             return $this->redirect(ListSale::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error adding sale payment: '.$e->getMessage());
+            \Log::error('Error adding sale payment: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
 
             return back();
@@ -86,8 +86,8 @@ class AddSalePayment extends Component
     public function rules(): array
     {
         return [
-            'received_amount' => ['required', 'gt:0', 'lte: '.$this->sale->total - $this->sale->paid_amount],
-            'paid_amount' => ['required', 'gt:0', 'lte: '.$this->received_amount],
+            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->sale->total - $this->sale->paid_amount],
+            'paid_amount' => ['required', 'gt:0', 'lte: ' . $this->received_amount],
             'account_id' => ['required', Rule::exists(Account::class, 'id')],
             'note' => ['nullable', 'max:255'],
         ];

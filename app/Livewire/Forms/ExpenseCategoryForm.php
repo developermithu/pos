@@ -45,7 +45,7 @@ class ExpenseCategoryForm extends Form
                 Rule::unique(ExpenseCategory::class)->ignore($this->expenseCategory ?? null),
             ],
 
-            'description' => 'nullable|max:255',
+            'description' => 'nullable|min:255',
         ];
     }
 }

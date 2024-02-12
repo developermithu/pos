@@ -1,19 +1,7 @@
-<x-modal maxWidth="{{ $size ?? 'xl' }}" name="clear-due">
-    <!-- Modal header -->
-    <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
-        <h3 class="text-lg font-semibold text-gray-900 capitalize dark:text-white">
-            {{ __('clear due') }}
-        </h3>
-
-        <button type="button" x-on:click="$dispatch('close')"
-            class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white">
-            <x-mary-icon name="o-x-mark" />
-            <span class="sr-only">Close modal</span>
-        </button>
-    </div>
-
-    <!-- Modal body -->
-    <form wire:submit="clearDue" class="p-4 md:p-5">
+<x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__(
+    'Customer sales payment status will be automatically update and clear due based on input amount. Payment will be added in cashbook account.',
+)" class="lg:w-3/12" with-close-button separator right>
+    <form wire:submit="clearDue">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">
                 <x-input.group for="amount" label="{{ __('amount *') }}" :error="$errors->first('amount')">
@@ -33,4 +21,4 @@
             {{ __('submit') }}
         </x-button>
     </form>
-</x-modal>
+</x-mary-drawer>

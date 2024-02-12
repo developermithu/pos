@@ -45,7 +45,8 @@
         </x-slot>
 
         @forelse ($customers as $customer)
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $customer->id }}">
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $customer->id }}"
+                wire:target="search, filterByTrash, deleteSelected, destroy, clear">
                 <x-table.cell>
                     <x-input.checkbox wire:model="selected" value="{{ $customer->id }}" id="{{ $customer->id }}"
                         for="{{ $customer->id }}" />
@@ -107,7 +108,7 @@
 
                                 @if ($customer->totalDue())
                                     <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
-                                        x-on:click.prevent="$dispatch('open-modal', 'clear-due')" />
+                                        wire:click="showDueModal({{ $customer->id }})" />
                                 @endif
 
                                 @if ($customer->deposits->count() > 0)
@@ -131,14 +132,13 @@
                     @include('partials.delete-modal', ['data' => $customer])
                 </x-table.cell>
             </x-table.row>
-
         @empty
             <x-table.data-not-found colspan="7" />
         @endforelse
     </x-table>
 
-    {{-- Clear Due Modal --}}
-    @include('modals.clear-due', ['size' => 'md'])
+    {{-- Clear Due Drawer --}}
+    @include('modals.clear-due')
 
     {{-- Pagination --}}
     <div class="p-4">

@@ -16,7 +16,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Lazy]
+// #[Lazy]
 class ListCustomer extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -26,6 +26,9 @@ class ListCustomer extends Component
     // For clearing due
     public int $amount;
     public ?string $note = null;
+
+    public bool $showDrawer = false;
+    public string $customer_id;
 
     public function render()
     {
@@ -56,7 +59,12 @@ class ListCustomer extends Component
         return view('livewire.customers.list-customer', compact('customers'))->title(__('customer list'));
     }
 
-    // Clearing customer due 
+    public function showDueModal(string $id)
+    {
+        $this->customer_id = $id;
+        $this->showDrawer = true;
+    }
+
     public function clearDue()
     {
         $this->validate([
@@ -64,11 +72,12 @@ class ListCustomer extends Component
             'note' => ['nullable', 'string', 'max:255'],
         ]);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             $sales = Sale::select('id', 'total', 'paid_amount', 'payment_status')
                 ->where('payment_status', '!=', SalePaymentStatus::PAID)
+                ->where('customer_id', $this->customer_id)
                 ->oldest()
                 ->get();
 
@@ -103,8 +112,8 @@ class ListCustomer extends Component
 
                 DB::commit();
 
+                $this->showDrawer = false;
                 $this->reset(['amount', 'note']);
-                $this->dispatch('close');
                 $this->success(__('Due has been cleared.'));
             }
         } catch (\Exception $e) {

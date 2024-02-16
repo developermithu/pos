@@ -132,6 +132,7 @@
     "add supplier": "নতুন সাপ্লায়ার",
     "update supplier": "সাপ্লায়ার আপডেট করুন",
     "add new supplier": "নতুন সাপ্লায়ার যুক্ত করুন",
+    "Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "ইনপুটের পরিমাণের উপর ভিত্তি করে সাপ্লায়ারদের ক্রয়ের অর্থপ্রদান স্বয়ংক্রিয়ভাবে আপডেট হবে এবং পরিষ্কার হবে । পেমেন্ট ক্যাশবুক অ্যাকাউন্টে রেকর্ড করা হবে।",
 
     "employee": "কর্মচারী",
     "employees": "কর্মচারী",

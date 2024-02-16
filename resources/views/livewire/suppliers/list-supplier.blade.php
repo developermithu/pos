@@ -82,28 +82,43 @@
 
                         @include('partials.delete-forever-modal', ['data' => $supplier])
                     @else
-                        @can('update', $supplier)
-                            <x-button flat="warning" :href="route('admin.suppliers.edit', $supplier)">
-                                <x-heroicon-o-pencil-square /> {{ __('edit') }}
-                            </x-button>
-                        @endcan
+                        <div x-data="{ open: false }">
+                            <x-mary-button x-ref="button" icon="o-ellipsis-vertical" @click.outside="open = false"
+                                x-on:click="open = !open" class="btn-circle" />
 
-                        @can('delete', $supplier)
-                            <x-button flat="danger"
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->id }}')">
-                                <x-heroicon-o-trash /> {{ __('delete') }}
-                            </x-button>
+                            <x-mary-menu x-cloak x-show="open" x-anchor.bottom-end.offset.5="$refs.button"
+                                class="bg-white border">
 
-                            @include('partials.delete-modal', ['data' => $supplier])
-                        @endcan
+                                <x-mary-menu-item :title="__('view')" icon="o-eye" />
+
+                                @can('update', $supplier)
+                                    <x-mary-menu-item :title="__('edit')" :link="route('admin.suppliers.edit', $supplier)" icon="o-pencil-square" />
+                                @endcan
+
+                                @if ($supplier->totalDue())
+                                    <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
+                                        wire:click="showDueModal({{ $supplier->id }})" />
+                                @endif
+
+                                @can('delete', $supplier)
+                                    <x-mary-menu-item :title="__('delete')"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->id }}')"
+                                        icon="o-trash" class="text-danger" />
+                                @endcan
+                            </x-mary-menu>
+                        </div>
                     @endif
+
+                    @include('partials.delete-modal', ['data' => $supplier])
                 </x-table.cell>
             </x-table.row>
-
         @empty
             <x-table.data-not-found colspan="6" />
         @endforelse
     </x-table>
+
+    {{-- Clear Due Drawer --}}
+    @include('modals.clear-due', ['data' => 'supplier'])
 
     {{-- Pagination --}}
     <div class="p-4">

@@ -138,7 +138,7 @@
     </x-table>
 
     {{-- Clear Due Drawer --}}
-    @include('modals.clear-due')
+    @include('modals.clear-due', ['data' => 'customer'])
 
     {{-- Pagination --}}
     <div class="p-4">

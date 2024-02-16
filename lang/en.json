@@ -132,6 +132,7 @@
     "add supplier": "add supplier",
     "update supplier": "update supplier",
     "add new supplier": "add New supplier",
+    "Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.",
 
     "employee": "Employee",
     "employees": "Employees",

@@ -1,6 +1,12 @@
-<x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__(
-    'Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.',
-)" class="lg:w-3/12" with-close-button separator
+@php
+    if ($data === 'supplier') {
+        $subtitle = 'Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
+    } elseif ($data === 'customer') {
+        $subtitle = 'Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
+    }
+@endphp
+
+<x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__($subtitle)" class="lg:w-3/12" with-close-button separator
     right>
     <form wire:submit="clearDue">
         <div class="grid grid-cols-2 gap-4 mb-5">

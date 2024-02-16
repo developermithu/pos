@@ -2,8 +2,14 @@
 
 namespace App\Livewire\Suppliers;
 
+use App\Enums\PaymentType;
+use App\Enums\PurchasePaymentStatus;
+use App\Models\Payment;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,6 +21,13 @@ class ListSupplier extends Component
     use SearchAndFilter, Toast, WithPagination;
 
     public $selected = [];
+
+    // For clearing due
+    public int $amount;
+    public ?string $note = null;
+
+    public bool $showDrawer = false;
+    public string $supplier_id;
 
     public function deleteSelected()
     {
@@ -65,7 +78,7 @@ class ListSupplier extends Component
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $suppliers = Supplier::query()
@@ -88,6 +101,72 @@ class ListSupplier extends Component
 
         return view('livewire.suppliers.list-supplier', compact('suppliers'))
             ->title(__('supplier list'));
+    }
+
+    public function showDueModal(string $supplierId)
+    {
+        $this->supplier_id = $supplierId;
+        $this->showDrawer = true;
+    }
+
+    public function clearDue()
+    {
+        $this->validate([
+            'amount' => ['required', 'integer', 'numeric', 'gt:0'],
+            'note' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $remainingAmount = $this->amount;
+
+            $purchases = Purchase::select('id', 'total', 'paid_amount', 'payment_status')
+                ->where('payment_status', '!=', PurchasePaymentStatus::PAID)
+                ->where('supplier_id', $this->supplier_id)
+                ->oldest()
+                ->get();
+
+            foreach ($purchases as $purchase) {
+                if ($remainingAmount <= 0) {
+                    break;
+                }
+
+                $dueAmount = $purchase->total - $purchase->paid_amount;
+                $paidAmount = min($remainingAmount, $dueAmount);
+                $remainingAmount -= $paidAmount;
+
+                $paymentStatus = $paidAmount >= $dueAmount
+                    ? PurchasePaymentStatus::PAID->value
+                    : PurchasePaymentStatus::PARTIAL->value;
+
+                Payment::create([
+                    'account_id' => 1, // cash
+                    'amount' => $paidAmount,
+                    'reference' => Str::random(),
+                    'type' => PaymentType::DEBIT,
+                    'note' => $this->note,
+                    'paymentable_id' => $purchase->id,
+                    'paymentable_type' => Purchase::class,
+                ]);
+
+                $purchase->paid_amount += $paidAmount;
+                $purchase->payment_status = $paymentStatus;
+                $purchase->save();
+            }
+
+            DB::commit();
+
+            $this->showDrawer = false;
+            $this->reset(['amount', 'note']);
+            $this->success(__('Due has been cleared.'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->error(__('An error occurred while clearing due. Please try again.'));
+        }
+
+        return back();
     }
 
     public function placeholder()

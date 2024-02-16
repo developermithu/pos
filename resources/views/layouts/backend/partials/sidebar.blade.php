@@ -89,7 +89,8 @@
 
                     <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                        {{ __('suppliers') }}
+                        {{ __('suppliers') }} <x-mary-badge :value="__('new')"
+                            class="pl-1.5 badge-warning animate-pulse badge-sm" />
                     </x-sidebar.link>
 
                     {{-- Employee Management --}}

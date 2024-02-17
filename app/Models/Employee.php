@@ -14,7 +14,7 @@ class Employee extends Model
 {
     use HasFactory, SoftCascadeTrait, SoftDeletes;
 
-    protected $softCascade = ['advancePayments', 'attendances'];
+    protected $softCascade = ['advancePayments', 'attendances', 'overtimes'];
 
     protected $guarded = [];
 
@@ -33,6 +33,11 @@ class Employee extends Model
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function overtimes(): HasMany
+    {
+        return $this->hasMany(Overtime::class);
     }
 
     public function lastMonthTotalPresent(): ?int
@@ -67,13 +72,13 @@ class Employee extends Model
         // Format the output like 1 Year 5 Months Ago
         if ($years > 0) {
             if ($months > 0) {
-                $formattedDiff = "{$years} year".($years > 1 ? 's' : '')." {$months} month".($months > 1 ? 's' : '');
+                $formattedDiff = "{$years} year" . ($years > 1 ? 's' : '') . " {$months} month" . ($months > 1 ? 's' : '');
             } else {
-                $formattedDiff = "{$years} year".($years > 1 ? 's' : '');
+                $formattedDiff = "{$years} year" . ($years > 1 ? 's' : '');
             }
         } else {
             if ($months >= 1) {
-                $formattedDiff = "{$months} month".($months > 1 ? 's' : '');
+                $formattedDiff = "{$months} month" . ($months > 1 ? 's' : '');
             } else {
                 if ($days >= 1) {
                     $formattedDiff = "{$days} days";
@@ -84,7 +89,7 @@ class Employee extends Model
         }
 
         if ($days >= 1 || $months >= 1 || $years >= 1) {
-            return $formattedDiff.' ago';
+            return $formattedDiff . ' ago';
         } else {
             return $formattedDiff;
         }

@@ -52,3 +52,32 @@ purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_ite
 ## Must do 
 
 - [ ] Product Stock/Qty management
+  
+
+**Customer/Supplier**
+- deposit
+- expense
+
+customer deposit balance = $customer->deposit - $customer->expense;
+
+when generating sale if **pay_by deposit** then 
+$customer->expense += $sale->paid_amount;
+
+**Deposit Model**
+
+- id
+- customer_id (nullable)
+- supplier_id (nullable)
+- amount
+- note (nullable)
+
+**Overtime**
+
+- id
+- employee_id
+- hours_worked
+- rate_per_hour
+- total_amount
+- date
+
+have to add **is_active** field to **employees** table

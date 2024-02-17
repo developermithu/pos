@@ -83,8 +83,7 @@
 
                     <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                        {{ __('customers') }} <x-mary-badge :value="__('new')"
-                            class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                        {{ __('customers') }}
                     </x-sidebar.link>
 
                     <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
@@ -98,18 +97,24 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
-                                {{ __('employees') }}
+                                {{ __('employees') }} <x-mary-badge :value="__('new')"
+                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
                         <x-collapsible.item :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*') &&
-                            !request()->routeIs('admin.employees.list.advance.payment')">
+                            !request()->routeIs('admin.employees.list.advance.payment') &&
+                            !request()->routeIs('admin.employees.manage-overtime')">
                             {{ __('employee list') }}
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance.*') &&
                             !request()->routeIs('admin.attendance.last-month')">
                             {{ __('attendances') }}
+                        </x-collapsible.item>
+
+                        <x-collapsible.item :href="route('admin.employees.manage-overtime')" :active="request()->routeIs('admin.employees.manage-overtime')">
+                            {{ __('manage overtime') }} <span class="text-xs text-danger pl-1.5"> {{ __('new') }} </span>
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.employees.list.advance.payment')" :active="request()->routeIs('admin.employees.list.advance.payment')">

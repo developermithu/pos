@@ -27,6 +27,7 @@ use App\Livewire\Employees\CreateEmployee;
 use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListAdvancePayment;
 use App\Livewire\Employees\ListEmployee;
+use App\Livewire\Employees\ManageOvertime;
 use App\Livewire\ExpenseCategories\EditExpenseCategory;
 use App\Livewire\ExpenseCategories\ListExpenseCategory;
 use App\Livewire\Expenses\CreateExpense;
@@ -69,7 +70,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -86,6 +87,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/{employee}/edit', EditEmployee::class)->name('edit');
         Route::get('/list-advance-payment', ListAdvancePayment::class)->name('list.advance.payment');
         Route::get('/{employee}/add-advance-payment', AddAdvancePayment::class)->name('add-advance-payment');
+        Route::get('/manage-overtime', ManageOvertime::class)->name('manage-overtime');
     });
 
     Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {

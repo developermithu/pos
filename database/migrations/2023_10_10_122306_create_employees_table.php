@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('joined_at');
             $table->boolean('is_active');
             $table->integer('balance')->default(0);
+            $table->date('last_balance_increased_at')->nullable();
+            $table->integer('balance_increased_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -42,9 +42,9 @@
         @forelse ($overtimes as $overtime)
             <x-table.row wire:loading.class="opacity-50" wire:key="{{ $overtime->id }}">
                 <x-table.cell> {{ $overtime->employee?->name }} </x-table.cell>
-                <x-table.cell> {{ $overtime->rate_per_hour }} </x-table.cell>
-                <x-table.cell> {{ $overtime->hours_worked }} </x-table.cell>
-                <x-table.cell> {{ $overtime->total_amount }} </x-table.cell>
+                <x-table.cell> {{ $overtime->rate_per_hour }} TK </x-table.cell>
+                <x-table.cell> {{ $overtime->hours_worked }} hour </x-table.cell>
+                <x-table.cell class="font-semibold"> {{ Number::format($overtime->total_amount) }} TK </x-table.cell>
                 <x-table.cell> {{ $overtime->date->format('d M Y') }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">

@@ -19,12 +19,12 @@ class Employee extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'joined_at' => 'date',
         'salary_updated_at' => 'date',
     ];
 
     // ========= Relationships ======== //
-
     public function advancePayments(): MorphMany
     {
         return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
@@ -39,7 +39,25 @@ class Employee extends Model
     {
         return $this->hasMany(Overtime::class);
     }
+    // ========= Relationships ======== //
 
+    // total earning balance
+    public function totalBalance(): ?int
+    {
+        return $this->balance + $this->totalOvertimeEarnings() - $this->totalPaymentsTaken();
+    }
+
+    private function totalOvertimeEarnings(): ?int
+    {
+        return $this->overtimes->whereNull('deleted_at')->sum('total_amount');
+    }
+
+    private function totalPaymentsTaken(): ?int
+    {
+        return $this->advancePayments->whereNull('deleted_at')->sum('amount');
+    }
+
+    // last month attendance counts
     public function lastMonthTotalPresent(): ?int
     {
         return $this->lastMonthAttendance(AttendanceStatus::PRESENT);

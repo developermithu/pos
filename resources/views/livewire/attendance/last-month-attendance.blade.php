@@ -11,20 +11,30 @@
                     {{ __('last month attendance list') }} -
                     (<span class="text-amber-600">
                         @php
-                            $firstDayOfMonth = now()
-                                ->subMonth()
-                                ->startOfMonth()
-                                ->format('d M');
+                            $firstDayOfMonth = now()->subMonth()->startOfMonth()->format('d M');
 
-                            $lastDayOfMonth = now()
-                                ->subMonth()
-                                ->endOfMonth()
-                                ->format('d M');
+                            $lastDayOfMonth = now()->subMonth()->endOfMonth()->format('d M');
                         @endphp
 
                         {{ $firstDayOfMonth }} - {{ $lastDayOfMonth }}
                     </span>)
                 </h1>
+            </div>
+
+            <div class="flex items-center justify-center">
+                @php
+                    $firstDayLastMonth = now()->subMonth()->startOfMonth();
+                    $lastDayLastMonth = now()->subMonth()->endOfMonth();
+
+                    $lastMonthWorkingDays = App\Models\Attendance::query()
+                        ->whereBetween('date', [$firstDayLastMonth, $lastDayLastMonth])
+                        //->whereDayOfWeekNot([Carbon::SATURDAY, Carbon::SUNDAY]) // Exclude weekends
+                        ->distinct('date')
+                        ->count();
+                @endphp
+
+                <h3 class="text-lg font-semibold"> {{ __('Working days') }} : {{ $lastMonthWorkingDays }}
+                </h3>
             </div>
         </div>
     </div>

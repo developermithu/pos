@@ -42,6 +42,7 @@
             <x-table.heading> {{ __('address') }} </x-table.heading>
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('basic salary') }} </x-table.heading>
+            <x-table.heading> {{ __('total balance') }} </x-table.heading>
             <x-table.heading> {{ __('joining date') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -57,14 +58,20 @@
                 <x-table.cell> {{ $employee->father_name }} </x-table.cell>
                 <x-table.cell> {{ $employee->address }} </x-table.cell>
                 <x-table.cell> {{ $employee->phone_number }} </x-table.cell>
-                <x-table.cell>
-                    ৳ {{ $employee->basic_salary }} <br>
+                <x-table.cell class="font-semibold">
+                    {{ $employee->basic_salary }} TK <br>
 
                     @if ($employee->old_basic_salary)
                         <span class="text-[10px] lg:text-xs text-danger/80">
                             {{ __('increased') }} {{ $employee->salary_updated_at() }}
                         </span>
                     @endif
+                </x-table.cell>
+                <x-table.cell @class([
+                    '!text-danger font-semibold',
+                    '!text-success' => $employee->totalBalance() > 0,
+                ])>
+                    {{ Number::format($employee->totalBalance()) }} TK
                 </x-table.cell>
                 <x-table.cell> {{ $employee->joined_at->format('d M Y') }} </x-table.cell>
 

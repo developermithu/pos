@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('old_basic_salary')->nullable();
             $table->date('salary_updated_at')->nullable();
             $table->date('joined_at');
+            $table->boolean('is_active');
+            $table->integer('balance')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

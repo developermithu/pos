@@ -39,7 +39,7 @@
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
-            <x-table.heading> {{ __('deposit') }} </x-table.heading>
+            <x-table.heading> {{ __('deposit balance') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -61,23 +61,15 @@
                     {{ $customer?->company_name }} <br>
                     {{ $customer?->address }}
                 </x-table.cell>
-                <x-table.cell>
-                    @if ($customer->deposit)
-                        <span class="text-success">
-                            +{{ Number::format($customer->deposit) }} TK
-                        </span>
-                    @else
-                        0
-                    @endif
+                <x-table.cell @class([
+                    'font-semibold',
+                    '!text-success' => $customer->depositBalance() > 0,
+                    '!text-danger' => $customer->depositBalance() < 0,
+                ])>
+                    {{ $customer->depositBalance() }} TK
                 </x-table.cell>
-                <x-table.cell>
-                    @if ($customer->totalDue())
-                        <span class="text-danger">
-                            {{ Number::format($customer->totalDue()) }} TK
-                        </span>
-                    @else
-                        0
-                    @endif
+                <x-table.cell @class(['font-semibold', '!text-danger' => $customer->totalDue()])>
+                    {{ Number::format($customer->totalDue()) }} TK
                 </x-table.cell>
 
                 <x-table.cell class="space-x-2">
@@ -111,12 +103,15 @@
                                         wire:click="showDueModal({{ $customer->id }})" />
                                 @endif
 
-                                @if ($customer->deposits->count() > 0)
+                                @if ($customer->deposit > 0)
                                     <x-mary-menu-item :title="__('view deposits')" icon="o-banknotes"
                                         x-on:click.prevent="$dispatch('open-modal', 'view-deposits-{{ $customer->id }}')" />
                                 @endif
 
-                                <x-mary-menu-item :title="__('add deposit')" icon="o-plus" :link="route('admin.customers.add-deposit', $customer)" />
+                                @can('create', App\Models\Deposit::class)
+                                    <x-mary-menu-item :title="__('add deposit')" wire:click="showDepositModal({{ $customer->id }})"
+                                        icon="o-plus" />
+                                @endcan
 
                                 @can('delete', $customer)
                                     <x-mary-menu-item :title="__('delete')"
@@ -137,7 +132,7 @@
         @endforelse
     </x-table>
 
-    {{-- Clear Due Drawer --}}
+    @include('modals.add-deposit')
     @include('modals.clear-due', ['data' => 'customer'])
 
     {{-- Pagination --}}

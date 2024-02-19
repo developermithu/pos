@@ -8,7 +8,7 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate:fresh --seed
-yarn install && yarn dev
+npm install && npm run dev
 php artisan serve
 ```
 
@@ -36,11 +36,11 @@ Generate model helper: ```php artisan ide-helper:models```
 
 ## Have to Do
 
+- [ ] Product Stock/Qty management
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Sending notifications
 - [ ] Login using Email/Phone number
-- [ ] Log view
 - [ ] Customize code for production
 - [ ] import and export from excel file
   
@@ -48,36 +48,8 @@ Generate model helper: ```php artisan ide-helper:models```
 **May need to add**
 purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_items** tabe.
 
-
-## Must do 
-
-- [ ] Product Stock/Qty management
-  
-
 **Customer/Supplier**
-- deposit
-- expense
 
-customer deposit balance = $customer->deposit - $customer->expense;
-
-when generating sale if **pay_by deposit** then 
+when generating sale and purchase if **pay_by deposit** then 
 $customer->expense += $sale->paid_amount;
-
-**Deposit Model**
-
-- id
-- customer_id (nullable)
-- supplier_id (nullable)
-- amount
-- note (nullable)
-
-**Overtime**
-
-- id
-- employee_id
-- hours_worked
-- rate_per_hour
-- total_amount
-- date
-
-have to add **is_active** field to **employees** table
+$supplier->expense += $purchase->paid_amount;

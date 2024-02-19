@@ -4,11 +4,13 @@ namespace App\Livewire\Suppliers;
 
 use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
+use App\Models\Deposit;
 use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -28,6 +30,12 @@ class ListSupplier extends Component
 
     public bool $showDrawer = false;
     public string $supplier_id;
+
+    // Deposit Operations
+    public Supplier $supplier;
+    public bool $showModal = false;
+    public int $deposit_amount;
+    public ?string $details = null;
 
     public function deleteSelected()
     {
@@ -101,6 +109,67 @@ class ListSupplier extends Component
 
         return view('livewire.suppliers.list-supplier', compact('suppliers'))
             ->title(__('supplier list'));
+    }
+
+    public function showDepositModal(Supplier $supplier)
+    {
+        $this->supplier = $supplier;
+        $this->showModal = true;
+    }
+
+    public function addDeposit()
+    {
+        $this->validate([
+            'deposit_amount' => ['required', 'integer', 'numeric', 'gt:0'],
+            'details' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $this->supplier->deposits()->create([
+                'amount' => $this->deposit_amount,
+                'details' => $this->details,
+            ]);
+
+            // increase the supplier's deposit
+            $this->supplier->increment('deposit', $this->deposit_amount);
+            DB::commit();
+
+            $this->showModal = false;
+            $this->reset(['deposit_amount', 'details']);
+            $this->success(__('Deposit has been added.'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->error(__('Something went wrong.'));
+        }
+
+        return back();
+    }
+
+    public function forceDeleteDeposit(Deposit $deposit)
+    {
+        $this->authorize('forceDelete', $deposit);
+        DB::beginTransaction();
+
+        try {
+            $depositable = $deposit->depositable;
+
+            // If the depositable is a supplier, decrease the supplier's deposit
+            if ($depositable instanceof Supplier) {
+                $depositable->decrement('deposit', $deposit->amount);
+            }
+
+            $deposit->forceDelete();
+
+            DB::commit();
+            $this->success(__('Record has been deleted permanently'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            $this->error(__('Something went wrong.'));
+        }
     }
 
     public function showDueModal(string $supplierId)

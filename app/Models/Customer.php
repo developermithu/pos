@@ -21,6 +21,7 @@ class Customer extends Model
         'address',
         'phone_number',
         'deposit',
+        'expense',
     ];
 
     public function totalSale(): ?int
@@ -38,6 +39,11 @@ class Customer extends Model
         return $this->totalSale() - $this->totalPaid();
     }
 
+    public function depositBalance(): ?int
+    {
+        return $this->deposit - $this->expense;
+    }
+
     /**
      * Relationships
      */
@@ -48,6 +54,6 @@ class Customer extends Model
 
     public function deposits(): MorphMany
     {
-        return $this->morphMany(Payment::class, 'paymentable')->withTrashed();
+        return $this->morphMany(Deposit::class, 'depositable')->withTrashed();
     }
 }

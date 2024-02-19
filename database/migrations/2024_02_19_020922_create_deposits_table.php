@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('deposits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('company_name')->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone_number')->unique();
-            $table->integer('deposit')->default(0);
-            $table->integer('expense')->default(0);
+            $table->integer('amount');
+            $table->text('details')->nullable();
+            $table->morphs('depositable');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('deposits');
     }
 };

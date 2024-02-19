@@ -6,8 +6,8 @@
     }
 @endphp
 
-<x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__($subtitle)" class="lg:w-3/12" with-close-button separator
-    right>
+<x-mary-drawer wire:model="showDrawer" :title="__('clear due')" :subtitle="__($subtitle)" class="w-full md:w-6/12 lg:w-3/12"
+    with-close-button separator right>
     <form wire:submit="clearDue">
         <div class="grid grid-cols-2 gap-4 mb-5">
             <div class="col-span-2">

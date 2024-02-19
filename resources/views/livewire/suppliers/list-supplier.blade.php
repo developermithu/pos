@@ -39,6 +39,7 @@
             <x-table.heading> {{ __('name') }} </x-table.heading>
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
+            <x-table.heading> {{ __('deposit balance') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -59,14 +60,15 @@
                     {{ $supplier?->company_name }} <br>
                     {{ $supplier?->address }}
                 </x-table.cell>
-                <x-table.cell>
-                    @if ($supplier->totalDue())
-                        <span class="text-danger">
-                            {{ Number::format($supplier->totalDue()) }} TK
-                        </span>
-                    @else
-                        0
-                    @endif
+                <x-table.cell @class([
+                    'font-semibold',
+                    '!text-success' => $supplier->depositBalance() > 0,
+                    '!text-danger' => $supplier->depositBalance() < 0,
+                ])>
+                    {{ $supplier->depositBalance() }} TK
+                </x-table.cell>
+                <x-table.cell @class(['font-semibold', '!text-danger' => $supplier->totalDue()])>
+                    {{ Number::format($supplier->totalDue()) }} TK
                 </x-table.cell>
 
                 <x-table.cell class="space-x-2">
@@ -95,6 +97,16 @@
                                     <x-mary-menu-item :title="__('edit')" :link="route('admin.suppliers.edit', $supplier)" icon="o-pencil-square" />
                                 @endcan
 
+                                @if ($supplier->deposit > 0)
+                                    <x-mary-menu-item :title="__('view deposits')" icon="o-banknotes"
+                                        @click.prevent="$dispatch('open-modal', 'view-deposits-{{ $supplier->id }}')" />
+                                @endif
+
+                                @can('create', App\Models\Deposit::class)
+                                    <x-mary-menu-item :title="__('add deposit')" wire:click="showDepositModal({{ $supplier->id }})"
+                                        icon="o-plus" />
+                                @endcan
+
                                 @if ($supplier->totalDue())
                                     <x-mary-menu-item :title="__('clear due')" icon="o-arrow-uturn-left"
                                         wire:click="showDueModal({{ $supplier->id }})" />
@@ -109,6 +121,7 @@
                         </div>
                     @endif
 
+                    @include('modals.view-deposits', ['data' => $supplier])
                     @include('partials.delete-modal', ['data' => $supplier])
                 </x-table.cell>
             </x-table.row>
@@ -117,7 +130,7 @@
         @endforelse
     </x-table>
 
-    {{-- Clear Due Drawer --}}
+    @include('modals.add-deposit')
     @include('modals.clear-due', ['data' => 'supplier'])
 
     {{-- Pagination --}}

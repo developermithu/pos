@@ -5,11 +5,13 @@ namespace App\Livewire\Customers;
 use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Models\Customer;
+use App\Models\Deposit;
 use App\Models\Payment;
 use App\Models\Sale;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -30,11 +32,17 @@ class ListCustomer extends Component
     public bool $showDrawer = false;
     public string $customer_id;
 
+    // Deposit Operations
+    public Customer $customer;
+    public bool $showModal = false;
+    public int $deposit_amount;
+    public ?string $details = null;
+
     public function render()
     {
         $this->authorize('viewAny', Customer::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()
@@ -52,11 +60,72 @@ class ListCustomer extends Component
                     $query->withTrashed();
                 }
             })
-            ->with('sales:id,total,paid_amount,customer_id', 'deposits.account:id,name')
+            ->with('sales:id,total,paid_amount,customer_id')
             ->latest()
             ->paginate(10);
 
         return view('livewire.customers.list-customer', compact('customers'))->title(__('customer list'));
+    }
+
+    public function showDepositModal(Customer $customer)
+    {
+        $this->customer = $customer;
+        $this->showModal = true;
+    }
+
+    public function addDeposit()
+    {
+        $this->validate([
+            'deposit_amount' => ['required', 'integer', 'numeric', 'gt:0'],
+            'details' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $this->customer->deposits()->create([
+                'amount' => $this->deposit_amount,
+                'details' => $this->details,
+            ]);
+
+            // increase the customer's deposit
+            $this->customer->increment('deposit', $this->deposit_amount);
+            DB::commit();
+
+            $this->showModal = false;
+            $this->reset(['deposit_amount', 'details']);
+            $this->success(__('Deposit has been added.'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->error(__('Something went wrong.'));
+        }
+
+        return back();
+    }
+
+    public function forceDeleteDeposit(Deposit $deposit)
+    {
+        $this->authorize('forceDelete', $deposit);
+        DB::beginTransaction();
+
+        try {
+            $depositable = $deposit->depositable;
+
+            // If the depositable is a customer, decrease the customer's deposit
+            if ($depositable instanceof Customer) {
+                $depositable->decrement('deposit', $deposit->amount);
+            }
+
+            $deposit->forceDelete();
+
+            DB::commit();
+            $this->success(__('Record has been deleted permanently'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            $this->error(__('Something went wrong.'));
+        }
     }
 
     public function showDueModal(string $id)
@@ -174,69 +243,6 @@ class ListCustomer extends Component
         $customer->restore();
 
         $this->success(__('Record has been restored successfully'));
-
-        return back();
-    }
-
-    //===== Customer Deposit Management ======//
-    public function destroyDeposit(Payment $deposit)
-    {
-        $this->authorize('delete', $deposit);
-
-        DB::beginTransaction();
-
-        try {
-            $paymentable = $deposit->paymentable;
-            // Subtract amount from the customer deposit
-            $paymentable->deposit -= $deposit->amount;
-
-            $paymentable->save();
-            $deposit->delete();
-
-            DB::commit();
-            $this->success(__('Record has been deleted successfully'));
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e->getMessage());
-            $this->error(__('Something went wrong!'));
-        }
-
-        return back();
-    }
-
-    public function restoreDeposit($id)
-    {
-        $deposit = Payment::onlyTrashed()->findOrFail($id);
-        $this->authorize('restore', $deposit);
-
-        DB::beginTransaction();
-
-        try {
-            $paymentable = $deposit->paymentable;
-            // Addition amount in customer deposit
-            $paymentable->deposit += $deposit->amount;
-
-            $paymentable->save();
-            $deposit->restore();
-
-            DB::commit();
-            $this->success(__('Record has been restored successfully'));
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e->getMessage());
-            $this->error(__('Something went wrong!'));
-        }
-
-        return back();
-    }
-
-    public function forceDeleteDeposit($id)
-    {
-        $deposit = Payment::onlyTrashed()->findOrFail($id);
-        $this->authorize('forceDelete', $deposit);
-
-        $deposit->forceDelete();
-        $this->success(__('Record has been deleted permanently'));
 
         return back();
     }

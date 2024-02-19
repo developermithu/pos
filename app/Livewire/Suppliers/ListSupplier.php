@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Suppliers;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
 use App\Models\Deposit;
@@ -17,7 +18,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Lazy]
 class ListSupplier extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -209,14 +209,13 @@ class ListSupplier extends Component
                     ? PurchasePaymentStatus::PAID->value
                     : PurchasePaymentStatus::PARTIAL->value;
 
-                Payment::create([
+                $purchase->payments()->create([
                     'account_id' => 1, // cash
                     'amount' => $paidAmount,
                     'reference' => Str::random(),
                     'type' => PaymentType::DEBIT,
+                    'paid_by' => PaymentPaidBy::CASH,
                     'note' => $this->note,
-                    'paymentable_id' => $purchase->id,
-                    'paymentable_type' => Purchase::class,
                 ]);
 
                 $purchase->paid_amount += $paidAmount;
@@ -236,10 +235,5 @@ class ListSupplier extends Component
         }
 
         return back();
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.placeholders.supplier-page');
     }
 }

@@ -16,6 +16,7 @@
                     ['key' => 'id', 'label' => 'No'],
                     ['key' => 'reference', 'label' => 'Reference'],
                     ['key' => 'amount', 'label' => 'Amount'],
+                    ['key' => 'paid_by', 'label' => 'Paid by'],
                     ['key' => 'account.name', 'label' => 'Account'], // nested
                     ['key' => 'created_at', 'label' => 'Date'],
                 ];

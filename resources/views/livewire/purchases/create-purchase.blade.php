@@ -22,7 +22,7 @@
                             {{ __('supplier') }} <span class="text-red-500">*</span>
                         </label>
                         <div class="flex">
-                            <select wire:model='supplier_id'
+                            <select wire:model.change='supplier_id'
                                 class="shadow-sm bg-gray-50 border border-gray-300  text-gray-900 rounded-l text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 transition ease-in-out dark:text-white dark:focus:ring-primary dark:focus:border-primary capitalize"
                                 id="supplier_id" required>
                                 <option value="" disabled>-- {{ __('select supplier') }} --</option>
@@ -152,10 +152,12 @@
                             <div class="p-4 space-y-4">
                                 @if (Cart::instance('purchases')->count() >= 1)
                                     <div class="flex flex-col gap-1 text-right">
-                                        <div> {{ __('subtotal') }}: 
+                                        <div> {{ __('subtotal') }}:
                                             <strong> {{ Cart::instance('purchases')->subtotal() }} </strong>
                                         </div>
-                                        <div> {{ __('tax') }}: <strong>{{ Cart::instance('purchases')->tax() }}</strong></div>
+                                        <div> {{ __('tax') }}:
+                                            <strong>{{ Cart::instance('purchases')->tax() }}</strong>
+                                        </div>
                                         <div class="text-lg"> {{ __('total') }}:
                                             <strong>{{ Cart::instance('purchases')->total() }}</strong>
                                         </div>
@@ -205,6 +207,20 @@
                                             @if (
                                                 $payment_status === App\Enums\PurchasePaymentStatus::PARTIAL->value ||
                                                     $payment_status === App\Enums\PurchasePaymentStatus::PAID->value)
+                                                <div class="col-span-6 sm:col-span-3">
+                                                    <x-input.group for="paid_by" label="paid by *" :error="$errors->first('paid_by')">
+                                                        <x-input.select wire:model="paid_by">
+                                                            <option value="" disabled>--
+                                                                {{ __('choose payment method') }} --
+                                                            </option>
+                                                            @foreach (App\Enums\PaymentPaidBy::forSelect() as $value => $name)
+                                                                <option value="{{ $value }}">
+                                                                    {{ $name }} </option>
+                                                            @endforeach
+                                                        </x-input.select>
+                                                    </x-input.group>
+                                                </div>
+
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <x-input.group for="account_id"
                                                         label="{{ __('account name *') }}" :error="$errors->first('account_id')">

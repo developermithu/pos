@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->text('note')->nullable();
             $table->string('type'); // Credit or Debit
+            $table->string('paid_by'); // Cash, Cheque, Bank, Deposit
             $table->morphs('paymentable');
             $table->timestamps();
             $table->softDeletes();

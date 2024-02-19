@@ -85,7 +85,7 @@
                         <div class="grid grid-cols-6 gap-4 mb-5">
                             <div class="col-span-6">
                                 <div class="flex">
-                                    <select wire:model='customer_id' required
+                                    <select wire:model.change='customer_id' required
                                         class="shadow-sm bg-gray-50 border border-gray-300  text-gray-900 rounded-l text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 transition ease-in-out dark:text-white dark:focus:ring-primary dark:focus:border-primary capitalize"
                                         id="customer_id">
                                         <option value="" disabled>-- {{ __('select customer') }} --</option>
@@ -121,7 +121,7 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <x-input.group for="payment_status" label="{{ __('payment status *') }}"
                                     :error="$errors->first('payment_status')">
-                                    <x-input.select wire:model.change="payment_status" required>
+                                    <x-input.select wire:model.change="payment_status" >
                                         <option value="" disabled>-- {{ __('choose payment status') }} --
                                         </option>
                                         @foreach (App\Enums\SalePaymentStatus::forSelect() as $value => $name)
@@ -135,9 +135,20 @@
                                 $payment_status === App\Enums\SalePaymentStatus::PARTIAL->value ||
                                     $payment_status === App\Enums\SalePaymentStatus::PAID->value)
                                 <div class="col-span-6 sm:col-span-3">
-                                    <x-input.group for="account_id" label="account name *"
-                                        :error="$errors->first('account_id')">
-                                        <x-input.select wire:model="account_id" required>
+                                    <x-input.group for="paid_by" label="paid by *" :error="$errors->first('paid_by')">
+                                        <x-input.select wire:model="paid_by" >
+                                            <option value="" disabled>-- {{ __('choose payment method') }} --
+                                            </option>
+                                            @foreach (App\Enums\PaymentPaidBy::forSelect() as $value => $name)
+                                                <option value="{{ $value }}"> {{ $name }} </option>
+                                            @endforeach
+                                        </x-input.select>
+                                    </x-input.group>
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <x-input.group for="account_id" label="account name *" :error="$errors->first('account_id')">
+                                        <x-input.select wire:model="account_id" >
                                             <option value="" disabled>-- {{ __('choose account') }} --</option>
                                             @foreach ($accounts as $key => $name)
                                                 <option value="{{ $key }}"> {{ $name }} </option>
@@ -149,7 +160,7 @@
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="paid_amount" label="{{ __('paying amount *') }}"
                                         :error="$errors->first('paid_amount')">
-                                        <x-input type="text" wire:model="paid_amount" id="paid_amount" required />
+                                        <x-input type="text" wire:model="paid_amount" id="paid_amount"  />
                                     </x-input.group>
                                 </div>
                             @endif

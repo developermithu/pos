@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sales;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Models\Account;
@@ -22,6 +23,7 @@ class AddSalePayment extends Component
     public ?int $paid_amount;
     public int|string $account_id = '';
     public ?string $note = null;
+    public string $paid_by;
 
     public function mount(Sale $sale)
     {
@@ -32,6 +34,7 @@ class AddSalePayment extends Component
         $this->sale = $sale;
         $this->received_amount = $dueAmount;
         $this->paid_amount = $dueAmount;
+        $this->paid_by = PaymentPaidBy::CASH->value;
     }
 
     public function addPayment()
@@ -39,24 +42,25 @@ class AddSalePayment extends Component
         $this->authorize('create', Payment::class);
 
         $this->validate();
-
         DB::beginTransaction();
 
         try {
-            // Create Payment
-            $payment = Payment::create([
+            $payment = $this->sale->payments()->create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Sale-'.date('Ymd').'-'.rand(11111, 99999),
+                'reference' => 'Sale-' . date('Ymd') . '-' . rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
-                'paymentable_id' => $this->sale->id,
-                'paymentable_type' => Sale::class,
+                'paid_by' => $this->paid_by,
             ]);
+
+            // Increase customer expense
+            if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && $this->sale->customer->depositBalance() >= $this->paid_amount) {
+                $this->sale->customer->increment('expense', $this->paid_amount);
+            }
 
             // Update Sale paid amount
             $this->sale->paid_amount += $payment->amount;
-            $this->sale->save();
 
             if ($this->sale->paid_amount > 0 && $this->sale->paid_amount < $this->sale->total) {
                 $this->sale->payment_status = SalePaymentStatus::PARTIAL->value;
@@ -70,24 +74,31 @@ class AddSalePayment extends Component
             $this->sale->save();
 
             DB::commit();
-
             $this->success(__('Record has been created successfully'));
-
-            return $this->redirect(ListSale::class, navigate: true);
+            $this->redirect(ListSale::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error adding sale payment: '.$e->getMessage());
+            \Log::error('Error adding sale payment: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
-
-            return back();
         }
     }
 
-    public function rules(): array
+    protected function rules(): array
     {
         return [
-            'received_amount' => ['required', 'gt:0', 'lte: '.$this->sale->total - $this->sale->paid_amount],
-            'paid_amount' => ['required', 'gt:0', 'lte: '.$this->received_amount],
+            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->sale->total - $this->sale->paid_amount],
+            'paid_amount' => [
+                'required', 'gt:0', 'lte: ' . $this->received_amount,
+                function ($attribute, $value, $fail) {
+                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                        $customerDepositBalance = $this->sale->customer->depositBalance();
+                        if ($customerDepositBalance < $value) {
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
+                        }
+                    }
+                },
+            ],
+            'paid_by' => ['required'],
             'account_id' => ['required', Rule::exists(Account::class, 'id')],
             'note' => ['nullable', 'max:255'],
         ];

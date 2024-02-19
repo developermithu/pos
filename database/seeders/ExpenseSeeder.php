@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
@@ -56,25 +57,28 @@ class ExpenseSeeder extends Seeder
         $expense1->payment()->create([
             'account_id' => 1,
             'amount' => $expense1->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
+            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
             'note' => $expense1->details,
             'type' => PaymentType::DEBIT->value,
+            'paid_by' => PaymentPaidBy::CASH->value,
         ]);
 
         $expense2->payment()->create([
             'account_id' => 1,
             'amount' => $expense2->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
+            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
             'note' => $expense2->details,
             'type' => PaymentType::DEBIT->value,
+            'paid_by' => PaymentPaidBy::CASH->value,
         ]);
 
         $expense3->payment()->create([
             'account_id' => 1,
             'amount' => $expense3->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
+            'reference' => 'Expense-' . date('Ymd') . '-' . rand(00000, 99999),
             'note' => $expense3->details,
             'type' => PaymentType::DEBIT->value,
+            'paid_by' => PaymentPaidBy::CASH->value,
         ]);
     }
 }

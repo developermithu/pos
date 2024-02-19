@@ -14,7 +14,8 @@
                     @can('posManagement', App\Models\Product::class)
                         <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
                             <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
-                            {{ __('pos') }}
+                            {{ __('pos') }} <x-mary-badge :value="__('updated')"
+                                class="pl-1.5 badge-warning animate-pulse badge-sm" />
                         </x-sidebar.link>
                     @endcan
 
@@ -45,7 +46,8 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-credit-card class="w-6 h-6" /></x-slot>
-                                {{ __('purchases') }}
+                                {{ __('purchases') }} <x-mary-badge :value="__('updated')"
+                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
@@ -66,7 +68,8 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-shopping-cart class="w-6 h-6" /></x-slot>
-                                {{ __('sales') }}
+                                {{ __('sales') }} <x-mary-badge :value="__('updated')"
+                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
@@ -97,8 +100,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-user-group class="w-6 h-6" /></x-slot>
-                                {{ __('employees') }} <x-mary-badge :value="__('new')"
-                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                                {{ __('employees') }}
                             </x-collapsible.button>
                         </x-slot>
 
@@ -114,7 +116,7 @@
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.employees.manage-overtime')" :active="request()->routeIs('admin.employees.manage-overtime')">
-                            {{ __('manage overtime') }} <span class="text-xs text-danger pl-1.5"> {{ __('new') }} </span>
+                            {{ __('manage overtime') }}
                         </x-collapsible.item>
 
                         <x-collapsible.item :href="route('admin.employees.list.advance.payment')" :active="request()->routeIs('admin.employees.list.advance.payment')">

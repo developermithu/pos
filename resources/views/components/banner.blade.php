@@ -2,8 +2,7 @@
     x-transition:enter-start="-translate-y-10" x-transition:enter-end="translate-y-0"
     x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-y-0"
     x-transition:leave-end="-translate-y-10" x-init="bannerVisible = true"
-    class="hidden h-auto py-2 text-white duration-300 ease-out shadow-sm lg:block bg-primary/30 sm:py-0 sm:h-10"
-    x-cloak>
+    class="hidden h-auto py-2 text-white duration-300 ease-out shadow-sm lg:block bg-primary/30 sm:py-0 sm:h-10" x-cloak>
     <div class="flex items-center justify-between w-full h-full px-3 mx-auto max-w-7xl ">
         <a
             class="flex flex-col w-full h-full text-xs leading-6 text-black duration-150 ease-out sm:flex-row sm:items-center opacity-80 hover:opacity-100">

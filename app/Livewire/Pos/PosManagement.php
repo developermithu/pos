@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pos;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Enums\SaleStatus;
@@ -21,7 +22,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Lazy]
+use function Laravel\Prompts\alert;
+
+// #[Lazy]
 class PosManagement extends Component
 {
     use Toast, WithPagination;
@@ -38,9 +41,11 @@ class PosManagement extends Component
     public int|string $account_id = '';
     public string $status;
     public string $payment_status;
+    public string $paid_by;
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
+    public Customer $customer;
     public $invoice_no;
 
     public function updatedSearch()
@@ -53,7 +58,8 @@ class PosManagement extends Component
         $this->authorize('posManagement', Product::class);
 
         $this->status = SaleStatus::DELIVERED->value;
-        $this->payment_status = SalePaymentStatus::PENDING->value;
+        $this->payment_status = SalePaymentStatus::DUE->value;
+        $this->paid_by = PaymentPaidBy::CASH->value;
     }
 
     // create customer
@@ -70,7 +76,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -146,40 +152,42 @@ class PosManagement extends Component
         }
     }
 
+    public function updatedCustomerId(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
+
     public function createInvoice()
     {
-        $this->validate([
+        $rules = [
             'customer_id' => ['required', Rule::exists(Customer::class, 'id')],
-            'status' => ['nullable', Rule::in(['ordered', 'pending', 'delivered'])],
-            'payment_status' => ['nullable', Rule::in(['pending', 'due', 'partial', 'paid'])],
-            'account_id' => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            'paid_amount' => [
-                Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'status' => ['required', Rule::in(['ordered', 'pending', 'delivered'])],
+            'payment_status' => ['required', Rule::in(['due', 'partial', 'paid'])],
+            'note' => 'nullable',
+        ];
 
+        if (in_array($this->payment_status, ['partial', 'paid'])) {
+            $rules['paid_by'] = ['required'];
+            $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
+            $rules['paid_amount'] = [
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
-                    $cartTotal = $this->cartTotal();
-                    if (in_array($this->payment_status, ['partial', 'paid'])) {
-                        if (! is_numeric($value)) {
-                            $fail('Paid amount must be numeric.');
-                        } elseif ($value > $cartTotal) {
-                            $fail("Paid amount must not be greater than total amount $cartTotal tk.");
-                        } elseif ($value < 1) {
-                            $fail('Paid amount must not be less than 1 tk.');
-                        } elseif ($this->payment_status === 'paid' && $value !== $cartTotal) {
-                            $fail("Paid amount must be equal to $cartTotal tk.");
+                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                        $customerDepositBalance = $this->customer->depositBalance();
+                        if ($customerDepositBalance < $value) {
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
                         }
                     }
                 },
-            ],
-            'note' => 'nullable',
-        ]);
+            ];
+        }
 
+        $this->validate($rules);
         DB::beginTransaction();
 
         try {
             // Insert sale
-            $sale = Sale::create([
-                'customer_id' => $this->customer_id,
+            $sale = $this->customer->sales()->create([
                 'invoice_no' => rand(111111, 999999),
                 'subtotal' => $this->cartSubtotal(),
                 'tax' => $this->cartTax(),
@@ -203,14 +211,19 @@ class PosManagement extends Component
 
             // Insert Payment
             if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
-                Payment::create([
+                $sale->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
-                    'paymentable_id' => $sale->id,
-                    'paymentable_type' => Sale::class,
+                    'paid_by' => $this->paid_by,
+                    'note' => $this->note,
                 ]);
+
+                // Increase customer expense 
+                if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                    $this->customer->increment('expense', $this->paid_amount);
+                }
             }
 
             // Commit the transaction
@@ -220,16 +233,13 @@ class PosManagement extends Component
             Cart::destroy();
             $this->invoice_no = $sale->invoice_no;
 
-            // Sending invoice email
             $this->success(__('Sales generated successfully'));
-
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: '.$e->getMessage());
+            \Log::error('Error creating sale: ' . $e->getMessage());
 
             $this->error(__('Something went wrong!'));
-
             return back();
         }
     }

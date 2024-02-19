@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customers;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Models\Customer;
@@ -18,7 +19,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Lazy]
 class ListCustomer extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -165,14 +165,13 @@ class ListCustomer extends Component
                     $payment_status = SalePaymentStatus::PARTIAL->value;
                 }
 
-                Payment::create([
+                $sale->payments()->create([
                     'account_id' => 1, // cash
                     'amount' => $paid_amount,
                     'reference' => Str::random(),
                     'type' => PaymentType::CREDIT,
                     'note' => $this->note,
-                    'paymentable_id' => $sale->id,
-                    'paymentable_type' => Sale::class,
+                    'paid_by' => PaymentPaidBy::CASH,
                 ]);
 
                 $sale->paid_amount += $paid_amount;
@@ -180,13 +179,13 @@ class ListCustomer extends Component
                 $sale->save();
 
                 $this->amount -= $paid_amount; // Subtract the paid amount from this amount
-
-                DB::commit();
-
-                $this->showDrawer = false;
-                $this->reset(['amount', 'note']);
-                $this->success(__('Due has been cleared.'));
             }
+
+            DB::commit();
+
+            $this->showDrawer = false;
+            $this->reset(['amount', 'note']);
+            $this->success(__('Due has been cleared.'));
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error($e->getMessage());
@@ -245,10 +244,5 @@ class ListCustomer extends Component
         $this->success(__('Record has been restored successfully'));
 
         return back();
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.placeholders.customer-page');
     }
 }

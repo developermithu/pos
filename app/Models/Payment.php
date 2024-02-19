@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,12 +20,14 @@ class Payment extends Model
         'reference',
         'note',
         'type',
+        'paid_by',
         'paymentable_id',
         'paymentable_type',
     ];
 
     protected $casts = [
         'type' => PaymentType::class,
+        'paid_by' => PaymentPaidBy::class,
     ];
 
     public function paymentable(): MorphTo

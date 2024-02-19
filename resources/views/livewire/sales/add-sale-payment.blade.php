@@ -28,8 +28,21 @@
                     </div>
 
                     <div class="col-span-6 sm:col-span-3">
+                        <x-input.group for="paid_by" label="paid by *" :error="$errors->first('paid_by')">
+                            <x-input.select wire:model="paid_by">
+                                <option value="" disabled>-- {{ __('choose payment method') }} --
+                                </option>
+                                @foreach (App\Enums\PaymentPaidBy::forSelect() as $value => $name)
+                                    <option value="{{ $value }}"> {{ $name }} </option>
+                                @endforeach
+                            </x-input.select>
+                        </x-input.group>
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
                         <x-input.group for="account_id" label="{{ __('account name *') }}" :error="$errors->first('account_id')">
-                            <x-input.select wire:model="account_id" :options="$accounts" placeholder="choose account" required />
+                            <x-input.select wire:model="account_id" :options="$accounts" placeholder="choose account"
+                                required />
                         </x-input.group>
                     </div>
 

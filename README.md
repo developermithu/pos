@@ -48,8 +48,3 @@ Generate model helper: ```php artisan ide-helper:models```
 **May need to add**
 purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_items** tabe.
 
-**Customer/Supplier**
-
-when generating sale and purchase if **pay_by deposit** then 
-$customer->expense += $sale->paid_amount;
-$supplier->expense += $purchase->paid_amount;

@@ -10,7 +10,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Lazy]
 class ListEmployee extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -122,10 +121,5 @@ class ListEmployee extends Component
         $this->success(__('Record has been deleted permanently'));
 
         return back();
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.placeholders.employee-page');
     }
 }

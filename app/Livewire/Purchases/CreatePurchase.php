@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Purchases;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
 use App\Enums\PurchaseStatus;
@@ -13,6 +14,7 @@ use App\Models\PurchaseItem;
 use App\Models\Supplier;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -26,9 +28,11 @@ class CreatePurchase extends Component
     public int|string $account_id = '';
     public string $status;
     public string $payment_status;
+    public string $paid_by;
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
+    public Supplier $supplier;
     public $invoice_no;
 
     public string $search = '';
@@ -39,13 +43,14 @@ class CreatePurchase extends Component
 
         $this->status = PurchaseStatus::RECEIVED->value;
         $this->payment_status = PurchasePaymentStatus::UNPAID->value;
+        $this->paid_by = PaymentPaidBy::CASH->value;
     }
 
     public function render()
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -122,6 +127,11 @@ class CreatePurchase extends Component
         }
     }
 
+    public function updatedSupplierId(Supplier $supplier)
+    {
+        $this->supplier = $supplier;
+    }
+
     public function createPurchase()
     {
         $this->validate();
@@ -131,8 +141,7 @@ class CreatePurchase extends Component
 
         try {
             // Insert purchase
-            $purchase = Purchase::create([
-                'supplier_id' => $this->supplier_id,
+            $purchase = $this->supplier->purchases()->create([
                 'invoice_no' => rand(111111, 999999),
                 'subtotal' => $this->cartSubtotal(),
                 'tax' => $this->cartTax(),
@@ -156,14 +165,19 @@ class CreatePurchase extends Component
 
             // Insert Payment
             if ($this->payment_status === PurchasePaymentStatus::PARTIAL->value || $this->payment_status === PurchasePaymentStatus::PAID->value) {
-                Payment::create([
+                $purchase->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Purchase-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value,
-                    'paymentable_id' => $purchase->id,
-                    'paymentable_type' => Purchase::class,
+                    'paid_by' => $this->paid_by,
+                    'note' => $this->note,
                 ]);
+
+                // Increase supplier expense
+                if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                    $this->supplier->increment('expense', $this->paid_amount);
+                }
             }
 
             // Commit the transaction
@@ -173,48 +187,41 @@ class CreatePurchase extends Component
             Cart::instance('purchases')->destroy();
             $this->invoice_no = $purchase->invoice_no;
 
-            // Sending invoice email
             $this->success(__('Purchases created successfully'));
-
             return $this->redirectRoute('admin.purchases.generate.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-
-            \Log::error('Error creating purchase: '.$e->getMessage());
-
+            Log::error($e->getMessage());
             $this->error(__('Something went wrong!'));
-
-            return back();
         }
     }
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'supplier_id' => ['required', Rule::exists(Supplier::class, 'id')],
-            'status' => ['nullable', Rule::in(['ordered', 'pending', 'received'])],
-            'payment_status' => ['nullable', Rule::in(['partial', 'paid', 'unpaid'])],
-            'account_id' => Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
-            'paid_amount' => [
-                Rule::requiredIf(in_array($this->payment_status, ['partial', 'paid'])),
+            'status' => ['required', Rule::in(['ordered', 'pending', 'received'])],
+            'payment_status' => ['required', Rule::in(['partial', 'paid', 'unpaid'])],
+            'note' => 'nullable',
+        ];
 
+        if (in_array($this->payment_status, ['partial', 'paid'])) {
+            $rules['paid_by'] = ['required'];
+            $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
+            $rules['paid_amount'] = [
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
-                    $cartTotal = $this->cartTotal();
-                    if (in_array($this->payment_status, ['partial', 'paid'])) {
-                        if (! is_numeric($value)) {
-                            $fail('Paid amount must be numeric.');
-                        } elseif ($value > $cartTotal) {
-                            $fail("Paid amount must not be greater than total amount $cartTotal tk.");
-                        } elseif ($value < 1) {
-                            $fail('Paid amount must not be less than 1 tk.');
-                        } elseif ($this->payment_status === 'paid' && $value !== $cartTotal) {
-                            $fail("Paid amount must be equal to $cartTotal tk.");
+                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                        $supplierDepositBalance = $this->supplier->depositBalance();
+                        if ($supplierDepositBalance < $value) {
+                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
                         }
                     }
                 },
-            ],
-            'note' => 'nullable',
-        ];
+            ];
+        }
+
+        return $rules;
     }
 
     //======== Format cart total, subtotal and tax amount into int ======//

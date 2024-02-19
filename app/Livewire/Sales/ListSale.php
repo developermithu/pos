@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sales;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\SalePaymentStatus;
 use App\Models\Payment;
 use App\Models\Sale;
@@ -21,7 +22,7 @@ class ListSale extends Component
     {
         $this->authorize('viewAny', Sale::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['invoice_no'];
 
         $sales = Sale::query()
@@ -88,7 +89,7 @@ class ListSale extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting sale: '.$e->getMessage());
+            \Log::error('Error force deleting sale: ' . $e->getMessage());
             $this->error(__('Error force deleting sale and payments.'));
         }
 
@@ -125,13 +126,15 @@ class ListSale extends Component
             $paymentable->payment_status = SalePaymentStatus::PAID->value;
         }
 
+        if ($payment->paid_by === PaymentPaidBy::DEPOSIT) {
+            $paymentable->customer->decrement('expense', $payment->amount);
+        }
+
         // Save the changes to
         $paymentable->save();
-
         $payment->delete();
 
         $this->success(__('Record has been deleted successfully'));
-
         return back();
     }
 
@@ -154,6 +157,10 @@ class ListSale extends Component
                 $paymentable->payment_status = SalePaymentStatus::DUE->value;
             } elseif ($paymentable->paid_amount === $paymentable->total) {
                 $paymentable->payment_status = SalePaymentStatus::PAID->value;
+            }
+
+            if ($payment->paid_by === PaymentPaidBy::DEPOSIT) {
+                $paymentable->customer->increment('expense', $payment->amount);
             }
 
             // Save the changes

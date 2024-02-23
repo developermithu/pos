@@ -11,7 +11,7 @@ use Mary\Traits\Toast;
 
 class ManageOvertime extends Component
 {
-    use Toast, WithPagination, SearchAndFilter;
+    use SearchAndFilter, Toast, WithPagination;
 
     public OvertimeForm $form;
 
@@ -76,6 +76,7 @@ class ManageOvertime extends Component
         $overtime->forceDelete();
 
         $this->success(__('Record has been deleted permanently'));
+
         return back();
     }
 }

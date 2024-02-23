@@ -22,8 +22,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-use function Laravel\Prompts\alert;
-
 // #[Lazy]
 class PosManagement extends Component
 {
@@ -76,7 +74,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -170,12 +168,12 @@ class PosManagement extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
                         }
                     }
                 },
@@ -214,13 +212,13 @@ class PosManagement extends Component
                 $sale->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Sale-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
                     'paid_by' => $this->paid_by,
                     'note' => $this->note,
                 ]);
 
-                // Increase customer expense 
+                // Increase customer expense
                 if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
                     $this->customer->increment('expense', $this->paid_amount);
                 }
@@ -234,12 +232,14 @@ class PosManagement extends Component
             $this->invoice_no = $sale->invoice_no;
 
             $this->success(__('Sales generated successfully'));
+
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: ' . $e->getMessage());
+            \Log::error('Error creating sale: '.$e->getMessage());
 
             $this->error(__('Something went wrong!'));
+
             return back();
         }
     }

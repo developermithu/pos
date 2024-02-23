@@ -22,7 +22,7 @@ class ListPurchase extends Component
     {
         $this->authorize('viewAny', Purchase::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['invoice_no'];
 
         $purchases = Purchase::query()
@@ -89,7 +89,7 @@ class ListPurchase extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting sale: ' . $e->getMessage());
+            \Log::error('Error force deleting sale: '.$e->getMessage());
             $this->error(__('Error force deleting sale and payments.'));
         }
 
@@ -136,6 +136,7 @@ class ListPurchase extends Component
         $payment->delete();
 
         $this->success(__('Record has been deleted successfully'));
+
         return back();
     }
 

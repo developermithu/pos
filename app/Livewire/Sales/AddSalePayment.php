@@ -48,7 +48,7 @@ class AddSalePayment extends Component
             $payment = $this->sale->payments()->create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Sale-' . date('Ymd') . '-' . rand(11111, 99999),
+                'reference' => 'Sale-'.date('Ymd').'-'.rand(11111, 99999),
                 'note' => $this->note,
                 'type' => PaymentType::CREDIT->value,
                 'paid_by' => $this->paid_by,
@@ -78,7 +78,7 @@ class AddSalePayment extends Component
             $this->redirect(ListSale::class, navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error adding sale payment: ' . $e->getMessage());
+            \Log::error('Error adding sale payment: '.$e->getMessage());
             $this->error(__('Something went wrong!'));
         }
     }
@@ -86,14 +86,14 @@ class AddSalePayment extends Component
     protected function rules(): array
     {
         return [
-            'received_amount' => ['required', 'gt:0', 'lte: ' . $this->sale->total - $this->sale->paid_amount],
+            'received_amount' => ['required', 'gt:0', 'lte: '.$this->sale->total - $this->sale->paid_amount],
             'paid_amount' => [
-                'required', 'gt:0', 'lte: ' . $this->received_amount,
+                'required', 'gt:0', 'lte: '.$this->received_amount,
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
                         $customerDepositBalance = $this->sale->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
                         }
                     }
                 },

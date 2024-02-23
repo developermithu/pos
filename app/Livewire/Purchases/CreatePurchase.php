@@ -50,7 +50,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -168,7 +168,7 @@ class CreatePurchase extends Component
                 $purchase->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Purchase-'.date('Ymd').'-'.rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value,
                     'paid_by' => $this->paid_by,
                     'note' => $this->note,
@@ -188,6 +188,7 @@ class CreatePurchase extends Component
             $this->invoice_no = $purchase->invoice_no;
 
             $this->success(__('Purchases created successfully'));
+
             return $this->redirectRoute('admin.purchases.generate.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -209,12 +210,12 @@ class CreatePurchase extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
                         $supplierDepositBalance = $this->supplier->depositBalance();
                         if ($supplierDepositBalance < $value) {
-                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
+                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance '.$supplierDepositBalance);
                         }
                     }
                 },

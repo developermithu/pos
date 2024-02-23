@@ -7,14 +7,12 @@ use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Models\Customer;
 use App\Models\Deposit;
-use App\Models\Payment;
 use App\Models\Sale;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -42,7 +40,7 @@ class ListCustomer extends Component
     {
         $this->authorize('viewAny', Customer::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $customers = Customer::query()

@@ -54,7 +54,7 @@ class IncrementEmployeesBalance extends Command
             $this->error('Failed incrementing employees balance.');
 
             // Retry after 60 seconds
-            // $this->release(60); 
+            // $this->release(60);
         }
     }
 }

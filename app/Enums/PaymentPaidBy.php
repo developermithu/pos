@@ -47,7 +47,7 @@ enum PaymentPaidBy: string
     public function getLabelBackgroundColor(): string
     {
         return match ($this) {
-            self::CASH => 'rgb(240 253 244)', // success 
+            self::CASH => 'rgb(240 253 244)', // success
             self::CHEQUE => 'rgb(234 179 8)', // yellow-500
             self::BANK => 'rgb(99 102 241)', // indigo-500
             self::DEPOSIT => 'rgb(8 145 178)', // cyan-500

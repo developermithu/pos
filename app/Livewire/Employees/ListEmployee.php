@@ -5,7 +5,6 @@ namespace App\Livewire\Employees;
 use App\Models\Employee;
 use App\Models\Payment;
 use App\Traits\SearchAndFilter;
-use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;

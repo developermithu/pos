@@ -43,6 +43,8 @@ class PosManagement extends Component
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
+    // public $units = [];
+
     public Customer $customer;
     public $invoice_no;
 
@@ -58,6 +60,10 @@ class PosManagement extends Component
         $this->status = SaleStatus::DELIVERED->value;
         $this->payment_status = SalePaymentStatus::DUE->value;
         $this->paid_by = PaymentPaidBy::CASH->value;
+
+        // foreach (Cart::content() as $item) {
+        //     $this->units[$item->rowId] = $item->model->unit->id;
+        // }
     }
 
     // create customer
@@ -74,7 +80,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -95,16 +101,27 @@ class PosManagement extends Component
 
     public function addToCart(Product $product)
     {
-        Cart::add(
-            $product->id,
-            $product->name,
-            1,
-            $product->price,
-        )->associate(Product::class);
+        // Check if the product is already in the cart
+        $existingItem = Cart::search(function ($cartItem, $rowId) use ($product) {
+            return $cartItem->id === $product->id;
+        })->first();
+
+        // If the product is already in the cart, update the quantity
+        // If the product is not in the cart, add it
+        if ($existingItem) {
+            Cart::update($existingItem->rowId, $existingItem->qty + 1);
+        } else {
+            Cart::add([
+                'id' => $product->id,
+                'name' => $product->name,
+                'qty' => 1,
+                'price' => $product->price,
+            ])->associate(Product::class);
+
+            // $this->redirect(PosManagement::class, navigate: true);
+        }
 
         $this->success(__('Product added successfully.'));
-
-        return back();
     }
 
     public function increaseQty($rowId)
@@ -141,6 +158,24 @@ class PosManagement extends Component
         return back();
     }
 
+    public function updatePrice(string $rowId, int $salePrice)
+    {
+        $item = Cart::get($rowId);
+        $productPrice = (int) $item->model->price; // product price
+
+        // If new price is greater than or equal to product price then update price
+        if ($salePrice >= $productPrice) {
+            Cart::update($rowId, [
+                'price' => $salePrice,
+            ]);
+
+            $this->success(__('Price updated.'));
+        } else {
+            $this->redirect(PosManagement::class, navigate: true);
+            $this->error(__('Original product price is ' . $productPrice));
+        }
+    }
+
     public function updatedPaymentStatus($value)
     {
         if ($value === SalePaymentStatus::PAID->value) {
@@ -168,12 +203,12 @@ class PosManagement extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
                         }
                     }
                 },
@@ -215,7 +250,7 @@ class PosManagement extends Component
                 $sale->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::CREDIT->value,
                     'paid_by' => $this->paid_by,
                     'note' => $this->note,
@@ -235,15 +270,11 @@ class PosManagement extends Component
             $this->invoice_no = $sale->invoice_no;
 
             $this->success(__('Sales generated successfully'));
-
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: '.$e->getMessage());
-
+            \Log::error('Error creating sale: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
-
-            return back();
         }
     }
 

@@ -31,8 +31,8 @@ enum SaleStatus: string
     public function getLabelTextColor(): string
     {
         return match ($this) {
-            self::ORDERED => '#5D00BB', // primary color
-            self::PENDING => 'rgb(148 163 184)', // gray color
+            self::ORDERED => '#eeeeee', // primary color
+            self::PENDING => '#666666', // gray color
             self::DELIVERED => 'rgb(34 197 94)', // success color
         };
     }
@@ -41,7 +41,7 @@ enum SaleStatus: string
     {
         return match ($this) {
             self::ORDERED => '#5D00cc', // primary color
-            self::PENDING => 'rgb(254 242 242)', // danger color
+            self::PENDING => '#dddddd', // danger color
             self::DELIVERED => 'rgb(240 253 244)', // success color
         };
     }

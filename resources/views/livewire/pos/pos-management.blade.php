@@ -57,8 +57,22 @@
                                     </div>
                                 </div>
                             </x-table.cell>
-                            <x-table.cell style="padding: 12px"> {{ $item->model->unit?->short_name }} </x-table.cell>
-                            <x-table.cell style="padding: 12px"> {{ $item->price }} </x-table.cell>
+                            <x-table.cell style="padding: 12px" class="!lowercase">
+                                {{ $item->model->unit?->short_name }}
+                                {{-- <select wire:model="units.{{ $item->rowId }}">
+                                    @foreach (App\Models\Unit::all() as $unit)
+                                        <option value="{{ $unit->id }}"
+                                            {{ $item->model->unit->id === $unit->id ? 'selected' : '' }}>
+                                            {{ $unit->name }}
+                                        </option>
+                                    @endforeach
+                                </select> --}}
+                            </x-table.cell>
+                            <x-table.cell style="padding: 12px">
+                                <input type="number" value="{{ $item->price }}"
+                                    wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
+                                    class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-slate-800 dark:focus:border-primary w-28">
+                            </x-table.cell>
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
                             <x-table.cell style="padding: 12px">
                                 <button wire:click="removeFromCart('{{ $item->rowId }}')"
@@ -83,7 +97,7 @@
                 </div>
 
                 @if (Cart::count() >= 1)
-                    <form wire:submit="createInvoice" class="p-4">
+                    <form wire:submit.prevent="createInvoice" class="p-4">
                         <div class="grid grid-cols-6 gap-4 mb-5">
                             <div class="col-span-6">
                                 <div class="flex">
@@ -151,7 +165,8 @@
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="account_id" label="account name *" :error="$errors->first('account_id')">
                                         <x-input.select wire:model="account_id">
-                                            <option value="" disabled>-- {{ __('choose account') }} --</option>
+                                            <option value="" disabled>-- {{ __('choose account') }} --
+                                            </option>
                                             @foreach ($accounts as $key => $name)
                                                 <option value="{{ $key }}"> {{ $name }} </option>
                                             @endforeach

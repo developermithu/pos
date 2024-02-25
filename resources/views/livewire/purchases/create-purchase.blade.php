@@ -102,6 +102,7 @@
                                 <x-slot name="heading">
                                     <x-table.heading class="!p-4"> {{ __('product') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('qty') }} </x-table.heading>
+                                    <x-table.heading class="!p-4"> {{ __('unit') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('price') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('subtotal') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('actions') }} </x-table.heading>
@@ -134,6 +135,8 @@
                                                     </button>
                                                 </div>
                                             </div>
+                                        </x-table.cell>
+                                        <x-table.cell class="!p-4"> {{ $item->model->unit?->short_name }}
                                         </x-table.cell>
                                         <x-table.cell class="!p-4"> {{ $item->price }} </x-table.cell>
                                         <x-table.cell class="!p-4"> {{ $item->total }} </x-table.cell>

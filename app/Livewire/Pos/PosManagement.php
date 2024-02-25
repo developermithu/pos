@@ -205,6 +205,9 @@ class PosManagement extends Component
                     'price' => $item->price,
                     'qty' => $item->qty,
                 ]);
+
+                // decrease product quantity
+                $item->model->decrement('qty', $item->qty);
             }
 
             // Insert Payment

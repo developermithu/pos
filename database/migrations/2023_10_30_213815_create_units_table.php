@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('unit_id')
                 ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();
+                ->constrained();
             $table->string('name');
             $table->string('short_name')->unique();
             $table->timestamps();

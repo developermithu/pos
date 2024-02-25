@@ -23,6 +23,7 @@
                     <x-slot name="heading">
                         <x-table.heading style="padding: 12px"> {{ __('product') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('qty') }} </x-table.heading>
+                        <x-table.heading style="padding: 12px"> {{ __('unit') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('price') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('subtotal') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('actions') }} </x-table.heading>
@@ -56,6 +57,7 @@
                                     </div>
                                 </div>
                             </x-table.cell>
+                            <x-table.cell style="padding: 12px"> {{ $item->model->unit?->short_name }} </x-table.cell>
                             <x-table.cell style="padding: 12px"> {{ $item->price }} </x-table.cell>
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
                             <x-table.cell style="padding: 12px">
@@ -121,7 +123,7 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <x-input.group for="payment_status" label="{{ __('payment status *') }}"
                                     :error="$errors->first('payment_status')">
-                                    <x-input.select wire:model.change="payment_status" >
+                                    <x-input.select wire:model.change="payment_status">
                                         <option value="" disabled>-- {{ __('choose payment status') }} --
                                         </option>
                                         @foreach (App\Enums\SalePaymentStatus::forSelect() as $value => $name)
@@ -136,7 +138,7 @@
                                     $payment_status === App\Enums\SalePaymentStatus::PAID->value)
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="paid_by" label="paid by *" :error="$errors->first('paid_by')">
-                                        <x-input.select wire:model="paid_by" >
+                                        <x-input.select wire:model="paid_by">
                                             <option value="" disabled>-- {{ __('choose payment method') }} --
                                             </option>
                                             @foreach (App\Enums\PaymentPaidBy::forSelect() as $value => $name)
@@ -148,7 +150,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="account_id" label="account name *" :error="$errors->first('account_id')">
-                                        <x-input.select wire:model="account_id" >
+                                        <x-input.select wire:model="account_id">
                                             <option value="" disabled>-- {{ __('choose account') }} --</option>
                                             @foreach ($accounts as $key => $name)
                                                 <option value="{{ $key }}"> {{ $name }} </option>
@@ -160,7 +162,7 @@
                                 <div class="col-span-6 sm:col-span-3">
                                     <x-input.group for="paid_amount" label="{{ __('paying amount *') }}"
                                         :error="$errors->first('paid_amount')">
-                                        <x-input type="text" wire:model="paid_amount" id="paid_amount"  />
+                                        <x-input type="text" wire:model="paid_amount" id="paid_amount" />
                                     </x-input.group>
                                 </div>
                             @endif

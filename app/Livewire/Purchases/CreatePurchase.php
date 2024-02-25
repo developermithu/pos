@@ -161,6 +161,11 @@ class CreatePurchase extends Component
                     'price' => $item->price,
                     'qty' => $item->qty,
                 ]);
+
+                // increase product quantity
+                if ($this->status === PurchaseStatus::RECEIVED->value) {
+                    $item->model->increment('qty', $item->qty);
+                }
             }
 
             // Insert Payment

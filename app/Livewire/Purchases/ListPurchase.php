@@ -2,12 +2,10 @@
 
 namespace App\Livewire\Purchases;
 
-use App\Enums\PaymentPaidBy;
-use App\Enums\PurchasePaymentStatus;
 use App\Models\Payment;
 use App\Models\Purchase;
+use App\Services\PurchaseService;
 use App\Traits\SearchAndFilter;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -47,137 +45,79 @@ class ListPurchase extends Component
         return view('livewire.purchases.list-purchase', compact('purchases'))->title(__('purchase list'));
     }
 
-    public function deleteSelected()
+    public function deleteSelected(PurchaseService $purchaseService)
     {
         $this->authorize('bulkDelete', Purchase::class);
 
         if ($this->selected) {
-            Purchase::destroy($this->selected);
-            $this->success(__('Selected records has been deleted'));
+            if ($purchaseService->bulkDeletePurchases($this->selected)) {
+                $this->success(__('Selected records have been deleted'));
+            } else {
+                $this->error(__('Something went wrong'));
+            }
         } else {
             $this->success(__('You did not select anything'));
         }
-
-        return back();
     }
 
-    public function destroy(Purchase $purchase)
+    public function destroy(Purchase $purchase, PurchaseService $purchaseService)
     {
         $this->authorize('delete', $purchase);
-        $purchase->delete();
 
-        $this->success(__('Record has been deleted successfully'));
-
-        return back();
+        if ($purchaseService->deletePurchase($purchase)) {
+            $this->success(__('Record has been deleted successfully'));
+        } else {
+            $this->error('Something went wrong.');
+        }
     }
 
-    public function forceDelete($id)
+    public function forceDelete($id, PurchaseService $purchaseService)
     {
         $purchase = Purchase::onlyTrashed()->findOrFail($id);
-
         $this->authorize('forceDelete', $purchase);
 
-        DB::beginTransaction();
-
-        try {
-            // Delete associated payments
-            $purchase->payments()->forceDelete();
-            $purchase->forceDelete();
-
-            DB::commit();
+        if ($purchaseService->forceDeletePurchase($purchase)) {
             $this->success(__('Record has been deleted permanently'));
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            \Log::error('Error force deleting sale: '.$e->getMessage());
-            $this->error(__('Error force deleting sale and payments.'));
+        } else {
+            $this->error('Something went wrong.');
         }
-
-        return back();
     }
 
-    public function restore($id)
+    public function restore($id, PurchaseService $purchaseService)
     {
         $purchase = Purchase::onlyTrashed()->findOrFail($id);
-
         $this->authorize('restore', $purchase);
-        $purchase->restore();
 
-        $this->success(__('Record has been restored successfully'));
-
-        return back();
+        if ($purchaseService->restorePurchase($purchase)) {
+            $this->success(__('Record has been restored successfully'));
+        } else {
+            $this->error('Something went wrong.');
+        }
     }
 
-    // delete payment
-    public function destroyPayment(Payment $payment)
+    public function destroyPayment(Payment $payment, PurchaseService $purchaseService)
     {
         $this->authorize('delete', $payment);
 
-        $paymentable = $payment->paymentable;
-
-        // Subtract the payment amount from the purchase
-        $paymentable->paid_amount -= $payment->amount;
-
-        // Update payment_status based on paid_amount
-        if ($paymentable->paid_amount > 0 && $paymentable->paid_amount < $paymentable->total) {
-            $paymentable->payment_status = PurchasePaymentStatus::PARTIAL->value;
-        } elseif ($paymentable->paid_amount == 0) {
-            $paymentable->payment_status = PurchasePaymentStatus::UNPAID->value;
-        } elseif ($paymentable->paid_amount === $paymentable->total) {
-            $paymentable->payment_status = PurchasePaymentStatus::PAID->value;
+        if ($purchaseService->destroyPurchasePayment($payment)) {
+            $this->success(__('Record has been deleted successfully'));
+        } else {
+            $this->error(__('Something went wrong'));
         }
-
-        if ($payment->paid_by === PaymentPaidBy::DEPOSIT) {
-            $paymentable->supplier->decrement('expense', $payment->amount);
-        }
-
-        // Save the changes to
-        $paymentable->save();
-        $payment->delete();
-
-        $this->success(__('Record has been deleted successfully'));
-
-        return back();
     }
 
-    // restore payment
-    public function restorePayment($id)
+    public function restorePayment($id, PurchaseService $purchaseService)
     {
         $payment = Payment::onlyTrashed()->findOrFail($id);
         $this->authorize('restore', $payment);
-        $paymentable = $payment->paymentable;
 
-        // Check if restoring the payment won't clear the entire balance
-        if ($paymentable->total >= $paymentable->paid_amount + $payment->amount) {
-            // Addition of the payment amount to the purchase
-            $paymentable->paid_amount += $payment->amount;
-
-            // Update payment_status based on paid_amount
-            if ($paymentable->paid_amount > 0 && $paymentable->paid_amount < $paymentable->total) {
-                $paymentable->payment_status = PurchasePaymentStatus::PARTIAL->value;
-            } elseif ($paymentable->paid_amount == 0) {
-                $paymentable->payment_status = PurchasePaymentStatus::UNPAID->value;
-            } elseif ($paymentable->paid_amount === $paymentable->total) {
-                $paymentable->payment_status = PurchasePaymentStatus::PAID->value;
-            }
-
-            if ($payment->paid_by === PaymentPaidBy::DEPOSIT) {
-                $paymentable->supplier->increment('expense', $payment->amount);
-            }
-
-            // Save the changes
-            $paymentable->save();
-            $payment->restore();
-
+        if ($purchaseService->restorePurchasePayment($payment)) {
             $this->success(__('Record has been restored successfully'));
         } else {
             $this->error(__('You cannot restore it. Restoring this payment would clear the entire balance.'));
         }
-
-        return back();
     }
 
-    // force delete payment
     public function forceDeletePayment($id)
     {
         $payment = Payment::onlyTrashed()->findOrFail($id);
@@ -187,7 +127,5 @@ class ListPurchase extends Component
         // When deleted the payment
         $payment->forceDelete();
         $this->success(__('Record has been deleted permanently'));
-
-        return back();
     }
 }

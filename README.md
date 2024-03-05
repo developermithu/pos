@@ -46,7 +46,9 @@ Generate model helper: ```php artisan ide-helper:models```
   
 
 **May need to add**
-purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_items** tabe.
+purchase_price, sale_price, unit_cost field on **purchase_items** and **sale_items** table.
 
 when deleting **received purchase items** should we decrease product qty?
+
+have to fix qty after sale and purchase **qty** maybe int or float
 

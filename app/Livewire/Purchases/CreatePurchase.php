@@ -77,10 +77,8 @@ class CreatePurchase extends Component
             return $cartItem->id === $product->id;
         })->first();
 
-        // If the product is already in the cart, update the quantity
-        // If the product is not in the cart, add it
         if ($existingItem) {
-            Cart::instance('purchases')->update($existingItem->rowId, $existingItem->qty + 1);
+            $this->info(__('Product is already added in the cart.'));
         } else {
             Cart::instance('purchases')->add([
                 'id' => $product->id,
@@ -93,31 +91,6 @@ class CreatePurchase extends Component
         $this->search = '';
     }
 
-    public function increaseQty($rowId)
-    {
-        $item = Cart::instance('purchases')->get($rowId);
-        Cart::instance('purchases')->update($rowId, $item->qty + 1);
-
-        $this->success(__('Quantity increased.'));
-
-        return back();
-    }
-
-    public function decreaseQty($rowId)
-    {
-        $item = Cart::instance('purchases')->get($rowId);
-
-        if ($item->qty === 1) {
-            Cart::instance('purchases')->remove($rowId);
-            $this->success(__('Item removed.'));
-        } else {
-            Cart::instance('purchases')->update($rowId, $item->qty - 1);
-            $this->success(__('Quantity decreased.'));
-        }
-
-        return back();
-    }
-
     public function removeFromCart($rowId)
     {
         Cart::instance('purchases')->remove($rowId);
@@ -127,11 +100,19 @@ class CreatePurchase extends Component
         return back();
     }
 
+    public function updateQty(string $rowId, int|float $purchaseQty)
+    {
+        if ($purchaseQty > 0) {
+            Cart::instance('purchases')->update($rowId, $purchaseQty);
+            $this->success(__('Quantity updated successfully.'));
+        } else {
+            $this->redirect(CreatePurchase::class, navigate: true);
+            $this->error(__('Quantity must be greater than 0.'));
+        }
+    }
+
     public function updatePrice(string $rowId, int $purchasePrice)
     {
-        $item = Cart::instance('purchases')->get($rowId);
-        $productPrice = (int) $item->model->price; // product price
-
         if ($purchasePrice > 0) {
             Cart::instance('purchases')->update($rowId, [
                 'price' => $purchasePrice,

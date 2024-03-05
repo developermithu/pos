@@ -106,10 +106,8 @@ class PosManagement extends Component
             return $cartItem->id === $product->id;
         })->first();
 
-        // If the product is already in the cart, update the quantity
-        // If the product is not in the cart, add it
         if ($existingItem) {
-            Cart::update($existingItem->rowId, $existingItem->qty + 1);
+            $this->info(__('Product is already added in the cart.'));
         } else {
             Cart::add([
                 'id' => $product->id,
@@ -118,35 +116,8 @@ class PosManagement extends Component
                 'price' => $product->price,
             ])->associate(Product::class);
 
-            // $this->redirect(PosManagement::class, navigate: true);
+            $this->success(__('Product added successfully.'));
         }
-
-        $this->success(__('Product added successfully.'));
-    }
-
-    public function increaseQty($rowId)
-    {
-        $item = Cart::get($rowId);
-        Cart::update($rowId, $item->qty + 1);
-
-        $this->success(__('Quantity increased.'));
-
-        return back();
-    }
-
-    public function decreaseQty($rowId)
-    {
-        $item = Cart::get($rowId);
-
-        if ($item->qty === 1) {
-            Cart::remove($rowId);
-            $this->success(__('Item removed.'));
-        } else {
-            Cart::update($rowId, $item->qty - 1);
-            $this->success(__('Quantity decreased.'));
-        }
-
-        return back();
     }
 
     public function removeFromCart($rowId)
@@ -156,6 +127,23 @@ class PosManagement extends Component
         $this->success(__('Item removed.'));
 
         return back();
+    }
+
+    public function updateQty(string $rowId, int|float $saleQty)
+    {
+        $item = Cart::get($rowId);
+        $inStockQty = (int) $item->model->qty; // product stock qty
+
+        if ($saleQty > 0 && $saleQty <= $inStockQty) {
+            Cart::update($rowId, $saleQty);
+            $this->success(__('Quantity updated successfully.'));
+        } elseif ($saleQty <= 0) {
+            $this->redirect(PosManagement::class, navigate: true);
+            $this->error(__('Quantity must be greater than 0.'));
+        } else {
+            $this->redirect(PosManagement::class, navigate: true);
+            $this->error(__('This product is out of stock. Available quantity: ' . $inStockQty . $item->model->unit?->short_name));
+        }
     }
 
     public function updatePrice(string $rowId, int $salePrice)

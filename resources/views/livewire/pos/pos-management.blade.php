@@ -23,7 +23,7 @@
                     <x-slot name="heading">
                         <x-table.heading style="padding: 12px"> {{ __('product') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('qty') }} </x-table.heading>
-                        <x-table.heading style="padding: 12px"> {{ __('unit') }} </x-table.heading>
+                        {{-- <x-table.heading style="padding: 12px"> {{ __('unit') }} </x-table.heading> --}}
                         <x-table.heading style="padding: 12px"> {{ __('price') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('subtotal') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('actions') }} </x-table.heading>
@@ -34,46 +34,35 @@
                             wire:target="addToCart, increaseQty, decreaseQty, removeFromCart"
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="p-0" style="padding: 12px">
-                                {{ Str::limit($item->name, 15, '..') }} </x-table.cell>
+                                {{ Str::limit($item->name, 75, '..') }} </x-table.cell>
+                                
                             <x-table.cell style="padding: 12px">
-                                <div>
-                                    <label for="Quantity" class="sr-only"> Quantity </label>
-                                    <div class="flex items-center justify-between border border-gray-200 rounded">
-                                        <button wire:loading.attr="disabled" type="button"
-                                            wire:click="decreaseQty('{{ $item->rowId }}')"
-                                            class="flex items-center justify-center w-10 h-10 leading-10 text-danger bg-danger/10">
-                                            <x-heroicon-m-minus class="w-5 h-5" />
-                                        </button>
-
-                                        <input type="number" value="{{ $item->qty }}"
-                                            class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-primary"
-                                            readonly />
-
-                                        <button wire:loading.attr="disabled" type="button"
-                                            wire:click="increaseQty('{{ $item->rowId }}')"
-                                            class="flex items-center justify-center w-10 h-10 leading-10 bg-success/10 text-success">
-                                            <x-heroicon-m-plus class="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                </div>
+                                <x-mary-input type="number" value="{{ $item->qty }}"
+                                    wire:change="updateQty('{{ $item->rowId }}', $event.target.value)"
+                                    suffix="{{ $item->model->unit?->short_name }}"
+                                    hint="Availabe unit: {{ $item->model->qty }}
+                                    {{ $item->model->unit?->short_name }}" />
                             </x-table.cell>
-                            <x-table.cell style="padding: 12px" class="!lowercase">
-                                {{ $item->model->unit?->short_name }}
-                                {{-- <select wire:model="units.{{ $item->rowId }}">
+                            
+                            {{-- <x-table.cell style="padding: 12px" class="!lowercase">
+                                <select wire:model="units.{{ $item->rowId }}">
                                     @foreach (App\Models\Unit::all() as $unit)
                                         <option value="{{ $unit->id }}"
                                             {{ $item->model->unit->id === $unit->id ? 'selected' : '' }}>
                                             {{ $unit->name }}
                                         </option>
                                     @endforeach
-                                </select> --}}
-                            </x-table.cell>
+                                </select>
+                            </x-table.cell> --}}
+                            
                             <x-table.cell style="padding: 12px">
-                                <input type="number" value="{{ $item->price }}"
+                                <x-mary-input type="number" value="{{ $item->price }}"
                                     wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                    class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-slate-800 dark:focus:border-primary w-28">
+                                    suffix="TK" hint="Product unit price: {{ $item->model->price }} TK" />
                             </x-table.cell>
+
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
+                            
                             <x-table.cell style="padding: 12px">
                                 <button wire:click="removeFromCart('{{ $item->rowId }}')"
                                     class="p-2 rounded-full hover:bg-danger/10 text-danger hover:duration-200">

@@ -46,7 +46,8 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-credit-card class="w-6 h-6" /></x-slot>
-                                {{ __('purchases') }} 
+                                {{ __('purchases') }} <x-mary-badge :value="__('updated')"
+                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
                             </x-collapsible.button>
                         </x-slot>
 
@@ -67,7 +68,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-shopping-cart class="w-6 h-6" /></x-slot>
-                                {{ __('sales') }} 
+                                {{ __('sales') }}
                             </x-collapsible.button>
                         </x-slot>
 
@@ -89,7 +90,7 @@
 
                     <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                        {{ __('suppliers') }} 
+                        {{ __('suppliers') }}
                     </x-sidebar.link>
 
                     {{-- Employee Management --}}

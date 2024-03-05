@@ -205,7 +205,7 @@ class PosManagement extends Component
             $rules['paid_amount'] = [
                 'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
-                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->customer)) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
                             $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);

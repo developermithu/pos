@@ -138,7 +138,11 @@
                                         </x-table.cell>
                                         <x-table.cell class="!p-4"> {{ $item->model->unit?->short_name }}
                                         </x-table.cell>
-                                        <x-table.cell class="!p-4"> {{ $item->price }} </x-table.cell>
+                                        <x-table.cell class="!p-4">
+                                            <input type="number" value="{{ $item->price }}"
+                                                wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
+                                                class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-slate-800 dark:focus:border-primary w-28">
+                                        </x-table.cell>
                                         <x-table.cell class="!p-4"> {{ $item->total }} </x-table.cell>
                                         <x-table.cell class="!p-4">
                                             <button wire:click="removeFromCart('{{ $item->rowId }}')"

@@ -50,7 +50,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -72,16 +72,25 @@ class CreatePurchase extends Component
 
     public function addToCart(Product $product)
     {
-        Cart::instance('purchases')->add(
-            $product->id,
-            $product->name,
-            1,
-            $product->price,
-        )->associate(Product::class);
+        // Check if the product is already in the cart
+        $existingItem = Cart::instance('purchases')->search(function ($cartItem, $rowId) use ($product) {
+            return $cartItem->id === $product->id;
+        })->first();
+
+        // If the product is already in the cart, update the quantity
+        // If the product is not in the cart, add it
+        if ($existingItem) {
+            Cart::instance('purchases')->update($existingItem->rowId, $existingItem->qty + 1);
+        } else {
+            Cart::instance('purchases')->add([
+                'id' => $product->id,
+                'name' => $product->name,
+                'qty' => 1,
+                'price' => $product->price,
+            ])->associate(Product::class);
+        }
 
         $this->search = '';
-
-        return back();
     }
 
     public function increaseQty($rowId)
@@ -116,6 +125,23 @@ class CreatePurchase extends Component
         $this->success(__('Item removed.'));
 
         return back();
+    }
+
+    public function updatePrice(string $rowId, int $purchasePrice)
+    {
+        $item = Cart::instance('purchases')->get($rowId);
+        $productPrice = (int) $item->model->price; // product price
+
+        if ($purchasePrice > 0) {
+            Cart::instance('purchases')->update($rowId, [
+                'price' => $purchasePrice,
+            ]);
+
+            $this->success(__('Price updated.'));
+        } else {
+            $this->redirect(CreatePurchase::class, navigate: true);
+            $this->error(__('Price can not be null or less then 0.'));
+        }
     }
 
     public function updatedPaymentStatus($value)
@@ -173,7 +199,7 @@ class CreatePurchase extends Component
                 $purchase->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Purchase-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
                     'type' => PaymentType::DEBIT->value,
                     'paid_by' => $this->paid_by,
                     'note' => $this->note,
@@ -215,12 +241,12 @@ class CreatePurchase extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
-                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
+                    if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->supplier)) {
                         $supplierDepositBalance = $this->supplier->depositBalance();
                         if ($supplierDepositBalance < $value) {
-                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance '.$supplierDepositBalance);
+                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
                         }
                     }
                 },

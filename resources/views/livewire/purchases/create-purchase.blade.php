@@ -102,7 +102,7 @@
                                 <x-slot name="heading">
                                     <x-table.heading class="!p-4"> {{ __('product') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('qty') }} </x-table.heading>
-                                    <x-table.heading class="!p-4"> {{ __('price') }} </x-table.heading>
+                                    <x-table.heading class="!p-4"> {{ __('cost') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('subtotal') }} </x-table.heading>
                                     <x-table.heading class="!p-4"> {{ __('actions') }} </x-table.heading>
                                 </x-slot>
@@ -116,8 +116,8 @@
                                         <x-table.cell style="!p-4">
                                             <x-mary-input type="number" value="{{ $item->qty }}"
                                                 wire:change="updateQty('{{ $item->rowId }}', $event.target.value)"
-                                                suffix="{{ $item->model->unit?->short_name }}"
-                                                hint="Availabe unit: {{ $item->model->qty }}
+                                                suffix="{{ $item->model->purchaseUnit?->short_name ?? $item->model->unit->short_name }}"
+                                                hint="Availabe quantity: {{ $item->model->qty }}
                                                 {{ $item->model->unit?->short_name }}" />
                                         </x-table.cell>
 
@@ -125,12 +125,17 @@
                                             <x-mary-input type="number" value="{{ $item->price }}"
                                                 wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
                                                 suffix="TK"
-                                                hint="Product unit price: {{ $item->model->price }} TK" />
+                                                hint="Product cost: {{ $item->model->price }} TK" />
                                         </x-table.cell>
 
                                         <x-table.cell class="!p-4"> {{ $item->total }} </x-table.cell>
 
                                         <x-table.cell class="!p-4">
+                                            <button wire:click="showProductEditModal({{ $item->model->id }})"
+                                                class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
+                                                <x-heroicon-m-pencil-square class="w-5 h-5" />
+                                            </button>
+                                            
                                             <button wire:click="removeFromCart('{{ $item->rowId }}')"
                                                 class="p-2 rounded-full hover:bg-danger/10 text-danger hover:duration-200">
                                                 <x-heroicon-m-trash class="w-5 h-5" />
@@ -249,4 +254,6 @@
             </div>
         </div>
     </div>
+
+    @include('modals.edit-purchase-product')
 </div>

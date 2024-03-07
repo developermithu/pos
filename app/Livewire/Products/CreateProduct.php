@@ -38,7 +38,10 @@ class CreateProduct extends Component
 
     public function render()
     {
-        return view('livewire.products.create-product')->title(__('add new product'));
+        $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
+        
+        return view('livewire.products.create-product', compact('baseUnits'))
+            ->title(__('add new product'));
     }
 
     public function updatedUnitId()

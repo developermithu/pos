@@ -13,6 +13,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Models\Unit;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -43,10 +44,16 @@ class PosManagement extends Component
     public ?int $paid_amount = 0;
     public ?string $note = null;
 
-    // public $units = [];
-
     public Customer $customer;
     public $invoice_no;
+
+    // Edit product
+    public Product $product;
+    public bool $productEditModal = false;
+    public int $price;
+    public $type;
+    public int $sale_unit_id;
+    public $sale_units = [];
 
     public function updatedSearch()
     {
@@ -60,10 +67,6 @@ class PosManagement extends Component
         $this->status = SaleStatus::DELIVERED->value;
         $this->payment_status = SalePaymentStatus::DUE->value;
         $this->paid_by = PaymentPaidBy::CASH->value;
-
-        // foreach (Cart::content() as $item) {
-        //     $this->units[$item->rowId] = $item->model->unit->id;
-        // }
     }
 
     // create customer
@@ -176,6 +179,34 @@ class PosManagement extends Component
     public function updatedCustomerId(Customer $customer)
     {
         $this->customer = $customer;
+    }
+
+    public function showProductEditModal(Product $product)
+    {
+        $this->reset(['sale_unit_id', 'price']);
+        $this->productEditModal = true;
+        $this->product = $product;
+
+        $this->type = $product->type;
+        $this->sale_unit_id = $product->sale_unit_id ?? $product->unit_id;
+        $this->price = $product->price;
+        $this->sale_units = Unit::whereId($product->unit_id)
+            ->orWhere('unit_id', $product->unit_id)
+            ->pluck('name', 'id');
+    }
+
+    public function editProduct()
+    {
+        $this->validate([
+            'sale_unit_id' => ['required', Rule::exists(Unit::class, 'id')],
+        ]);
+
+        $this->product->update([
+            'sale_unit_id' => $this->sale_unit_id,
+        ]);
+
+        $this->productEditModal = false;
+        $this->success(__('Product sale unit has been update.'));
     }
 
     public function createInvoice()

@@ -85,7 +85,10 @@ class EditProduct extends Component
 
     public function render()
     {
-        return view('livewire.products.edit-product')->title(__('update product'));
+        $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
+
+        return view('livewire.products.edit-product', compact('baseUnits'))
+            ->title(__('update product'));
     }
 
     public function updatedUnitId()

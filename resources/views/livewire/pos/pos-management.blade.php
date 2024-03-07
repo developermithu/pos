@@ -24,7 +24,7 @@
                         <x-table.heading style="padding: 12px"> {{ __('product') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('qty') }} </x-table.heading>
                         {{-- <x-table.heading style="padding: 12px"> {{ __('unit') }} </x-table.heading> --}}
-                        <x-table.heading style="padding: 12px"> {{ __('price') }} </x-table.heading>
+                        <x-table.heading style="padding: 12px"> {{ __('sale price') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('subtotal') }} </x-table.heading>
                         <x-table.heading style="padding: 12px"> {{ __('actions') }} </x-table.heading>
                     </x-slot>
@@ -35,35 +35,29 @@
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="p-0" style="padding: 12px">
                                 {{ Str::limit($item->name, 75, '..') }} </x-table.cell>
-                                
+
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->qty }}"
                                     wire:change="updateQty('{{ $item->rowId }}', $event.target.value)"
-                                    suffix="{{ $item->model->unit?->short_name }}"
-                                    hint="Availabe unit: {{ $item->model->qty }}
+                                    suffix="{{ $item->model->saleUnit?->short_name ?? $item->model->unit->short_name }}"
+                                    hint="Available quantity: {{ $item->model->qty }}
                                     {{ $item->model->unit?->short_name }}" />
                             </x-table.cell>
-                            
-                            {{-- <x-table.cell style="padding: 12px" class="!lowercase">
-                                <select wire:model="units.{{ $item->rowId }}">
-                                    @foreach (App\Models\Unit::all() as $unit)
-                                        <option value="{{ $unit->id }}"
-                                            {{ $item->model->unit->id === $unit->id ? 'selected' : '' }}>
-                                            {{ $unit->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </x-table.cell> --}}
-                            
+
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->price }}"
                                     wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                    suffix="TK" hint="Product unit price: {{ $item->model->price }} TK" />
+                                    suffix="TK" hint="Price: {{ $item->model->price }} TK" />
                             </x-table.cell>
 
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
-                            
+
                             <x-table.cell style="padding: 12px">
+                                <button wire:click="showProductEditModal({{ $item->model->id }})"
+                                    class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
+                                    <x-heroicon-m-pencil-square class="w-5 h-5" />
+                                </button>
+
                                 <button wire:click="removeFromCart('{{ $item->rowId }}')"
                                     class="p-2 rounded-full hover:bg-danger/10 text-danger hover:duration-200">
                                     <x-heroicon-m-trash class="w-5 h-5" />
@@ -247,4 +241,6 @@
             </div>
         </div>
     </div>
+
+    @include('modals.edit-sale-product')
 </div>

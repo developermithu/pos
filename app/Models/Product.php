@@ -64,4 +64,14 @@ class Product extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function saleUnit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'sale_unit_id');
+    }
+
+    public function purchaseUnit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'purchase_unit_id');
+    }
 }

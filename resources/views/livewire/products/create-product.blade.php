@@ -34,7 +34,7 @@
                     </x-input.group>
 
                     <x-input.group label="unit name *" :error="$errors->first('unit_id')" class="lg:col-span-2">
-                        <x-input.select wire:model.change="unit_id" class="!lowercase" :options="App\Models\Unit::pluck('name', 'id')"
+                        <x-input.select wire:model.change="unit_id" class="!lowercase" :options="$baseUnits"
                             selected="true" placeholder="choose unit" />
                     </x-input.group>
 

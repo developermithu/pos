@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use App\Models\Supplier;
+use App\Models\Unit;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +37,14 @@ class CreatePurchase extends Component
     public $invoice_no;
 
     public string $search = '';
+
+    // Edit product
+    public Product $product;
+    public bool $productEditModal = false;
+    public int $price;
+    public $type;
+    public int $purchase_unit_id;
+    public $purchase_units = [];
 
     public function mount()
     {
@@ -137,6 +146,34 @@ class CreatePurchase extends Component
     public function updatedSupplierId(Supplier $supplier)
     {
         $this->supplier = $supplier;
+    }
+
+    public function showProductEditModal(Product $product)
+    {
+        $this->reset(['purchase_unit_id', 'price']);
+        $this->productEditModal = true;
+        $this->product = $product;
+
+        $this->type = $product->type;
+        $this->purchase_unit_id = $product->purchase_unit_id ?? $product->unit_id;
+        $this->price = $product->price;
+        $this->purchase_units = Unit::whereId($product->unit_id)
+            ->orWhere('unit_id', $product->unit_id)
+            ->pluck('name', 'id');
+    }
+
+    public function editProduct()
+    {
+        $this->validate([
+            'purchase_unit_id' => ['required', Rule::exists(Unit::class, 'id')],
+        ]);
+
+        $this->product->update([
+            'purchase_unit_id' => $this->purchase_unit_id,
+        ]);
+
+        $this->productEditModal = false;
+        $this->success(__('Product purchase unit has been update.'));
     }
 
     public function createPurchase()

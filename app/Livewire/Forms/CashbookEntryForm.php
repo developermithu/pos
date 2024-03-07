@@ -15,7 +15,7 @@ class CashbookEntryForm extends Form
     public int $account_id = 1;
     public $amount;
     public $type = '';
-    public ?string $note = '';
+    public ?string $details = '';
     public $date;
 
     public function setCashbookEntry(CashbookEntry $entry)
@@ -25,14 +25,14 @@ class CashbookEntryForm extends Form
         $this->store_id = $entry->store_id;
         $this->amount = $entry->amount;
         $this->type = $entry->type;
-        $this->note = $entry->note;
+        $this->details = $entry->details;
         $this->date = $entry->date->format('Y-m-d');
     }
 
     public function store()
     {
         $this->validate();
-        CashbookEntry::create($this->only(['store_id', 'account_id', 'amount', 'type', 'note', 'date']));
+        CashbookEntry::create($this->only(['store_id', 'account_id', 'amount', 'type', 'details', 'date']));
 
         $this->reset();
     }
@@ -40,7 +40,7 @@ class CashbookEntryForm extends Form
     public function update()
     {
         $this->validate();
-        $this->entry->update($this->only(['store_id', 'amount', 'type', 'note', 'date']));
+        $this->entry->update($this->only(['store_id', 'amount', 'type', 'details', 'date']));
     }
 
     public function rules(): array
@@ -53,7 +53,7 @@ class CashbookEntryForm extends Form
             'type' => 'required',
             'amount' => 'required|integer|numeric',
             'date' => 'required',
-            'note' => 'nullable',
+            'details' => 'nullable',
         ];
     }
 }

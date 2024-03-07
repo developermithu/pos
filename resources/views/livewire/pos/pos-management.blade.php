@@ -39,21 +39,21 @@
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->qty }}"
                                     wire:change="updateQty('{{ $item->rowId }}', $event.target.value)"
-                                    suffix="{{ $item->model->saleUnit?->short_name ?? $item->model->unit->short_name }}"
-                                    hint="Available quantity: {{ $item->model->qty }}
-                                    {{ $item->model->unit?->short_name }}" />
+                                    suffix="{{ $item->model?->saleUnit?->short_name ?? $item->model?->unit?->short_name }}"
+                                    hint="Available quantity: {{ $item->model?->qty }}
+                                    {{ $item->model?->unit?->short_name }}" />
                             </x-table.cell>
 
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->price }}"
                                     wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                    suffix="TK" hint="Price: {{ $item->model->price }} TK" />
+                                    suffix="TK" hint="Price: {{ $item->model?->price }} TK" />
                             </x-table.cell>
 
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
 
                             <x-table.cell style="padding: 12px">
-                                <button wire:click="showProductEditModal({{ $item->model->id }})"
+                                <button wire:click="showProductEditModal({{ $item->model?->id }})"
                                     class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
                                     <x-heroicon-m-pencil-square class="w-5 h-5" />
                                 </button>
@@ -166,8 +166,8 @@
                             @endif
 
                             <div class="col-span-6">
-                                <x-input.group for="note" label="{{ __('note') }}" :error="$errors->first('note')">
-                                    <x-input.textarea wire:model="note" id="note" rows="3" />
+                                <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('details')">
+                                    <x-input.textarea wire:model="details" id="details" rows="3" />
                                 </x-input.group>
                             </div>
                         </div>

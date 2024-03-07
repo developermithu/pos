@@ -18,17 +18,17 @@ class ExpenseSeeder extends Seeder
         // Creating expense category
         $expense_category1 = ExpenseCategory::create([
             'name' => 'কর্মচারীদের বেতন',
-            'description' => 'কর্মচারীদের খরচের বিবরণ',
+            'details' => 'কর্মচারীদের খরচের বিবরণ',
         ]);
 
         $expense_category2 = ExpenseCategory::create([
             'name' => 'কারেন্ট বিল',
-            'description' => 'কারেন্ট বিলের বিবরণ',
+            'details' => 'কারেন্ট বিলের বিবরণ',
         ]);
 
         $expense_category3 = ExpenseCategory::create([
             'name' => 'জলখাবার',
-            'description' => 'জলখাবারের বিবরণ',
+            'details' => 'জলখাবারের বিবরণ',
         ]);
 
         // Creating expenses
@@ -57,8 +57,8 @@ class ExpenseSeeder extends Seeder
         $expense1->payment()->create([
             'account_id' => 1,
             'amount' => $expense1->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
-            'note' => $expense1->details,
+            'reference' => 'Expense',
+            'details' => $expense1->details,
             'type' => PaymentType::DEBIT->value,
             'paid_by' => PaymentPaidBy::CASH->value,
         ]);
@@ -66,8 +66,8 @@ class ExpenseSeeder extends Seeder
         $expense2->payment()->create([
             'account_id' => 1,
             'amount' => $expense2->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
-            'note' => $expense2->details,
+            'reference' => 'Expense',
+            'details' => $expense2->details,
             'type' => PaymentType::DEBIT->value,
             'paid_by' => PaymentPaidBy::CASH->value,
         ]);
@@ -75,8 +75,8 @@ class ExpenseSeeder extends Seeder
         $expense3->payment()->create([
             'account_id' => 1,
             'amount' => $expense3->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
-            'note' => $expense3->details,
+            'reference' => 'Expense',
+            'details' => $expense3->details,
             'type' => PaymentType::DEBIT->value,
             'paid_by' => PaymentPaidBy::CASH->value,
         ]);

@@ -18,14 +18,12 @@ class CreateProduct extends Component
     public ?int $unit_id = null;
     public string $name;
     public ?int $qty;
+    public int $cost;
     public int $price;
     public string $type;
 
     public ?int $purchase_unit_id = null;
     public ?int $sale_unit_id = null;
-    public ?int $purchase_price = null;
-    public ?int $sale_price = null;
-    public ?int $cost = null;
 
     public $sale_units = null;
     public $purchase_units = null;
@@ -39,7 +37,7 @@ class CreateProduct extends Component
     public function render()
     {
         $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
-        
+
         return view('livewire.products.create-product', compact('baseUnits'))
             ->title(__('add new product'));
     }
@@ -61,8 +59,6 @@ class CreateProduct extends Component
     {
         $this->purchase_unit_id = null;
         $this->sale_unit_id = null;
-        $this->purchase_price = null;
-        $this->sale_price = null;
         $this->cost = null;
     }
 
@@ -79,8 +75,6 @@ class CreateProduct extends Component
             'type' => $this->type,
 
             'cost' => $this->cost ?? null,
-            'sale_price' => $this->sale_price ?? null,
-            'purchase_price' => $this->purchase_price ?? null,
             'sale_unit_id' => $this->sale_unit_id ?? null,
             'purchase_unit_id' => $this->purchase_unit_id ?? null,
         ]);
@@ -102,14 +96,12 @@ class CreateProduct extends Component
             'unit_id' => ['required', Rule::exists(Unit::class, 'id')],
             'name' => ['required', 'string'],
             'qty' => ['nullable', 'numeric'],
+            'cost' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
             'type' => ['required', Rule::enum(ProductType::class)],
         ];
 
         if ($this->type === ProductType::STANDARD->value) {
-            $rules['cost'] = ['required', 'numeric'];
-            $rules['sale_price'] = ['required', 'numeric'];
-            $rules['purchase_price'] = ['required', 'numeric'];
             $rules['sale_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
             $rules['purchase_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
         }

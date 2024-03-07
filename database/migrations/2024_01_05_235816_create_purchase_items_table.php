@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained();
-            $table->integer('price');
+            $table->integer('cost');
             $table->integer('qty');
             $table->timestamps();
             $table->softDeletes();

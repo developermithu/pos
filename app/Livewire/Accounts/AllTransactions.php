@@ -25,7 +25,7 @@ class AllTransactions extends Component
         $this->authorize('viewAny', Payment::class);
 
         $search = $this->search ? '%'.trim($this->search).'%' : null;
-        $searchableFields = ['reference', 'type', 'note'];
+        $searchableFields = ['reference', 'type', 'details'];
 
         $transactions = Payment::query()
             ->when($search, function ($query) use ($searchableFields, $search) {

@@ -31,7 +31,7 @@ class CreatePurchase extends Component
     public string $payment_status;
     public string $paid_by;
     public ?int $paid_amount = 0;
-    public ?string $note = null;
+    public ?string $details = null;
 
     public Supplier $supplier;
     public $invoice_no;
@@ -41,7 +41,7 @@ class CreatePurchase extends Component
     // Edit product
     public Product $product;
     public bool $productEditModal = false;
-    public int $price;
+    public int $cost;
     public $type;
     public int $purchase_unit_id;
     public $purchase_units = [];
@@ -59,7 +59,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -93,7 +93,7 @@ class CreatePurchase extends Component
                 'id' => $product->id,
                 'name' => $product->name,
                 'qty' => 1,
-                'price' => $product->price,
+                'price' => $product->cost,
             ])->associate(Product::class);
         }
 
@@ -150,13 +150,13 @@ class CreatePurchase extends Component
 
     public function showProductEditModal(Product $product)
     {
-        $this->reset(['purchase_unit_id', 'price']);
+        $this->reset(['purchase_unit_id', 'cost']);
         $this->productEditModal = true;
         $this->product = $product;
 
         $this->type = $product->type;
         $this->purchase_unit_id = $product->purchase_unit_id ?? $product->unit_id;
-        $this->price = $product->price;
+        $this->cost = $product->cost;
         $this->purchase_units = Unit::whereId($product->unit_id)
             ->orWhere('unit_id', $product->unit_id)
             ->pluck('name', 'id');
@@ -193,7 +193,7 @@ class CreatePurchase extends Component
                 'paid_amount' => $this->paid_amount,
                 'status' => $this->status,
                 'payment_status' => $this->payment_status,
-                'note' => $this->note,
+                'details' => $this->details,
                 'date' => now(),
             ]);
 
@@ -202,7 +202,7 @@ class CreatePurchase extends Component
                 PurchaseItem::create([
                     'purchase_id' => $purchase->id,
                     'product_id' => $item->id,
-                    'price' => $item->price,
+                    'cost' => $item->price,
                     'qty' => $item->qty,
                 ]);
 
@@ -217,10 +217,10 @@ class CreatePurchase extends Component
                 $purchase->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Purchase-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Purchase',
                     'type' => PaymentType::DEBIT->value,
                     'paid_by' => $this->paid_by,
-                    'note' => $this->note,
+                    'details' => $this->details,
                 ]);
 
                 // Increase supplier expense
@@ -252,19 +252,19 @@ class CreatePurchase extends Component
             'supplier_id' => ['required', Rule::exists(Supplier::class, 'id')],
             'status' => ['required', Rule::in(['ordered', 'pending', 'received'])],
             'payment_status' => ['required', Rule::in(['partial', 'paid', 'unpaid'])],
-            'note' => 'nullable',
+            'details' => 'nullable',
         ];
 
         if (in_array($this->payment_status, ['partial', 'paid'])) {
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->supplier)) {
                         $supplierDepositBalance = $this->supplier->depositBalance();
                         if ($supplierDepositBalance < $value) {
-                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
+                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance '.$supplierDepositBalance);
                         }
                     }
                 },

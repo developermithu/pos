@@ -22,8 +22,8 @@
             </div>
 
             <div class="col-span-2">
-                <x-input.group for="description" label="{{ __('description') }}" :error="$errors->first('form.description')">
-                    <x-input.textarea wire:model="form.description" id="description" />
+                <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('form.details')">
+                    <x-input.textarea wire:model="form.details" id="details" />
                 </x-input.group>
             </div>
         </div>

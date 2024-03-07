@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('account_id')->constrained()->cascadeOnDelete();
             $table->integer('amount');
             $table->string('type');
-            $table->string('note')->nullable();
+            $table->string('details')->nullable();
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();

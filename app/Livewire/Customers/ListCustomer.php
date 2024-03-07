@@ -12,7 +12,6 @@ use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -166,9 +165,9 @@ class ListCustomer extends Component
                 $sale->payments()->create([
                     'account_id' => 1, // cash
                     'amount' => $paid_amount,
-                    'reference' => Str::random(),
+                    'reference' => 'Clearing customer due',
                     'type' => PaymentType::CREDIT,
-                    'note' => $this->note,
+                    'details' => $this->note,
                     'paid_by' => PaymentPaidBy::CASH,
                 ]);
 

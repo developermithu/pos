@@ -22,7 +22,7 @@ class AddPurchasePayment extends Component
     public ?int $received_amount;
     public ?int $paid_amount;
     public int|string $account_id = '';
-    public ?string $note = null;
+    public ?string $details = null;
     public string $paid_by;
 
     public function mount(Purchase $purchase)
@@ -57,8 +57,8 @@ class AddPurchasePayment extends Component
             $payment = $this->purchase->payments()->create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Purchase-'.date('Ymd').'-'.rand(11111, 99999),
-                'note' => $this->note,
+                'reference' => 'Purchase',
+                'details' => $this->details,
                 'type' => PaymentType::DEBIT->value,
                 'paid_by' => $this->paid_by,
             ]);
@@ -110,7 +110,7 @@ class AddPurchasePayment extends Component
             ],
             'paid_by' => ['required'],
             'account_id' => ['required', Rule::exists(Account::class, 'id')],
-            'note' => ['nullable', 'max:255'],
+            'details' => ['nullable', 'max:255'],
         ];
     }
 }

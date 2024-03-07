@@ -24,7 +24,7 @@ class ListBalanceAdjustment extends Component
             ->with(['payment.account:id,name,account_no'])
             ->when($searchTerm, function (Builder $query) use ($searchTerm) {
                 $query->whereHas('payment', function (Builder $subQuery) use ($searchTerm) {
-                    $subQuery->where('note', 'like', $searchTerm);
+                    $subQuery->where('details', 'like', $searchTerm);
                 });
             })
             ->latest()

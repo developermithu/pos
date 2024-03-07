@@ -66,7 +66,7 @@
             <x-table.heading> {{ __('store') }} </x-table.heading>
             <x-table.heading> {{ __('type') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('note') }} </x-table.heading>
+            <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('date') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -81,7 +81,7 @@
                 <x-table.cell> {{ $entry->store?->name }} </x-table.cell>
                 <x-table.cell> {!! $entry->type->getLabelHtml() !!} </x-table.cell>
                 <x-table.cell> {{ $entry->amount }} </x-table.cell>
-                <x-table.cell> {{ Str::limit($entry->note, 30, '..') }} </x-table.cell>
+                <x-table.cell> {{ Str::limit($entry->details, 30, '..') }} </x-table.cell>
                 <x-table.cell> {{ $entry->date->format('d M, Y') }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">

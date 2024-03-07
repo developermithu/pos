@@ -23,8 +23,8 @@ class ProductFactory extends Factory
             'name' => fake()->words(rand(1, 4), true),
             'sku' => fake()->unique()->numberBetween(000000, 999999),
             'qty' => rand(0, 100),
-            'cost' => rand(0, 100),
-            'price' => rand(500, 1000),
+            'cost' => rand(100, 500),
+            'price' => rand(600, 800),
             'created_at' => now()->addMonths(rand(-1, -24)),
             'type' => fake()->randomElement([ProductType::SERVICE]),
         ];

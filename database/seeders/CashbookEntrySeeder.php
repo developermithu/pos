@@ -20,7 +20,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 11000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 2',
+                'details' => 'Deposit Entry 2',
                 'date' => now()->today(),
             ],
             [
@@ -28,7 +28,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 1000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 2',
+                'details' => 'Expense Entry 2',
                 'date' => now()->yesterday(),
             ],
             [
@@ -36,7 +36,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 10000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 1',
+                'details' => 'Expense Entry 1',
                 'date' => now()->addMonth(-1),
             ],
             [
@@ -44,7 +44,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 500000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 1',
+                'details' => 'Deposit Entry 1',
                 'date' => now()->addYear(),
             ],
 
@@ -58,7 +58,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 50000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 2',
+                'details' => 'Deposit Entry 2',
                 'date' => now()->today(),
             ],
             [
@@ -66,7 +66,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 250000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 2',
+                'details' => 'Expense Entry 2',
                 'date' => now()->yesterday(),
             ],
             [
@@ -74,7 +74,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 50000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 1',
+                'details' => 'Expense Entry 1',
                 'date' => now()->addMonth(-1),
             ],
             [
@@ -82,7 +82,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 200000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 1',
+                'details' => 'Deposit Entry 1',
                 'date' => now()->addYear(),
             ],
 
@@ -96,7 +96,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 5000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 3',
+                'details' => 'Deposit Entry 3',
                 'date' => now()->today(),
             ],
             [
@@ -104,7 +104,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 3000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 2',
+                'details' => 'Deposit Entry 2',
                 'date' => now()->yesterday(),
             ],
             [
@@ -112,7 +112,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 5000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 2',
+                'details' => 'Expense Entry 2',
                 'date' => now()->addDays(-20),
             ],
             [
@@ -120,7 +120,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 5000,
                 'type' => CashbookEntryType::EXPENSE->value,
-                'note' => 'Expense Entry 1',
+                'details' => 'Expense Entry 1',
                 'date' => now()->addDays(-20),
             ],
             [
@@ -128,7 +128,7 @@ class CashbookEntrySeeder extends Seeder
                 'account_id' => 1,
                 'amount' => 2000,
                 'type' => CashbookEntryType::DEPOSIT->value,
-                'note' => 'Deposit Entry 1',
+                'details' => 'Deposit Entry 1',
                 'date' => now()->addDays(-25),
             ],
 

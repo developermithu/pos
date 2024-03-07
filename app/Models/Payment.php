@@ -18,7 +18,7 @@ class Payment extends Model
         'account_id',
         'amount',
         'reference',
-        'note',
+        'details',
         'type',
         'paid_by',
         'paymentable_id',

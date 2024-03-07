@@ -32,7 +32,7 @@ class ListAdvancePayment extends Component
             ->when($this->search, function ($query, $search) {
                 $query->whereHas('employee', function ($subQuery) use ($search) {
                     $subQuery->where('name', 'like', '%'.$search.'%');
-                })->orWhere('note', 'like', '%'.$search.'%');
+                })->orWhere('details', 'like', '%'.$search.'%');
             })
             ->latest()
             ->with('employee:id,name')

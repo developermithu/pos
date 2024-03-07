@@ -11,20 +11,20 @@ class ExpenseCategoryForm extends Form
     public ?ExpenseCategory $expenseCategory;
 
     public string $name = '';
-    public ?string $description = '';
+    public ?string $details = '';
 
     public function setExpenseCategory(ExpenseCategory $expenseCategory)
     {
         $this->expenseCategory = $expenseCategory;
 
         $this->name = $expenseCategory->name;
-        $this->description = $expenseCategory->description ?? null;
+        $this->details = $expenseCategory->details ?? null;
     }
 
     public function store()
     {
         $this->validate();
-        ExpenseCategory::create($this->only(['name', 'description']));
+        ExpenseCategory::create($this->only(['name', 'details']));
 
         $this->reset();
     }
@@ -33,7 +33,7 @@ class ExpenseCategoryForm extends Form
     {
         $this->validate();
         $this->expenseCategory->update(
-            $this->only(['name', 'description'])
+            $this->only(['name', 'details'])
         );
     }
 
@@ -45,7 +45,7 @@ class ExpenseCategoryForm extends Form
                 Rule::unique(ExpenseCategory::class)->ignore($this->expenseCategory ?? null),
             ],
 
-            'description' => 'nullable|min:255',
+            'details' => 'nullable|min:255',
         ];
     }
 }

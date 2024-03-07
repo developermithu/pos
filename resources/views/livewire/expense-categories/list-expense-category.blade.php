@@ -47,7 +47,7 @@
                 wire:target="search, filterByTrash, clear, deleteSelected, destroy, forceDelete, restore">
                 <x-table.cell> {{ $key + 1 }} </x-table.cell>
                 <x-table.cell> {{ $expenseCategory->name }} </x-table.cell>
-                <x-table.cell> {{ $expenseCategory->description }} </x-table.cell>
+                <x-table.cell> {{ $expenseCategory->details }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">
                     @if ($expenseCategory->trashed())

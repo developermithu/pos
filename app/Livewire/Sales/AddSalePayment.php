@@ -22,7 +22,7 @@ class AddSalePayment extends Component
     public ?int $received_amount;
     public ?int $paid_amount;
     public int|string $account_id = '';
-    public ?string $note = null;
+    public ?string $details = null;
     public string $paid_by;
 
     public function mount(Sale $sale)
@@ -48,8 +48,8 @@ class AddSalePayment extends Component
             $payment = $this->sale->payments()->create([
                 'account_id' => $this->account_id,
                 'amount' => $this->paid_amount,
-                'reference' => 'Sale-'.date('Ymd').'-'.rand(11111, 99999),
-                'note' => $this->note,
+                'reference' => 'Sale',
+                'details' => $this->details,
                 'type' => PaymentType::CREDIT->value,
                 'paid_by' => $this->paid_by,
             ]);
@@ -100,7 +100,7 @@ class AddSalePayment extends Component
             ],
             'paid_by' => ['required'],
             'account_id' => ['required', Rule::exists(Account::class, 'id')],
-            'note' => ['nullable', 'max:255'],
+            'details' => ['nullable', 'max:255'],
         ];
     }
 

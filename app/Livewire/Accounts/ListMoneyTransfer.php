@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Accounts;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Models\Account;
 use App\Models\MoneyTransfer;
@@ -64,6 +65,7 @@ class ListMoneyTransfer extends Component
         $this->validate();
 
         $fromAccount = Account::findOrFail($this->from_account_id);
+        $toAccount = Account::findOrFail($this->to_account_id);
 
         if ($fromAccount->totalBalance() < $this->amount) {
             $this->error('You have only '.number_format($fromAccount->totalBalance()).' tk in '.$fromAccount->name, timeout: 5000);
@@ -73,12 +75,14 @@ class ListMoneyTransfer extends Component
             try {
                 $moneyTransfer = MoneyTransfer::create($this->only(['from_account_id', 'to_account_id', 'amount']));
 
-                // From Account Paymen
+                // From Account Payment
                 Payment::create([
                     'account_id' => $this->from_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Money transfer',
+                    'details' => "Money transfer from $fromAccount->name ($fromAccount->account_no) to $toAccount->name ($toAccount->account_no)",
                     'type' => PaymentType::DEBIT->value, // debit
+                    'paid_by' => PaymentPaidBy::CASH,
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
                 ]);
@@ -87,8 +91,10 @@ class ListMoneyTransfer extends Component
                 Payment::create([
                     'account_id' => $this->to_account_id,
                     'amount' => $this->amount,
-                    'reference' => 'Transfer-'.date('Ymd').'-'.rand(00000, 99999),
+                    'reference' => 'Money transfer',
+                    'details' => "Money transfer from $fromAccount->name ($fromAccount->account_no) to $toAccount->name ($toAccount->account_no)",
                     'type' => PaymentType::CREDIT->value, // credit
+                    'paid_by' => PaymentPaidBy::CASH,
                     'paymentable_id' => $moneyTransfer->id,
                     'paymentable_type' => MoneyTransfer::class,
                 ]);

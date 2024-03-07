@@ -19,9 +19,9 @@
                         <x-input wire:model="form.name" id="name" required />
                     </x-input.group>
 
-                    <x-input.group for="description" label="{{ __('description') }}" :error="$errors->first('form.description')"
+                    <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('form.details')"
                         class="sm:col-span-full">
-                        <x-input.textarea wire:model="form.description" id="description"></x-input.textarea>
+                        <x-input.textarea wire:model="form.details" id="details"></x-input.textarea>
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

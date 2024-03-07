@@ -83,7 +83,7 @@ class ListCashbookEntry extends Component
         $this->authorize('viewAny', CashbookEntry::class);
 
         $search = $this->search ? '%'.trim($this->search).'%' : null;
-        $searchableFields = ['type', 'note'];
+        $searchableFields = ['type', 'details'];
 
         $cashbookEntries = CashbookEntry::query()
             ->when($search, function ($query) use ($searchableFields, $search) {

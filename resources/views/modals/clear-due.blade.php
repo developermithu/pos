@@ -1,8 +1,10 @@
 @php
     if ($data === 'supplier') {
-        $subtitle = 'Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
+        $subtitle =
+            'Supplier purchases payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
     } elseif ($data === 'customer') {
-        $subtitle = 'Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
+        $subtitle =
+            'Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.';
     }
 @endphp
 

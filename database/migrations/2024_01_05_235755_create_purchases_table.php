@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('paid_amount')->default(0)->nullable();
             $table->string('status')->comment('ordered', 'pending', 'received');
             $table->string('payment_status')->comment('paid', 'unpaid', 'partial');
-            $table->text('note')->nullable();
-            $table->timestamp('date');
+            $table->text('details')->nullable();
+            $table->date('date');
             $table->timestamps();
             $table->softDeletes();
         });

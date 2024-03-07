@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 class IncrementEmployeesBalance extends Command
 {
     protected $signature = 'employee:increment-balance';
-    protected $description = 'Increment employees balance monthly';
+    protected $details = 'Increment employees balance monthly';
 
     /**
      * Execute the console command.

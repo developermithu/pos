@@ -21,14 +21,12 @@ class EditProduct extends Component
     public string $name;
     public string $sku;
     public ?int $qty;
+    public int $cost;
     public int $price;
     public $type;
 
     public ?int $purchase_unit_id = null;
     public ?int $sale_unit_id = null;
-    public ?int $purchase_price = null;
-    public ?int $sale_price = null;
-    public ?int $cost = null;
 
     public $sale_units = null;
     public $purchase_units = null;
@@ -44,12 +42,10 @@ class EditProduct extends Component
         $this->name = $product->name;
         $this->sku = $product->sku;
         $this->qty = $product->qty;
+        $this->cost = $product->cost;
         $this->price = $product->price;
         $this->type = $product->type;
 
-        $this->cost = $product->cost;
-        $this->sale_price = $product->sale_price;
-        $this->purchase_price = $product->purchase_price;
         $this->sale_unit_id = $product->sale_unit_id ?? null;
         $this->purchase_unit_id = $product->purchase_unit_id ?? null;
 
@@ -69,11 +65,8 @@ class EditProduct extends Component
             'unit_id' => $this->unit_id,
             'name' => $this->name,
             'qty' => $this->qty ?? null,
+            'cost' => $this->cost,
             'price' => $this->price,
-
-            'cost' => $this->cost ?? null,
-            'sale_price' => $this->sale_price ?? null,
-            'purchase_price' => $this->purchase_price ?? null,
             'sale_unit_id' => $this->sale_unit_id ?? null,
             'purchase_unit_id' => $this->purchase_unit_id ?? null,
         ]);
@@ -118,13 +111,11 @@ class EditProduct extends Component
             'unit_id' => ['required', Rule::exists(Unit::class, 'id')],
             'name' => ['required', 'string'],
             'qty' => ['nullable', 'numeric'],
+            'cost' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
         ];
 
         if ($this->type === ProductType::STANDARD) {
-            $rules['cost'] = ['required', 'numeric'];
-            $rules['sale_price'] = ['required', 'numeric'];
-            $rules['purchase_price'] = ['required', 'numeric'];
             $rules['sale_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
             $rules['purchase_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
         }

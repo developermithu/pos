@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employees;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Models\Account;
 use App\Models\Employee;
@@ -18,7 +19,7 @@ class AddAdvancePayment extends Component
 
     public int|string $account_id = '';
     public ?int $amount;
-    public ?string $note = null;
+    public ?string $details = null;
 
     public function mount(Employee $employee)
     {
@@ -39,9 +40,10 @@ class AddAdvancePayment extends Component
             $payment = Payment::create([
                 'account_id' => $this->account_id,
                 'amount' => $this->amount,
-                'reference' => 'Payroll-'.date('Ymd').'-'.rand(11111, 99999),
-                'note' => $this->note,
-                'type' => PaymentType::DEBIT->value,
+                'reference' => 'Employee payment',
+                'details' => $this->details,
+                'type' => PaymentType::DEBIT,
+                'paid_by' => PaymentPaidBy::CASH,
                 'paymentable_id' => $this->employee->id,
                 'paymentable_type' => Employee::class,
             ]);
@@ -73,7 +75,7 @@ class AddAdvancePayment extends Component
         return [
             'amount' => ['required', 'integer', 'gt:0'],
             'account_id' => ['required', Rule::exists(Account::class, 'id')],
-            'note' => ['nullable', 'max:255'],
+            'details' => ['nullable', 'max:255'],
         ];
     }
 }

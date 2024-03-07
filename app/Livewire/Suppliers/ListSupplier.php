@@ -11,7 +11,6 @@ use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -210,10 +209,10 @@ class ListSupplier extends Component
                 $purchase->payments()->create([
                     'account_id' => 1, // cash
                     'amount' => $paidAmount,
-                    'reference' => Str::random(),
+                    'reference' => 'Clearing supplier due',
                     'type' => PaymentType::DEBIT,
                     'paid_by' => PaymentPaidBy::CASH,
-                    'note' => $this->note,
+                    'details' => $this->note,
                 ]);
 
                 $purchase->paid_amount += $paidAmount;

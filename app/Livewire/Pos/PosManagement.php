@@ -42,7 +42,7 @@ class PosManagement extends Component
     public string $payment_status;
     public string $paid_by;
     public ?int $paid_amount = 0;
-    public ?string $note = null;
+    public ?string $details = null;
 
     public Customer $customer;
     public $invoice_no;
@@ -83,7 +83,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -145,7 +145,7 @@ class PosManagement extends Component
             $this->error(__('Quantity must be greater than 0.'));
         } else {
             $this->redirect(PosManagement::class, navigate: true);
-            $this->error(__('This product is out of stock. Available quantity: ' . $inStockQty . $item->model->unit?->short_name));
+            $this->error(__('This product is out of stock. Available quantity: '.$inStockQty.$item->model->unit?->short_name));
         }
     }
 
@@ -163,7 +163,7 @@ class PosManagement extends Component
             $this->success(__('Price updated.'));
         } else {
             $this->redirect(PosManagement::class, navigate: true);
-            $this->error(__('Original product price is ' . $productPrice));
+            $this->error(__('Original product price is '.$productPrice));
         }
     }
 
@@ -215,19 +215,19 @@ class PosManagement extends Component
             'customer_id' => ['required', Rule::exists(Customer::class, 'id')],
             'status' => ['required', Rule::in(['ordered', 'pending', 'delivered'])],
             'payment_status' => ['required', Rule::in(['due', 'partial', 'paid'])],
-            'note' => 'nullable',
+            'details' => 'nullable',
         ];
 
         if (in_array($this->payment_status, ['partial', 'paid'])) {
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->customer)) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
                         }
                     }
                 },
@@ -247,7 +247,7 @@ class PosManagement extends Component
                 'paid_amount' => $this->paid_amount,
                 'status' => $this->status,
                 'payment_status' => $this->payment_status,
-                'note' => $this->note,
+                'details' => $this->details,
                 'date' => now(),
             ]);
 
@@ -269,10 +269,10 @@ class PosManagement extends Component
                 $sale->payments()->create([
                     'account_id' => $this->account_id,
                     'amount' => $this->paid_amount,
-                    'reference' => 'Sale-' . date('Ymd') . '-' . rand(00000, 99999),
+                    'reference' => 'Sale',
                     'type' => PaymentType::CREDIT->value,
                     'paid_by' => $this->paid_by,
-                    'note' => $this->note,
+                    'details' => $this->details,
                 ]);
 
                 // Increase customer expense
@@ -289,10 +289,11 @@ class PosManagement extends Component
             $this->invoice_no = $sale->invoice_no;
 
             $this->success(__('Sales generated successfully'));
+
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: ' . $e->getMessage());
+            \Log::error('Error creating sale: '.$e->getMessage());
             $this->error(__('Something went wrong!'));
         }
     }

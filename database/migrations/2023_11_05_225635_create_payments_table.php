@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentPaidBy;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained();
             $table->integer('amount');
-            $table->string('reference')->nullable();
-            $table->text('note')->nullable();
             $table->string('type'); // Credit or Debit
-            $table->string('paid_by'); // Cash, Cheque, Bank, Deposit
+            $table->string('paid_by')->default(PaymentPaidBy::CASH->value); // Cash, Cheque, Bank, Deposit
+            $table->string('reference')->nullable();
+            $table->text('details')->nullable();
             $table->morphs('paymentable');
             $table->timestamps();
             $table->softDeletes();

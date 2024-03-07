@@ -3,8 +3,7 @@
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class extends Component
-{
+new class extends Component {
     #[Rule(['required', 'string', 'current_password'])]
     public string $password = '';
 
@@ -12,7 +11,7 @@ new class extends Component
     {
         $this->validate();
 
-        tap(auth()->user(), fn () => auth()->logout())->delete();
+        tap(auth()->user(), fn() => auth()->logout())->delete();
 
         session()->invalidate();
         session()->regenerateToken();
@@ -32,12 +31,10 @@ new class extends Component
         </p>
     </header>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+    <x-danger-button x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete Account') }}</x-danger-button>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
+    <x-modal name="confirm-user-deletion" :show="$errors->isdetailsmpty()" focusable>
         <form wire:submit="deleteUser" class="p-6">
 
             <h2 class="text-lg font-medium text-gray-900">
@@ -51,14 +48,8 @@ new class extends Component
             <div class="mt-6">
                 <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
-                <x-text-input
-                    wire:model="password"
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="block w-3/4 mt-1"
-                    placeholder="{{ __('Password') }}"
-                />
+                <x-text-input wire:model="password" id="password" name="password" type="password"
+                    class="block w-3/4 mt-1" placeholder="{{ __('Password') }}" />
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>

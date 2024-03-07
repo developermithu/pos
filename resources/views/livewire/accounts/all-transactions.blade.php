@@ -69,7 +69,7 @@
             <x-table.heading> {{ __('account info') }} </x-table.heading>
             <x-table.heading> {{ __('reference') }} </x-table.heading>
             <x-table.heading> {{ __('amount') }} </x-table.heading>
-            <x-table.heading> {{ __('note') }} </x-table.heading>
+            <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('created at') }} </x-table.heading>
         </x-slot>
 
@@ -92,7 +92,7 @@
                         </spna>
                     @endif
                 </x-table.cell>
-                <x-table.cell> {{ Str::limit($transaction->note, 100, '..') }} </x-table.cell>
+                <x-table.cell> {{ Str::limit($transaction->details, 100, '..') }} </x-table.cell>
                 <x-table.cell> {{ $transaction->created_at->format('d M Y, g:i A') }} </x-table.cell>
             </x-table.row>
         @empty

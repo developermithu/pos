@@ -48,7 +48,7 @@
                     {!! $balanceAdjustment->type->getLabelHtml() !!}
                 </x-table.cell>
                 <x-table.cell>
-                    {{ Str::limit($balanceAdjustment->payment?->note, 50, '..') }}
+                    {{ Str::limit($balanceAdjustment->payment?->details, 50, '..') }}
                 </x-table.cell>
                 <x-table.cell class="space-x-2">
                     @can('update', $balanceAdjustment)

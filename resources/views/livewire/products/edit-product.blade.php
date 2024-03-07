@@ -76,17 +76,6 @@
                         <x-input type="number" wire:model="price" id="price" placeholder="00" />
                     </x-input.group>
 
-                    @if ($type === App\Enums\ProductType::STANDARD)
-                        <x-input.group for="purchase_price" label="purchase price *" :error="$errors->first('purchase_price')"
-                            class="lg:col-span-2">
-                            <x-input type="number" wire:model="purchase_price" placeholder="00" />
-                        </x-input.group>
-
-                        <x-input.group for="sale_price" label="sale price *" :error="$errors->first('sale_price')" class="lg:col-span-2">
-                            <x-input type="number" wire:model="sale_price" placeholder="00" />
-                        </x-input.group>
-                    @endif
-
                     <div class="col-span-6 sm:col-full">
                         <x-button.primary wire:loading.attr="disabled" wire:target="save"
                             wire:loading.class="opacity-40">

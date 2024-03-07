@@ -46,9 +46,9 @@
                         </x-input.group>
                     </div>
 
-                    <x-input.group for="note" label="{{ __('note') }}" :error="$errors->first('note')"
+                    <x-input.group for="details" label="{{ __('details') }}" :error="$errors->first('details')"
                         class="sm:col-span-full">
-                        <x-input.textarea wire:model="note" id="note" rows="3" />
+                        <x-input.textarea wire:model="details" id="details" rows="3" />
                     </x-input.group>
 
                     <div class="col-span-6 sm:col-full">

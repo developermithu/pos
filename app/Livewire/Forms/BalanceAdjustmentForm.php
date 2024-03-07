@@ -3,11 +3,11 @@
 namespace App\Livewire\Forms;
 
 use App\Enums\BalanceAdjustmentType;
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Models\Account;
 use App\Models\BalanceAdjustment;
 use App\Models\Payment;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Form;
@@ -33,7 +33,7 @@ class BalanceAdjustmentForm extends Form
         $this->amount = $balanceAdjustment->amount;
         $this->type = $balanceAdjustment->type;
         $this->date = $balanceAdjustment->date->format('Y-m-d');
-        $this->details = $balanceAdjustment->payment?->note;
+        $this->details = $balanceAdjustment->payment?->details;
     }
 
     public function store()
@@ -50,9 +50,10 @@ class BalanceAdjustmentForm extends Form
         $balanceAdjustment->payment()->create([
             'account_id' => $this->account_id,
             'amount' => $this->amount,
-            'reference' => Str::random(),
-            'note' => $this->details,
+            'reference' => 'Balance adjustment',
+            'details' => $this->details,
             'type' => $balanceAdded ? PaymentType::CREDIT : PaymentType::DEBIT,
+            'paid_by' => PaymentPaidBy::CASH,
         ]);
     }
 
@@ -70,8 +71,9 @@ class BalanceAdjustmentForm extends Form
         $this->balanceAdjustment->payment()->update([
             'account_id' => $this->account_id,
             'amount' => $this->amount,
-            'note' => $this->details,
+            'details' => $this->details,
             'type' => $balanceAdded ? PaymentType::CREDIT : PaymentType::DEBIT,
+            'paid_by' => PaymentPaidBy::CASH,
         ]);
     }
 

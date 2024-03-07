@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Models\Account;
 use App\Models\Expense;
@@ -44,8 +45,9 @@ class ExpenseForm extends Form
         Payment::create([
             'account_id' => $this->account_id,
             'amount' => $this->amount,
-            'reference' => 'Expense-'.date('Ymd').'-'.rand(00000, 99999),
-            'type' => PaymentType::DEBIT->value,
+            'reference' => 'Expense',
+            'type' => PaymentType::DEBIT,
+            'paid_by' => PaymentPaidBy::CASH,
             'paymentable_id' => $expense->id,
             'paymentable_type' => Expense::class,
         ]);

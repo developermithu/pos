@@ -21,10 +21,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku')->unique();
             $table->integer('qty')->nullable();
-            $table->integer('cost')->nullable();
+            $table->integer('alert_qty')->nullable();
+            $table->integer('cost');
             $table->integer('price');
-            $table->integer('purchase_price')->nullable();
-            $table->integer('sale_price')->nullable();
             $table->string('type'); // standard or service
             $table->timestamps();
             $table->softDeletes();

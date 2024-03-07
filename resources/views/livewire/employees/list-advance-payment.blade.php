@@ -83,7 +83,7 @@
                     {{ $payment->employee?->name }}
                 </x-table.cell>
                 <x-table.cell>
-                    {{ Str::limit($payment->note, 50, '..') }}
+                    {{ Str::limit($payment->details, 50, '..') }}
                 </x-table.cell>
                 <x-table.cell class="font-semibold"> {{ number_format($payment->amount) }} TK </x-table.cell>
                 <x-table.cell> {{ $payment->created_at->format('d M, Y, g:i A') }} </x-table.cell>

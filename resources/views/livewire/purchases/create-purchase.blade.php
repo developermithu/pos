@@ -124,8 +124,7 @@
                                         <x-table.cell style="padding: 12px">
                                             <x-mary-input type="number" value="{{ $item->price }}"
                                                 wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                                suffix="TK"
-                                                hint="Product cost: {{ $item->model->price }} TK" />
+                                                suffix="TK" hint="Product cost: {{ $item->model->cost }} TK" />
                                         </x-table.cell>
 
                                         <x-table.cell class="!p-4"> {{ $item->total }} </x-table.cell>
@@ -135,7 +134,7 @@
                                                 class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
                                                 <x-heroicon-m-pencil-square class="w-5 h-5" />
                                             </button>
-                                            
+
                                             <button wire:click="removeFromCart('{{ $item->rowId }}')"
                                                 class="p-2 rounded-full hover:bg-danger/10 text-danger hover:duration-200">
                                                 <x-heroicon-m-trash class="w-5 h-5" />
@@ -167,9 +166,9 @@
                                 <div class="p-4">
                                     <div class="grid grid-cols-6 gap-4 mb-5">
                                         <div class="col-span-6 sm:col-span-3">
-                                            <x-input.group for="note" label="{{ __('note') }}"
-                                                :error="$errors->first('note')">
-                                                <x-input.textarea wire:model="note" id="note" />
+                                            <x-input.group for="details" label="{{ __('details') }}"
+                                                :error="$errors->first('details')">
+                                                <x-input.textarea wire:model="details" id="details" />
                                             </x-input.group>
                                         </div>
 

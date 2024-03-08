@@ -739,6 +739,9 @@ namespace App\Models{
  * @property int|null $unit_id
  * @property string $name
  * @property string $short_name
+ * @property string|null $operator
+ * @property int|null $operation_value
+ * @property bool $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -752,7 +755,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereOperationValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit whereOperator($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereShortName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUpdatedAt($value)

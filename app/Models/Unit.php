@@ -13,7 +13,17 @@ class Unit extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'short_name', 'unit_id'];
+    protected $fillable = [
+        'name',
+        'short_name',
+        'unit_id',
+        'operator',
+        'operation_value',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
     public function baseUnit(): BelongsTo
     {
@@ -33,6 +43,14 @@ class Unit extends Model
         return Attribute::make(
             get: fn (string $value) => strtolower($value),
             set: fn (string $value) => strtolower($value),
+        );
+    }
+
+    protected function operationValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int|float|null $value) => $value ? $value / 1000 : null,
+            set: fn (int|float|null $value) => $value ? $value * 1000 : null,
         );
     }
 

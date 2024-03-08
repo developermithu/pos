@@ -15,6 +15,7 @@ class ListUnit extends Component
     use SearchAndFilter, Toast, WithPagination;
 
     public UnitForm $form;
+    public $unit_id;
 
     public function create()
     {
@@ -23,6 +24,16 @@ class ListUnit extends Component
 
         $this->success(__('Record has been created successfully'));
         $this->dispatch('close');
+    }
+
+    public function updatedFormUnitId($value)
+    {
+        $this->unit_id = $value;
+
+        if (is_null($value)) {
+            $this->form->operator = '*';
+            $this->form->operation_value = 1;
+        }
     }
 
     public function destroy(Unit $unit)
@@ -69,7 +80,7 @@ class ListUnit extends Component
     {
         $this->authorize('viewAny', Unit::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'short_name'];
 
         $units = Unit::query()
@@ -91,7 +102,9 @@ class ListUnit extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.units.list-unit', compact('units'))
+        $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
+
+        return view('livewire.units.list-unit', compact('units', 'baseUnits'))
             ->title(__('unit list'));
     }
 }

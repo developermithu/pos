@@ -18,6 +18,9 @@ return new class extends Migration
                 ->constrained();
             $table->string('name');
             $table->string('short_name')->unique();
+            $table->string('operator')->nullable();
+            $table->integer('operation_value')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

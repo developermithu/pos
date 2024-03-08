@@ -12,7 +12,9 @@ class UnitForm extends Form
 
     public string $name = '';
     public string $short_name = '';
-    public int|string $unit_id = '';
+    public ?int $unit_id = null;
+    public ?string $operator = '*';
+    public int|float|null $operation_value = 1;
 
     public function setUnit(Unit $unit)
     {
@@ -20,19 +22,21 @@ class UnitForm extends Form
 
         $this->name = $unit->name;
         $this->short_name = $unit->short_name;
-        $this->unit_id = $unit->unit_id ?? '';
+        $this->unit_id = $unit->unit_id ?? null;
+        $this->operator = $unit->operator ?? null;
+        $this->operation_value = $unit->operation_value ?? null;
     }
 
     public function store()
     {
         $this->validate();
 
-        $unit_is_null = $this->unit_id === '' || $this->unit_id === null;
-
         Unit::create([
             'name' => $this->name,
             'short_name' => $this->short_name,
-            'unit_id' => $unit_is_null ? null : $this->unit_id,
+            'unit_id' => $this->unit_id ?? null,
+            'operator' => trim($this->operator),
+            'operation_value' => $this->operation_value,
         ]);
 
         $this->reset();
@@ -42,18 +46,18 @@ class UnitForm extends Form
     {
         $this->validate();
 
-        $unit_is_null = $this->unit_id === '' || $this->unit_id === null;
-
         $this->unit->update([
             'name' => $this->name,
             'short_name' => $this->short_name,
-            'unit_id' => $unit_is_null ? null : $this->unit_id,
+            'unit_id' => $this->unit_id ?? null,
+            'operator' => trim($this->operator),
+            'operation_value' => $this->operation_value,
         ]);
     }
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required'],
             'short_name' => [
                 'required',
@@ -61,10 +65,17 @@ class UnitForm extends Form
             ],
             'unit_id' => [
                 'nullable',
-                Rule::exists(Unit::class, 'id')->when($this->unit_id, function ($query) {
-                    return $query;
-                }),
+                // Rule::exists(Unit::class, 'id')->when($this->unit_id, function ($query) {
+                //     return $query;
+                // }),
             ],
         ];
+
+        if (isset($this->unit_id)) {
+            $rules['operator'] = ['required', 'string', 'regex:/^[\s*+\-\/]*$/']; // avoid extra slash (+, -, *, /)
+            $rules['operation_value'] = ['required', 'numeric'];
+        }
+
+        return $rules;
     }
 }

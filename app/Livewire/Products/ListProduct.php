@@ -4,6 +4,7 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -20,19 +21,20 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
-        $searchableFields = ['name', 'sku'];
+        $search = '%' . trim($this->search) . '%';
 
         $products = Product::query()
-            ->when($search, function ($query) use ($searchableFields, $search) {
-                $query->where(function ($query) use ($searchableFields, $search) {
-                    foreach ($searchableFields as $field) {
-                        $query->orWhere($field, 'like', $search);
-                    }
-                });
+            ->when($search, function (Builder $query) use ($search) {
+                $query->whereAny(['name', 'sku'], 'like', $search)
+                    ->orWhereHas('unit', function (Builder $query) use ($search) {
+                        $query->whereAny(['name', 'short_name'], 'like', $search);
+                    })
+                    ->orWhereHas('category', function (Builder $query) use ($search) {
+                        $query->whereAny(['name'], 'like', $search);
+                    });
             })
             ->with('category:id,name', 'unit:id,short_name')
-            ->when($this->filterByTrash, function ($query, $value) {
+            ->when($this->filterByTrash, function (Builder $query, $value) {
                 if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
                 } elseif ($value === 'withTrashed') {

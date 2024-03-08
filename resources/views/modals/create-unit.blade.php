@@ -29,14 +29,23 @@
 
             <div class="col-span-2">
                 <x-input.group for="unit_id" label="base unit" :error="$errors->first('form.unit_id')">
-                    <x-input.select wire:model="form.unit_id">
-                        <option value=""> {{ __('choose base unit') }} </option>
-                        @foreach (App\Models\Unit::pluck('name', 'id') as $key => $name)
-                            <option value="{{ $key }}"> {{ $name }} </option>
-                        @endforeach
-                    </x-input.select>
+                    <x-input.select wire:model.change="form.unit_id" :options="$baseUnits" selected="true" />
                 </x-input.group>
             </div>
+
+            @isset($unit_id)
+                <div class="col-span-2">
+                    <x-input.group for="operator" label="operator *" :error="$errors->first('form.operator')">
+                        <x-input wire:model="form.operator" id="operator" required />
+                    </x-input.group>
+                </div>
+
+                <div class="col-span-2">
+                    <x-input.group for="operation_value" label="operation value *" :error="$errors->first('form.operation_value')">
+                        <x-input type="number" wire:model="form.operation_value" id="operation_value" required />
+                    </x-input.group>
+                </div>
+            @endisset
         </div>
 
         <x-button wire:loading.attr="disabled" wire:loading.class="opacity-40" wire:target="create"

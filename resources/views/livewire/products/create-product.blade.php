@@ -67,12 +67,12 @@
                     </x-input.group>
 
                     @if ($type === App\Enums\ProductType::STANDARD->value)
-                        <x-input.group for="cost" label="cost *" :error="$errors->first('cost')" class="lg:col-span-2">
+                        <x-input.group for="cost" label="cost (per unit) *" :error="$errors->first('cost')" class="lg:col-span-2">
                             <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
                         </x-input.group>
                     @endif
 
-                    <x-input.group for="price" label="price *" :error="$errors->first('price')" class="lg:col-span-2">
+                    <x-input.group for="price" label="price (per unit) *" :error="$errors->first('price')" class="lg:col-span-2">
                         <x-input type="number" wire:model="price" id="price" placeholder="00" />
                     </x-input.group>
 

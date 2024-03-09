@@ -48,7 +48,7 @@
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="font-semibold"> {{ $item->product?->name }} </x-table.cell>
                             <x-table.cell> {{ $item->price }} </x-table.cell>
-                            <x-table.cell> {{ $item->qty }} </x-table.cell>
+                            <x-table.cell> {{ $item->qty }} {{ $item->saleUnit?->short_name }} </x-table.cell>
                             <x-table.cell> {{ $item->price * $item->qty }} </x-table.cell>
                         </x-table.row>
                     @endforeach
@@ -56,9 +56,25 @@
                     <x-table.row class="hover:bg-transparent dark:hover:bg-bg-transparent">
                         <td colspan="4" class="pt-4 text-gray-500">
                             <div class="flex flex-col gap-1 text-right">
-                                <div> {{ __('subtotal') }}: <strong> {{ $sale->subtotal }} </strong></div>
-                                <div> {{ __('tax') }}: <strong> {{ $sale->tax }} </strong></div>
-                                <div class="text-lg"> {{ __('total') }}: <strong> {{ $sale->total }} </strong>
+                                <div> {{ __('subtotal') }}: <strong> {{ number_format($sale->subtotal) }}
+                                    </strong></div>
+                                <div> {{ __('tax') }}: <strong> {{ number_format($sale->tax ?? 0) }}
+                                    </strong></div>
+                                <div> {{ __('total') }}: <strong> {{ number_format($sale->total) }} </strong>
+                                </div>
+
+                                <div> {{ __('paid amount') }}: <strong class="text-success">
+                                        {{ number_format($sale->paid_amount) }}
+                                    </strong>
+                                </div>
+                                <div> {{ __('due amount') }}:
+                                    <strong class="text-danger/80">
+                                        @php
+                                            $due = $sale->total - $sale->paid_amount;
+                                        @endphp
+
+                                        {{ number_format($due ?? 0) }}
+                                    </strong>
                                 </div>
                             </div>
                         </td>

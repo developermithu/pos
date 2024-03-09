@@ -31,7 +31,7 @@
 
                     @forelse (Cart::content() as $key => $item)
                         <x-table.row wire:loading.class="opacity-50" wire:key="{{ $item->id }}"
-                            wire:target="addToCart, increaseQty, decreaseQty, removeFromCart"
+                            wire:target="addToCart, removeFromCart"
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="p-0" style="padding: 12px">
                                 {{ Str::limit($item->name, 75, '..') }} </x-table.cell>
@@ -44,16 +44,22 @@
                                     {{ $item->model?->unit?->short_name }}" />
                             </x-table.cell>
 
+                            @php
+                                $saleUnit = $item->model?->saleUnit?->name ?? $item->model?->unit?->name;
+                            @endphp
+
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->price }}"
                                     wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                    suffix="TK" hint="Price: {{ $item->model?->price }} TK" />
+                                    suffix="TK"
+                                    hint="Per {{ $saleUnit }} = {{ $item->price }} TK " />
                             </x-table.cell>
 
                             <x-table.cell style="padding: 12px"> {{ $item->total }} </x-table.cell>
 
                             <x-table.cell style="padding: 12px">
-                                <button wire:click="showProductEditModal({{ $item->model?->id }})"
+                                <button
+                                    wire:click="showProductEditModal('{{ $item->rowId }}', {{ $item->model?->id }})"
                                     class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
                                     <x-heroicon-m-pencil-square class="w-5 h-5" />
                                 </button>

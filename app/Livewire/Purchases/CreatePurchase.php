@@ -59,7 +59,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -130,7 +130,7 @@ class CreatePurchase extends Component
             $this->success(__('Price updated.'));
         } else {
             $this->redirect(CreatePurchase::class, navigate: true);
-            $this->error(__('Price can not be null or less then 0.'));
+            $this->error(__('Price must be greater than 0.'));
         }
     }
 
@@ -259,12 +259,12 @@ class CreatePurchase extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->supplier)) {
                         $supplierDepositBalance = $this->supplier->depositBalance();
                         if ($supplierDepositBalance < $value) {
-                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance '.$supplierDepositBalance);
+                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
                         }
                     }
                 },

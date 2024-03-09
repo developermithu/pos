@@ -25,11 +25,6 @@ class Unit extends Model
         'is_active' => 'boolean',
     ];
 
-    public function baseUnit(): BelongsTo
-    {
-        return $this->belongsTo(Unit::class, 'unit_id');
-    }
-
     protected function name(): Attribute
     {
         return Attribute::make(
@@ -55,8 +50,24 @@ class Unit extends Model
     }
 
     //========== Relationships ===========//
+    public function baseUnit()
+    {
+        return $this->belongsTo(self::class, 'unit_id');
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function convertQuantity(int|float $quantity, $operator, int|float $operationValue): int|float|null
+    {
+        if ($operator === '*') {
+            return $quantity * $operationValue;
+        } elseif ($operator === '/' && $operationValue > 0) {
+            return $quantity / $operationValue;
+        } else {
+            return null;
+        }
     }
 }

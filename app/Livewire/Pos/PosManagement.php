@@ -16,6 +16,7 @@ use App\Models\SaleItem;
 use App\Models\Unit;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -55,6 +56,8 @@ class PosManagement extends Component
     public int $sale_unit_id;
     public $sale_units = [];
 
+    public $rowId;
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -83,7 +86,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -117,6 +120,10 @@ class PosManagement extends Component
                 'name' => $product->name,
                 'qty' => 1,
                 'price' => $product->price,
+                'options' => [
+                    'cost' => $product->cost,
+                    'sale_unit_id' => $product->sale_unit_id ?? $product->unit_id,
+                ]
             ])->associate(Product::class);
 
             $this->success(__('Product added successfully.'));
@@ -135,17 +142,14 @@ class PosManagement extends Component
     public function updateQty(string $rowId, int|float $saleQty)
     {
         $item = Cart::get($rowId);
-        $inStockQty = (int) $item->model->qty; // product stock qty
+        // $inStockQty = (int) $item->model->qty; 
 
-        if ($saleQty > 0 && $saleQty <= $inStockQty) {
+        if ($saleQty > 0) {
             Cart::update($rowId, $saleQty);
             $this->success(__('Quantity updated successfully.'));
         } elseif ($saleQty <= 0) {
             $this->redirect(PosManagement::class, navigate: true);
             $this->error(__('Quantity must be greater than 0.'));
-        } else {
-            $this->redirect(PosManagement::class, navigate: true);
-            $this->error(__('This product is out of stock. Available quantity: '.$inStockQty.$item->model->unit?->short_name));
         }
     }
 
@@ -155,7 +159,7 @@ class PosManagement extends Component
         $productPrice = (int) $item->model->price; // product price
 
         // If new price is greater than or equal to product price then update price
-        if ($salePrice >= $productPrice) {
+        if ($salePrice > 0) {
             Cart::update($rowId, [
                 'price' => $salePrice,
             ]);
@@ -163,7 +167,7 @@ class PosManagement extends Component
             $this->success(__('Price updated.'));
         } else {
             $this->redirect(PosManagement::class, navigate: true);
-            $this->error(__('Original product price is '.$productPrice));
+            $this->error(__('Price must be greater than 0.'));
         }
     }
 
@@ -181,7 +185,7 @@ class PosManagement extends Component
         $this->customer = $customer;
     }
 
-    public function showProductEditModal(Product $product)
+    public function showProductEditModal(string $rowId, Product $product)
     {
         $this->reset(['sale_unit_id', 'price']);
         $this->productEditModal = true;
@@ -193,6 +197,8 @@ class PosManagement extends Component
         $this->sale_units = Unit::whereId($product->unit_id)
             ->orWhere('unit_id', $product->unit_id)
             ->pluck('name', 'id');
+
+        $this->rowId = $rowId;
     }
 
     public function editProduct()
@@ -201,12 +207,25 @@ class PosManagement extends Component
             'sale_unit_id' => ['required', Rule::exists(Unit::class, 'id')],
         ]);
 
-        $this->product->update([
-            'sale_unit_id' => $this->sale_unit_id,
-        ]);
+        DB::beginTransaction();
 
-        $this->productEditModal = false;
-        $this->success(__('Product sale unit has been update.'));
+        try {
+            Cart::update($this->rowId, [
+                'options' => [
+                    'cost' => $this->product->cost,
+                    'sale_unit_id' => $this->sale_unit_id,
+                ],
+            ]);
+
+            $this->product->update(['sale_unit_id' => $this->sale_unit_id]);
+
+            DB::commit();
+            $this->productEditModal = false;
+            $this->success(__('Product sale unit has been updated.'));
+        } catch (\Exception $e) {
+            DB::rollback();
+            $this->error($e->getMessage());
+        }
     }
 
     public function createInvoice()
@@ -222,12 +241,12 @@ class PosManagement extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->customer)) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
                         }
                     }
                 },
@@ -253,15 +272,29 @@ class PosManagement extends Component
 
             // Insert Sale Items
             foreach (Cart::content() as $item) {
+                // Decrement product quantity based on sale unit
+                $saleUnit = Unit::findOrFail($item->options['sale_unit_id']);
+                $convertedQty = $saleUnit->convertQuantity($item->qty, $saleUnit->operator, $saleUnit->operation_value);
+
+                if ($convertedQty !== null && $convertedQty > 0) {
+                    $item->model->decrement('qty', $convertedQty * 100); // as I am using mutator in product qty
+
+                    // Calculate the cost per item
+                    $costPerUnit = $item->model->cost; // Cost per unit from the product
+                    $totalCost = $costPerUnit * $convertedQty; // Total cost for the converted quantity
+                    $costPerItemPerUnit = $totalCost / $item->qty; // Cost per item per unit(kg, gm, lb)
+                } else {
+                    Log::error('Invalid sale qty convertion.');
+                }
+
                 SaleItem::create([
                     'sale_id' => $sale->id,
                     'product_id' => $item->id,
                     'price' => $item->price,
                     'qty' => $item->qty,
+                    'cost' => $costPerItemPerUnit,
+                    'sale_unit_id' => $item->options['sale_unit_id'],
                 ]);
-
-                // decrease product quantity
-                $item->model->decrement('qty', $item->qty);
             }
 
             // Insert Payment
@@ -293,7 +326,7 @@ class PosManagement extends Component
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: '.$e->getMessage());
+            \Log::error('Error creating sale: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
         }
     }

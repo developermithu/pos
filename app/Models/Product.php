@@ -27,11 +27,27 @@ class Product extends Model
     }
 
     // Mutator methods
+    protected function cost(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int|float $value) => $value ? $value / 100 : null,
+            set: fn (int|float $value) => $value ? $value * 100 : null,
+        );
+    }
+
     protected function price(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? $value / 100 : null,
-            set: fn ($value) => $value ? $value * 100 : null,
+            get: fn (int|float $value) => $value ? $value / 100 : null,
+            set: fn (int|float $value) => $value ? $value * 100 : null,
+        );
+    }
+
+    protected function qty(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int|float|null $value) => $value ? $value / 100 : null,
+            set: fn (int|float|null $value) => $value ? $value * 100 : null,
         );
     }
 

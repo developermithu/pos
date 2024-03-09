@@ -30,11 +30,32 @@ class SaleItem extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function saleUnit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'sale_unit_id');
+    }
+
+    protected function cost(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
     protected function price(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value / 100,
             set: fn ($value) => $value * 100,
+        );
+    }
+
+    protected function qty(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int|float|null $value) => $value ? $value / 100 : null,
+            set: fn (int|float|null $value) => $value ? $value * 100 : null,
         );
     }
 }

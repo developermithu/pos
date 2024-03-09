@@ -38,7 +38,7 @@
                 <x-table>
                     <x-slot name="heading">
                         <x-table.heading> {{ __('item') }} </x-table.heading>
-                        <x-table.heading> {{ __('price') }} </x-table.heading>
+                        <x-table.heading> {{ __('cost') }} </x-table.heading>
                         <x-table.heading> {{ __('qty') }} </x-table.heading>
                         <x-table.heading> {{ __('total') }} </x-table.heading>
                     </x-slot>
@@ -47,9 +47,9 @@
                         <x-table.row wire:key="{{ $item->id }}"
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="font-semibold"> {{ $item->product?->name }} </x-table.cell>
-                            <x-table.cell> {{ $item->price }} </x-table.cell>
+                            <x-table.cell> {{ $item->cost }} </x-table.cell>
                             <x-table.cell> {{ $item->qty }} </x-table.cell>
-                            <x-table.cell> {{ $item->price * $item->qty }} </x-table.cell>
+                            <x-table.cell> {{ $item->cost * $item->qty }} </x-table.cell>
                         </x-table.row>
                     @endforeach
 

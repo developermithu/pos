@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sale_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained();
-            $table->integer('cost');  
-            $table->integer('price'); // sale price 
+            $table->integer('cost');
+            $table->integer('price'); // sale price
             $table->integer('qty');
             $table->foreignId('sale_unit_id')->constrained('units');
             $table->timestamps();

@@ -21,7 +21,7 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = '%' . trim($this->search) . '%';
+        $search = '%'.trim($this->search).'%';
 
         $products = Product::query()
             ->when($search, function (Builder $query) use ($search) {

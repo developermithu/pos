@@ -11,8 +11,8 @@
             </h1>
         </div>
 
-        <!-- Right Content -->
-        <div class="xl:col-span-4 md:col-span-6 col-span-full">
+        <!-- Sale Details -->
+        <div class="md:col-span-6 col-span-full">
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-4 dark:bg-gray-800">
                 <div class="flow-root">
@@ -110,69 +110,8 @@
             </div>
         </div>
 
-        {{-- <div class="xl:col-span-4 md:col-span-6 col-span-full">
-            <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <div class="flow-root">
-                    <h3 class="text-xl font-semibold capitalize dark:text-white"> {{ __('transaction details') }} </h3>
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-                        <li class="py-3">
-                            <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                                <h2 class="capitalize text-gray-900 mb-0.5 dark:text-white">
-                                    {{ __('payment method') }} :
-                                </h2>
-                                <p @class([
-                                    'flex-1 font-medium text-gray-900 mb-0.5',
-                                    'text-[#E2136E]' => $sale->transaction->method === 'bkash',
-                                    'text-primary' => $sale->transaction->method === 'bank',
-                                ])>
-                                    {{ $sale->transaction->method ?? '' }}
-                                </p>
-                            </div>
-                        </li>
-
-                        @if ($sale->transaction->method === 'bkash')
-                            <li class="py-3">
-                                <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                                    <h2 class="capitalize text-gray-900 mb-0.5 dark:text-white">
-                                        {{ __('transaction id') }} :
-                                    </h2>
-                                    <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                        {{ $sale->transaction->transaction_id }}
-                                    </p>
-                                </div>
-                            </li>
-                        @endif
-
-                        @if ($sale->transaction->method === 'bank')
-                            <li class="py-3">
-                                <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                                    <h2 class="capitalize text-gray-900 mb-0.5 dark:text-white">
-                                        {{ __('details') }} :
-                                    </h2>
-                                    <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                        {{ $sale->transaction->details ?? '' }}
-                                    </p>
-                                </div>
-                            </li>
-                        @endif
-
-                        <li class="py-3">
-                            <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                                <h2 class="capitalize text-gray-900 mb-0.5 dark:text-white">
-                                    {{ __('status') }} :
-                                </h2>
-                                <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {!! $sale->transaction->status->getLabelHtml() ?? '' !!}
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="xl:col-span-4 md:col-span-6 col-span-full">
+        {{-- Customer Details --}}
+        <div class="md:col-span-6 col-span-full">
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-4 dark:bg-gray-800">
                 <div class="flow-root">
@@ -184,7 +123,7 @@
                                     {{ __('name') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->name ?? '' }}
+                                    {{ $sale->customer?->name }}
                                 </p>
                             </div>
                         </li>
@@ -195,7 +134,7 @@
                                     {{ __('address') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->address ?? '' }}
+                                    {{ $sale->customer?->address }}
                                 </p>
                             </div>
                         </li>
@@ -206,7 +145,18 @@
                                     {{ __('phone number') }} :
                                 </h2>
                                 <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
-                                    {{ $sale->customer->phone_number ?? '' }}
+                                    {{ $sale->customer?->phone_number }}
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="py-3">
+                            <div class="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
+                                <h2 class=" text-gray-900 capitalize mb-0.5 dark:text-white">
+                                    {{ __('company name') }} :
+                                </h2>
+                                <p class="flex-1 font-medium text-gray-900 mb-0.5 dark:text-white">
+                                    {{ $sale->customer?->company_name }}
                                 </p>
                             </div>
                         </li>
@@ -219,33 +169,39 @@
         <div class="col-span-full">
             <x-table>
                 <x-slot name="heading">
-                    <x-table.heading> {{ __('product code') }} </x-table.heading>
-                    <x-table.heading> {{ __('name') }} </x-table.heading>
-                    <x-table.heading> {{ __('qty') }} </x-table.heading>
+                    <x-table.heading> {{ __('product') }} </x-table.heading>
                     <x-table.heading> {{ __('price') }} </x-table.heading>
+                    <x-table.heading> {{ __('qty') }} </x-table.heading>
                     <x-table.heading> {{ __('total') }} </x-table.heading>
                 </x-slot>
 
                 @forelse ($sale->items as $item)
                     <x-table.row wire:key="{{ $item->id }}" class="hover:bg-transparent dark:hover:bg-transparent">
                         <x-table.cell class="font-medium text-gray-800 dark:text-white">
-                            {{ $item->product->sku ?? '' }}
+                            {{ $item->product?->name }} ({{ $item->product?->sku }})
                         </x-table.cell>
-                        <x-table.cell> {{ $item->product->name ?? '' }} </x-table.cell>
-                        <x-table.cell> {{ $item->qty }} </x-table.cell>
-                        <x-table.cell> {{ $item->price }} </x-table.cell>
-                        <x-table.cell> {{ $item->qty * $item->price }} </x-table.cell>
-
+                        <x-table.cell> {{ $item->price }} TK </x-table.cell>
+                        <x-table.cell class="!lowercase"> {{ $item->qty }} {{ $item->saleUnit?->short_name }}
+                        </x-table.cell>
+                        <x-table.cell> {{ $item->qty * $item->price }} TK </x-table.cell>
                         {{-- <x-table.cell class="space-x-2">
                         <x-button size="small" :href="route('admin.items.show', $item)">
                             {{ __('details') }}
                         </x-button>
                     </x-table.cell> --}}
                     </x-table.row>
-
                 @empty
                     <x-table.data-not-found colspan="5" />
                 @endforelse
+
+                @if ($sale->items->count() > 0)
+                    <x-table.row class="text-lg font-bold">
+                        <td colspan="2"></td>
+                        <x-table.cell colspan="1"> {{ __('total') }} </x-table.cell>
+                        <x-table.cell colspan="1" class="!text-primary"> {{ Number::format($sale->total) }} TK
+                        </x-table.cell>
+                    </x-table.row>
+                @endif
             </x-table>
         </div>
     </div>

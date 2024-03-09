@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Products;
 
-use App\Enums\ProductType;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
@@ -72,6 +71,7 @@ class EditProduct extends Component
         ]);
 
         $this->success(__('Record has been updated successfully'));
+
         return $this->redirect(ListProduct::class, navigate: true);
     }
 

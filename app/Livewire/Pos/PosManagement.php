@@ -86,7 +86,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
+        $search = $this->search ? '%'.trim($this->search).'%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -123,7 +123,7 @@ class PosManagement extends Component
                 'options' => [
                     'cost' => $product->cost,
                     'sale_unit_id' => $product->sale_unit_id ?? $product->unit_id,
-                ]
+                ],
             ])->associate(Product::class);
 
             $this->success(__('Product added successfully.'));
@@ -142,7 +142,7 @@ class PosManagement extends Component
     public function updateQty(string $rowId, int|float $saleQty)
     {
         $item = Cart::get($rowId);
-        // $inStockQty = (int) $item->model->qty; 
+        // $inStockQty = (int) $item->model->qty;
 
         if ($saleQty > 0) {
             Cart::update($rowId, $saleQty);
@@ -241,12 +241,12 @@ class PosManagement extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:' . $this->cartTotal(),
+                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
                 function ($attribute, $value, $fail) {
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->customer)) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
                         }
                     }
                 },
@@ -326,7 +326,7 @@ class PosManagement extends Component
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: ' . $e->getMessage());
+            \Log::error('Error creating sale: '.$e->getMessage());
             $this->error(__('Something went wrong!'));
         }
     }

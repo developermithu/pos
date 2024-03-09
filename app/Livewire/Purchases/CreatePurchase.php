@@ -46,6 +46,8 @@ class CreatePurchase extends Component
     public int $purchase_unit_id;
     public $purchase_units = [];
 
+    public $rowId;
+
     public function mount()
     {
         $this->authorize('create', Purchase::class);
@@ -94,6 +96,9 @@ class CreatePurchase extends Component
                 'name' => $product->name,
                 'qty' => 1,
                 'price' => $product->cost,
+                'options' => [
+                    'purchase_unit_id' => $product->purchase_unit_id ?? $product->unit_id,
+                ]
             ])->associate(Product::class);
         }
 
@@ -148,7 +153,7 @@ class CreatePurchase extends Component
         $this->supplier = $supplier;
     }
 
-    public function showProductEditModal(Product $product)
+    public function showProductEditModal(string $rowId, Product $product)
     {
         $this->reset(['purchase_unit_id', 'cost']);
         $this->productEditModal = true;
@@ -160,6 +165,8 @@ class CreatePurchase extends Component
         $this->purchase_units = Unit::whereId($product->unit_id)
             ->orWhere('unit_id', $product->unit_id)
             ->pluck('name', 'id');
+
+        $this->rowId = $rowId;
     }
 
     public function editProduct()
@@ -168,12 +175,24 @@ class CreatePurchase extends Component
             'purchase_unit_id' => ['required', Rule::exists(Unit::class, 'id')],
         ]);
 
-        $this->product->update([
-            'purchase_unit_id' => $this->purchase_unit_id,
-        ]);
+        DB::beginTransaction();
 
-        $this->productEditModal = false;
-        $this->success(__('Product purchase unit has been update.'));
+        try {
+            Cart::instance('purchases')->update($this->rowId, [
+                'options' => [
+                    'purchase_unit_id' => $this->purchase_unit_id,
+                ],
+            ]);
+
+            $this->product->update(['purchase_unit_id' => $this->purchase_unit_id]);
+
+            DB::commit();
+            $this->productEditModal = false;
+            $this->success(__('Product purchase unit has been updated.'));
+        } catch (\Exception $e) {
+            DB::rollback();
+            $this->error($e->getMessage());
+        }
     }
 
     public function createPurchase()
@@ -199,17 +218,26 @@ class CreatePurchase extends Component
 
             // Insert purchase Items
             foreach (Cart::instance('purchases')->content() as $item) {
+                // increment product quantity based on purchase unit
+                $purchaseUnit = Unit::findOrFail($item->options['purchase_unit_id']);
+                $convertedQty = $purchaseUnit->convertQuantity($item->qty, $purchaseUnit->operator, $purchaseUnit->operation_value);
+
+                if ($convertedQty !== null && $convertedQty > 0) {
+                    // increase product quantity
+                    if ($this->status === PurchaseStatus::RECEIVED->value) {
+                        $item->model->increment('qty', $convertedQty * 100); // for mutator 
+                    }
+                } else {
+                    Log::error('Invalid purchase qty convertion.');
+                }
+
                 PurchaseItem::create([
                     'purchase_id' => $purchase->id,
                     'product_id' => $item->id,
                     'cost' => $item->price,
                     'qty' => $item->qty,
+                    'purchase_unit_id' => $item->options['purchase_unit_id'],
                 ]);
-
-                // increase product quantity
-                if ($this->status === PurchaseStatus::RECEIVED->value) {
-                    $item->model->increment('qty', $item->qty);
-                }
             }
 
             // Insert Payment

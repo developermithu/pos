@@ -55,13 +55,6 @@ class CreateProduct extends Component
         }
     }
 
-    public function updatedType()
-    {
-        $this->purchase_unit_id = null;
-        $this->sale_unit_id = null;
-        $this->cost = null;
-    }
-
     public function save()
     {
         $this->validate();
@@ -71,10 +64,9 @@ class CreateProduct extends Component
             'unit_id' => $this->unit_id,
             'name' => $this->name,
             'qty' => $this->qty ?? null,
+            'cost' => $this->cost,
             'price' => $this->price,
             'type' => $this->type,
-
-            'cost' => $this->cost ?? null,
             'sale_unit_id' => $this->sale_unit_id ?? null,
             'purchase_unit_id' => $this->purchase_unit_id ?? null,
         ]);
@@ -99,12 +91,9 @@ class CreateProduct extends Component
             'cost' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
             'type' => ['required', Rule::enum(ProductType::class)],
+            'sale_unit_id' => ['nullable', Rule::exists(Unit::class, 'id')],
+            'purchase_unit_id' => ['nullable', Rule::exists(Unit::class, 'id')],
         ];
-
-        if ($this->type === ProductType::STANDARD->value) {
-            $rules['sale_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
-            $rules['purchase_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
-        }
 
         return $rules;
     }

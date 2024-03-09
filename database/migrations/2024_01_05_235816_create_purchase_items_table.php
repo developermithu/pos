@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->integer('cost');
             $table->integer('qty');
+            $table->foreignId('purchase_unit_id')->constrained('units');
             $table->timestamps();
             $table->softDeletes();
         });

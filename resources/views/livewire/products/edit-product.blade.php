@@ -38,39 +38,35 @@
                             placeholder="choose unit" />
                     </x-input.group>
 
-                    @if ($type === App\Enums\ProductType::STANDARD)
-                        <x-input.group label="sale unit *" :error="$errors->first('sale_unit_id')" class="lg:col-span-2">
-                            <x-input.select wire:model="sale_unit_id" class="!lowercase">
-                                <option value="" selected>-- {{ __('choose sale unit') }} --</option>
-                                @if (!is_null($sale_units))
-                                    @foreach ($sale_units as $key => $name)
-                                        <option value="{{ $key }}"> {{ $name }} </option>
-                                    @endforeach
-                                @endif
-                            </x-input.select>
-                        </x-input.group>
+                    <x-input.group label="sale unit" :error="$errors->first('sale_unit_id')" class="lg:col-span-2">
+                        <x-input.select wire:model="sale_unit_id" class="!lowercase">
+                            <option value="" selected>-- {{ __('choose sale unit') }} --</option>
+                            @if (!is_null($sale_units))
+                                @foreach ($sale_units as $key => $name)
+                                    <option value="{{ $key }}"> {{ $name }} </option>
+                                @endforeach
+                            @endif
+                        </x-input.select>
+                    </x-input.group>
 
-                        <x-input.group label="purchase unit *" :error="$errors->first('purchase_unit_id')" class="lg:col-span-2">
-                            <x-input.select wire:model="purchase_unit_id" class="!lowercase">
-                                <option value="" selected>-- {{ __('choose purchase unit') }} --</option>
-                                @if (!is_null($purchase_units))
-                                    @foreach ($purchase_units as $key => $name)
-                                        <option value="{{ $key }}"> {{ $name }} </option>
-                                    @endforeach
-                                @endif
-                            </x-input.select>
-                        </x-input.group>
-                    @endif
+                    <x-input.group label="purchase unit" :error="$errors->first('purchase_unit_id')" class="lg:col-span-2">
+                        <x-input.select wire:model="purchase_unit_id" class="!lowercase">
+                            <option value="" selected>-- {{ __('choose purchase unit') }} --</option>
+                            @if (!is_null($purchase_units))
+                                @foreach ($purchase_units as $key => $name)
+                                    <option value="{{ $key }}"> {{ $name }} </option>
+                                @endforeach
+                            @endif
+                        </x-input.select>
+                    </x-input.group>
 
                     <x-input.group for="qty" label="quantity" :error="$errors->first('qty')" class="lg:col-span-2">
                         <x-input type="number" wire:model="qty" id="qty" placeholder="0" />
                     </x-input.group>
 
-                    @if ($type === App\Enums\ProductType::STANDARD)
-                        <x-input.group for="cost" label="cost (per unit) *" :error="$errors->first('cost')" class="lg:col-span-2">
-                            <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
-                        </x-input.group>
-                    @endif
+                    <x-input.group for="cost" label="cost (per unit) *" :error="$errors->first('cost')" class="lg:col-span-2">
+                        <x-input type="number" wire:model="cost" id="cost" placeholder="00" />
+                    </x-input.group>
 
                     <x-input.group for="price" label="price (per unit) *" :error="$errors->first('price')" class="lg:col-span-2">
                         <x-input type="number" wire:model="price" id="price" placeholder="00" />

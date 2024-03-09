@@ -121,16 +121,23 @@
                                                 {{ $item->model->unit?->short_name }}" />
                                         </x-table.cell>
 
+                                        @php
+                                            $purchaseUnit =
+                                                $item->model?->purchaseUnit?->name ?? $item->model?->unit?->name;
+                                        @endphp
+
                                         <x-table.cell style="padding: 12px">
                                             <x-mary-input type="number" value="{{ $item->price }}"
                                                 wire:change="updatePrice('{{ $item->rowId }}', $event.target.value)"
-                                                suffix="TK" hint="Product cost: {{ $item->model->cost }} TK" />
+                                                suffix="TK"
+                                                hint="Per {{ $purchaseUnit }} = {{ $item->price }} TK " />
                                         </x-table.cell>
 
                                         <x-table.cell class="!p-4"> {{ $item->total }} </x-table.cell>
 
                                         <x-table.cell class="!p-4">
-                                            <button wire:click="showProductEditModal({{ $item->model->id }})"
+                                            <button
+                                                wire:click="showProductEditModal('{{ $item->rowId }}', {{ $item->model?->id }})"
                                                 class="p-2 rounded-full text-primary hover:bg-primary/10 hover:duration-200">
                                                 <x-heroicon-m-pencil-square class="w-5 h-5" />
                                             </button>

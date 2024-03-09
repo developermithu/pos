@@ -48,7 +48,7 @@
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="font-semibold"> {{ $item->product?->name }} </x-table.cell>
                             <x-table.cell> {{ $item->cost }} </x-table.cell>
-                            <x-table.cell> {{ $item->qty }} </x-table.cell>
+                            <x-table.cell> {{ $item->qty }} {{ $item->purchaseUnit?->short_name }} </x-table.cell>
                             <x-table.cell> {{ $item->cost * $item->qty }} </x-table.cell>
                         </x-table.row>
                     @endforeach

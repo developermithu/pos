@@ -72,7 +72,6 @@ class EditProduct extends Component
         ]);
 
         $this->success(__('Record has been updated successfully'));
-
         return $this->redirect(ListProduct::class, navigate: true);
     }
 
@@ -113,12 +112,9 @@ class EditProduct extends Component
             'qty' => ['nullable', 'numeric'],
             'cost' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
+            'sale_unit_id' => ['nullable', Rule::exists(Unit::class, 'id')],
+            'purchase_unit_id' => ['nullable', Rule::exists(Unit::class, 'id')],
         ];
-
-        if ($this->type === ProductType::STANDARD) {
-            $rules['sale_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
-            $rules['purchase_unit_id'] = ['required', Rule::exists(Unit::class, 'id')];
-        }
 
         return $rules;
     }

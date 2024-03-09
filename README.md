@@ -34,9 +34,10 @@ Generate model helper: ```php artisan ide-helper:models```
 - `pint app/Models/User.php` fix code style issues on specific files or directories
 
 
-## Have to Do
+## Have to 
 
-- [ ] Product Stock/Qty management
+When clear customer and supplier due have to update automatically sale status, purchase status, product qty as well along with payment status  
+
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Sending notifications
@@ -46,9 +47,8 @@ Generate model helper: ```php artisan ide-helper:models```
   
 
 **May need to add**
-cost, price, unit_cost field on **purchase_items** and **sale_items** table.
 
 when deleting **received purchase items** should we decrease product qty?
 
-have to fix qty after sale and purchase **qty** maybe int or float
+
 

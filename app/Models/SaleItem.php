@@ -54,8 +54,8 @@ class SaleItem extends Model
     protected function qty(): Attribute
     {
         return Attribute::make(
-            get: fn (int|float|null $value) => $value ? $value / 100 : null,
-            set: fn (int|float|null $value) => $value ? $value * 100 : null,
+            get: fn (int|float $value) => $value / 100,
+            set: fn (int|float $value) => $value * 100,
         );
     }
 }

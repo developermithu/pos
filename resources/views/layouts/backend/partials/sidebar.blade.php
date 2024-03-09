@@ -195,24 +195,6 @@
                         </x-collapsible.item>
                     </x-collapsible>
 
-                    {{-- Cashbooks Management --}}
-                    <x-collapsible x-data="{ expanded: {{ request()->routeIs('admin.stores.*') || request()->routeIs('admin.cashbooks.*') ? 'true' : 'false' }} }">
-                        <x-slot name="trigger">
-                            <x-collapsible.button>
-                                <x-slot name="icon"><x-heroicon-m-banknotes class="w-6 h-6" /></x-slot>
-                                {{ __('cashbooks') }}
-                            </x-collapsible.button>
-                        </x-slot>
-
-                        <x-collapsible.item :href="route('admin.cashbooks.index')" :active="request()->routeIs('admin.cashbooks.index')">
-                            {{ __('cashbook list') }}
-                        </x-collapsible.item>
-
-                        <x-collapsible.item :href="route('admin.stores.index')" :active="request()->routeIs('admin.stores.*')">
-                            {{ __('store list') }}
-                        </x-collapsible.item>
-                    </x-collapsible>
-
                     {{-- Settings Management --}}
                     <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('settings')">
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>

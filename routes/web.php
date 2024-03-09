@@ -13,8 +13,6 @@ use App\Livewire\Attendance\EditAttendance;
 use App\Livewire\Attendance\LastMonthAttendance;
 use App\Livewire\Attendance\ListAttendance;
 use App\Livewire\Attendance\ShowAttendance;
-use App\Livewire\Cashbooks\EditCashbookEntry;
-use App\Livewire\Cashbooks\ListCashbookEntry;
 use App\Livewire\Categories\EditCategory;
 use App\Livewire\Categories\ListCategory;
 use App\Livewire\Customers\CreateCustomer;
@@ -48,8 +46,6 @@ use App\Livewire\Sales\AddSalePayment;
 use App\Livewire\Sales\CreateSale;
 use App\Livewire\Sales\ListSale;
 use App\Livewire\Sales\ShowSale;
-use App\Livewire\Stores\EditStore;
-use App\Livewire\Stores\ListStore;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -146,18 +142,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/balance-adjustment', ListBalanceAdjustment::class)->name('balance-adjustment');
         Route::get('/balance-adjustment/create', CreateBalanceAdjustment::class)->name('balance-adjustment.create');
         Route::get('/balance-adjustment/{balanceAdjustment}/edit', EditBalanceAdjustment::class)->name('balance-adjustment.edit');
-    });
-
-    // Store management
-    Route::group(['prefix' => 'stores', 'as' => 'stores.'], function () {
-        Route::get('/', ListStore::class)->name('index');
-        Route::get('/{store}/edit', EditStore::class)->name('edit');
-    });
-
-    // Cashbook management
-    Route::group(['prefix' => 'cashbooks', 'as' => 'cashbooks.'], function () {
-        Route::get('/', ListCashbookEntry::class)->name('index');
-        Route::get('/{cashbookEntry}/edit', EditCashbookEntry::class)->name('edit');
     });
 
     // Sale invoice

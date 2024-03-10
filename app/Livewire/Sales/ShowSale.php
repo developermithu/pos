@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ShowSale extends Component
 {
-    public $sale;
+    public Sale $sale;
 
     public function mount(Sale $sale)
     {

@@ -95,7 +95,7 @@
                             <x-mary-menu x-cloak x-show="open" x-anchor.bottom-end.offset.5="$refs.button"
                                 class="bg-white border">
 
-                                <x-mary-menu-item :title="__('view')" icon="o-eye" />
+                                <x-mary-menu-item :title="__('view')"  :link="route('admin.employees.show', $employee->id)" icon="o-eye" />
 
                                 @can('update', $employee)
                                     <x-mary-menu-item :title="__('edit')" :link="route('admin.employees.edit', $employee)" icon="o-pencil-square" />

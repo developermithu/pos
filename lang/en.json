@@ -172,10 +172,13 @@
     "customer list": "customer List",
     "update customer": "update customer",
     "add new customer": "add new customer",
-    "company name": "company name",
+    "company name": "Confirm name",
     "deposit": "deposit",
     "add deposit": "add deposit",
     "clear due": "Clear due",
+    "total paid": "Total Paid",
+    "total due": "Total Due",
+    "deposit balance": "Deposit Balance",
     "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.",
 
     "product": "Product",
@@ -248,6 +251,8 @@
     "view payments": "view payments",
     "received amount": "received amount",
     "paying amount": "paying amount",
+    "paid by": "paid by",
+
 
     "sales": "Sales",
     "sale list": "sale list",

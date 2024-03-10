@@ -176,6 +176,9 @@
     "deposit": "জমা",
     "add deposit": "ডিপোজিট অ্যাড করুন",
     "clear due": "বকেয়া ক্লিয়ার করুন",
+    "total paid": "মোট পরিশোধিত টাকা",
+    "total due": "মোট বকেয়ার পরিমাণ",
+    "deposit balance": "মোট জমার পরিমাণ",
     "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "ইনপুটের পরিমাণের উপর ভিত্তি করে কাস্টমারদের বিক্রির অর্থপ্রদান স্বয়ংক্রিয়ভাবে আপডেট হবে এবং পরিষ্কার হবে । পেমেন্ট ক্যাশবুক অ্যাকাউন্টে রেকর্ড করা হবে।",
 
     "product": "পণ্য",
@@ -248,6 +251,7 @@
     "view payments": "পেমেন্টসমুহ দেখুন",
     "received amount": "প্রাপ্ত টাকার পরিমাণ",
     "paying amount": "পরিশোধিত টাকার পরিমাণ",
+    "paid by": "দ্বারা প্রদত্ত",
 
     "sales": "বিক্রয়সমূহ",
     "sale list": "বিক্রয়ের তালিকা",

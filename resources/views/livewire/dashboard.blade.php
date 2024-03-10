@@ -5,22 +5,20 @@
         </h1>
 
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-10">
-            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" :tooltip="__('total products')" />
-            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" :tooltip="__('total employees')" />
-            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" :tooltip="__('total suppliers')" />
-            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" :tooltip="__('total customers')" />
-            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" :tooltip="__('total users')" />
+            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" />
+            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" />
+            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" />
+            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" />
+            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" />
 
-            <x-mary-stat :title="__('total sales')" value="{{ Number::format($totalSales) }}" icon="o-currency-bangladeshi"
-                :tooltip="__('total sales')" />
-            <x-mary-stat :title="__('total purchases')" value="{{ Number::format($totalPurchases) }}" icon="o-currency-bangladeshi"
-                :tooltip="__('total purchases')" />
-            <x-mary-stat :title="__('total expenses')" value="{{ Number::format($totalExpenses) }}" icon="o-currency-bangladeshi"
-                :tooltip="__('total expenses')" />
+            <x-mary-stat :title="__('total sales')" value="{{ Number::format($totalSales) }}" icon="o-currency-bangladeshi" />
+            <x-mary-stat :title="__('total purchases')" value="{{ Number::format($totalPurchases) }}"
+                icon="o-currency-bangladeshi" />
+            <x-mary-stat :title="__('total expenses')" value="{{ Number::format($totalExpenses) }}" icon="o-currency-bangladeshi" />
             <x-mary-stat :title="__('total customer due')" value="{{ Number::format($totalCustomerDue) }}"
-                icon="o-currency-bangladeshi" :tooltip="__('total customer due')" />
+                icon="o-currency-bangladeshi" />
             <x-mary-stat :title="__('total supplier due')" value="{{ Number::format($totalSupplierDue) }}"
-                icon="o-currency-bangladeshi" :tooltip="__('total supplier due')" />
+                icon="o-currency-bangladeshi" />
         </div>
 
         <div class="grid grid-cols-12 gap-5">

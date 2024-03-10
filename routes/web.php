@@ -18,6 +18,7 @@ use App\Livewire\Categories\ListCategory;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
+use App\Livewire\Customers\ShowCustomer;
 use App\Livewire\Dashboard;
 use App\Livewire\Employees\AddAdvancePayment;
 use App\Livewire\Employees\CreateEmployee;
@@ -25,6 +26,7 @@ use App\Livewire\Employees\EditEmployee;
 use App\Livewire\Employees\ListAdvancePayment;
 use App\Livewire\Employees\ListEmployee;
 use App\Livewire\Employees\ManageOvertime;
+use App\Livewire\Employees\ShowEmployee;
 use App\Livewire\ExpenseCategories\EditExpenseCategory;
 use App\Livewire\ExpenseCategories\ListExpenseCategory;
 use App\Livewire\Expenses\CreateExpense;
@@ -49,6 +51,7 @@ use App\Livewire\Sales\ShowSale;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
+use App\Livewire\Suppliers\ShowSupplier;
 use App\Livewire\Units\EditUnit;
 use App\Livewire\Units\ListUnit;
 use Illuminate\Support\Facades\Route;
@@ -74,12 +77,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListSupplier::class)->name('index');
         Route::get('/create', CreateSupplier::class)->name('create');
         Route::get('/{supplier}/edit', EditSupplier::class)->name('edit');
+        Route::get('/{supplier}/show', ShowSupplier::class)->name('show');
     });
 
     Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
         Route::get('/', ListEmployee::class)->name('index');
         Route::get('/create', CreateEmployee::class)->name('create');
         Route::get('/{employee}/edit', EditEmployee::class)->name('edit');
+        Route::get('/{employee}/show', ShowEmployee::class)->name('show');
         Route::get('/list-advance-payment', ListAdvancePayment::class)->name('list.advance.payment');
         Route::get('/{employee}/add-advance-payment', AddAdvancePayment::class)->name('add-advance-payment');
         Route::get('/manage-overtime', ManageOvertime::class)->name('manage-overtime');
@@ -89,6 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListCustomer::class)->name('index');
         Route::get('/create', CreateCustomer::class)->name('create');
         Route::get('/{customer}/edit', EditCustomer::class)->name('edit');
+        Route::get('/{customer}/show', ShowCustomer::class)->name('show');
     });
 
     Route::group(['prefix' => 'attendance', 'as' => 'attendance.'], function () {

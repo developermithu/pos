@@ -17,7 +17,7 @@ class Supplier extends Model
 
     protected $guarded = [];
 
-    public function totalSale(): ?int
+    public function totalPurchase(): ?int
     {
         return $this->purchases->whereNull('deleted_at')->sum('total');
     }
@@ -29,7 +29,7 @@ class Supplier extends Model
 
     public function totalDue(): ?int
     {
-        return $this->totalSale() - $this->totalPaid();
+        return $this->totalPurchase() - $this->totalPaid();
     }
 
     public function depositBalance(): ?int

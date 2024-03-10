@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('balance_adjustments', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->integer('amount');
-            $table->string('type'); // add blance or remove balance
+            $table->string('type'); // add or remove balance
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();

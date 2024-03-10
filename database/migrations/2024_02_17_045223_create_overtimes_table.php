@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('overtimes', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
             $table->decimal('hours_worked', 8, 2);
             $table->integer('rate_per_hour');

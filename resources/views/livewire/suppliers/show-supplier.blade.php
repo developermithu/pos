@@ -18,8 +18,8 @@
                     <div
                         class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                         <div>
-                            <img src="{{ asset('assets/male.webp') }}" alt="supplier"
-                                class="w-20 h-20 md:w-40 md:h-40">
+                            <img src="{{ asset('assets/male.webp') }}" alt="avatar"
+                                class="w-20 h-20 lg:m-auto mix-blend-difference md:w-32 md:h-32">
                         </div>
 
                         <div>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -67,6 +68,7 @@ class Product extends Model
 
             // Format the SKU as "001".
             $product->sku = sprintf('%03d', $newSkuNumber);
+            $product->ulid = (string) strtolower(Str::ulid());
         });
     }
 

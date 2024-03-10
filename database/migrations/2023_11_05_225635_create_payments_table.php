@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->foreignId('account_id')->constrained();
             $table->integer('amount');
             $table->string('type'); // Credit or Debit

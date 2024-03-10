@@ -50,5 +50,47 @@ When clear customer and supplier due have to update automatically sale status, p
 
 when deleting **received purchase items** should we decrease product qty?
 
+### Migration Tips in Production
 
+1. Creating extra field in an existing table
+   
+`php artisan make:migration add_columnName_to_table_name`
 
+```php
+    if (!Schema::hasColumn('suppliers', 'ulid')) {
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->string('ulid')->unique()->after('id');
+        });
+    }
+```
+
+2. Deleting existing table
+
+`pam drop_table_name`
+
+```php
+    public function up(): void
+    {
+        Schema::dropIfExists('table_name');
+    }
+```
+
+3. Modify existing table field
+
+`pam modify_suppliers_table`
+
+```php
+    public function up(): void
+    {
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->string('ulid')->index()->change();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->string('ulid')->index(false)->change();  // Revert the changes
+        });
+    }
+```

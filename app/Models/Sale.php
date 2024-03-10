@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Sale extends Model
 {
@@ -74,5 +75,14 @@ class Sale extends Model
             get: fn ($value) => $value ? $value / 100 : null,
             set: fn ($value) => $value ? $value * 100 : null,
         );
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->ulid = (string) strtolower(Str::ulid());
+        });
     }
 }

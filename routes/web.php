@@ -77,7 +77,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListSupplier::class)->name('index');
         Route::get('/create', CreateSupplier::class)->name('create');
         Route::get('/{supplier}/edit', EditSupplier::class)->name('edit');
-        Route::get('/{supplier}/show', ShowSupplier::class)->name('show');
+        Route::get('/{supplier:ulid}/show', ShowSupplier::class)->name('show');
     });
 
     Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
@@ -94,7 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/', ListCustomer::class)->name('index');
         Route::get('/create', CreateCustomer::class)->name('create');
         Route::get('/{customer}/edit', EditCustomer::class)->name('edit');
-        Route::get('/{customer}/show', ShowCustomer::class)->name('show');
+        Route::get('/{customer:ulid}/show', ShowCustomer::class)->name('show');
     });
 
     Route::group(['prefix' => 'attendance', 'as' => 'attendance.'], function () {

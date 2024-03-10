@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Payment extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'ulid',
         'account_id',
         'amount',
         'reference',
@@ -46,5 +48,14 @@ class Payment extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->ulid = (string) strtolower(Str::ulid());
+        });
     }
 }

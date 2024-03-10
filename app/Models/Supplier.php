@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Supplier extends Model
 {
@@ -46,5 +47,14 @@ class Supplier extends Model
     public function deposits(): MorphMany
     {
         return $this->morphMany(Deposit::class, 'depositable')->withTrashed();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->ulid = (string) strtolower(Str::ulid());
+        });
     }
 }

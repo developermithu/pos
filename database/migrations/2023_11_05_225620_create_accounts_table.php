@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->string('account_no')->unique();
             $table->string('name');
             $table->integer('initial_balance')->default(0);

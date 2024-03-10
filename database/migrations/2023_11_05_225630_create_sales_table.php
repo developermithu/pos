@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->foreignId('customer_id')->constrained();
             $table->string('invoice_no');
             $table->integer('subtotal');

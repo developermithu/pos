@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AccountSeeder extends Seeder
 {
@@ -13,6 +14,7 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         Account::create([
+            'ulid' => strtolower(Str::ulid()),
             'account_no' => 12345,
             'name' => 'Cashbook',
             'initial_balance' => 50000,
@@ -21,6 +23,7 @@ class AccountSeeder extends Seeder
         ]);
 
         Account::create([
+            'ulid' => strtolower(Str::ulid()),
             'account_no' => rand(10000, 50000),
             'name' => 'Sonali bank',
             'initial_balance' => 100000,
@@ -29,6 +32,7 @@ class AccountSeeder extends Seeder
         ]);
 
         Account::create([
+            'ulid' => strtolower(Str::ulid()),
             'account_no' => rand(10000, 50000),
             'name' => 'Bkash',
             'initial_balance' => 100,
@@ -37,6 +41,7 @@ class AccountSeeder extends Seeder
         ]);
 
         Account::create([
+            'ulid' => strtolower(Str::ulid()),
             'account_no' => rand(10000, 50000),
             'name' => 'Dutch Bangla Bank',
             'initial_balance' => 3000,

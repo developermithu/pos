@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\ProductType;
 use App\Models\Unit;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -21,6 +22,7 @@ class ProductFactory extends Factory
         $units = Unit::whereUnitId(null)->pluck('id')->toArray();
 
         return [
+            'ulid' => strtolower(Str::ulid()),
             'category_id' => rand(1, 3),
             'unit_id' => fake()->randomElement($units),
             'name' => fake()->words(rand(1, 4), true),

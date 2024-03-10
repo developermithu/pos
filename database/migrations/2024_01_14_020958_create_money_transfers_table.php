@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('money_transfers', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->foreignId('from_account_id')->constrained('accounts');
             $table->foreignId('to_account_id')->constrained('accounts');
             $table->integer('amount');

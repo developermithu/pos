@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->foreignId('category_id')->nullable()->constrained();
             $table->foreignId('unit_id')->constrained();
             $table->foreignId('purchase_unit_id')->nullable()->constrained('units');
             $table->foreignId('sale_unit_id')->nullable()->constrained('units');
-
             $table->string('name');
             $table->string('sku')->unique();
             $table->integer('qty')->nullable();

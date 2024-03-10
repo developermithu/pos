@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
+            $table->string('ulid')->unique()->index();
             $table->integer('amount');
             $table->text('details')->nullable();
             $table->morphs('depositable');

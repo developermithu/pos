@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class BalanceAdjustment extends Model
 {
@@ -28,15 +29,12 @@ class BalanceAdjustment extends Model
         return $this->morphOne(Payment::class, 'paymentable')->withTrashed();
     }
 
-    // public function account(): HasOneThrough
-    // {
-    //     return $this->hasOneThrough(
-    //         Account::class,
-    //         Payment::class,
-    //         'paymentable_type', // Foreign key column in Payment table for polymorphic relation
-    //         'id', // Foreign key column in Account table
-    //         'id', // Local key column in BalanceAdjustment table
-    //         'paymentable_id' // Local key column in Payment table for polymorphic relation
-    //     );
-    // }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->ulid = (string) strtolower(Str::ulid());
+        });
+    }
 }

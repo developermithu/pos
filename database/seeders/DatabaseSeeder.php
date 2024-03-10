@@ -21,10 +21,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
+            'name' => 'Developer Mithu',
+            'email' => 'developermithu@gmail.com',
             'email_verified_at' => now(),
-            'password' => 'superadmin',
+            'password' => 'developermithu',
+            'remember_token' => Str::random(10),
+            'role' => UserRole::IS_SUPERADMIN->value,
+        ]);
+
+        User::updateOrCreate([
+            'name' => 'Super Admin',
+            'email' => 'zihadkhandokar66@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '#%&ZiHaD#%&',
             'remember_token' => Str::random(10),
             'role' => UserRole::IS_SUPERADMIN->value,
         ]);
@@ -35,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'manager',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_MANAGER->value,
+            'role' => UserRole::IS_SUPERADMIN->value,
         ]);
 
         User::updateOrCreate([
@@ -44,20 +53,20 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'cashier',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_CASHIER->value,
+            'role' => UserRole::IS_SUPERADMIN->value,
         ]);
 
         // Seeders
         $this->call([
-            AccountSeeder::class,
+            // AccountSeeder::class,
             ExpenseSeeder::class,
             UnitSeeder::class,
             CategorySeeder::class,
         ]);
 
-        Supplier::factory(2)->create();
-        Customer::factory(2)->create();
-        Employee::factory(2)->create();
-        Product::factory(2)->create();
+        // Supplier::factory(2)->create();
+        // Customer::factory(2)->create();
+        // Employee::factory(2)->create();
+        // Product::factory(2)->create();
     }
 }

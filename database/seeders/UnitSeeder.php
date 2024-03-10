@@ -27,6 +27,7 @@ class UnitSeeder extends Seeder
                 'unit_id' => 1,
                 'operator' => '/',
                 'operation_value' => 1000,
+                'is_active' => false,
             ],
             [
                 'name' => 'Pound',
@@ -40,6 +41,7 @@ class UnitSeeder extends Seeder
                 'short_name' => 'pc',
                 'operator' => '*',
                 'operation_value' => 1,
+                'is_active' => false,
             ],
             [
                 'name' => 'Dozen',
@@ -47,6 +49,7 @@ class UnitSeeder extends Seeder
                 'unit_id' => 4,
                 'operator' => '*',
                 'operation_value' => 12,
+                'is_active' => false,
             ],
         ];
 

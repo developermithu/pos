@@ -21,7 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Debugbar::disable();
+        if (config('app.env') === 'local') {
+            \Debugbar::enable();
+        }
 
         // Only Super Admin can access Log Viewer
         LogViewer::auth(function ($request) {

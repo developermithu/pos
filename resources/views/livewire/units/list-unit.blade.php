@@ -40,6 +40,7 @@
             <x-table.heading> {{ __('base unit') }} </x-table.heading>
             <x-table.heading> {{ __('operator') }} </x-table.heading>
             <x-table.heading> {{ __('operation value') }} </x-table.heading>
+            <x-table.heading> {{ __('active') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
 
@@ -51,6 +52,26 @@
                 <x-table.cell> {{ $unit->baseUnit?->name }} </x-table.cell>
                 <x-table.cell> {{ $unit?->operator }} </x-table.cell>
                 <x-table.cell> {{ $unit?->operation_value }} </x-table.cell>
+                <x-table.cell>
+                    <div x-data="{ isActive: {{ $unit->is_active ? 'true' : 'false' }} }" class="flex items-center justify-center space-x-2">
+                        <input id="thisId" type="checkbox" name="switch" class="hidden" :checked="isActive">
+
+                        <button wire:click="toggleUnitStatus({{ $unit->id }})" wire:loading.attr="disabled"
+                            wire:target="toggleUnitStatus" x-ref="switchButton" type="button"
+                             :class="isActive ? 'bg-primary' : 'bg-neutral-200'"
+                            class="relative inline-flex h-6 py-0.5 disabled:cursor-not-allowed ml-4 focus:outline-none rounded-full w-10"
+                            x-cloak>
+                            <span :class="isActive ? 'translate-x-[18px]' : 'translate-x-0.5'"
+                                class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+                        </button>
+
+                        <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
+                            :class="{ 'text-primary': isActive, 'text-gray-400': !isActive }"
+                            class="text-sm select-none" x-cloak>
+                            Active
+                        </label>
+                    </div>
+                </x-table.cell>
 
                 <x-table.cell class="space-x-2">
                     @if ($unit->trashed())

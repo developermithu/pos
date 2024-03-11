@@ -6,6 +6,7 @@ use App\Livewire\Forms\UnitForm;
 use App\Models\Unit;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -16,6 +17,13 @@ class ListUnit extends Component
 
     public UnitForm $form;
     public $unit_id;
+
+    public function toggleUnitStatus(Unit $unit)
+    {
+        $unit->is_active = !$unit->is_active;
+        $unit->save();
+        $this->redirect(ListUnit::class, navigate: true);
+    }
 
     public function create()
     {
@@ -80,7 +88,7 @@ class ListUnit extends Component
     {
         $this->authorize('viewAny', Unit::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'short_name'];
 
         $units = Unit::query()

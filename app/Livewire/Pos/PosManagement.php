@@ -196,6 +196,7 @@ class PosManagement extends Component
         $this->price = $product->price;
         $this->sale_units = Unit::whereId($product->unit_id)
             ->orWhere('unit_id', $product->unit_id)
+            ->active()
             ->pluck('name', 'id');
 
         $this->rowId = $rowId;

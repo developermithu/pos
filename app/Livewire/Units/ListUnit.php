@@ -50,8 +50,6 @@ class ListUnit extends Component
         $unit->delete();
 
         $this->success(__('Record has been deleted successfully'));
-
-        return back();
     }
 
     public function forceDelete($id)

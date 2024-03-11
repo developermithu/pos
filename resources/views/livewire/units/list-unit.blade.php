@@ -41,7 +41,7 @@
             <x-table.heading> {{ __('operator') }} </x-table.heading>
             <x-table.heading> {{ __('operation value') }} </x-table.heading>
             <x-table.heading> {{ __('active') }} </x-table.heading>
-            <x-table.heading> {{ __('actions') }} </x-table.heading>
+            {{-- <x-table.heading> {{ __('actions') }} </x-table.heading> --}}
         </x-slot>
 
         @forelse ($units as $key => $unit)
@@ -73,7 +73,7 @@
                     </div>
                 </x-table.cell>
 
-                <x-table.cell class="space-x-2">
+                {{-- <x-table.cell class="space-x-2">
                     @if ($unit->trashed())
                         <x-button flat="primary" wire:click="restore({{ $unit->id }})">
                             <x-heroicon-o-arrow-path /> {{ __('restore') }}
@@ -99,7 +99,7 @@
                             @include('partials.delete-modal', ['data' => $unit])
                         @endcan
                     @endif
-                </x-table.cell>
+                </x-table.cell> --}}
             </x-table.row>
         @empty
             <x-table.data-not-found colspan="8" />

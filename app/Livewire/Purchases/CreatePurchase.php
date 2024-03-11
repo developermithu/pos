@@ -164,6 +164,7 @@ class CreatePurchase extends Component
         $this->cost = $product->cost;
         $this->purchase_units = Unit::whereId($product->unit_id)
             ->orWhere('unit_id', $product->unit_id)
+            ->active()
             ->pluck('name', 'id');
 
         $this->rowId = $rowId;

@@ -36,7 +36,7 @@ class CreateProduct extends Component
 
     public function render()
     {
-        $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
+        $baseUnits = Unit::active()->whereUnitId(null)->pluck('name', 'id');
 
         return view('livewire.products.create-product', compact('baseUnits'))
             ->title(__('add new product'));
@@ -46,6 +46,7 @@ class CreateProduct extends Component
     {
         $units = Unit::whereId($this->unit_id)
             ->orWhere('unit_id', $this->unit_id)
+            ->active()
             ->pluck('name', 'id');
 
         $this->sale_units = $this->purchase_units = $units;

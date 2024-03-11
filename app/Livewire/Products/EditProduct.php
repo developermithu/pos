@@ -50,6 +50,7 @@ class EditProduct extends Component
 
         $units = Unit::whereId($this->unit_id)
             ->orWhere('unit_id', $this->unit_id)
+            ->active()
             ->pluck('name', 'id');
 
         $this->sale_units = $this->purchase_units = $units;
@@ -77,7 +78,7 @@ class EditProduct extends Component
 
     public function render()
     {
-        $baseUnits = Unit::whereUnitId(null)->pluck('name', 'id');
+        $baseUnits = Unit::active()->whereUnitId(null)->pluck('name', 'id');
 
         return view('livewire.products.edit-product', compact('baseUnits'))
             ->title(__('update product'));
@@ -89,6 +90,7 @@ class EditProduct extends Component
 
         $units = Unit::whereId($this->unit_id)
             ->orWhere('unit_id', $this->unit_id)
+            ->active()
             ->pluck('name', 'id');
 
         $this->sale_units = $this->purchase_units = $units;

@@ -14,8 +14,8 @@
                     @can('posManagement', App\Models\Product::class)
                         <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
                             <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
-                            {{ __('pos') }} <x-mary-badge :value="__('updated')"
-                                class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                            {{ __('pos') }}
+                            {{-- <x-mary-badge :value="__('updated')" class="pl-1.5 badge-warning animate-pulse badge-sm" /> --}}
                         </x-sidebar.link>
                     @endcan
 
@@ -46,8 +46,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-credit-card class="w-6 h-6" /></x-slot>
-                                {{ __('purchases') }} <x-mary-badge :value="__('updated')"
-                                    class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                                {{ __('purchases') }} 
                             </x-collapsible.button>
                         </x-slot>
 

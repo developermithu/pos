@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ ucwords($title ?? config('app.name')) }} | Zihad Plastic</title>
+    <title>
+        @if (isset($title))
+            {{ ucwords(__($title)) }} | Zihad Plastic
+        @else
+            {{ ucwords(config('app.name')) }} | জিহাদ প্লাস্টিক
+        @endif
+    </title>
 
     @include('partials.website-meta')
 
@@ -39,10 +45,10 @@
                 {{ $slot }}
             </main>
 
-            <p class="lg:my-10 my-5 text-xs sm:text-sm text-center text-gray-500">
+            <p class="my-5 text-xs text-center text-gray-500 lg:my-10 sm:text-sm">
                 © 2024-{{ date('Y') }} Zihad Plastic. Developed by <a href="https://developermithu.com"
                     target="_blank" rel="noopener noreferrer"
-                    class="hover:underline text-teal-600 underline-offset-1">Developer Mithu</a>
+                    class="text-teal-600 hover:underline underline-offset-1">Developer Mithu</a>
             </p>
         </div>
     </div>

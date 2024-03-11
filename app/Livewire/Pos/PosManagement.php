@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 // #[Lazy]
+#[Title('pos')]
 class PosManagement extends Component
 {
     use Toast, WithPagination;
@@ -102,7 +104,7 @@ class PosManagement extends Component
 
         $accounts = Account::active()->pluck('name', 'id');
 
-        return view('livewire.pos.pos-management', compact('products', 'accounts'))->title(__('pos'));
+        return view('livewire.pos.pos-management', compact('products', 'accounts'));
     }
 
     public function addToCart(Product $product)

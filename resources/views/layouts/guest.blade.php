@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        @if (isset($title))
+            {{ ucwords(__($title)) }} | Zihad Plastic
+        @else
+            {{ ucwords(config('app.name')) }} | জিহাদ প্লাস্টিক
+        @endif
+    </title>
 
     @include('partials.website-meta')
 

@@ -14,9 +14,11 @@ use DateTimeInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Lazy]
+#[Title('dashboard')]
 class Dashboard extends Component
 {
     public array $monthlySalesChart;
@@ -43,7 +45,7 @@ class Dashboard extends Component
             'totalExpenses' => $this->getTotalExpenses(),
             'totalCustomerDue' => $this->getTotalCustomerDue(),
             'totalSupplierDue' => $this->getTotalSupplierDue(),
-        ])->title(__('dashboard'));
+        ]);
     }
 
     // ============ Charts ========== //

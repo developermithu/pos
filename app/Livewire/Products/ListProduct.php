@@ -6,11 +6,13 @@ use App\Models\Product;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 #[Lazy]
+#[Title('product list')]
 class ListProduct extends Component
 {
     use SearchAndFilter, Toast, WithPagination;
@@ -21,7 +23,7 @@ class ListProduct extends Component
     {
         $this->authorize('viewAny', Product::class);
 
-        $search = '%'.trim($this->search).'%';
+        $search = '%' . trim($this->search) . '%';
 
         $products = Product::query()
             ->when($search, function (Builder $query) use ($search) {
@@ -44,7 +46,7 @@ class ListProduct extends Component
             ->latest('id')
             ->paginate(20);
 
-        return view('livewire.products.list-product', compact('products'))->title(__('product list'));
+        return view('livewire.products.list-product', compact('products'));
     }
 
     public function deleteSelected()

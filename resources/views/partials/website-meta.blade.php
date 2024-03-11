@@ -1,7 +1,8 @@
 <!-- Meta Description -->
-<meta name="description" content="Zihad Plastic Store Management System">
-<meta name="keywords" content="zihadplastic, zihad">
-<meta name="author" content="Zihad">
+<meta name="description"
+    content="Zihad Plastic is an inventory and employee management software with POS functionality developed by Developer Mithu.">
+<meta name="keywords" content="zihadplastic, zihad, জিহাদ প্লাস্টিক, inventory management software">
+<meta name="author" content="Zihad Plastic">
 
 <!-- Favicon (32x32 pixels recommended) -->
 <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -12,14 +13,18 @@
 <link rel="manifest" href="{{ asset('assets/site.webmanifest') }}">
 
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Zihad Plastic">
-<meta property="og:description" content="Zihad Plastic Store Management System">
+<meta property="og:title" content="Zihad Plastic | জিহাদ প্লাস্টিক">
+<meta property="og:description"
+    content="Zihad Plastic is an inventory and employee management software with POS functionality developed by Developer Mithu.">
 <meta property="og:image" content="url_to_shareable_image.jpg">
 <meta property="og:url" content="https://zihadplastic.com">
 <meta property="og:type" content="website">
 
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Zihad Plastic">
-<meta name="twitter:description" content="Zihad Plastic Store Management System">
+<meta name="twitter:title" content="Zihad Plastic | জিহাদ প্লাস্টিক">
+<meta name="twitter:description"
+    content="Zihad Plastic is an inventory and employee management software with POS functionality developed by Developer Mithu.">
 <meta name="twitter:image" content="url_to_shareable_image.jpg">
+
+<link rel="canonical" href="https://zihadplastic.com">

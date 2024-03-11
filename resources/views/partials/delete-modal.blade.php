@@ -1,4 +1,4 @@
-<x-modal maxWidth="md" name="confirm-deletion-{{ $data->id }}">
+<x-modal maxWidth="md" name="confirm-deletion-{{ $data->ulid }}">
     <div class="p-6 text-center whitespace-normal">
         <x-heroicon-o-exclamation-circle class="mx-auto mb-4 text-gray-400 dark:text-gray-200"
             style="width: 48px; height: 48px" />
@@ -8,7 +8,7 @@
         </h3>
 
         <div class="space-x-3">
-            <x-button type="danger" size="small" wire:click.prevent="destroy({{ $data }})"
+            <x-button type="danger" size="small" wire:click.prevent="destroy('{{ $data->ulid }}')"
                 x-on:click="$dispatch('close')">
                 {{ __('Yes, delete') }}
             </x-button>

@@ -81,44 +81,48 @@
 
                 <x-table.cell class="space-x-2">
                     @if ($account->trashed())
-                        <x-button flat="primary" wire:click="restore({{ $account->id }})">
+                        <x-button flat="primary" wire:click="restore('{{ $account->ulid }}')">
                             <x-heroicon-o-arrow-path /> {{ __('restore') }}
                         </x-button>
 
                         <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $account->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $account->ulid }}')">
                             <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
                         </x-button>
 
                         @include('partials.delete-forever-modal', ['data' => $account])
                     @else
                         <x-button flat="secondary"
-                            x-on:click.prevent="$dispatch('open-modal', 'view-account-transactions-{{ $account->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'view-account-transactions-{{ $account->ulid }}')">
                             <x-heroicon-o-eye /> {{ __('view') }}
                         </x-button>
 
                         @can('update', $account)
-                            <x-button flat="warning" :href="route('admin.accounts.edit', $account)">
+                            <x-button flat="warning" :href="route('admin.accounts.edit', $account->ulid)">
                                 <x-heroicon-o-pencil-square /> {{ __('edit') }}
                             </x-button>
                         @endcan
 
                         @can('delete', $account)
-                            <x-button flat="danger"
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $account->id }}')">
-                                <x-heroicon-o-trash /> {{ __('delete') }}
-                            </x-button>
+                            @if ($account->id !== 1)
+                                <x-button flat="danger"
+                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $account->ulid }}')">
+                                    <x-heroicon-o-trash /> {{ __('delete') }}
+                                </x-button>
+                            @endif
 
                             {{-- View Payments --}}
                             @include('modals.view-account-transactions', ['data' => $account])
-                            @include('partials.delete-modal', ['data' => $account])
+                            @if ($account->id !== 1)
+                                @include('partials.delete-modal', ['data' => $account])
+                            @endif
                         @endcan
                     @endif
                 </x-table.cell>
             </x-table.row>
 
         @empty
-            <x-table.data-not-found colspan="8" />
+            <x-table.data-not-found colspan="9" />
         @endforelse
     </x-table>
 

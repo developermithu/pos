@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::updateOrCreate([
-            'name' => 'Super Admin',
+            'name' => 'zihad khandokar',
             'email' => 'zihadkhandokar66@gmail.com',
             'email_verified_at' => now(),
             'password' => '#%&ZiHaD#%&',

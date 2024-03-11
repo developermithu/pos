@@ -1,4 +1,4 @@
-<x-modal maxWidth="lg" name="confirm-deletion-forever-{{ $data->id }}">
+<x-modal maxWidth="lg" name="confirm-deletion-forever-{{ $data->ulid }}">
     <div class="p-6 text-center whitespace-normal">
         <x-heroicon-o-exclamation-circle class="mx-auto mb-4 text-danger/30 dark:text-danger/50"
             style="width: 48px; height: 48px" />
@@ -12,7 +12,7 @@
         </p>
 
         <div class="space-x-3">
-            <x-button type="danger" size="small" wire:click.prevent="forceDelete({{ $data->id }})"
+            <x-button type="danger" size="small" wire:click.prevent="forceDelete('{{ $data->ulid }}')"
                 x-on:click="$dispatch('close')">
                 {{ __('delete forever') }}
             </x-button>

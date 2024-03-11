@@ -140,7 +140,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
     // Account management
     Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function () {
         Route::get('/', ListAccount::class)->name('index');
-        Route::get('/{account}/edit', EditAccount::class)->name('edit');
+        Route::get('/{account:ulid}/edit', EditAccount::class)->name('edit');
         Route::get('/all-transactions', AllTransactions::class)->name('all-transactions');
         Route::get('/money-transfer', ListMoneyTransfer::class)->name('money-transfer');
 

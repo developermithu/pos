@@ -19,11 +19,11 @@
                 </div>
             </div>
 
-            <div class="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+            {{-- <div class="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
                 <div class="max-w-xl">
                     <livewire:profile.delete-user-form />
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </x-app-layout>

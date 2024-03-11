@@ -34,7 +34,7 @@
                             wire:target="addToCart, removeFromCart"
                             class="hover:bg-transparent dark:hover:bg-bg-transparent">
                             <x-table.cell class="p-0" style="padding: 12px">
-                                {{ Str::limit($item->name, 75, '..') }} </x-table.cell>
+                                {{ Str::limit($item->name, 45, '..') }} </x-table.cell>
 
                             <x-table.cell style="padding: 12px">
                                 <x-mary-input type="number" value="{{ $item->qty }}"

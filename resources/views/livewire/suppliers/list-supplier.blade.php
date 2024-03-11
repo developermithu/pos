@@ -126,7 +126,7 @@
                 </x-table.cell>
             </x-table.row>
         @empty
-            <x-table.data-not-found colspan="6" />
+            <x-table.data-not-found colspan="7" />
         @endforelse
     </x-table>
 

@@ -18,7 +18,7 @@ class ListBalanceAdjustment extends Component
     {
         $this->authorize('viewAny', BalanceAdjustment::class);
 
-        $searchTerm = $this->search ? '%'.trim($this->search).'%' : null;
+        $searchTerm = $this->search ? '%' . trim($this->search) . '%' : null;
 
         $balanceAdjustments = BalanceAdjustment::query()
             ->with(['payment.account:id,name,account_no'])
@@ -34,8 +34,9 @@ class ListBalanceAdjustment extends Component
             ->title(__('balance adjustment list'));
     }
 
-    public function forceDelete(BalanceAdjustment $balanceAdjustment)
+    public function forceDelete(string $ulid)
     {
+        $balanceAdjustment = BalanceAdjustment::whereUlid($ulid)->firstOrFail();
         $this->authorize('forceDelete', $balanceAdjustment);
 
         DB::beginTransaction();

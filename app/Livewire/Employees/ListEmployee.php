@@ -66,7 +66,7 @@ class ListEmployee extends Component
 
         $search = $this->search ? '%'.trim($this->search).'%' : null;
 
-        $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'salary', 'gender'];
+        $searchableFields = ['name', 'father_name', 'address', 'phone_number', 'gender'];
 
         $employees = Employee::query()
             ->when($search, function ($query) use ($searchableFields, $search) {

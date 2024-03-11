@@ -167,6 +167,14 @@
     "last month payments": "গত মাসের পেমেন্টসমূহ",
     "last month": "গত মাস",
 
+    "overtimes": "ওভারটাইম",
+    "manage overtime": "ওভারটাইম পরিচালনা করুন",
+    "manage overtime works": "ওভারটাইম কাজ পরিচালনা করুন",
+    "working hours": "কর্মসময়",
+    "rate per hour": "প্রতি ঘণ্টার মূল্য",
+    "total earning amount": "মোট আয়ের পরিমাণ",
+    "total amount": "মোট পরিমাণ",
+
     "customer": "কাস্টমার",
     "customers": "কাস্টমারস",
     "customer list": "কাস্টমারদের তালিকা",
@@ -305,6 +313,14 @@
     "type": "টাইপ",
     "reference": "রেফারেন্স",
     "account info": "অ্যাকাউন্টের তথ্য",
+
+    "balance adjustment": "ব্যালেন্স সমন্বয়",
+    "balance adjustments": "ব্যালেন্স সমন্বয়",
+    "balance adjustment list": "ব্যালেন্স সমন্বয়ের তালিকা",
+    "add balance adjustment": "ব্যালেন্স সমন্বয় যুক্ত করুন",
+    "create balance adjustment": "ব্যালেন্স সমন্বয় যুক্ত করুন",
+    "update balance adjustment": "ব্যালেন্স সমন্বয় আপডেট করুন",
+    "adjustment type": "সমন্বয়ের ধরণ",
 
     "report": "রিপোর্ট",
     "reports": "রিপোর্টসমূহ",

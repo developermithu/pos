@@ -83,7 +83,7 @@ class ListSupplier extends Component
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'company_name', 'address', 'phone_number'];
 
         $suppliers = Supplier::query()
@@ -193,9 +193,14 @@ class ListSupplier extends Component
                 ->oldest()
                 ->get();
 
+            if ($purchases->isEmpty()) {
+                $this->error(__('No unpaid purchases found for the supplier.'));
+                return; // Exit the method
+            }
+
             foreach ($purchases as $purchase) {
                 if ($remainingAmount <= 0) {
-                    break;
+                    return;
                 }
 
                 $dueAmount = $purchase->total - $purchase->paid_amount;

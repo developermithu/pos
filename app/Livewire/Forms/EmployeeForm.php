@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Employee;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class EmployeeForm extends Form
@@ -67,7 +68,11 @@ class EmployeeForm extends Form
             'name' => ['required', 'max:255'],
             'father_name' => ['required', 'max:255'],
             'address' => ['nullable', 'max:255'],
-            'phone_number' => ['required', 'max:255'],
+            'phone_number' => [
+                'required', 'max:255',
+                Rule::unique(Employee::class, 'phone_number')
+                    ->ignore($this->employee ?? null)
+            ],
             'basic_salary' => ['required', 'max:255'],
             'new_basic_salary' => ['nullable', 'numeric', "gt:$this->basic_salary"],
             'joined_at' => ['required', 'date'],

@@ -70,13 +70,12 @@ class ManageOvertime extends Component
         $this->success(__('Record has been updated successfully'));
     }
 
-    public function forceDelete(Overtime $overtime)
+    public function forceDelete(string $ulid)
     {
+        $overtime = Overtime::whereUlid($ulid)->firstOrFail();
+
         $this->authorize('forceDelete', $overtime);
         $overtime->forceDelete();
-
         $this->success(__('Record has been deleted permanently'));
-
-        return back();
     }
 }

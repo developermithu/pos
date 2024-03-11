@@ -33,7 +33,7 @@
         <x-slot name="heading">
             <x-table.heading> {{ __('employee name') }} </x-table.heading>
             <x-table.heading> {{ __('rate per hour') }} </x-table.heading>
-            <x-table.heading> {{ __('hours worked') }} </x-table.heading>
+            <x-table.heading> {{ __('working hours') }} </x-table.heading>
             <x-table.heading> {{ __('total amount') }} </x-table.heading>
             <x-table.heading> {{ __('date') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
@@ -56,7 +56,7 @@
 
                     @can('delete', $overtime)
                         <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $overtime->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $overtime->ulid }}')">
                             <x-heroicon-o-trash /> {{ __('delete') }}
                         </x-button>
                     @endcan

@@ -35,9 +35,15 @@
         <div x-cloak x-show="sidebarVisible" class="fixed inset-0 z-10 bg-gray-900/50 dark:bg-gray-900/90"></div>
 
         <div class="relative h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
-            <main>
+            <main class="lg:min-h-[80vh] min-h-[75vh]">
                 {{ $slot }}
             </main>
+
+            <p class="lg:my-10 my-5 text-xs sm:text-sm text-center text-gray-500">
+                © 2024-{{ date('Y') }} Zihad Plastic. Developed by <a href="https://developermithu.com"
+                    target="_blank" rel="noopener noreferrer"
+                    class="hover:underline text-teal-600 underline-offset-1">Developer Mithu</a>
+            </p>
         </div>
     </div>
 

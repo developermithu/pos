@@ -52,14 +52,14 @@
                 </x-table.cell>
                 <x-table.cell class="space-x-2">
                     @can('update', $balanceAdjustment)
-                        <x-button flat="warning" :href="route('admin.accounts.balance-adjustment.edit', $balanceAdjustment)">
+                        <x-button flat="warning" :href="route('admin.accounts.balance-adjustment.edit', $balanceAdjustment->ulid)">
                             <x-heroicon-o-pencil-square /> {{ __('edit') }}
                         </x-button>
                     @endcan
 
                     @can('delete', $balanceAdjustment)
                         <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $balanceAdjustment->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $balanceAdjustment->ulid }}')">
                             <x-heroicon-o-trash /> {{ __('delete forever') }}
                         </x-button>
 

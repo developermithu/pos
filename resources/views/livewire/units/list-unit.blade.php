@@ -53,12 +53,12 @@
                 <x-table.cell> {{ $unit?->operator }} </x-table.cell>
                 <x-table.cell> {{ $unit?->operation_value }} </x-table.cell>
                 <x-table.cell>
-                    <div x-data="{ isActive: {{ $unit->is_active ? 'true' : 'false' }} }" class="flex items-center justify-center space-x-2">
+                    <div x-data="{ isActive: {{ $unit->is_active ? 'true' : 'false' }} }" class="flex items-center space-x-2">
                         <input id="thisId" type="checkbox" name="switch" class="hidden" :checked="isActive">
 
                         <button wire:click="toggleUnitStatus({{ $unit->id }})" wire:loading.attr="disabled"
                             wire:target="toggleUnitStatus" x-ref="switchButton" type="button"
-                             :class="isActive ? 'bg-primary' : 'bg-neutral-200'"
+                            :class="isActive ? 'bg-primary' : 'bg-neutral-200'"
                             class="relative inline-flex h-6 py-0.5 disabled:cursor-not-allowed ml-4 focus:outline-none rounded-full w-10"
                             x-cloak>
                             <span :class="isActive ? 'translate-x-[18px]' : 'translate-x-0.5'"

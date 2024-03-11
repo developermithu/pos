@@ -148,7 +148,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         // Balance Adjustment
         Route::get('/balance-adjustment', ListBalanceAdjustment::class)->name('balance-adjustment');
         Route::get('/balance-adjustment/create', CreateBalanceAdjustment::class)->name('balance-adjustment.create');
-        Route::get('/balance-adjustment/{balanceAdjustment}/edit', EditBalanceAdjustment::class)->name('balance-adjustment.edit');
+        Route::get('/balance-adjustment/{balanceAdjustment:ulid}/edit', EditBalanceAdjustment::class)->name('balance-adjustment.edit');
     });
 
     // Sale invoice

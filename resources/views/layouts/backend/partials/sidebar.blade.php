@@ -195,7 +195,7 @@
                     </x-collapsible>
 
                     {{-- Settings Management --}}
-                    <x-sidebar.link :href="route('admin.dashboard')" :active="request()->routeIs('settings')">
+                    <x-sidebar.link :href="route('admin.settings.index')" :active="request()->routeIs('admin.settings.*')">
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                         {{ __('settings') }}
                     </x-sidebar.link>

@@ -48,6 +48,7 @@ use App\Livewire\Sales\AddSalePayment;
 use App\Livewire\Sales\CreateSale;
 use App\Livewire\Sales\ListSale;
 use App\Livewire\Sales\ShowSale;
+use App\Livewire\SettingPage;
 use App\Livewire\Suppliers\CreateSupplier;
 use App\Livewire\Suppliers\EditSupplier;
 use App\Livewire\Suppliers\ListSupplier;
@@ -68,7 +69,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -178,6 +179,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/customer-due-report', CustomerDueReport::class)->name('customer-due-report');
         Route::get('/supplier-due-report', SupplierDueReport::class)->name('supplier-due-report');
     });
+
+    // Settings
+    Route::get('/settings', SettingPage::class)->name('settings.index');
 });
 
 Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');

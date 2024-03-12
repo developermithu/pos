@@ -24,6 +24,7 @@ class Customer extends Model
         'phone_number',
         'deposit',
         'expense',
+        'initial_due',
     ];
 
     public function totalSale(): ?int
@@ -38,7 +39,7 @@ class Customer extends Model
 
     public function totalDue(): ?int
     {
-        return $this->totalSale() - $this->totalPaid();
+        return $this->totalSale() - $this->totalPaid() + $this->initial_due;
     }
 
     public function depositBalance(): ?int

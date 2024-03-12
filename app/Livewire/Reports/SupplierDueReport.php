@@ -26,9 +26,9 @@ class SupplierDueReport extends Component
     public function render()
     {
         $this->authorize('viewAny', Purchase::class);
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
 
-        $sales = Purchase::query()
+        $purchases = Purchase::query()
             ->where('payment_status', '!=', PurchasePaymentStatus::PAID)
             ->when($this->status, function ($query) {
                 $query->whereIn('status', $this->status);
@@ -53,7 +53,7 @@ class SupplierDueReport extends Component
             ->latest()
             ->paginate(20);
 
-        return view('livewire.reports.supplier-due-report', compact('sales'))
+        return view('livewire.reports.supplier-due-report', compact('purchases'))
             ->title(__('supplier due report'));
     }
 

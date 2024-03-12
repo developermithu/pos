@@ -49,6 +49,7 @@
 
     "add new": "Add new",
     "due": "Due",
+    "paid": "Paid",
     "amount": "amount",
     "due amount": "Due amount",
     "advance paid": "advance paid",
@@ -187,6 +188,8 @@
     "clear due": "Clear due",
     "total paid": "Total Paid",
     "total due": "Total Due",
+    "initial due": "initial due",
+    "total initial due": "total initial due",
     "deposit balance": "Deposit Balance",
     "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.",
 

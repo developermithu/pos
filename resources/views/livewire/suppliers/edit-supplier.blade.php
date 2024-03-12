@@ -31,6 +31,10 @@
                         <x-input wire:model="form.phone_number" id="phone_number" required />
                     </x-input.group>
 
+                    <x-input.group for="initial_due" label="{{ __('initial due') }}" :error="$errors->first('form.initial_due')">
+                        <x-input type="number" wire:model="form.initial_due" id="initial_due" />
+                    </x-input.group>
+
                     <div class="col-span-6 sm:col-full">
                         <x-button.primary wire:loading.attr="disabled" wire:target="save"
                             wire:loading.class="opacity-40">

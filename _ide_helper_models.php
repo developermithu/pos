@@ -147,6 +147,7 @@ namespace App\Models{
  * @property string $phone_number
  * @property int $deposit
  * @property int $expense
+ * @property int|null $initial_due
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -166,6 +167,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereDeposit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereExpense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereInitialDue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
@@ -669,6 +671,7 @@ namespace App\Models{
  * @property string $phone_number
  * @property int $deposit
  * @property int $expense
+ * @property int|null $initial_due
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -688,6 +691,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereDeposit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereExpense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereInitialDue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereUlid($value)
@@ -715,6 +719,7 @@ namespace App\Models{
  * @property-read Unit|null $baseUnit
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
  * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Unit active()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Unit onlyTrashed()

@@ -40,6 +40,7 @@
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('deposit balance') }} </x-table.heading>
+            <x-table.heading> {{ __('initial due') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -54,13 +55,13 @@
                 <x-table.cell class="font-medium text-gray-800 dark:text-white">
                     {{ Str::limit($customer->name, 25, '..') }}
                 </x-table.cell>
-                <x-table.cell>
-                    {{ $customer->phone_number }}
-                </x-table.cell>
+                <x-table.cell> {{ $customer->phone_number }} </x-table.cell>
+
                 <x-table.cell>
                     {{ $customer?->company_name }} <br>
                     {{ $customer?->address }}
                 </x-table.cell>
+
                 <x-table.cell @class([
                     'font-semibold',
                     '!text-success' => $customer->depositBalance() > 0,
@@ -68,8 +69,13 @@
                 ])>
                     {{ $customer->depositBalance() }} TK
                 </x-table.cell>
+
+                <x-table.cell @class(['font-semibold', '!text-danger' => $customer?->initial_due])>
+                    {{ number_format($customer?->initial_due) }} TK
+                </x-table.cell>
+
                 <x-table.cell @class(['font-semibold', '!text-danger' => $customer->totalDue()])>
-                    {{ Number::format($customer->totalDue()) }} TK
+                    {{ number_format($customer->totalDue()) }} TK
                 </x-table.cell>
 
                 <x-table.cell class="space-x-2">
@@ -115,7 +121,7 @@
 
                                 @can('delete', $customer)
                                     <x-mary-menu-item :title="__('delete')"
-                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->id }}')"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $customer->ulid }}')"
                                         icon="o-trash" class="text-danger" />
                                 @endcan
                             </x-mary-menu>

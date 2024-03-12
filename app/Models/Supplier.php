@@ -30,7 +30,7 @@ class Supplier extends Model
 
     public function totalDue(): ?int
     {
-        return $this->totalPurchase() - $this->totalPaid();
+        return $this->totalPurchase() - $this->totalPaid() + $this->initial_due;
     }
 
     public function depositBalance(): ?int

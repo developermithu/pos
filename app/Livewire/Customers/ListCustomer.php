@@ -207,14 +207,13 @@ class ListCustomer extends Component
         return back();
     }
 
-    public function destroy(Customer $customer)
+    public function destroy(string $ulid)
     {
+        $customer = Customer::whereUlid($ulid)->firstOrFail();
+
         $this->authorize('delete', $customer);
         $customer->delete();
-
         $this->success(__('Record has been deleted successfully'));
-
-        return back();
     }
 
     public function forceDelete($id)

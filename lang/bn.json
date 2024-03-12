@@ -48,6 +48,7 @@
     "top 5 suppliers": "শীর্ষ ৫ জন সাপ্লায়ার",
 
     "add new": "নতুন যুক্ত করুন",
+    "paid": "পরিশোধিত",
     "due": "বকেয়া",
     "amount": "পরিমাণ",
     "due amount": "বকেয়া পরিমাণ",
@@ -186,6 +187,8 @@
     "clear due": "বকেয়া ক্লিয়ার করুন",
     "total paid": "মোট পরিশোধিত টাকা",
     "total due": "মোট বকেয়ার পরিমাণ",
+    "initial due": "প্রারম্ভিক বকেয়া",
+    "total initial due": "মোট প্রারম্ভিক বকেয়া",
     "deposit balance": "মোট জমার পরিমাণ",
     "Customer sales payments will automatically update and clear based on the input amount. Payments will be recorded in the cashbook account.": "ইনপুটের পরিমাণের উপর ভিত্তি করে কাস্টমারদের বিক্রির অর্থপ্রদান স্বয়ংক্রিয়ভাবে আপডেট হবে এবং পরিষ্কার হবে । পেমেন্ট ক্যাশবুক অ্যাকাউন্টে রেকর্ড করা হবে।",
 
@@ -293,9 +296,9 @@
     "update account": "অ্যাকাউন্ট আপডেট করুন",
     "add new account": "নতুন অ্যাকাউন্ট যুক্ত করুন",
     "credit": "জমা",
-    "debit": "খরচ",
+    "debit": "খরচ", 
     "account no": "অ্যাকাউন্ট নাম্বার",
-    "initial balance": "প্রাথমিক ব্যালেন্স",
+    "initial balance": "প্রারম্ভিক ব্যালেন্স",
     "total balance": "মোট ব্যালেন্স",
 
     "money transfer": "অর্থ স্থানান্তর",

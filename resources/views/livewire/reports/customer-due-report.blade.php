@@ -75,7 +75,7 @@
     <x-table>
         <x-slot name="heading">
             <x-table.heading> {{ __('customer') }} </x-table.heading>
-            <x-table.heading> {{ __('invoice_no') }} </x-table.heading>
+            <x-table.heading> {{ __('invoice no') }} </x-table.heading>
             <x-table.heading> {{ __('products') }} </x-table.heading>
             <x-table.heading> {{ __('total') }} </x-table.heading>
             <x-table.heading> {{ __('paid') }} </x-table.heading>
@@ -131,6 +131,18 @@
                 <x-table.cell colspan="3" class="!text-danger"> {{ Number::format($totalDue) }} TK </x-table.cell>
             </x-table.row>
         @endif
+
+        <x-table.row class="font-semibold" wire:loading.class="opacity-50">
+            <x-table.cell colspan="5"> {{ __('total initial due') }} </x-table.cell>
+            <x-table.cell colspan="1" class="!text-danger">
+                @php
+                    $totalInitialDue = App\Models\Customer::sum('initial_due');
+                @endphp
+
+                {{ Number::format($totalInitialDue) }} TK
+            </x-table.cell>
+            <x-table.cell colspan="2"></x-table.cell>
+        </x-table.row>
     </x-table>
 
     {{-- Pagination --}}

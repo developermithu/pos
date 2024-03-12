@@ -75,66 +75,79 @@
     <x-table>
         <x-slot name="heading">
             <x-table.heading> {{ __('supplier') }} </x-table.heading>
-            <x-table.heading> {{ __('invoice_no') }} </x-table.heading>
+            <x-table.heading> {{ __('invoice no') }} </x-table.heading>
             <x-table.heading> {{ __('products') }} </x-table.heading>
             <x-table.heading> {{ __('total') }} </x-table.heading>
             <x-table.heading> {{ __('paid') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('date') }} </x-table.heading>
-            <x-table.heading> {{ __('sale status') }} </x-table.heading>
+            <x-table.heading> {{ __('purchase status') }} </x-table.heading>
         </x-slot>
 
         @php
-            $totalSale = 0;
+            $totalPurchase = 0;
             $totalPaid = 0;
             $totalDue = 0;
         @endphp
 
-        @forelse ($sales as $key => $sale)
+        @forelse ($purchases as $key => $purchase)
             @php
-                $totalSale += $sale->total;
-                $totalPaid += $sale->paid_amount;
-                $totalDue += $sale->total - $sale->paid_amount;
+                $totalPurchase += $purchase->total;
+                $totalPaid += $purchase->paid_amount;
+                $totalDue += $purchase->total - $purchase->paid_amount;
             @endphp
 
-            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $sale->id }}">
-                <x-table.cell> {{ $sale->supplier?->name }} </x-table.cell>
-                <x-table.cell> {{ $sale->invoice_no }} </x-table.cell>
+            <x-table.row wire:loading.class="opacity-50" wire:key="{{ $purchase->id }}">
+                <x-table.cell> {{ $purchase->supplier?->name }} </x-table.cell>
+                <x-table.cell> {{ $purchase->invoice_no }} </x-table.cell>
                 <x-table.cell>
-                    @foreach ($sale->items as $item)
+                    @foreach ($purchase->items as $item)
                         {{ $item->product?->name }} - {{ $item->qty }}
                         {{ $item->product?->unit?->short_name }} <br>
                     @endforeach
                 </x-table.cell>
-                <x-table.cell class="!text-primary"> {{ Number::format($sale->total) }} TK </x-table.cell>
+                <x-table.cell class="!text-primary"> {{ Number::format($purchase->total) }} TK </x-table.cell>
                 <x-table.cell class="!text-success">
-                    @if ($sale->paid_amount)
-                        {{ Number::format($sale->paid_amount) }} TK
+                    @if ($purchase->paid_amount)
+                        {{ Number::format($purchase->paid_amount) }} TK
                     @else
                     @endif
                 </x-table.cell>
                 <x-table.cell class="!text-danger">
-                    {{ Number::format($sale->total - $sale->paid_amount) }} TK
+                    {{ Number::format($purchase->total - $purchase->paid_amount) }} TK
                 </x-table.cell>
-                <x-table.cell> {{ $sale->date->format('d M Y, g:i A') }} </x-table.cell>
-                <x-table.cell> {!! $sale->status->getLabelHTML() !!} </x-table.cell>
+                <x-table.cell> {{ $purchase->date->format('d M Y, g:i A') }} </x-table.cell>
+                <x-table.cell> {!! $purchase->status->getLabelHTML() !!} </x-table.cell>
             </x-table.row>
         @empty
             <x-table.data-not-found colspan="8" />
         @endforelse
 
-        @if ($sales->count() > 0)
+        @if ($purchases->count() > 0)
             <x-table.row class="font-semibold" wire:loading.class="opacity-50">
                 <x-table.cell colspan="3"> {{ __('total') }} </x-table.cell>
-                <x-table.cell colspan="1" class="!text-primary"> {{ Number::format($totalSale) }} TK </x-table.cell>
+                <x-table.cell colspan="1" class="!text-primary"> {{ Number::format($totalPurchase) }} TK
+                </x-table.cell>
                 <x-table.cell colspan="1" class="!text-success"> {{ Number::format($totalPaid) }} TK </x-table.cell>
                 <x-table.cell colspan="3" class="!text-danger"> {{ Number::format($totalDue) }} TK </x-table.cell>
             </x-table.row>
         @endif
+
+        <x-table.row class="font-semibold" wire:loading.class="opacity-50">
+            <x-table.cell colspan="5"> {{ __('total initial due') }} </x-table.cell>
+            <x-table.cell colspan="1" class="!text-danger">
+                @php
+                    $totalInitialDue = App\Models\Supplier::sum('initial_due');
+                @endphp
+
+                {{ Number::format($totalInitialDue) }} TK
+            </x-table.cell>
+            <x-table.cell colspan="2"></x-table.cell>
+        </x-table.row>
     </x-table>
 
     {{-- Pagination --}}
     <div class="p-4">
-        {{ $sales->links() }}
+        {{ $purchases->links() }}
     </div>
 </div>

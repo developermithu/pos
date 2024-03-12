@@ -40,6 +40,7 @@
             <x-table.heading> {{ __('phone number') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('deposit balance') }} </x-table.heading>
+            <x-table.heading> {{ __('initial due') }} </x-table.heading>
             <x-table.heading> {{ __('due') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -67,6 +68,11 @@
                 ])>
                     {{ $supplier->depositBalance() }} TK
                 </x-table.cell>
+
+                <x-table.cell @class(['font-semibold', '!text-danger' => $supplier?->initial_due])>
+                    {{ number_format($supplier?->initial_due) }} TK
+                </x-table.cell>
+
                 <x-table.cell @class(['font-semibold', '!text-danger' => $supplier->totalDue()])>
                     {{ Number::format($supplier->totalDue()) }} TK
                 </x-table.cell>

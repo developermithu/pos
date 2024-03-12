@@ -38,6 +38,7 @@ Generate model helper: ```php artisan ide-helper:models```
 
 When clear customer and supplier due have to update automatically sale status, purchase status, product qty as well along with payment status  
 
+- [ ] fix show, edit, delete, restore, forcedelete (ulid)
 - [ ] Backup database 
 - [ ] Custom Error page
 - [ ] Sending notifications

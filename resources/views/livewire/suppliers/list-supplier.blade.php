@@ -79,12 +79,12 @@
 
                 <x-table.cell class="space-x-2">
                     @if ($supplier->trashed())
-                        <x-button flat="primary" wire:click="restore({{ $supplier->ulid }})">
+                        <x-button flat="primary" wire:click="restore('{{ $supplier->ulid }}')">
                             <x-heroicon-o-arrow-path /> {{ __('restore') }}
                         </x-button>
 
                         <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $supplier->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $supplier->ulid }}')">
                             <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
                         </x-button>
 

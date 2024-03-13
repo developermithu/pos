@@ -216,10 +216,9 @@ class ListCustomer extends Component
         $this->success(__('Record has been deleted successfully'));
     }
 
-    public function forceDelete($id)
+    public function forceDelete(string $ulid)
     {
-        $customer = Customer::onlyTrashed()->findOrFail($id);
-
+        $customer = Customer::onlyTrashed()->whereUlid($ulid)->firstOrFail();
         $this->authorize('forceDelete', $customer);
 
         try {

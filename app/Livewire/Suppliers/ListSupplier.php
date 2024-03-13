@@ -54,16 +54,13 @@ class ListSupplier extends Component
         $this->success(__('Record has been deleted successfully'));
     }
 
-    public function forceDelete($id)
+    public function forceDelete(string $ulid)
     {
-        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier = Supplier::onlyTrashed()->whereUlid($ulid)->firstOrFail();
 
         $this->authorize('forceDelete', $supplier);
         $supplier->forceDelete();
-
         $this->success(__('Record has been deleted permanently'));
-
-        return back();
     }
 
     public function restore(string $ulid)

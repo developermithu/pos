@@ -79,7 +79,7 @@
 
                 <x-table.cell class="space-x-2">
                     @if ($supplier->trashed())
-                        <x-button flat="primary" wire:click="restore({{ $supplier->id }})">
+                        <x-button flat="primary" wire:click="restore({{ $supplier->ulid }})">
                             <x-heroicon-o-arrow-path /> {{ __('restore') }}
                         </x-button>
 
@@ -120,7 +120,7 @@
 
                                 @can('delete', $supplier)
                                     <x-mary-menu-item :title="__('delete')"
-                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->id }}')"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $supplier->ulid }}')"
                                         icon="o-trash" class="text-danger" />
                                 @endcan
                             </x-mary-menu>

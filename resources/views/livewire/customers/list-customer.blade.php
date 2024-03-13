@@ -80,7 +80,7 @@
 
                 <x-table.cell class="space-x-2">
                     @if ($customer->trashed())
-                        <x-button flat="primary" wire:click="restore({{ $customer->id }})">
+                        <x-button flat="primary" wire:click="restore({{ $customer->ulid }})">
                             <x-heroicon-o-arrow-path /> {{ __('restore') }}
                         </x-button>
 

@@ -235,15 +235,12 @@ class ListCustomer extends Component
         return back();
     }
 
-    public function restore($id)
+    public function restore(string $ulid)
     {
-        $customer = Customer::onlyTrashed()->findOrFail($id);
+        $customer = Customer::onlyTrashed()->whereUlid($ulid)->firstOrFail();
 
         $this->authorize('restore', $customer);
         $customer->restore();
-
         $this->success(__('Record has been restored successfully'));
-
-        return back();
     }
 }

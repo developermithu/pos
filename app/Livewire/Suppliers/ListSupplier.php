@@ -45,14 +45,13 @@ class ListSupplier extends Component
         return back();
     }
 
-    public function destroy(Supplier $supplier)
+    public function destroy(string $ulid)
     {
+        $supplier = Supplier::whereUlid($ulid)->firstOrFail();
+
         $this->authorize('delete', $supplier);
         $supplier->delete();
-
         $this->success(__('Record has been deleted successfully'));
-
-        return back();
     }
 
     public function forceDelete($id)
@@ -67,16 +66,13 @@ class ListSupplier extends Component
         return back();
     }
 
-    public function restore($id)
+    public function restore(string $ulid)
     {
-        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier = Supplier::onlyTrashed()->whereUlid($ulid)->firstOrFail();
 
         $this->authorize('restore', $supplier);
         $supplier->restore();
-
         $this->success(__('Record has been restored successfully'));
-
-        return back();
     }
 
     public function render()

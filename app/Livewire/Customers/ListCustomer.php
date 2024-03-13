@@ -154,7 +154,7 @@ class ListCustomer extends Component
 
             foreach ($sales as $sale) {
                 if ($this->amount <= 0) {
-                    return;
+                    break;
                 }
 
                 $dueAmount = $sale->total - $sale->paid_amount;

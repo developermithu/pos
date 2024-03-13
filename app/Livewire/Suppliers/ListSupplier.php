@@ -193,7 +193,7 @@ class ListSupplier extends Component
 
             foreach ($purchases as $purchase) {
                 if ($remainingAmount <= 0) {
-                    return;
+                    break;
                 }
 
                 $dueAmount = $purchase->total - $purchase->paid_amount;

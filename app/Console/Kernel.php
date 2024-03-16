@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\IncrementEmployeesBalance;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,9 +14,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command(IncrementEmployeesBalance::class);
 
-        $schedule->command(IncrementEmployeesBalance::class);
+        // Database Backup
+        $schedule->command('backup:run --only-db')
+            ->twiceDaily(1, 18) // 1:00 AM and 6:00 PM
+            ->onFailure(function () {
+                Log::error('Backup task failed.');
+            });
     }
 
     /**
@@ -23,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -15,11 +15,13 @@
         "hardevine/shoppingcart": "^3.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
+        "laravel/slack-notification-channel": "^3.2",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "livewire/volt": "^1.0",
         "opcodesio/log-viewer": "^3.1",
-        "robsontenorio/mary": "^1.8"
+        "robsontenorio/mary": "^1.8",
+        "spatie/laravel-backup": "^8.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

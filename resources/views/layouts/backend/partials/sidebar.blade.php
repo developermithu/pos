@@ -15,7 +15,6 @@
                         <x-sidebar.link :href="route('admin.pos.index')" :active="request()->routeIs('admin.pos.*')">
                             <x-slot name="icon"><x-heroicon-m-squares-2x2 class="w-6 h-6" /></x-slot>
                             {{ __('pos') }}
-                            {{-- <x-mary-badge :value="__('updated')" class="pl-1.5 badge-warning animate-pulse badge-sm" /> --}}
                         </x-sidebar.link>
                     @endcan
 
@@ -46,7 +45,7 @@
                         <x-slot name="trigger">
                             <x-collapsible.button>
                                 <x-slot name="icon"><x-heroicon-m-credit-card class="w-6 h-6" /></x-slot>
-                                {{ __('purchases') }} 
+                                {{ __('purchases') }}
                             </x-collapsible.button>
                         </x-slot>
 
@@ -84,12 +83,12 @@
 
                     <x-sidebar.link :href="route('admin.customers.index')" :active="request()->routeIs('admin.customers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                        {{ __('customers') }} <x-mary-badge :value="__('updated')" class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                        {{ __('customers') }}
                     </x-sidebar.link>
 
                     <x-sidebar.link :href="route('admin.suppliers.index')" :active="request()->routeIs('admin.suppliers.*')">
                         <x-slot name="icon"><x-heroicon-m-user class="w-6 h-6" /></x-slot>
-                        {{ __('suppliers') }} <x-mary-badge :value="__('updated')" class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                        {{ __('suppliers') }}
                     </x-sidebar.link>
 
                     {{-- Employee Management --}}
@@ -198,6 +197,7 @@
                     <x-sidebar.link :href="route('admin.settings.index')" :active="request()->routeIs('admin.settings.*')">
                         <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                         {{ __('settings') }}
+                        <x-mary-badge :value="__('new')" class="pl-1.5 badge-warning animate-pulse badge-sm" />
                     </x-sidebar.link>
                 </ul>
             </div>

@@ -27,7 +27,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->cacheDuration = now()->addMinutes(5);
+        $this->cacheDuration = now()->addMinutes(1);
         $this->getMonthlySalesData();
         $this->getTop5CustomersData();
     }

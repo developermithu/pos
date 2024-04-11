@@ -33,7 +33,7 @@ class ListMoneyTransfer extends Component
     {
         $this->authorize('viewAny', MoneyTransfer::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['amount'];
 
         $moneyTransfers = MoneyTransfer::query()
@@ -52,6 +52,7 @@ class ListMoneyTransfer extends Component
                 }
             })
             ->latest()
+            ->with('fromAccount:id,name', 'toAccount:id,name')
             ->paginate(10);
 
         return view('livewire.accounts.list-money-transfer', compact('moneyTransfers'))
@@ -68,7 +69,7 @@ class ListMoneyTransfer extends Component
         $toAccount = Account::findOrFail($this->to_account_id);
 
         if ($fromAccount->totalBalance() < $this->amount) {
-            $this->error('You have only '.number_format($fromAccount->totalBalance()).' tk in '.$fromAccount->name, timeout: 5000);
+            $this->error('You have only ' . number_format($fromAccount->totalBalance()) . ' tk in ' . $fromAccount->name, timeout: 5000);
         } else {
             DB::beginTransaction();
 
@@ -106,7 +107,7 @@ class ListMoneyTransfer extends Component
                 $this->dispatch('close');
             } catch (\Exception $e) {
                 DB::rollBack();
-                \Log::error('Money transfer: '.$e->getMessage());
+                \Log::error('Money transfer: ' . $e->getMessage());
                 $this->error(__('Something went wrong!'));
             }
         }

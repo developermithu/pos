@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\Sale;
 use App\Services\SaleService;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -20,7 +21,7 @@ class ListSale extends Component
     {
         $this->authorize('viewAny', Sale::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['invoice_no'];
 
         $sales = Sale::query()
@@ -31,7 +32,6 @@ class ListSale extends Component
                     }
                 });
             })
-            ->with('customer:id,name')
             ->when($this->filterByTrash, function ($query, $value) {
                 if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
@@ -39,10 +39,15 @@ class ListSale extends Component
                     $query->withTrashed();
                 }
             })
+            ->with('customer:id,name', 'payments', 'payments.account:id,name')
+            ->withSum(['payments' => function (Builder $query) {
+                $query->whereNull('deleted_at');
+            }], 'amount')
             ->latest('id')
             ->paginate(20);
 
-        return view('livewire.sales.list-sale', compact('sales'))->title(__('sale list'));
+        return view('livewire.sales.list-sale', compact('sales'))
+            ->title(__('sale list'));
     }
 
     public function deleteSelected(SaleService $saleService)

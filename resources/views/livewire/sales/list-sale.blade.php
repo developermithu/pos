@@ -102,14 +102,7 @@
                                         x-on:click.prevent="$dispatch('open-modal', 'view-payments-{{ $sale->id }}')" />
                                 @endif
 
-                                @php
-                                    $totalSaledPaymentAmount = $sale
-                                        ->payments()
-                                        ->whereNull('deleted_at')
-                                        ->sum('amount');
-                                @endphp
-
-                                @if ($totalSaledPaymentAmount < $sale->total)
+                                @if ($sale->payments_sum_amount < $sale->total)
                                     <x-mary-menu-item :title="__('add payment')" icon="o-plus" :link="route('admin.sales.add-payment', $sale)" />
                                 @endif
                                 <x-mary-menu-item :title="__('delete')"

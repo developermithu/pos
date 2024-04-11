@@ -23,7 +23,7 @@ class ListExpense extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['details'];
 
         $expenses = Expense::query()
@@ -52,7 +52,8 @@ class ListExpense extends Component
                 }
             })
             ->latest()
-            ->paginate(10);
+            ->with('expenseCategory:id,name')
+            ->paginate(25);
 
         $todaysTotalExpense = Expense::whereDate('created_at', now()->today())->sum('amount') / 100;
         $monthlyTotalExpense = Expense::whereMonth('created_at', now()->month)
@@ -107,7 +108,7 @@ class ListExpense extends Component
         } catch (\Exception $e) {
             DB::rollBack();
 
-            \Log::error('Error force deleting expense: '.$e->getMessage());
+            \Log::error('Error force deleting expense: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
         }
 

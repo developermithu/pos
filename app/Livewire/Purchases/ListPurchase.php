@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\Purchase;
 use App\Services\PurchaseService;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -20,7 +21,7 @@ class ListPurchase extends Component
     {
         $this->authorize('viewAny', Purchase::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['invoice_no'];
 
         $purchases = Purchase::query()
@@ -31,7 +32,6 @@ class ListPurchase extends Component
                     }
                 });
             })
-            ->with('supplier:id,name')
             ->when($this->filterByTrash, function ($query, $value) {
                 if ($value === 'onlyTrashed') {
                     $query->onlyTrashed();
@@ -39,6 +39,10 @@ class ListPurchase extends Component
                     $query->withTrashed();
                 }
             })
+            ->with('supplier:id,name', 'payments', 'payments.account:id,name')
+            ->withSum(['payments' => function (Builder $query) {
+                $query->whereNull('deleted_at');
+            }], 'amount')
             ->latest('id')
             ->paginate(20);
 

@@ -24,7 +24,7 @@ class AllTransactions extends Component
     {
         $this->authorize('viewAny', Payment::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['reference', 'type', 'details'];
 
         $transactions = Payment::query()
@@ -41,7 +41,7 @@ class AllTransactions extends Component
             ->when($this->start_date && $this->end_date, function ($query) {
                 $query->whereBetween('created_at', [$this->start_date, $this->end_date]);
             })
-            ->with('account')
+            ->with('account:id,name,account_no')
             ->latest()
             ->paginate(25);
 

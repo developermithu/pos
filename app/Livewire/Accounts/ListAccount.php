@@ -79,6 +79,7 @@ class ListAccount extends Component
                 }
             })
             ->oldest()
+            ->with('payments')
             ->paginate(10);
 
         return view('livewire.accounts.list-account', compact('accounts'))

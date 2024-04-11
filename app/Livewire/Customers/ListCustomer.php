@@ -57,7 +57,7 @@ class ListCustomer extends Component
                     $query->withTrashed();
                 }
             })
-            ->with('sales:id,total,paid_amount,customer_id')
+            ->with('sales:id,total,paid_amount,customer_id', 'deposits')
             ->latest()
             ->paginate(10);
 

@@ -80,7 +80,7 @@ class ListExpenseCategory extends Component
                 }
             })
             ->latest()
-            ->paginate(20);
+            ->paginate(25);
 
         return view('livewire.expense-categories.list-expense-category', compact('expenseCategories'))
             ->title(__('expense category list'));

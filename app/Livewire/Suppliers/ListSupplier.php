@@ -95,6 +95,7 @@ class ListSupplier extends Component
                 }
             })
             ->latest()
+            ->with('purchases:id,total,paid_amount,supplier_id', 'deposits')
             ->paginate(10);
 
         return view('livewire.suppliers.list-supplier', compact('suppliers'))

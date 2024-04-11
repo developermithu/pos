@@ -84,6 +84,7 @@ class ListEmployee extends Component
                 }
             })
             ->latest()
+            ->with(['advancePayments', 'advancePayments.account:id,name', 'overtimes:id,total_amount'])
             ->paginate(10);
 
         return view('livewire.employees.list-employee', compact('employees'))->title(__('employee list'));

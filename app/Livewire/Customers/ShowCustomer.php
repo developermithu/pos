@@ -18,10 +18,12 @@ class ShowCustomer extends Component
     public function render()
     {
         $payments = $this->customer->sales()
-            ->with('payments')
+            ->with(['payments' => function ($query) {
+                $query->with('account:id,name')->whereNull('deleted_at');
+            }])
             ->get()
             ->flatMap(function ($sale) {
-                return $sale->payments->whereNull('deleted_at');
+                return $sale->payments;
             })
             ->sortByDesc('created_at');
 

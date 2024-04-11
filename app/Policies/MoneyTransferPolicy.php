@@ -2,10 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Sale;
+use App\Models\MoneyTransfer;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
-class SalePolicy
+class MoneyTransferPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,19 +19,10 @@ class SalePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Sale $sale): bool
+    public function view(User $user, MoneyTransfer $moneyTransfer): bool
     {
         return $user->isCashier();
     }
-
-    // ========== Point of Sale Managment =========== //
-
-    public function createInvoice(User $user): void
-    {
-       //
-    }
-
-    // ========== Point of Sale Managment =========== //
 
     /**
      * Determine whether the user can create models.
@@ -43,7 +35,7 @@ class SalePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Sale $sale): void
+    public function update(User $user, MoneyTransfer $moneyTransfer): void
     {
         //
     }
@@ -51,7 +43,7 @@ class SalePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Sale $sale): void
+    public function delete(User $user, MoneyTransfer $moneyTransfer): void
     {
         //
     }
@@ -59,7 +51,7 @@ class SalePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Sale $sale): void
+    public function restore(User $user, MoneyTransfer $moneyTransfer): void
     {
         //
     }
@@ -67,7 +59,7 @@ class SalePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Sale $sale): void
+    public function forceDelete(User $user, MoneyTransfer $moneyTransfer): void
     {
         //
     }

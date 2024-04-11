@@ -12,7 +12,7 @@ class AccountPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isManager() || $user->isCashier();
+        return $user->isCashier();
     }
 
     /**
@@ -20,46 +20,46 @@ class AccountPolicy
      */
     public function view(User $user, Account $account): bool
     {
-        return $user->isManager() || $user->isCashier();
+        return $user->isCashier();
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): void
     {
-        return $user->isManager();
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Account $account): bool
+    public function update(User $user, Account $account): void
     {
-        return $user->isManager();
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Account $account): bool
+    public function delete(User $user, Account $account): void
     {
-        return $user->isManager();
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Account $account): bool
+    public function restore(User $user, Account $account): void
     {
-        return $user->isManager();
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Account $account): bool
+    public function forceDelete(User $user, Account $account): void
     {
-        return $user->isManager();
+        //
     }
 }

@@ -1,43 +1,51 @@
+@assets
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+@endassets
+
 <div>
     <div class="px-4 py-6 space-y-6">
         <h1 class="text-xl font-semibold text-gray-900 capitalize sm:text-2xl dark:text-white">
             {{ __('welcome') }}, {{ Auth::user()->name }}
         </h1>
 
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-10">
-            <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" />
-            <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" />
-            <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" />
-            <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" />
-            <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" />
+        @if (auth()->user()->isSuperadmin())
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-10">
+                <x-mary-stat :title="__('total products')" value="{{ $totalProducts }}" icon="o-list-bullet" />
+                <x-mary-stat :title="__('total employees')" value="{{ $totalEmployees }}" icon="o-user-group" />
+                <x-mary-stat :title="__('total suppliers')" value="{{ $totalSuppliers }}" icon="o-user" />
+                <x-mary-stat :title="__('total customers')" value="{{ $totalCustomers }}" icon="o-user" />
+                <x-mary-stat :title="__('total users')" value="{{ $totalUsers }}" icon="o-users" />
 
-            <x-mary-stat :title="__('total sales')" value="{{ Number::format($totalSales) }}" icon="o-currency-bangladeshi" />
-            <x-mary-stat :title="__('total purchases')" value="{{ Number::format($totalPurchases) }}"
-                icon="o-currency-bangladeshi" />
-            <x-mary-stat :title="__('total expenses')" value="{{ Number::format($totalExpenses) }}" icon="o-currency-bangladeshi" />
-            <x-mary-stat :title="__('total customer due')" value="{{ Number::format($totalCustomerDue) }}"
-                icon="o-currency-bangladeshi" />
-            <x-mary-stat :title="__('total supplier due')" value="{{ Number::format($totalSupplierDue) }}"
-                icon="o-currency-bangladeshi" />
-        </div>
-
-        <div class="grid grid-cols-12 gap-5">
-            <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 col-span-full lg:col-span-8">
-                <div class="-mt-2 text-lg font-semibold text-center capitalize">
-                    {{ __('monthly sales') }} ({{ date('Y') }})
-                </div>
-                <x-mary-chart wire:model="monthlySalesChart" />
+                <x-mary-stat :title="__('total sales')" value="{{ Number::format($totalSales) }}"
+                    icon="o-currency-bangladeshi" />
+                <x-mary-stat :title="__('total purchases')" value="{{ Number::format($totalPurchases) }}"
+                    icon="o-currency-bangladeshi" />
+                <x-mary-stat :title="__('total expenses')" value="{{ Number::format($totalExpenses) }}"
+                    icon="o-currency-bangladeshi" />
+                <x-mary-stat :title="__('total customer due')" value="{{ Number::format($totalCustomerDue) }}"
+                    icon="o-currency-bangladeshi" />
+                <x-mary-stat :title="__('total supplier due')" value="{{ Number::format($totalSupplierDue) }}"
+                    icon="o-currency-bangladeshi" />
             </div>
 
-            <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm lg:col-span-4 col-span-full dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <div class="-mt-2 text-lg font-semibold text-center capitalize">
-                    {{ __('top 5 customers') }} ({{ date('Y') }})
+            <div class="grid grid-cols-12 gap-5">
+                <div
+                    class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 col-span-full lg:col-span-8">
+                    <div class="-mt-2 text-lg font-semibold text-center capitalize">
+                        {{ __('monthly sales') }} ({{ date('Y') }})
+                    </div>
+                    <x-mary-chart wire:model="monthlySalesChart" />
                 </div>
-                <x-mary-chart wire:model="top5CustomersChart" />
+
+                <div
+                    class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm lg:col-span-4 col-span-full dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+                    <div class="-mt-2 text-lg font-semibold text-center capitalize">
+                        {{ __('top 5 customers') }} ({{ date('Y') }})
+                    </div>
+                    <x-mary-chart wire:model="top5CustomersChart" />
+                </div>
             </div>
-        </div>
+        @endif
 
         {{-- <div
             class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
@@ -705,11 +713,5 @@
                 </div>
             </div>
         </div> --}}
-
     </div>
 </div>
-
-
-@assets
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
-@endassets

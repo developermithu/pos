@@ -81,10 +81,12 @@
                         {{-- Delete Forever Modal --}}
                         @include('partials.delete-forever-modal', ['data' => $product])
                     @else
-                        <x-button flat="secondary"
-                            x-on:click.prevent="$dispatch('open-modal', 'view-{{ $product->id }}')">
-                            <x-heroicon-o-eye /> {{ __('view') }}
-                        </x-button>
+                        @can('view', $product)
+                            <x-button flat="secondary"
+                                x-on:click.prevent="$dispatch('open-modal', 'view-{{ $product->id }}')">
+                                <x-heroicon-o-eye /> {{ __('view') }}
+                            </x-button>
+                        @endcan
 
                         @can('update', $product)
                             <x-button flat="warning" :href="route('admin.products.edit', $product)">

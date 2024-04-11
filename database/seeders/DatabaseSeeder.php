@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'manager',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_SUPERADMIN->value,
+            'role' => UserRole::IS_MANAGER->value,
         ]);
 
         User::updateOrCreate([
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => 'cashier',
             'remember_token' => Str::random(10),
-            'role' => UserRole::IS_SUPERADMIN->value,
+            'role' => UserRole::IS_CASHIER->value,
         ]);
 
         // Seeders

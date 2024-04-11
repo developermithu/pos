@@ -149,6 +149,10 @@ class SettingPage extends Component
 
     public function render()
     {
+        if (!Auth::user()->isSuperadmin()) {
+            abort(403);
+        }
+
         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
         $files = $disk->allFiles(config('backup.backup.name'));
 

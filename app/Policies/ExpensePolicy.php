@@ -12,7 +12,7 @@ class ExpensePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isManager() || $user->isCashier();
+        return $user->isCashier();
     }
 
     /**
@@ -20,29 +20,29 @@ class ExpensePolicy
      */
     public function view(User $user, Expense $expense): bool
     {
-        return $user->isManager() || $user->isCashier();
+        return $user->isCashier();
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): void
     {
-        return $user->isManager() || $user->isCashier();
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Expense $expense): bool
+    public function update(User $user, Expense $expense): void
     {
-        return $user->isManager() || $user->isCashier();
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Expense $expense): bool
+    public function delete(User $user, Expense $expense): void
     {
         //
     }
@@ -50,7 +50,7 @@ class ExpensePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Expense $expense): bool
+    public function restore(User $user, Expense $expense): void
     {
         //
     }
@@ -58,7 +58,7 @@ class ExpensePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Expense $expense): bool
+    public function forceDelete(User $user, Expense $expense): void
     {
         //
     }

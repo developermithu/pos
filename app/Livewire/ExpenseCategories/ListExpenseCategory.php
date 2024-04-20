@@ -71,7 +71,7 @@ class ListExpenseCategory extends Component
             ->selectRaw('(SUM(expenses.amount) / 100) as totalExpenses')
             ->leftJoin('expenses', 'expenses.expense_category_id', '=', 'expense_categories.id')
             ->whereNull('expenses.deleted_at')
-            ->groupBy('expense_categories.id', 'expense_categories.name')
+            ->groupBy('expense_categories.id', 'expense_categories.name', 'expense_categories.details')
             ->when($search, function ($query) use ($searchableFields, $search) {
                 $query->where(function ($query) use ($searchableFields, $search) {
                     foreach ($searchableFields as $field) {

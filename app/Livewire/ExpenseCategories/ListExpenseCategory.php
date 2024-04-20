@@ -3,8 +3,11 @@
 namespace App\Livewire\ExpenseCategories;
 
 use App\Livewire\Forms\ExpenseCategoryForm;
+use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -61,10 +64,14 @@ class ListExpenseCategory extends Component
     {
         $this->authorize('viewAny', ExpenseCategory::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name'];
 
-        $expenseCategories = ExpenseCategory::query()
+        $expenseCategories = ExpenseCategory::select('expense_categories.*')
+            ->selectRaw('(SUM(expenses.amount) / 100) as totalExpenses')
+            ->leftJoin('expenses', 'expenses.expense_category_id', '=', 'expense_categories.id')
+            ->whereNull('expenses.deleted_at')
+            ->groupBy('expense_categories.id', 'expense_categories.name')
             ->when($search, function ($query) use ($searchableFields, $search) {
                 $query->where(function ($query) use ($searchableFields, $search) {
                     foreach ($searchableFields as $field) {

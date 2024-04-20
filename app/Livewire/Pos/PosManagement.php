@@ -155,7 +155,7 @@ class PosManagement extends Component
         }
     }
 
-    public function updatePrice(string $rowId, int $salePrice)
+    public function updatePrice(string $rowId, int|float $salePrice)
     {
         $item = Cart::get($rowId);
         $productPrice = (int) $item->model->price; // product price

@@ -125,7 +125,7 @@ class CreatePurchase extends Component
         }
     }
 
-    public function updatePrice(string $rowId, int $purchasePrice)
+    public function updatePrice(string $rowId, int|float $purchasePrice)
     {
         if ($purchasePrice > 0) {
             Cart::instance('purchases')->update($rowId, [

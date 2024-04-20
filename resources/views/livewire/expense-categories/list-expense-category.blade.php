@@ -38,6 +38,7 @@
         <x-slot name="heading">
             <x-table.heading> {{ __('no') }} </x-table.heading>
             <x-table.heading> {{ __('name') }} </x-table.heading>
+            <x-table.heading> {{ __('total amount') }} </x-table.heading>
             <x-table.heading> {{ __('details') }} </x-table.heading>
             <x-table.heading> {{ __('actions') }} </x-table.heading>
         </x-slot>
@@ -47,6 +48,7 @@
                 wire:target="search, filterByTrash, clear, deleteSelected, destroy, forceDelete, restore">
                 <x-table.cell> {{ $key + 1 }} </x-table.cell>
                 <x-table.cell> {{ $expenseCategory->name }} </x-table.cell>
+                <x-table.cell class="!font-bold"> {{ number_format($expenseCategory->totalExpenses) }} TK </x-table.cell>
                 <x-table.cell> {{ $expenseCategory->details }} </x-table.cell>
 
                 <x-table.cell class="space-x-2">

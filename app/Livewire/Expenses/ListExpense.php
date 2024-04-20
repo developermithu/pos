@@ -4,6 +4,7 @@ namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
 use App\Traits\SearchAndFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -23,16 +24,14 @@ class ListExpense extends Component
     {
         $this->authorize('viewAny', Expense::class);
 
-        $search = $this->search ? '%' . trim($this->search) . '%' : null;
-        $searchableFields = ['details'];
+        $search = '%' . trim($this->search) . '%';
 
         $expenses = Expense::query()
-            ->when($search, function ($query) use ($searchableFields, $search) {
-                $query->where(function ($query) use ($searchableFields, $search) {
-                    foreach ($searchableFields as $field) {
-                        $query->orWhere($field, 'like', $search);
-                    }
-                });
+            ->when($search, function (Builder $query) use ($search) {
+                $query->whereAny(['details'], 'like', $search)
+                    ->orWhereHas('expenseCategory', function (Builder $query) use ($search) {
+                        $query->whereAny(['name'], 'like', $search);
+                    });
             })
             ->when($this->filterByTrash, function ($query, $value) {
                 if ($value === 'onlyTrashed') {

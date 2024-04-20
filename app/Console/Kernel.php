@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
 
         // Backup Cleanup
         $schedule->command('backup:clean')->weekly();
+
+        $schedule->command('queue:work')->everyFiveMinutes();
     }
 
     /**

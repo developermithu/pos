@@ -120,7 +120,9 @@
 
                     <x-button type="danger" size="small" wire:click="cleanBackup"
                         wire:confirm="Are you sure want to cleanup backup?">
-                        <x-heroicon-o-archive-box-x-mark /> {{ __('clean backup') }}
+                        <x-heroicon-o-archive-box-x-mark /> 
+                        <span wire:loading.remove wire:target="cleanBackup"> {{ __('clean backup') }} </span>
+                        <span wire:loading wire:target="cleanBackup"> {{ __('cleaning...') }} </span>
                     </x-button>
                 </div>
 

@@ -22,6 +22,9 @@ class Kernel extends ConsoleKernel
             ->onFailure(function () {
                 Log::error('Backup task failed.');
             });
+
+        // Backup Cleanup
+        $schedule->command('backup:clean')->weekly();
     }
 
     /**

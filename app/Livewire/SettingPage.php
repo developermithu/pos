@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Jobs\CleanBackupJob;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Title;
@@ -135,13 +137,8 @@ class SettingPage extends Component
     public function cleanBackup()
     {
         if (Auth::check() && Auth::user()->email === 'developermithu@gmail.com') {
-            $exitCode = Artisan::call('backup:clean');
-
-            if ($exitCode === 0) {
-                $this->success('Backup cleaned successfully.');
-            } else {
-                $this->error('Failed to clean backup.');
-            }
+            CleanBackupJob::dispatch();
+            $this->info('Backup cleaning job dispatched.');
         } else {
             $this->error('You are not authorized to perform this action.');
         }

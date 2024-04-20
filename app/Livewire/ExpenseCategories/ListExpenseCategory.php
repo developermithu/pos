@@ -67,11 +67,11 @@ class ListExpenseCategory extends Component
         $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name'];
 
-        $expenseCategories = ExpenseCategory::select('expense_categories.*')
+        $expenseCategories = ExpenseCategory::select('expense_categories.id', 'expense_categories.name', 'expense_categories.details', 'expense_categories.created_at')
             ->selectRaw('(SUM(expenses.amount) / 100) as totalExpenses')
             ->leftJoin('expenses', 'expenses.expense_category_id', '=', 'expense_categories.id')
             ->whereNull('expenses.deleted_at')
-            ->groupBy('expense_categories.id', 'expense_categories.name', 'expense_categories.details')
+            ->groupBy('expense_categories.id', 'expense_categories.name', 'expense_categories.details', 'expense_categories.created_at')
             ->when($search, function ($query) use ($searchableFields, $search) {
                 $query->where(function ($query) use ($searchableFields, $search) {
                     foreach ($searchableFields as $field) {
@@ -86,7 +86,7 @@ class ListExpenseCategory extends Component
                     $query->withTrashed();
                 }
             })
-            ->latest()
+            ->latest('expense_categories.created_at')
             ->paginate(25);
 
         return view('livewire.expense-categories.list-expense-category', compact('expenseCategories'))

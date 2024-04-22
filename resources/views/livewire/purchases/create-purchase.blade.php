@@ -213,7 +213,7 @@
                                                     $payment_status === App\Enums\PurchasePaymentStatus::PAID->value)
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <x-input.group for="paid_by" label="paid by *" :error="$errors->first('paid_by')">
-                                                        <x-input.select wire:model="paid_by">
+                                                        <x-input.select wire:model.change="paid_by">
                                                             <option value="" disabled>--
                                                                 {{ __('choose payment method') }} --
                                                             </option>

@@ -49,23 +49,24 @@ class ListPurchase extends Component
         return view('livewire.purchases.list-purchase', compact('purchases'))->title(__('purchase list'));
     }
 
-    public function deleteSelected(PurchaseService $purchaseService)
-    {
-        $this->authorize('bulkDelete', Purchase::class);
+    // public function deleteSelected(PurchaseService $purchaseService)
+    // {
+    //     $this->authorize('bulkDelete', Purchase::class);
 
-        if ($this->selected) {
-            if ($purchaseService->bulkDeletePurchases($this->selected)) {
-                $this->success(__('Selected records have been deleted'));
-            } else {
-                $this->error(__('Something went wrong'));
-            }
-        } else {
-            $this->success(__('You did not select anything'));
-        }
-    }
+    //     if ($this->selected) {
+    //         if ($purchaseService->bulkDeletePurchases($this->selected)) {
+    //             $this->success(__('Selected records have been deleted'));
+    //         } else {
+    //             $this->error(__('Something went wrong'));
+    //         }
+    //     } else {
+    //         $this->success(__('You did not select anything'));
+    //     }
+    // }
 
-    public function destroy(Purchase $purchase, PurchaseService $purchaseService)
+    public function destroy(string $ulid, PurchaseService $purchaseService)
     {
+        $purchase = Purchase::whereUlid($ulid)->firstOrFail();
         $this->authorize('delete', $purchase);
 
         if ($purchaseService->deletePurchase($purchase)) {
@@ -75,9 +76,9 @@ class ListPurchase extends Component
         }
     }
 
-    public function forceDelete($id, PurchaseService $purchaseService)
+    public function forceDelete(string $ulid, PurchaseService $purchaseService)
     {
-        $purchase = Purchase::onlyTrashed()->findOrFail($id);
+        $purchase = Purchase::onlyTrashed()->whereUlid($ulid)->firstOrFail();
         $this->authorize('forceDelete', $purchase);
 
         if ($purchaseService->forceDeletePurchase($purchase)) {

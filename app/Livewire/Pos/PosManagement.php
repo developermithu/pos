@@ -88,7 +88,7 @@ class PosManagement extends Component
     {
         $this->authorize('posManagement', Product::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -182,6 +182,15 @@ class PosManagement extends Component
         }
     }
 
+    public function updatedPaidBy($value)
+    {
+        if ($value === PaymentPaidBy::DEPOSIT->value) {
+            $this->payment_status = SalePaymentStatus::PAID->value;
+            $this->account_id = 1; // cashbook
+            $this->paid_amount = $this->cartTotal();
+        }
+    }
+
     public function updatedCustomerId(Customer $customer)
     {
         $this->customer = $customer;
@@ -244,12 +253,16 @@ class PosManagement extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1',
                 function ($attribute, $value, $fail) {
+                    if (($this->payment_status === SalePaymentStatus::PAID->value || $this->paid_by === PaymentPaidBy::DEPOSIT->value) && $value !== $this->cartTotal()) {
+                        $fail('Paid amount should be equal to cart total.');
+                    }
+
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->customer)) {
                         $customerDepositBalance = $this->customer->depositBalance();
                         if ($customerDepositBalance < $value) {
-                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance '.$customerDepositBalance);
+                            $fail('Ops! Customer\'s deposit balance is insufficient. Available balance ' . $customerDepositBalance);
                         }
                     }
                 },
@@ -302,14 +315,17 @@ class PosManagement extends Component
 
             // Insert Payment
             if ($this->payment_status === SalePaymentStatus::PARTIAL->value || $this->payment_status === SalePaymentStatus::PAID->value) {
-                $sale->payments()->create([
-                    'account_id' => $this->account_id,
-                    'amount' => $this->paid_amount,
-                    'reference' => 'Sale',
-                    'type' => PaymentType::CREDIT->value,
-                    'paid_by' => $this->paid_by,
-                    'details' => $this->details,
-                ]);
+                // Will not create payment if paid by deposit
+                if ($this->paid_by !== PaymentPaidBy::DEPOSIT->value) {
+                    $sale->payments()->create([
+                        'account_id' => $this->account_id,
+                        'amount' => $this->paid_amount,
+                        'reference' => 'Sale',
+                        'type' => PaymentType::CREDIT->value,
+                        'paid_by' => $this->paid_by,
+                        'details' => $this->details,
+                    ]);
+                }
 
                 // Increase customer expense
                 if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
@@ -329,7 +345,7 @@ class PosManagement extends Component
             return $this->redirectRoute('admin.pos.create.invoice', ['invoice_no' => $this->invoice_no], navigate: true);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error creating sale: '.$e->getMessage());
+            \Log::error('Error creating sale: ' . $e->getMessage());
             $this->error(__('Something went wrong!'));
         }
     }

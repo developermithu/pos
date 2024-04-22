@@ -24,10 +24,14 @@ class SaleService
                 });
             }
 
+             // If paid by deposit
+            if ($sale->payment_status === SalePaymentStatus::PAID && $sale->paid_amount === $sale->total && $sale->payments->isEmpty()) {
+                $sale->customer->decrement('expense', $sale->paid_amount);
+            }
+
             $sale->delete();
 
             DB::commit();
-
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
@@ -44,6 +48,11 @@ class SaleService
         try {
             // First restore the sale then manipulate items
             $sale->restore();
+
+             // If paid by deposit
+            if ($sale->payment_status === SalePaymentStatus::PAID && $sale->paid_amount === $sale->total && $sale->payments->isEmpty()) {
+                $sale->customer->increment('expense', $sale->paid_amount);
+            }
 
             if ($sale->status !== SaleStatus::DELIVERED) {
                 $sale->items->each(function ($item) {
@@ -82,33 +91,33 @@ class SaleService
         }
     }
 
-    public function bulkDeleteSales(array $saleIds)
-    {
-        DB::beginTransaction();
+    // public function bulkDeleteSales(array $saleIds)
+    // {
+    //     DB::beginTransaction();
 
-        try {
-            // Increase product quantity if the sale product is not delivered
-            Sale::whereIn('id', $saleIds)->get()->each(function ($sale) {
-                if ($sale->status !== SaleStatus::DELIVERED) {
-                    $sale->items->each(function ($item) {
-                        $item->product->increment('qty', $item->qty);
-                    });
-                }
-            });
+    //     try {
+    //         // Increase product quantity if the sale product is not delivered
+    //         Sale::whereIn('id', $saleIds)->get()->each(function ($sale) {
+    //             if ($sale->status !== SaleStatus::DELIVERED) {
+    //                 $sale->items->each(function ($item) {
+    //                     $item->product->increment('qty', $item->qty);
+    //                 });
+    //             }
+    //         });
 
-            // Delete the selected sales
-            Sale::destroy($saleIds);
+    //         // Delete the selected sales
+    //         Sale::destroy($saleIds);
 
-            DB::commit();
+    //         DB::commit();
 
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
+    //         return true;
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         Log::error($e->getMessage());
 
-            return false;
-        }
-    }
+    //         return false;
+    //     }
+    // }
 
     public function destroySalePayment(Payment $payment)
     {

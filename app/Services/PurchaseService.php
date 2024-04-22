@@ -24,6 +24,11 @@ class PurchaseService
             //     });
             // }
 
+            // If paid by deposit
+            if ($purchase->payment_status === PurchasePaymentStatus::PAID && $purchase->paid_amount === $purchase->total && $purchase->payments->isEmpty()) {
+                $purchase->supplier->decrement('expense', $purchase->paid_amount);
+            }
+
             $purchase->delete();
 
             DB::commit();
@@ -44,6 +49,11 @@ class PurchaseService
         try {
             // First restore the purchase then manipulate items
             $purchase->restore();
+
+             // If paid by deposit
+             if ($purchase->payment_status === PurchasePaymentStatus::PAID && $purchase->paid_amount === $purchase->total && $purchase->payments->isEmpty()) {
+                $purchase->supplier->increment('expense', $purchase->paid_amount);
+            }
 
             // if ($purchase->status === PurchaseStatus::RECEIVED) {
             //     $purchase->items->each(function ($item) {
@@ -82,33 +92,33 @@ class PurchaseService
         }
     }
 
-    public function bulkDeletePurchases(array $purchaseIds)
-    {
-        DB::beginTransaction();
+    // public function bulkDeletePurchases(array $purchaseIds)
+    // {
+    //     DB::beginTransaction();
 
-        try {
-            // Decrease product quantity
-            // Purchase::whereIn('id', $purchaseIds)->get()->each(function ($purchase) {
-            //     if ($purchase->status === PurchaseStatus::RECEIVED) {
-            //         $purchase->items->each(function ($item) {
-            //             $item->product->decrement('qty', $item->qty);
-            //         });
-            //     }
-            // });
+    //     try {
+    //         // Decrease product quantity
+    //         // Purchase::whereIn('id', $purchaseIds)->get()->each(function ($purchase) {
+    //         //     if ($purchase->status === PurchaseStatus::RECEIVED) {
+    //         //         $purchase->items->each(function ($item) {
+    //         //             $item->product->decrement('qty', $item->qty);
+    //         //         });
+    //         //     }
+    //         // });
 
-            // Delete the selected purchases
-            Purchase::destroy($purchaseIds);
+    //         // Delete the selected purchases
+    //         Purchase::destroy($purchaseIds);
 
-            DB::commit();
+    //         DB::commit();
 
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
+    //         return true;
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         Log::error($e->getMessage());
 
-            return false;
-        }
-    }
+    //         return false;
+    //     }
+    // }
 
     public function destroyPurchasePayment(Payment $payment)
     {

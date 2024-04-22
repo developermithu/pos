@@ -56,7 +56,14 @@
                 <x-table.cell class="font-medium text-gray-800 dark:text-white"> {{ $purchase->invoice_no }}
                 </x-table.cell>
                 <x-table.cell> {{ $purchase->supplier?->name }} </x-table.cell>
-                <x-table.cell> {{ Number::currency($purchase->paid_amount, 'BDT') }} </x-table.cell>
+                <x-table.cell> {{ number_format($purchase->paid_amount) }} TK
+                    @if (
+                        $purchase->payment_status === App\Enums\PurchasePaymentStatus::PAID &&
+                            $purchase->paid_amount === $purchase->total &&
+                            $purchase->payments->isEmpty())
+                        <span class="text-xs text-success">(Deposit)</span>
+                    @endif
+                </x-table.cell>
                 <x-table.cell>
                     @php
                         $due = $purchase->total - $purchase->paid_amount;
@@ -64,13 +71,13 @@
 
                     @if ($due)
                         <span class="text-danger">
-                            {{ Number::currency($due, 'BDT') }}
+                            {{ number_format($due) }} TK
                         </span>
                     @else
-                        {{ Number::format($due, 2) }}
+                        {{ number_format($due) }} TK
                     @endif
                 </x-table.cell>
-                <x-table.cell> {{ Number::currency($purchase->total, 'BDT') }} </x-table.cell>
+                <x-table.cell> {{ number_format($purchase->total) }} TK </x-table.cell>
                 <x-table.cell> {!! $purchase->status->getLabelHTML() !!} </x-table.cell>
                 <x-table.cell> {!! $purchase->payment_status->getLabelHTML() !!} </x-table.cell>
                 <x-table.cell> {{ $purchase->date->format('d M, Y') }} </x-table.cell>
@@ -81,7 +88,7 @@
                         </x-button>
 
                         <x-button flat="danger"
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $purchase->id }}')">
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-forever-{{ $purchase->ulid }}')">
                             <x-heroicon-o-archive-box-x-mark /> {{ __('delete forever') }}
                         </x-button>
 
@@ -107,7 +114,7 @@
                                 @endif
 
                                 <x-mary-menu-item :title="__('delete')"
-                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $purchase->id }}')"
+                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $purchase->ulid }}')"
                                     icon="o-trash" class="text-danger" />
                             </x-mary-menu>
                         </div>

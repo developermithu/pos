@@ -61,7 +61,7 @@ class CreatePurchase extends Component
     {
         $this->authorize('create', Purchase::class);
 
-        $search = $this->search ? '%'.trim($this->search).'%' : null;
+        $search = $this->search ? '%' . trim($this->search) . '%' : null;
         $searchableFields = ['name', 'sku'];
 
         $products = Product::query()
@@ -145,6 +145,15 @@ class CreatePurchase extends Component
             $this->paid_amount = $this->cartTotal();
         } else {
             $this->paid_amount = 0;
+        }
+    }
+
+    public function updatedPaidBy($value)
+    {
+        if ($value === PaymentPaidBy::DEPOSIT->value) {
+            $this->payment_status = PurchasePaymentStatus::PAID->value;
+            $this->account_id = 1; // cashbook
+            $this->paid_amount = $this->cartTotal();
         }
     }
 
@@ -243,14 +252,17 @@ class CreatePurchase extends Component
 
             // Insert Payment
             if ($this->payment_status === PurchasePaymentStatus::PARTIAL->value || $this->payment_status === PurchasePaymentStatus::PAID->value) {
-                $purchase->payments()->create([
-                    'account_id' => $this->account_id,
-                    'amount' => $this->paid_amount,
-                    'reference' => 'Purchase',
-                    'type' => PaymentType::DEBIT->value,
-                    'paid_by' => $this->paid_by,
-                    'details' => $this->details,
-                ]);
+                // Will not create payment if paid by deposit
+                if ($this->paid_by !== PaymentPaidBy::DEPOSIT->value) {
+                    $purchase->payments()->create([
+                        'account_id' => $this->account_id,
+                        'amount' => $this->paid_amount,
+                        'reference' => 'Purchase',
+                        'type' => PaymentType::DEBIT->value,
+                        'paid_by' => $this->paid_by,
+                        'details' => $this->details,
+                    ]);
+                }
 
                 // Increase supplier expense
                 if ($this->paid_by === PaymentPaidBy::DEPOSIT->value) {
@@ -288,12 +300,16 @@ class CreatePurchase extends Component
             $rules['paid_by'] = ['required'];
             $rules['account_id'] = ['required', Rule::exists(Account::class, 'id')];
             $rules['paid_amount'] = [
-                'required', 'int', 'gt:1', 'lte:'.$this->cartTotal(),
+                'required', 'int', 'gt:1',
                 function ($attribute, $value, $fail) {
+                    if (($this->payment_status === PurchasePaymentStatus::PAID->value || $this->paid_by === PaymentPaidBy::DEPOSIT->value) && $value !== $this->cartTotal()) {
+                        $fail('Paid amount should be equal to cart total.');
+                    }
+
                     if ($this->paid_by === PaymentPaidBy::DEPOSIT->value && isset($this->supplier)) {
                         $supplierDepositBalance = $this->supplier->depositBalance();
                         if ($supplierDepositBalance < $value) {
-                            $fail('Ops! supplier\'s deposit balance is insufficient. Available balance '.$supplierDepositBalance);
+                            $fail('Ops! Supplier\'s deposit balance is insufficient. Available balance ' . $supplierDepositBalance);
                         }
                     }
                 },

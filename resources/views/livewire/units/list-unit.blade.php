@@ -40,7 +40,7 @@
             <x-table.heading> {{ __('base unit') }} </x-table.heading>
             <x-table.heading> {{ __('operator') }} </x-table.heading>
             <x-table.heading> {{ __('operation value') }} </x-table.heading>
-            @can('update', $unit)
+            @can('create', App\Models\Unit::class)
                 <x-table.heading> {{ __('active') }} </x-table.heading>
             @endcan
             {{-- <x-table.heading> {{ __('actions') }} </x-table.heading> --}}

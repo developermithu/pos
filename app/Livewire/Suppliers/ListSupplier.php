@@ -6,6 +6,7 @@ use App\Enums\PaymentPaidBy;
 use App\Enums\PaymentType;
 use App\Enums\PurchasePaymentStatus;
 use App\Models\Deposit;
+use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Traits\SearchAndFilter;
@@ -118,9 +119,20 @@ class ListSupplier extends Component
         DB::beginTransaction();
 
         try {
-            $this->supplier->deposits()->create([
+            $deposit = $this->supplier->deposits()->create([
                 'amount' => $this->deposit_amount,
                 'details' => $this->details,
+            ]);
+
+            Payment::create([
+                'account_id' => 1, //cash
+                'amount' => $this->deposit_amount,
+                'reference' => 'Supplier deposit',
+                'details' => $this->details,
+                'type' => PaymentType::DEBIT,
+                'paid_by' => PaymentPaidBy::CASH,
+                'paymentable_id' => $deposit->id,
+                'paymentable_type' => Deposit::class,
             ]);
 
             // increase the supplier's deposit
@@ -153,6 +165,7 @@ class ListSupplier extends Component
             }
 
             $deposit->forceDelete();
+            $deposit->payment?->forceDelete();
 
             DB::commit();
             $this->success(__('Record has been deleted permanently'));

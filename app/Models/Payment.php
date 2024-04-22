@@ -25,6 +25,8 @@ class Payment extends Model
         'paid_by',
         'paymentable_id',
         'paymentable_type',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [

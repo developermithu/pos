@@ -50,23 +50,24 @@ class ListSale extends Component
             ->title(__('sale list'));
     }
 
-    public function deleteSelected(SaleService $saleService)
-    {
-        $this->authorize('bulkDelete', Sale::class);
+    // public function deleteSelected(SaleService $saleService)
+    // {
+    //     $this->authorize('bulkDelete', Sale::class);
 
-        if ($this->selected) {
-            if ($saleService->bulkDeleteSales($this->selected)) {
-                $this->success(__('Selected records have been deleted'));
-            } else {
-                $this->error(__('Something went wrong'));
-            }
-        } else {
-            $this->success(__('You did not select anything'));
-        }
-    }
+    //     if ($this->selected) {
+    //         if ($saleService->bulkDeleteSales($this->selected)) {
+    //             $this->success(__('Selected records have been deleted'));
+    //         } else {
+    //             $this->error(__('Something went wrong'));
+    //         }
+    //     } else {
+    //         $this->success(__('You did not select anything'));
+    //     }
+    // }
 
-    public function destroy(Sale $sale, SaleService $saleService)
+    public function destroy(string $ulid, SaleService $saleService)
     {
+        $sale = Sale::whereUlid($ulid)->firstOrFail();
         $this->authorize('delete', $sale);
 
         if ($saleService->deleteSale($sale)) {
@@ -76,9 +77,9 @@ class ListSale extends Component
         }
     }
 
-    public function forceDelete($id, SaleService $saleService)
+    public function forceDelete(string $ulid, SaleService $saleService)
     {
-        $sale = Sale::onlyTrashed()->findOrFail($id);
+        $sale = Sale::onlyTrashed()->whereUlid($ulid)->firstOrFail();
         $this->authorize('forceDelete', $sale);
 
         if ($saleService->forceDeleteSale($sale)) {

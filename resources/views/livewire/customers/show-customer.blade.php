@@ -97,8 +97,14 @@
                                             wire:target="search, filterByTrash, clear">
                                             <x-table.cell> {{ $index + 1 }} </x-table.cell>
                                             <x-table.cell> #{{ $sale->invoice_no }} </x-table.cell>
-                                            <x-table.cell> {{ $sale->total }} </x-table.cell>
-                                            <x-table.cell> {{ $sale->paid_amount }} </x-table.cell>
+                                            <x-table.cell> {{ number_format($sale->total) }} TK </x-table.cell>
+                                            <x-table.cell> {{ number_format($sale->paid_amount) }} TK
+                                                @if (
+                                                    $sale->payment_status === App\Enums\SalePaymentStatus::PAID &&
+                                                        $sale->paid_amount === $sale->total &&
+                                                        $sale->payments->isEmpty())
+                                                    <span class="text-xs text-success">(Deposit)</span>
+                                                @endif </x-table.cell>
                                             <x-table.cell @class(['font-semibold', '!text-danger' => $due > 0])>
                                                 {{ Number::format($due) }} TK
                                             </x-table.cell>

@@ -2,21 +2,30 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Deposit extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftCascadeTrait, SoftDeletes;
+
+    protected $softCascade = ['payment'];
 
     protected $fillable = ['ulid', 'amount', 'details'];
 
     public function depositable(): MorphTo
     {
         return $this->morphTo()->withTrashed();
+    }
+
+    public function payment(): MorphOne
+    {
+        return $this->morphOne(Payment::class, 'paymentable')->withTrashed();
     }
 
     protected static function boot()

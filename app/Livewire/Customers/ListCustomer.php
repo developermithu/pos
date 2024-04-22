@@ -7,6 +7,7 @@ use App\Enums\PaymentType;
 use App\Enums\SalePaymentStatus;
 use App\Models\Customer;
 use App\Models\Deposit;
+use App\Models\Payment;
 use App\Models\Sale;
 use App\Traits\SearchAndFilter;
 use Illuminate\Database\QueryException;
@@ -80,9 +81,20 @@ class ListCustomer extends Component
         DB::beginTransaction();
 
         try {
-            $this->customer->deposits()->create([
+           $deposit = $this->customer->deposits()->create([
                 'amount' => $this->deposit_amount,
                 'details' => $this->details,
+            ]);
+
+            Payment::create([
+                'account_id' => 1, //cash
+                'amount' => $this->deposit_amount,
+                'reference' => 'Customer deposit',
+                'details' => $this->details,
+                'type' => PaymentType::CREDIT,
+                'paid_by' => PaymentPaidBy::CASH,
+                'paymentable_id' => $deposit->id,
+                'paymentable_type' => Deposit::class,
             ]);
 
             // increase the customer's deposit
@@ -115,6 +127,7 @@ class ListCustomer extends Component
             }
 
             $deposit->forceDelete();
+            $deposit->payment?->forceDelete();
 
             DB::commit();
             $this->success(__('Record has been deleted permanently'));

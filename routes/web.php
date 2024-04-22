@@ -15,6 +15,7 @@ use App\Livewire\Attendance\ListAttendance;
 use App\Livewire\Attendance\ShowAttendance;
 use App\Livewire\Categories\EditCategory;
 use App\Livewire\Categories\ListCategory;
+use App\Livewire\Changelog;
 use App\Livewire\Customers\CreateCustomer;
 use App\Livewire\Customers\EditCustomer;
 use App\Livewire\Customers\ListCustomer;
@@ -182,6 +183,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
 
     // Settings
     Route::get('/settings', SettingPage::class)->name('settings.index');
+    Route::get('/changelog', Changelog::class)->name('changelog');
 });
 
 Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');

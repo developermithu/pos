@@ -210,9 +210,14 @@
                         <x-sidebar.link :href="route('admin.settings.index')" :active="request()->routeIs('admin.settings.*')">
                             <x-slot name="icon"><x-heroicon-s-cog-6-tooth class="w-6 h-6" /></x-slot:icon>
                             {{ __('settings') }}
-                            {{-- <x-mary-badge :value="__('new')" class="pl-1.5 badge-warning animate-pulse badge-sm" /> --}}
                         </x-sidebar.link>
                     @endif
+
+                    <x-sidebar.link :href="route('admin.changelog')" :active="request()->routeIs('admin.changelog')">
+                        <x-slot name="icon"><x-heroicon-s-tag class="w-6 h-6" /></x-slot:icon>
+                        {{ __('changelog') }}
+                        <x-mary-badge :value="__('new')" class="pl-1.5 badge-warning animate-pulse badge-sm" />
+                    </x-sidebar.link>
                 </ul>
             </div>
         </div>

@@ -55,7 +55,7 @@ new class extends Component {
                 </form> --}}
 
                 {{-- Banner --}}
-                {{-- <x-banner /> --}}
+                <x-banner />
             </div>
 
             <div x-data="{ displayNotifications: false }" class="flex items-center">

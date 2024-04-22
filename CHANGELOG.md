@@ -1,5 +1,9 @@
 # Changelog
 
+### Version 1.2.1 - 22 April 2024
+
+- Bug fixes and improvements
+
 ### Version 1.2 - 22 April 2024
 
 - Bug fixes and improvements

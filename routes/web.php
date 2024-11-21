@@ -187,3 +187,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
 });
 
 Route::get('language-switch/{locale}', LanguageSwitchController::class)->name('setlocale');
+
+
+// Artisan Commands
+Route::get('clear', function () {
+    Artisan::call('optimize:clear');
+    return back();
+});
+
+Route::get('fresh', function () {
+    Artisan::call('migrate:fresh --seed --force');
+    return back();
+});

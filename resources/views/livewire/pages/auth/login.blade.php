@@ -12,10 +12,10 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
     #[Rule(['required', 'string', 'email'])]
-    public string $email = '';
+    public string $email = 'developermithu@gmail.com';
 
     #[Rule(['required', 'string'])]
-    public string $password = '';
+    public string $password = 'developermithu';
 
     #[Rule(['boolean'])]
     public bool $remember = true;
